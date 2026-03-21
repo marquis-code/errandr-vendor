@@ -31,33 +31,33 @@
     </div>
 
     <!-- Right Side: Multi-Step Form -->
-    <div class="w-full md:w-1/2 flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-20 py-10 relative z-10 overflow-y-auto max-h-screen">
+    <div class="w-full md:w-1/2 flex flex-col items-center justify-center px-6 sm:px-12 md:px-16 lg:px-20 py-10 relative z-10 overflow-y-auto max-h-screen bg-gray-50/50">
       <!-- Header -->
-      <div class="mb-8">
-        <div class="flex items-center gap-2 mb-6 md:hidden">
-          <div class="w-8 h-8 rounded-lg bg-[#065fdb] flex items-center justify-center">
-            <Store class="w-4 h-4 text-white" />
+      <div class="mb-10 text-center max-w-md w-full">
+        <div class="flex items-center justify-center gap-2 mb-6 md:hidden">
+          <div class="w-10 h-10 rounded-xl bg-[#065fdb] flex items-center justify-center shadow-lg shadow-[#065fdb]/20">
+            <Store class="w-5 h-5 text-white" />
           </div>
-          <span class="text-xl font-bold text-gray-900 tracking-tight">Errandr</span>
+          <span class="text-2xl font-black text-gray-900 tracking-tighter">Errandr</span>
         </div>
-        <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">Open Your Store</h1>
-        <p class="text-gray-500 text-base">Complete 3 quick steps to start selling on campus</p>
+        <h1 class="text-4xl font-black text-gray-900 mb-3 tracking-tighter">Open Your Store</h1>
+        <p class="text-gray-500 text-lg font-medium">Complete 3 quick steps to start selling on campus</p>
       </div>
 
       <!-- Step Indicator -->
-      <div class="flex items-center gap-3 mb-8">
+      <div class="flex items-center justify-center gap-4 mb-12 w-full max-w-md">
         <div v-for="s in totalSteps" :key="s" class="flex items-center gap-3">
-          <div class="flex items-center justify-center w-9 h-9 rounded-full text-sm font-bold transition-all duration-300"
-            :class="displayStep >= s ? 'bg-[#065fdb] text-white shadow-lg shadow-[#065fdb]/30' : 'bg-gray-100 text-gray-400'">
-            <Check v-if="displayStep > s" class="w-4 h-4" />
+          <div class="flex items-center justify-center w-10 h-10 rounded-2xl text-sm font-bold transition-all duration-500"
+            :class="displayStep >= s ? 'bg-[#065fdb] text-white shadow-xl shadow-[#065fdb]/30 scale-110' : 'bg-white text-gray-400 border border-gray-100'">
+            <Check v-if="displayStep > s" class="w-5 h-5" />
             <span v-else>{{ s }}</span>
           </div>
-          <div v-if="s < totalSteps" class="w-8 md:w-12 h-[2px] rounded-full transition-all duration-300" :class="displayStep > s ? 'bg-[#065fdb]' : 'bg-gray-200'" />
+          <div v-if="s < totalSteps" class="w-10 md:w-16 h-[2px] rounded-full transition-all duration-500" :class="displayStep > s ? 'bg-[#065fdb]' : 'bg-gray-200'" />
         </div>
       </div>
 
       <!-- Step 1: Personal Info -->
-      <form v-if="currentStep === 'account'" @submit.prevent="handleStep1" class="space-y-4 max-w-md">
+      <form v-if="currentStep === 'account'" @submit.prevent="handleStep1" class="space-y-5 w-full max-w-md bg-white p-8 rounded-[2rem] shadow-xl shadow-gray-200/50 border border-gray-100 transform transition-all duration-500">
         <p class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-2">Step 1 — Your Account</p>
         <div class="grid grid-cols-2 gap-4">
           <UiAnimatedInput v-model="form.firstName" type="text" label="First Name" required />
@@ -82,19 +82,20 @@
       </form>
 
       <!-- OTP Verification Step -->
-      <div v-if="currentStep === 'otp'" class="space-y-6 max-w-md">
+      <div v-if="currentStep === 'otp'" class="space-y-8 w-full max-w-md bg-white p-10 rounded-[2.5rem] shadow-2xl shadow-gray-200/60 border border-gray-100 transform transition-all duration-500 animate-in fade-in zoom-in duration-700">
         <div class="text-center">
-          <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Mail class="w-10 h-10 text-[#065fdb]" />
+          <div class="w-24 h-24 bg-blue-50 rounded-[2rem] flex items-center justify-center mx-auto mb-6 shadow-inner">
+            <Mail class="w-12 h-12 text-[#065fdb]" />
           </div>
-          <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight mb-2">Check your inbox! 📬</h2>
-          <p class="text-gray-500 text-sm font-medium">
-            We sent a 6-digit code to <strong class="text-gray-900">{{ form.email }}</strong>. 
+          <h2 class="text-3xl font-black text-gray-900 tracking-tighter mb-3">Check your inbox! 📬</h2>
+          <p class="text-gray-500 text-base font-medium leading-relaxed">
+            We sent a 6-digit code to <br/>
+            <strong class="text-[#065fdb] font-bold">{{ form.email }}</strong>. 
             Enter it below to verify your email.
           </p>
         </div>
 
-        <div class="flex justify-center gap-2">
+        <div class="flex justify-center gap-3">
           <input
             v-for="(_, i) in 6"
             :key="i"
@@ -106,22 +107,23 @@
             type="text"
             maxlength="1"
             inputmode="numeric"
-            class="w-12 h-14 text-center text-2xl font-black bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#065fdb]/30 focus:border-[#065fdb] outline-none transition-all"
+            class="w-12 h-16 text-center text-3xl font-black bg-gray-50 border-2 border-transparent rounded-2xl focus:ring-4 focus:ring-[#065fdb]/10 focus:border-[#065fdb] focus:bg-white outline-none transition-all duration-300 shadow-sm"
           />
         </div>
 
-        <p v-if="error" class="text-red-500 text-sm font-medium text-center">{{ error }}</p>
+        <p v-if="error" class="text-red-500 text-sm font-bold text-center bg-red-50 py-2 rounded-lg border border-red-100">{{ error }}</p>
 
         <button @click="verifyOTP" :disabled="verifyingOTP || otpDigits.join('').length < 6"
-          class="w-full py-3 bg-[#065fdb] hover:bg-[#054ec0] text-white rounded-xl font-bold text-base transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-md shadow-[#065fdb]/20">
-          <Loader2 v-if="verifyingOTP" class="animate-spin w-5 h-5" />
-          {{ verifyingOTP ? 'Verifying...' : 'Verify Email ✨' }}
+          class="w-full py-4 bg-[#065fdb] hover:bg-[#054ec0] text-white rounded-2xl font-black text-lg transition-all disabled:opacity-50 flex items-center justify-center gap-3 shadow-xl shadow-[#065fdb]/30 group">
+          <Loader2 v-if="verifyingOTP" class="animate-spin w-6 h-6" />
+          <span v-else>Verify Email</span>
+          <ArrowRight v-if="!verifyingOTP" class="w-6 h-6 group-hover:translate-x-1 transition-transform" />
         </button>
 
         <div class="text-center">
-          <p class="text-sm text-gray-400 font-medium">
+          <p class="text-sm text-gray-400 font-bold tracking-tight">
             Didn't get it?
-            <button @click="resendOTP" :disabled="resendCooldown > 0" class="text-[#065fdb] font-bold hover:underline disabled:text-gray-300 disabled:no-underline">
+            <button @click="resendOTP" :disabled="resendCooldown > 0" class="text-[#065fdb] font-extrabold hover:underline disabled:text-gray-300 disabled:no-underline ml-1">
               {{ resendCooldown > 0 ? `Resend in ${resendCooldown}s` : 'Resend Code' }}
             </button>
           </p>
@@ -129,32 +131,47 @@
       </div>
 
       <!-- Step 2: Business Details -->
-      <form v-if="currentStep === 'business'" @submit.prevent="handleStep2" class="space-y-4 max-w-md">
-        <p class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-2">Step 2 — Your Business</p>
-
-        <UiAnimatedInput v-model="vendor.storeName" type="text" label="Store Name" required />
-        
-        <UiSelectInput
-          v-model="vendor.category"
-          label="Business Category"
-          :options="categoryOptions"
-        />
-
-        <UiAnimatedInput v-model="vendor.description" type="textarea" label="Store Description" :rows="3" />
-
-        <UiAnimatedInput v-model="vendor.address" type="text" label="Store Address / Location" required />
-
-        <div class="flex items-center gap-3 p-4 bg-blue-50 rounded-xl border border-blue-100">
-          <input type="checkbox" v-model="vendor.isInsideCampus" id="insideCampus" class="custom-checkbox" />
-          <label for="insideCampus" class="text-sm font-semibold text-gray-700 cursor-pointer">This store is located inside the campus</label>
+      <form v-if="currentStep === 'business'" @submit.prevent="handleStep2" class="space-y-6 w-full max-w-md bg-white p-8 rounded-[2rem] shadow-xl shadow-gray-200/50 border border-gray-100 transform transition-all duration-500">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#065fdb] flex items-center justify-center">
+            <Store class="w-4 h-4" />
+          </div>
+          <p class="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">Step 2 — Your Business</p>
         </div>
 
-        <div class="flex items-center gap-3 p-4 bg-amber-50 rounded-xl border border-amber-100">
-          <input type="checkbox" v-model="vendor.isStudentBusiness" id="studentBiz" class="custom-checkbox" />
-          <label for="studentBiz" class="text-sm font-semibold text-gray-700 cursor-pointer">I am a student entrepreneur</label>
+        <div class="space-y-4">
+          <UiAnimatedInput v-model="vendor.storeName" type="text" label="Store Name" required />
+          
+          <UiSelectInput
+            v-model="vendor.category"
+            label="Business Category"
+            :options="categoryOptions"
+          />
+
+          <UiAnimatedInput v-model="vendor.description" type="textarea" label="Store Description" :rows="3" />
+
+          <UiAnimatedInput v-model="vendor.address" type="text" label="Store Address / Location" required />
         </div>
 
-        <div v-if="vendor.isStudentBusiness" class="grid grid-cols-2 gap-4">
+        <div class="space-y-3">
+          <div class="flex items-center gap-4 p-4 bg-gray-50/50 rounded-2xl border border-gray-100 hover:border-[#065fdb]/30 transition-colors group cursor-pointer" @click="vendor.isInsideCampus = !vendor.isInsideCampus">
+            <input type="checkbox" v-model="vendor.isInsideCampus" class="w-5 h-5 rounded-lg text-[#065fdb] border-gray-300 focus:ring-[#065fdb]/20" @click.stop />
+            <div class="flex flex-col">
+              <span class="text-sm font-bold text-gray-700">On-Campus Location</span>
+              <span class="text-[10px] text-gray-400 font-medium">This store is located inside the university campus</span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4 p-4 bg-gray-50/50 rounded-2xl border border-gray-100 hover:border-[#065fdb]/30 transition-colors group cursor-pointer" @click="vendor.isStudentBusiness = !vendor.isStudentBusiness">
+            <input type="checkbox" v-model="vendor.isStudentBusiness" class="w-5 h-5 rounded-lg text-[#065fdb] border-gray-300 focus:ring-[#065fdb]/20" @click.stop />
+            <div class="flex flex-col">
+              <span class="text-sm font-bold text-gray-700">Student Entrepreneur</span>
+              <span class="text-[10px] text-gray-400 font-medium">Verify your student status for special perks</span>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="vendor.isStudentBusiness" class="grid grid-cols-2 gap-4 animate-in slide-in-from-top-2 duration-300">
           <UiAnimatedInput v-model="vendor.matricNumber" type="text" label="Matric Number" />
           <UiSelectInput
             v-model="vendor.university"
@@ -164,46 +181,64 @@
           />
         </div>
 
-        <p v-if="error" class="text-red-500 text-sm font-medium">{{ error }}</p>
+        <p v-if="error" class="text-red-500 text-sm font-bold text-center bg-red-50 py-2 rounded-lg border border-red-100">{{ error }}</p>
 
-        <div class="flex gap-3 mt-2">
+        <div class="flex gap-4 mt-2">
           <button type="button" @click="currentStep = 'otp'"
-            class="px-5 py-3 border border-gray-200 text-gray-700 rounded-xl font-bold transition-colors hover:bg-gray-50">
-            <ArrowLeft class="w-4 h-4" />
+            class="w-14 h-14 flex items-center justify-center border-2 border-gray-100 text-gray-400 rounded-2xl font-bold transition-all hover:bg-gray-50 hover:text-gray-900 active:scale-95">
+            <ArrowLeft class="w-6 h-6" />
           </button>
           <button type="submit"
-            class="flex-1 py-3 bg-[#065fdb] hover:bg-[#054ec0] text-white rounded-xl font-bold text-base transition-all flex items-center justify-center gap-2 shadow-md shadow-[#065fdb]/20">
-            Continue <ArrowRight class="w-4 h-4" />
+            class="flex-1 py-4 bg-[#065fdb] hover:bg-[#054ec0] text-white rounded-2xl font-black text-lg transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#065fdb]/20 transform active:scale-[0.98]">
+            Continue <ArrowRight class="w-6 h-6" />
           </button>
         </div>
       </form>
 
       <!-- Step 3: Logo, Hours & Final Submission -->
-      <form v-if="currentStep === 'logistics'" @submit.prevent="handleFinalSubmit" class="space-y-4 max-w-md">
-        <p class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-2">Step 3 — Logistics & Branding</p>
+      <form v-if="currentStep === 'logistics'" @submit.prevent="handleFinalSubmit" class="space-y-6 w-full max-w-md bg-white p-8 rounded-[2rem] shadow-xl shadow-gray-200/50 border border-gray-100 transform transition-all duration-500">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#065fdb] flex items-center justify-center">
+            <ImageIcon class="w-4 h-4" />
+          </div>
+          <p class="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">Step 3 — Logistics & Branding</p>
+        </div>
 
         <!-- Logo Upload -->
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">Store Logo</label>
-          <div class="relative border-2 border-dashed border-gray-200 rounded-2xl p-6 text-center hover:border-[#065fdb]/40 transition-colors cursor-pointer group"
+          <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-3 ml-1">Store Logo</label>
+          <div class="relative border-2 border-dashed border-gray-100 rounded-[2rem] p-8 text-center hover:border-[#065fdb]/30 hover:bg-gray-50/50 transition-all cursor-pointer group"
             @click="triggerLogoUpload">
             <input type="file" ref="logoInput" accept="image/*" class="hidden" @change="handleLogoSelect" />
-            <div v-if="!logoPreview" class="flex flex-col items-center gap-2">
-              <div class="w-14 h-14 bg-gray-100 rounded-xl flex items-center justify-center text-gray-400 group-hover:bg-[#065fdb]/10 group-hover:text-[#065fdb] transition-colors">
-                <ImageIcon class="w-7 h-7" />
+            <div v-if="!logoPreview" class="flex flex-col items-center gap-3">
+              <div class="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-300 group-hover:scale-110 group-hover:text-[#065fdb] transition-all duration-500 shadow-sm border border-gray-100">
+                <ImageIcon class="w-8 h-8" />
               </div>
-              <p class="text-sm text-gray-500 font-medium">Click to upload your store logo</p>
-              <p class="text-xs text-gray-400">PNG, JPG up to 5MB</p>
+              <div>
+                <p class="text-sm font-bold text-gray-700">Upload your logo</p>
+                <p class="text-[10px] text-gray-400 font-medium mt-0.5">PNG, JPG up to 5MB</p>
+              </div>
             </div>
-            <div v-else class="flex items-center gap-4">
-              <img :src="logoPreview" class="w-16 h-16 rounded-2xl object-cover border border-gray-200" />
-              <div class="text-left">
-                <p class="text-sm font-bold text-gray-900">{{ logoFile?.name }}</p>
-                <p class="text-xs text-gray-500">{{ logoFile ? (logoFile.size / 1024).toFixed(1) + ' KB' : '' }}</p>
-                <p v-if="logoUploading" class="text-xs text-[#065fdb] font-semibold flex items-center gap-1 mt-1"><Loader2 class="animate-spin w-3 h-3" /> Uploading...</p>
-                <p v-else-if="logoUrl" class="text-xs text-emerald-600 font-semibold flex items-center gap-1 mt-1"><CheckCircle class="w-3 h-3" /> Uploaded</p>
+            <div v-else class="flex items-center gap-5">
+              <div class="relative">
+                <img :src="logoPreview" class="w-20 h-20 rounded-[1.5rem] object-cover border-2 border-white shadow-lg" />
+                <div v-if="logoUrl" class="absolute -top-2 -right-2 w-6 h-6 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-md border-2 border-white">
+                  <Check class="w-3.5 h-3.5" />
+                </div>
               </div>
-              <button type="button" @click.stop="removeLogo" class="ml-auto text-red-400 hover:text-red-600 transition-colors">
+              <div class="text-left flex-1 min-w-0">
+                <p class="text-sm font-black text-gray-900 truncate">{{ logoFile?.name }}</p>
+                <p class="text-[11px] text-gray-400 font-bold uppercase tracking-tight">{{ logoFile ? (logoFile.size / 1024).toFixed(1) + ' KB' : '' }}</p>
+                <div v-if="logoUploading" class="flex items-center gap-2 mt-2 text-[#065fdb]">
+                   <Loader2 class="animate-spin w-3.5 h-3.5" />
+                   <span class="text-[11px] font-black uppercase tracking-wider">Uploading...</span>
+                </div>
+                <div v-else-if="logoUrl" class="flex items-center gap-1.5 mt-2 text-emerald-600">
+                   <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                   <span class="text-[11px] font-black uppercase tracking-wider">Ready to launch</span>
+                </div>
+              </div>
+              <button type="button" @click.stop="removeLogo" class="w-10 h-10 flex items-center justify-center bg-red-50 text-red-400 rounded-xl hover:bg-red-100 hover:text-red-500 transition-colors active:scale-95">
                 <X class="w-5 h-5" />
               </button>
             </div>
@@ -216,67 +251,82 @@
         </div>
 
         <div class="grid grid-cols-2 gap-4">
-          <UiAnimatedInput v-model.number="vendor.preparationTime" type="number" label="Avg. Prep Time (min)" />
-          <UiAnimatedInput v-model.number="vendor.minimumOrder" type="number" label="Minimum Order (₦)" />
+          <UiAnimatedInput v-model.number="vendor.preparationTime" type="number" label="Prep Time (min)" />
+          <UiAnimatedInput v-model.number="vendor.minimumOrder" type="number" label="Min Order (₦)" />
         </div>
 
         <UiAnimatedInput v-model.number="vendor.deliveryFee" type="number" label="Delivery Fee (₦)" />
 
         <!-- Bank Details -->
-        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest pt-2">Payout Details (Optional)</p>
-        
-        <UiSelectInput
-          v-model="vendor.bankDetails.bankCode"
-          label="Bank Name"
-          :options="bankOptions"
-          :disabled="banksLoading"
-          searchable
-        />
+        <div class="pt-2">
+          <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 ml-1">Payout Details (Optional)</p>
+          
+          <div class="space-y-4">
+            <UiSelectInput
+              v-model="vendor.bankDetails.bankCode"
+              label="Bank Name"
+              :options="bankOptions"
+              :disabled="banksLoading"
+              searchable
+            />
 
-        <div class="relative">
-          <UiAnimatedInput 
-            v-model="vendor.bankDetails.accountNumber" 
-            type="text" 
-            label="Account Number"
-          />
-          <div v-if="resolvingAccount" class="absolute right-3 top-1/2 -translate-y-1/2">
-            <Loader2 class="animate-spin w-4 h-4 text-[#065fdb]" />
+            <div class="relative">
+              <UiAnimatedInput 
+                v-model="vendor.bankDetails.accountNumber" 
+                type="text" 
+                label="Account Number"
+              />
+              <div v-if="resolvingAccount" class="absolute right-4 top-1/2 -translate-y-1/2">
+                <Loader2 class="animate-spin w-5 h-5 text-[#065fdb]" />
+              </div>
+              <div v-else-if="accountResolved && vendor.bankDetails.accountName" class="absolute right-4 top-1/2 -translate-y-1/2">
+                <div class="w-6 h-6 bg-emerald-100 text-emerald-600 rounded-lg flex items-center justify-center">
+                  <Check class="w-4 h-4" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Resolved Account Name -->
+            <transition enter-active-class="transition duration-300 ease-out" enter-from-class="transform -translate-y-2 opacity-0" enter-to-class="transform translate-y-0 opacity-100">
+              <div v-if="vendor.bankDetails.accountName" class="flex items-center gap-3 px-5 py-4 bg-emerald-50/50 border border-emerald-100 rounded-2xl">
+                <div class="w-8 h-8 bg-emerald-500 text-white rounded-lg flex items-center justify-center">
+                  <CheckCircle class="w-5 h-5" />
+                </div>
+                <span class="text-sm font-black text-emerald-700 tracking-tight">{{ vendor.bankDetails.accountName }}</span>
+              </div>
+            </transition>
+            
+            <transition enter-active-class="transition duration-300 ease-out" enter-from-class="transform -translate-y-2 opacity-0" enter-to-class="transform translate-y-0 opacity-100">
+              <div v-if="resolveError" class="flex items-center gap-2 px-4 py-3 bg-red-50 border border-red-100 rounded-xl">
+                <AlertCircle class="w-4 h-4 text-red-600 shrink-0" />
+                <span class="text-sm font-medium text-red-600">{{ resolveError }}</span>
+              </div>
+            </transition>
           </div>
-          <div v-else-if="accountResolved && vendor.bankDetails.accountName" class="absolute right-3 top-1/2 -translate-y-1/2">
-            <CheckCircle class="w-4 h-4 text-emerald-500" />
-          </div>
         </div>
 
-        <!-- Resolved Account Name -->
-        <div v-if="vendor.bankDetails.accountName" class="flex items-center gap-2 px-4 py-3 bg-emerald-50 border border-emerald-100 rounded-xl">
-          <CheckCircle class="w-4 h-4 text-emerald-600 shrink-0" />
-          <span class="text-sm font-bold text-emerald-700">{{ vendor.bankDetails.accountName }}</span>
-        </div>
-        <div v-if="resolveError" class="flex items-center gap-2 px-4 py-3 bg-red-50 border border-red-100 rounded-xl">
-          <AlertCircle class="w-4 h-4 text-red-600 shrink-0" />
-          <span class="text-sm font-medium text-red-600">{{ resolveError }}</span>
-        </div>
+        <p v-if="error" class="text-red-500 text-sm font-black text-center bg-red-50 py-2 rounded-lg border border-red-100">{{ error }}</p>
 
-        <p v-if="error" class="text-red-500 text-sm font-medium">{{ error }}</p>
-
-        <div class="flex gap-3 mt-2">
+        <div class="flex gap-4 mt-2">
           <button type="button" @click="currentStep = 'business'"
-            class="px-5 py-3 border border-gray-200 text-gray-700 rounded-xl font-bold transition-colors hover:bg-gray-50">
-            <ArrowLeft class="w-4 h-4" />
+            class="w-14 h-14 flex items-center justify-center border-2 border-gray-100 text-gray-400 rounded-2xl font-bold transition-all hover:bg-gray-50 hover:text-gray-900 active:scale-95">
+            <ArrowLeft class="w-6 h-6" />
           </button>
           <button type="submit" :disabled="submitting"
-            class="flex-1 py-3 bg-[#065fdb] hover:bg-[#054ec0] text-white rounded-xl font-bold text-base transition-all flex items-center justify-center gap-2 shadow-md shadow-[#065fdb]/20 disabled:opacity-50">
-            <Loader2 v-if="submitting" class="animate-spin w-4 h-4" />
-            {{ submitting ? 'Setting up store...' : 'Launch My Store 🚀' }}
+            class="flex-1 py-4 bg-[#065fdb] hover:bg-[#054ec0] text-white rounded-2xl font-black text-lg transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#065fdb]/20 disabled:opacity-50 transform active:scale-[0.98]">
+            <Loader2 v-if="submitting" class="animate-spin w-5 h-5" />
+            <span>{{ submitting ? 'Launching...' : 'Launch Store 🚀' }}</span>
           </button>
         </div>
       </form>
 
       <!-- Footer -->
-      <div class="mt-auto pt-8 flex flex-wrap gap-x-6 gap-y-2 text-xs text-gray-400 font-medium">
-        <p>&copy; {{ new Date().getFullYear() }} Errandr</p>
-        <NuxtLink to="/terms" class="hover:text-gray-600">Terms</NuxtLink>
-        <NuxtLink to="/terms" class="hover:text-gray-600">Privacy</NuxtLink>
+      <div class="mt-12 text-center">
+        <div class="flex items-center justify-center gap-6 text-[11px] text-gray-400 font-black uppercase tracking-[0.2em]">
+          <p>&copy; {{ new Date().getFullYear() }} Errandr</p>
+          <NuxtLink to="/terms" class="hover:text-[#065fdb] transition-colors">Terms</NuxtLink>
+          <NuxtLink to="/terms" class="hover:text-[#065fdb] transition-colors">Privacy</NuxtLink>
+        </div>
       </div>
     </div>
   </div>
