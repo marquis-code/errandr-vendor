@@ -41,18 +41,18 @@ let autocompleteService: any = null
 let geocoder: any = null
 
 onMounted(() => {
-  if (!window.google) {
+  if (!(window as any).google) {
     const script = document.createElement('script')
     script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_API_KEY}&libraries=places`
     script.async = true
     script.onload = () => {
-      autocompleteService = new window.google.maps.places.AutocompleteService()
-      geocoder = new window.google.maps.Geocoder()
+      autocompleteService = new (window as any).google.maps.places.AutocompleteService()
+      geocoder = new (window as any).google.maps.Geocoder()
     }
     document.head.appendChild(script)
   } else {
-    autocompleteService = new window.google.maps.places.AutocompleteService()
-    geocoder = new window.google.maps.Geocoder()
+    autocompleteService = new (window as any).google.maps.places.AutocompleteService()
+    geocoder = new (window as any).google.maps.Geocoder()
   }
 })
 

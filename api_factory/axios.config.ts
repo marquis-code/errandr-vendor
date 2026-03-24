@@ -3,10 +3,9 @@ import { useUser } from "@/composables/modules/auth/user";
 import { useCustomToast } from '@/composables/core/useCustomToast'
 const { showToast } = useCustomToast();
 
-const { token, logOut } = useUser();
+// const { token, logOut } = useUser(); // REMOVED TOP-LEVEL CALL
 
-const $GATEWAY_ENDPOINT_WITHOUT_VERSION = (import.meta.env
-  .VITE_API_BASE_URL || import.meta.env.VITE_BASE_URL || 'http://localhost:3000') as string;
+const $GATEWAY_ENDPOINT_WITHOUT_VERSION = (import.meta.env.VITE_BASE_URL || import.meta.env.VITE_API_BASE_URL || 'http://localhost:3005') as string;
 const $GATEWAY_ENDPOINT = $GATEWAY_ENDPOINT_WITHOUT_VERSION + "/api/v1";
 const $GATEWAY_ENDPOINT_V2 = $GATEWAY_ENDPOINT_WITHOUT_VERSION + "/v2";
 const $IMAGE_UPLOAD_ENDPOINT = (import.meta.env
@@ -21,16 +20,12 @@ export const GATEWAY_ENDPOINT_V2 = axios.create({
 });
 
 export const GATEWAY_ENDPOINT_WITH_AUTH = axios.create({
-  baseURL: $GATEWAY_ENDPOINT,
-  headers: {
-    Authorization: `Bearer ${token.value}`,
-  },
+  baseURL: $GATEWAY_ENDPOINT
 });
 
 export const GATEWAY_ENDPOINT_WITH_AUTH_FORM_DATA = axios.create({
   baseURL: $GATEWAY_ENDPOINT,
   headers: {
-    Authorization: `Bearer ${token.value}`,
     "Content-Type": "multipart/form-data",
   },
 });
@@ -39,10 +34,7 @@ export const GATEWAY_ENDPOINT_WITHOUT_VERSION = axios.create({
   baseURL: $GATEWAY_ENDPOINT_WITHOUT_VERSION,
 });
 export const GATEWAY_ENDPOINT_WITHOUT_VERSION_WITH_AUTH = axios.create({
-  baseURL: $GATEWAY_ENDPOINT_WITHOUT_VERSION,
-  headers: {
-    Authorization: `Bearer ${token.value}`,
-  },
+  baseURL: $GATEWAY_ENDPOINT_WITHOUT_VERSION
 });
 export const IMAGE_UPLOAD_ENDPOINT = axios.create({
   baseURL: $IMAGE_UPLOAD_ENDPOINT,
@@ -56,12 +48,15 @@ const instanceArray = [
   GATEWAY_ENDPOINT,
   GATEWAY_ENDPOINT_V2,
   GATEWAY_ENDPOINT_WITH_AUTH,
+  GATEWAY_ENDPOINT_WITH_AUTH_FORM_DATA,
   GATEWAY_ENDPOINT_WITHOUT_VERSION,
   GATEWAY_ENDPOINT_WITHOUT_VERSION_WITH_AUTH,
+  IMAGE_UPLOAD_ENDPOINT
 ];
 
 instanceArray.forEach((instance) => {
   instance.interceptors.request.use((config: any) => {
+    const { token } = useUser();
     if (token.value) {
       config.headers.Authorization = `Bearer ${token.value}`;
     }
@@ -73,6 +68,7 @@ instanceArray.forEach((instance) => {
       return response;
     },
     (err: any) => {
+      const { logOut } = useUser();
       if (typeof err.response === "undefined") {
         showToast({
           title: "Error",
@@ -94,6 +90,13 @@ instanceArray.forEach((instance) => {
           toastType: "error",
           duration: 3000
         });
+        return {
+          type: "ERROR",
+          ...err.response,
+        };
+      } else if (err.response.status === 404) {
+        // Removed aggressive redirect to /auth/register for 'Vendor not found'
+        // This allows the UI to handle the empty state or onboarding flow naturally
         return {
           type: "ERROR",
           ...err.response,

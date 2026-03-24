@@ -1,98 +1,98 @@
 <template>
-  <div class="bg-white rounded-[2rem] border border-gray-100 shadow-sm overflow-hidden flex flex-col min-h-[400px]">
-    <!-- Table Body -->
-    <div class="overflow-x-auto hide-scrollbar">
-      <table class="w-full text-left border-collapse">
-        <thead class="bg-gray-50/50 sticky top-0 z-10">
-          <tr class="border-b border-gray-100">
-            <th 
-              v-for="col in columns" 
-              :key="col.key" 
-              class="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest whitespace-nowrap"
-              :class="col.class"
-            >
-              {{ col.label }}
-            </th>
-            <th v-if="hasActions" class="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right">Actions</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-50">
-          <tr v-if="loading" v-for="i in 5" :key="i" class="animate-pulse">
-            <td v-for="col in (hasActions ? columns.length + 1 : columns.length)" :key="col" class="px-8 py-6">
-              <div class="h-4 bg-gray-50 rounded-lg w-full"></div>
-            </td>
-          </tr>
-          
-          <tr v-else-if="items.length === 0">
-            <td :colspan="hasActions ? columns.length + 1 : columns.length" class="px-8 py-32 text-center">
-              <div class="flex flex-col items-center justify-center max-w-xs mx-auto">
-                <div class="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mb-6">
-                  <component :is="emptyIcon || 'Inbox'" class="w-8 h-8 text-gray-200" />
-                </div>
-                <h4 class="font-black text-gray-900 text-lg tracking-tight">{{ emptyTitle || 'No items found' }}</h4>
-                <p class="text-gray-400 text-sm mt-2 font-medium leading-relaxed">{{ emptySubtitle || 'Wait for data or try adjusting your filters.' }}</p>
-              </div>
-            </td>
-          </tr>
+ <div class="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden flex flex-col min-h-[400px]">
+ <!-- Table Body -->
+ <div class="overflow-x-auto hide-scrollbar">
+ <table class="w-full text-left border-collapse">
+ <thead class="bg-gray-50/30 sticky top-0 z-10">
+ <tr class="border-b border-gray-50/50">
+ <th 
+ v-for="col in columns" 
+ :key="col.key" 
+ class="px-8 py-5 text-[9px] font-black text-gray-400 tracking-widest whitespace-nowrap"
+ :class="col.class"
+ >
+ {{ col.label }}
+ </th>
+ <th v-if="hasActions" class="px-8 py-5 text-[9px] font-black text-gray-400 tracking-widest text-right">Actions</th>
+ </tr>
+ </thead>
+ <tbody class="divide-y divide-gray-50">
+ <tr v-if="loading" v-for="i in 5" :key="i" class="animate-pulse">
+ <td v-for="col in (hasActions ? columns.length + 1 : columns.length)" :key="col" class="px-8 py-6">
+ <div class="h-4 bg-gray-50 rounded-lg w-full"></div>
+ </td>
+ </tr>
+ 
+ <tr v-else-if="items.length === 0">
+ <td :colspan="hasActions ? columns.length + 1 : columns.length" class="px-8 py-32 text-center">
+ <div class="flex flex-col items-center justify-center max-w-xs mx-auto">
+ <div class="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mb-6">
+ <component :is="emptyIcon || 'Inbox'" class="w-8 h-8 text-gray-200" />
+ </div>
+ <h4 class="font-black text-gray-900 text-lg tracking-tight">{{ emptyTitle || 'No items found' }}</h4>
+ <p class="text-gray-400 text-sm mt-2 font-medium leading-relaxed">{{ emptySubtitle || 'Wait for data or try adjusting your filters.' }}</p>
+ </div>
+ </td>
+ </tr>
 
-          <tr 
-            v-else 
-            v-for="(item, idx) in items" 
-            :key="item._id || idx" 
-            class="hover:bg-gray-50 transition-all group"
-          >
-            <td 
-              v-for="col in columns" 
-              :key="col.key" 
-              class="px-8 py-6 text-sm font-medium text-gray-700 whitespace-nowrap"
-              :class="col.class"
-            >
-              <slot :name="col.key" :item="item" :index="idx">
-                {{ item[col.key] }}
-              </slot>
-            </td>
-            <td v-if="hasActions" class="px-8 py-6 text-right whitespace-nowrap">
-              <slot name="actions" :item="item" :index="idx"></slot>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+ <tr 
+ v-else 
+ v-for="(item, idx) in items" 
+ :key="item._id || idx" 
+ class="hover:bg-gray-50/80 transition-all group border-b border-gray-50/30 last:border-0"
+ >
+ <td 
+ v-for="col in columns" 
+ :key="col.key" 
+ class="px-8 py-6 text-sm font-medium text-gray-700 whitespace-nowrap"
+ :class="col.class"
+ >
+ <slot :name="col.key" :item="item" :index="idx">
+ {{ item[col.key] }}
+ </slot>
+ </td>
+ <td v-if="hasActions" class="px-8 py-6 text-right whitespace-nowrap">
+ <slot name="actions" :item="item" :index="idx"></slot>
+ </td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
 
-    <!-- Optional Footer / Pagination (Placeholder for now) -->
-    <div v-if="showFooter" class="p-8 border-t border-gray-100 bg-gray-50/30 flex items-center justify-between">
-      <slot name="footer"></slot>
-    </div>
-  </div>
+ <!-- Optional Footer / Pagination (Placeholder for now) -->
+ <div v-if="showFooter" class="p-8 border-t border-gray-50/50 bg-gray-50/20 flex items-center justify-between">
+ <slot name="footer"></slot>
+ </div>
+ </div>
 </template>
 
 <script setup lang="ts">
 import { Inbox } from 'lucide-vue-next';
 
 interface Column {
-  key: string;
-  label: string;
-  class?: string;
+ key: string;
+ label: string;
+ class?: string;
 }
 
 defineProps<{
-  columns: Column[];
-  items: any[];
-  loading?: boolean;
-  hasActions?: boolean;
-  showFooter?: boolean;
-  emptyTitle?: string;
-  emptySubtitle?: string;
-  emptyIcon?: any;
+ columns: Column[];
+ items: any[];
+ loading?: boolean;
+ hasActions?: boolean;
+ showFooter?: boolean;
+ emptyTitle?: string;
+ emptySubtitle?: string;
+ emptyIcon?: any;
 }>();
 </script>
 
 <style scoped>
 .hide-scrollbar::-webkit-scrollbar {
-  display: none;
+ display: none;
 }
 .hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+ -ms-overflow-style: none;
+ scrollbar-width: none;
 }
 </style>

@@ -15,11 +15,11 @@ export const vendors_api = {
     return GATEWAY_ENDPOINT.get('/vendors/online');
   },
 
-  getStatistics: () => {
-    return GATEWAY_ENDPOINT_WITH_AUTH.get('/vendors/statistics');
+  getMyVendorStats: () => {
+    return GATEWAY_ENDPOINT_WITH_AUTH.get('/vendors/mine/stats');
   },
 
-  getMyVendorStats: () => {
+  getStatistics: () => {
     return GATEWAY_ENDPOINT_WITH_AUTH.get('/vendors/mine/stats');
   },
 
