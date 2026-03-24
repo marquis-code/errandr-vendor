@@ -11,11 +11,11 @@
     </div>
     
     <!-- Background Audio - Bottom Left -->
-    <ClientOnly>
+    <!-- <ClientOnly>
       <div class="fixed bottom-6 left-6 z-[999998]">
         <BackgroundAudio src="/audio/ambient-tranquility-serene-soundscapes-365048.mp3" />
       </div>
-    </ClientOnly>
+    </ClientOnly> -->
   </div>
 </template>
 

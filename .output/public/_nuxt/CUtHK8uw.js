@@ -1,0 +1,1 @@
+import{_ as c,a6 as t,o as a,c as _,b as e,a7 as r}from"./wgDya1bL.js";const s={};function l(m,u){const n=t("FullScreenLoader"),o=r;return a(),_("main",null,[e(n),e(o)])}const d=c(s,[["render",l]]);export{d as default};

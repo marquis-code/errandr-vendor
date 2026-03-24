@@ -2,9 +2,9 @@
   <FullScreenLoader />
   <div class="min-h-screen bg-gray-50">
     <!-- Desktop Sidebar -->
-    <aside class="hidden lg:block w-64 bg-white border-r-[0.5px] border-gray-50 min-h-screen fixed left-0 top-0 shadow-sm">
+    <aside class="hidden lg:block w-64 bg-white border-r border-gray-50/50 min-h-screen fixed left-0 top-0 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
       <!-- Logo -->
-      <div class="p-4 border-b border-gray-100 flex items-center gap-3">
+      <div class="p-4 border-b border-gray-50/50 flex items-center gap-3">
         <div class="w-10 h-10 bg-parentPrimary rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-sm">
           E
         </div>
@@ -28,7 +28,7 @@
       </nav>
 
       <!-- Logout Button -->
-      <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-100">
+      <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-50/50">
         <button
           @click="handleLogoutClick"
           class="flex items-center w-full px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 rounded-xl transition-all"
@@ -40,7 +40,7 @@
     </aside>
 
     <!-- Mobile Header -->
-    <header class="lg:hidden bg-white border-b border-gray-100 sticky top-0 z-40 shadow-sm">
+    <header class="lg:hidden bg-white border-b border-gray-50/50 sticky top-0 z-40 shadow-sm">
       <div class="flex items-center justify-between px-4 py-3">
         <div class="flex items-center gap-2">
           <div class="w-8 h-8 bg-parentPrimary rounded-lg flex items-center justify-center text-white font-bold text-lg">
@@ -48,12 +48,18 @@
           </div>
           <span class="font-black text-parentPrimary tracking-tighter">Errandr</span>
         </div>
-        <button
-          @click="showMobileMenu = !showMobileMenu"
-          class="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-        >
-          <Menu class="w-6 h-6 text-gray-700" />
-        </button>
+
+        <div class="flex items-center gap-2">
+          <NuxtLink to="/dashboard/notifications" class="p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-400">
+            <Bell class="w-6 h-6" />
+          </NuxtLink>
+          <button
+            @click="showMobileMenu = !showMobileMenu"
+            class="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            <Menu class="w-6 h-6 text-gray-700" />
+          </button>
+        </div>
       </div>
     </header>
 
@@ -73,7 +79,7 @@
         class="lg:hidden w-72 bg-white min-h-screen fixed left-0 top-0 z-50 shadow-2xl"
       >
         <!-- Mobile Header -->
-        <div class="p-4 border-b border-gray-100 flex items-center justify-between">
+        <div class="p-4 border-b border-gray-50/50 flex items-center justify-between">
           <div class="flex items-center gap-2">
             <div class="w-8 h-8 bg-parentPrimary rounded-lg flex items-center justify-center text-white font-bold text-lg">
               E
@@ -89,7 +95,7 @@
         </div>
 
         <!-- User Info -->
-        <div class="p-4 bg-gradient-to-br from-parentPrimary/5 to-parentPrimary/10 border-b border-gray-100">
+        <div class="p-4 bg-gradient-to-br from-parentPrimary/5 to-parentPrimary/10 border-b border-gray-50/50">
           <div class="flex items-center gap-3">
             <div class="w-12 h-12 rounded-full bg-parentPrimary text-white flex items-center justify-center font-semibold text-lg">
               {{ userInitials }}
@@ -119,7 +125,7 @@
         </nav>
 
         <!-- Mobile Logout -->
-        <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-100 bg-white">
+        <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-50/50 bg-white">
           <button
             @click="handleLogoutClick"
             class="flex items-center w-full px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 rounded-xl transition-all"
@@ -134,14 +140,19 @@
     <!-- Main Content -->
     <main class="flex-1 lg:ml-64">
       <!-- Dashboard Header -->
-      <div class="bg-white border-b border-gray-100 sticky top-0 z-30 shadow-sm hidden lg:block">
+      <div class="bg-white border-b border-gray-50/50 sticky top-0 z-30 shadow-sm hidden lg:block">
         <div class="px-6 py-1.5">
           <div class="flex items-center justify-between">
             <div>
               <h1 class="text-xl font-bold text-gray-900">{{ pageTitle }}</h1>
               <p class="text-sm text-gray-500">{{ pageDescription }}</p>
             </div>
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-4">
+              <!-- Notifications Bell -->
+              <NuxtLink to="/dashboard/notifications" class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-parentPrimary hover:text-white transition-all shadow-sm">
+                <Bell class="w-5 h-5" />
+              </NuxtLink>
+
               <!-- User Profile -->
               <div class="flex items-center gap-3 px-4 py-2 bg-gray-50 rounded-xl">
                 <div class="w-10 h-10 rounded-full bg-parentPrimary text-white flex items-center justify-center font-semibold">
@@ -239,9 +250,12 @@ import {
   Wallet, 
   Settings, 
   LogOut, 
-  Menu, 
-  X 
+  X,
+  Bell
 } from 'lucide-vue-next'
+import { useRealtimeNotifications } from '@/composables/core/useRealtimeNotifications'
+
+useRealtimeNotifications() // Initialize listener
 
 const route = useRoute()
 const router = useRouter()
@@ -290,12 +304,8 @@ const isActive = (path: string) => {
 }
 
 const confirmLogout = () => {
-  if (process.client) {
-    localStorage.removeItem('user')
-    localStorage.removeItem('token')
-    logoutModalOpen.value = false
-    window.location.reload()
-  }
+  logOut()
+  logoutModalOpen.value = false
 }
 
 watch(() => route.path, () => showMobileMenu.value = false)
@@ -323,24 +333,4 @@ watch(() => route.path, () => showMobileMenu.value = false)
 }
 </style>
 
-<style scoped>
-.overlay-enter-active,
-.overlay-leave-active {
-  transition: opacity 0.25s ease;
-}
 
-.overlay-enter-from,
-.overlay-leave-to {
-  opacity: 0;
-}
-
-.slide-enter-active,
-.slide-leave-active {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.slide-enter-from,
-.slide-leave-to {
-  transform: translateX(-100%);
-}
-</style>

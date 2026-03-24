@@ -30,6 +30,16 @@ export const useRealtimeNotifications = () => {
     })
   }
 
+  const handleOrderStatusUpdate = (payload: any) => {
+    if (!payload) return
+    showToast({
+      title: '📦 Order Update',
+      message: `Order #${payload.orderNumber} status changed to ${payload.status?.replace(/_/g, ' ')}`,
+      toastType: 'info',
+      duration: 6000,
+    })
+  }
+
   onMounted(() => {
     connectSocket()
 
@@ -38,6 +48,7 @@ export const useRealtimeNotifications = () => {
 
     socket.value.on('notification:new', handleNotification)
     socket.value.on('audit:log', handleAudit)
+    socket.value.on('notification:order-status-update', handleOrderStatusUpdate)
   })
 
   onBeforeUnmount(() => {
@@ -45,6 +56,7 @@ export const useRealtimeNotifications = () => {
 
     socket.value.off('notification:new', handleNotification)
     socket.value.off('audit:log', handleAudit)
+    socket.value.off('notification:order-status-update', handleOrderStatusUpdate)
     listenersAttached.value = false
   })
 }

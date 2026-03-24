@@ -21,15 +21,15 @@ export const orders_api = {
     return GATEWAY_ENDPOINT_WITH_AUTH.put(`/orders/${id}/status`, { status });
   },
 
-  cancelOrder: (id: string) => {
-    return GATEWAY_ENDPOINT_WITH_AUTH.put(`/orders/${id}/cancel`);
+  cancelOrder: (id: string, reason: string = 'Cancelled by vendor') => {
+    return GATEWAY_ENDPOINT_WITH_AUTH.post(`/orders/${id}/cancel`, { reason });
   },
 
   getErranderOrders: () => {
-    return GATEWAY_ENDPOINT_WITH_AUTH.get('/orders/errander/available');
+    return GATEWAY_ENDPOINT_WITH_AUTH.get('/orders/available');
   },
 
   assignOrder: (id: string) => {
-    return GATEWAY_ENDPOINT_WITH_AUTH.put(`/orders/${id}/assign`);
+    return GATEWAY_ENDPOINT_WITH_AUTH.put(`/orders/${id}/accept`);
   },
 };

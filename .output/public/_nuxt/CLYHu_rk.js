@@ -1,0 +1,1 @@
+const d=()=>{const n=(t="Loading")=>{window.dispatchEvent(new CustomEvent("loading-start",{detail:{text:t}}))},o=()=>{window.dispatchEvent(new Event("loading-stop"))};return{startLoading:n,stopLoading:o,withLoading:async(t,a="Loading")=>{try{return n(a),await t()}finally{o()}}}};export{d as u};

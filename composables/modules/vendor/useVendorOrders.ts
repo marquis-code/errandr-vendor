@@ -24,6 +24,8 @@ export const useVendorOrders = () => {
     }
   };
 
+  const refreshTimeout = ref<any>(null);
+
   const loadMyVendorOrders = async (status?: string, page = 1) => {
     loading.value = true;
     try {
@@ -31,6 +33,10 @@ export const useVendorOrders = () => {
       const res = await api.get('/orders/vendor/mine', { params: { status, page } });
       orders.value = res.data.orders || [];
       total.value = res.data.total || 0;
+      
+      // Auto-refresh every 30 seconds
+      if (refreshTimeout.value) clearTimeout(refreshTimeout.value);
+      refreshTimeout.value = setTimeout(() => loadMyVendorOrders(status, page), 30000);
     } catch (e) {
       console.error('Failed to fetch vendor orders:', e);
     } finally {
@@ -59,6 +65,7 @@ export const useVendorOrders = () => {
     total, 
     fetchOrders, 
     loadMyVendorOrders,
-    updateStatus 
+    updateStatus,
+    refreshTimeout
   };
 };

@@ -112,7 +112,7 @@ module.exports = {
     extend: {},
   },
   plugins: [
-    plugin(function({ addUtilities }) {
+    plugin(function({ addUtilities }: any) {
       addUtilities({
         '.bg-green-striped': {
           'background-image': `linear-gradient(45deg, #0a2000 10%, transparent 10%,
