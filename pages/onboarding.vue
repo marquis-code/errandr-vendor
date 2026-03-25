@@ -74,7 +74,7 @@
  </div>
 
  <div class="space-y-4">
- <div class="p-6 border-2 border-dashed border-white/10 rounded-2xl text-center hover:border-primary-500/30 transition-all cursor-pointer">
+ <div class="p-6 border border-dashed border-white/10 rounded-2xl text-center hover:border-primary-500/30 transition-all cursor-pointer">
  <p class="text-xs text-dark-400 mb-2">Upload Student ID (Optional)</p>
  <p class="text-[10px] text-dark-600">Helps build trust with customers</p>
  </div>

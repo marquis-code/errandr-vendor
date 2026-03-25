@@ -34,4 +34,7 @@ export const vendors_api = {
   updateBusinessHours: (id: string, hours: any) => {
     return GATEWAY_ENDPOINT_WITH_AUTH.put(`/vendors/${id}/business-hours`, { hours });
   },
+  updateProfile: (payload: any) => {
+    return GATEWAY_ENDPOINT_WITH_AUTH.put('/vendors/profile', payload);
+  },
 };

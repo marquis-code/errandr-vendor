@@ -7,6 +7,7 @@ import { useStorage } from '@vueuse/core'
 
 export interface ChatMessage {
   id?: string
+  _id?: string
   roomId?: string
   businessId?: string
   senderId?: string | null
@@ -352,37 +353,58 @@ export const useChat = () => {
   }
 
   const attachSocketListeners = () => {
-    if (!socket.value || listenersAttached.value) return
-    listenersAttached.value = true
+    if (!socket.value) return
+
+    // Force cleanup of any existing listeners to aggressively prevent duplication
+    socket.value.off('chat:new-message')
+    socket.value.off('chat:auto-response')
+    socket.value.off('chat:faq-response')
 
     socket.value.on('chat:new-message', (message: ChatMessage) => {
-      // Replace optimistic message with real one, or add if new
-      const existingIndex = messages.value.findIndex(
-        m => m.id?.startsWith('temp_') && m.content === message.content
+      const msgId = message._id || message.id
+      
+      const existingTempIndex = messages.value.findIndex(
+        m => m.id?.toString().startsWith('temp_') && m.content === message.content
       )
-      if (existingIndex >= 0) {
+
+      const exactMatchIndex = messages.value.findIndex(m => {
+        const mId = m._id || m.id
+        return mId && msgId && mId === msgId
+      })
+
+      if (exactMatchIndex >= 0) {
+        // Update existing server message
+        const updated = [...messages.value]
+        updated[exactMatchIndex] = message
+        messages.value = updated
+      } else if (existingTempIndex >= 0) {
         // Replace optimistic message with real server message
         const updated = [...messages.value]
-        updated[existingIndex] = message
+        updated[existingTempIndex] = message
         messages.value = updated
       } else {
-        // Check if message already exists (avoid duplicates)
-        const exists = messages.value.some(m => m.id === message.id)
-        if (!exists) {
-          messages.value = [...messages.value, message]
-        }
+        // Safely append new message
+        messages.value = [...messages.value, message]
       }
     })
 
     socket.value.on('chat:auto-response', (message: ChatMessage) => {
-      const exists = messages.value.some(m => m.id === message.id)
+      const msgId = message._id || message.id
+      const exists = messages.value.some(m => {
+        const mId = m._id || m.id
+        return mId && msgId && mId === msgId
+      })
       if (!exists) {
         messages.value = [...messages.value, message]
       }
     })
 
     socket.value.on('chat:faq-response', (message: ChatMessage) => {
-      const exists = messages.value.some(m => m.id === message.id)
+      const msgId = message._id || message.id
+      const exists = messages.value.some(m => {
+        const mId = m._id || m.id
+        return mId && msgId && mId === msgId
+      })
       if (!exists) {
         messages.value = [...messages.value, message]
       }

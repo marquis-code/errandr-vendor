@@ -201,6 +201,38 @@
  </div>
  </div>
 
+ <!-- Pre-order Toggle & Config -->
+ <div class="pt-4 space-y-4">
+ <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100 cursor-pointer hover:bg-gray-100/50 transition-all" @click="newProduct.isPreOrder = !newProduct.isPreOrder">
+ <div>
+ <p class="text-[10px] font-black text-gray-900 uppercase tracking-widest">Pre-order Item</p>
+ <p class="text-[9px] text-gray-400 font-bold">This item requires advanced ordering</p>
+ </div>
+ <div class="w-10 h-5 rounded-full relative transition-colors duration-300" :class="newProduct.isPreOrder ? 'bg-parentPrimary' : 'bg-gray-200'">
+ <div class="absolute top-1 left-1 w-3 h-3 bg-white rounded-full transition-transform duration-300 shadow-sm" :class="newProduct.isPreOrder ? 'translate-x-5' : ''" />
+ </div>
+ </div>
+
+ <Transition name="fade-up">
+ <div v-if="newProduct.isPreOrder" class="space-y-4">
+ <div class="grid grid-cols-2 gap-4">
+ <div class="space-y-1.5">
+ <label class="text-[10px] font-bold text-gray-400 tracking-widest ml-1">Order Deadline</label>
+ <input v-model="newProduct.preOrderDeadline" type="datetime-local" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-[10px] font-bold focus:ring-2 focus:ring-parentPrimary/20 outline-none transition-all shadow-inner" />
+ </div>
+ <div class="space-y-1.5">
+ <label class="text-[10px] font-bold text-gray-400 tracking-widest ml-1">Delivery Date</label>
+ <input v-model="newProduct.availableDate" type="date" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-[10px] font-bold focus:ring-2 focus:ring-parentPrimary/20 outline-none transition-all shadow-inner" />
+ </div>
+ </div>
+ <div class="space-y-1.5">
+ <label class="text-[10px] font-bold text-gray-400 tracking-widest ml-1">Pre-order Note</label>
+ <input v-model="newProduct.preOrderNote" placeholder="e.g. Freshly baked every Saturday morning" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold focus:ring-2 focus:ring-parentPrimary/20 outline-none transition-all shadow-inner" />
+ </div>
+ </div>
+ </Transition>
+ </div>
+
  <div class="pt-6 border-t border-gray-100 mt-6">
  <button type="submit" class="w-full py-4 bg-parentPrimary text-white rounded-xl text-xs font-bold tracking-widest shadow-lg shadow-parentPrimary/20 hover:brightness-110 active:scale-[0.98] transition-all">Publish Item</button>
  </div>
@@ -255,7 +287,11 @@ const newProduct = reactive({
  price: 0, 
  category: '', 
  preparationTime: 15,
- isAvailable: true 
+ isAvailable: true,
+ isPreOrder: false,
+ preOrderDeadline: '',
+ availableDate: '',
+ preOrderNote: ''
 });
 
 const openAddDrawer = () => {
@@ -266,7 +302,18 @@ const handleAddProduct = async () => {
  const success = await createProduct(newProduct);
  if (success) {
  showAddDrawer.value = false;
- Object.assign(newProduct, { name: '', description: '', price: 0, category: '', preparationTime: 15, isAvailable: true });
+ Object.assign(newProduct, { 
+  name: '', 
+  description: '', 
+  price: 0, 
+  category: '', 
+  preparationTime: 15, 
+  isAvailable: true,
+  isPreOrder: false,
+  preOrderDeadline: '',
+  availableDate: '',
+  preOrderNote: ''
+ });
  }
 };
 

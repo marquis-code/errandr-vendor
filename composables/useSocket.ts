@@ -1,19 +1,24 @@
 import { io, Socket } from 'socket.io-client';
 import { useUser } from '@/composables/modules/auth/user';
+import { useGetBusiness } from '@/composables/modules/business/useGetBusiness';
 import { ref, computed, onUnmounted } from 'vue';
 
 export const useSocket = (namespace: string) => {
   const config = useRuntimeConfig();
   const { user } = useUser();
+  const { cachedBusiness } = useGetBusiness();
 
   let socket: Socket | null = null;
 
   const connect = () => {
     if (socket) return socket;
 
+    // Use vendor business ID as primary connection context, fallback to user ID
+    const connectionId = (cachedBusiness.value as any)?._id || user.value?._id;
+
     socket = io(`${config.public.wsBase}/${namespace}`, {
       query: {
-        userId: user.value?._id,
+        userId: connectionId,
       },
       transports: ['websocket', 'polling'],
     });
