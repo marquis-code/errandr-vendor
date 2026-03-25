@@ -53,18 +53,18 @@ defineEmits(['confirm', 'cancel']);
 const variantClass = computed(() => {
  switch (props.variant) {
  case 'danger': return 'bg-red-50 text-red-500';
- case 'warning': return 'bg-amber-50 text-amber-500';
- case 'success': return 'bg-emerald-50 text-emerald-500';
- default: return 'bg-blue-50 text-[#065fdb]';
+ case 'warning': return 'bg-secondary text-parentPrimary';
+ case 'success': return 'bg-emerald-50 text-emerald-600';
+ default: return 'bg-secondary text-parentPrimary';
  }
 });
 
 const confirmBtnClass = computed(() => {
  switch (props.variant) {
  case 'danger': return 'bg-red-500 text-white hover:bg-red-600 shadow-red-200';
- case 'warning': return 'bg-amber-500 text-white hover:bg-amber-600 shadow-amber-200';
- case 'success': return 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-emerald-200';
- default: return 'bg-[#065fdb] text-white hover:bg-[#054db3] shadow-blue-200';
+ case 'warning': return 'bg-parentPrimary text-white hover:opacity-90 shadow-secondary';
+ case 'success': return 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-emerald-200';
+ default: return 'bg-parentPrimary text-white hover:bg-accent shadow-blue-100';
  }
 });
 </script>

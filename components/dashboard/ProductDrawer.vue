@@ -102,7 +102,7 @@
  <div class="space-y-3 pt-2">
  <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100/50">
  <div class="flex items-center gap-3">
- <Star class="w-4 h-4 text-amber-500" />
+ <Star class="w-4 h-4 text-parentPrimary" />
  <span class="text-xs font-bold text-gray-700">Feature on menu</span>
  </div>
  <input type="checkbox" v-model="form.isFeatured" class="w-5 h-5 rounded-lg border-gray-200 text-[#065fdb] focus:ring-[#065fdb]" />

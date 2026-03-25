@@ -177,17 +177,21 @@
  <div v-if="selectedOrder" class="flex flex-col gap-3 w-full">
  <button 
  v-if="['pending', 'confirmed'].includes(selectedOrder.status)" 
- @click="updateStatus(selectedOrder._id, 'preparing'); selectedOrder = null;" 
- class="w-full py-4 bg-gray-900 text-white rounded-2xl text-[10px] font-black tracking-widest hover:bg-black active:scale-95 transition-all shadow-xl shadow-black/10 flex items-center justify-center gap-2"
+ @click="updateStatus(selectedOrder._id, 'preparing')" 
+ :disabled="updatingOrderId === selectedOrder._id"
+ class="w-full py-4 bg-gray-900 text-white rounded-2xl text-[10px] font-black tracking-widest hover:bg-black active:scale-95 transition-all shadow-xl shadow-black/10 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
  >
- <Clock class="w-4 h-4" /> Start Preparing
+ <component :is="updatingOrderId === selectedOrder._id ? 'Loader2' : 'Clock'" :class="[updatingOrderId === selectedOrder._id ? 'animate-spin' : '', 'w-4 h-4']" />
+ {{ updatingOrderId === selectedOrder._id ? 'UPDATING...' : 'START PREPARING' }}
  </button>
  <button 
  v-if="selectedOrder.status === 'preparing'" 
- @click="updateStatus(selectedOrder._id, 'ready_for_pickup'); selectedOrder = null;" 
- class="w-full py-4 bg-[#065fdb] text-white rounded-2xl text-[10px] font-black tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-[#065fdb]/20 flex items-center justify-center gap-2"
+ @click="updateStatus(selectedOrder._id, 'ready_for_pickup')" 
+ :disabled="updatingOrderId === selectedOrder._id"
+ class="w-full py-4 bg-[#065fdb] text-white rounded-2xl text-[10px] font-black tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-[#065fdb]/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
  >
- <Package class="w-4 h-4" /> Ready for Pickup
+ <component :is="updatingOrderId === selectedOrder._id ? 'Loader2' : 'Package'" :class="[updatingOrderId === selectedOrder._id ? 'animate-spin' : '', 'w-4 h-4']" />
+ {{ updatingOrderId === selectedOrder._id ? 'UPDATING...' : 'READY FOR PICKUP' }}
  </button>
  
  <button @click="selectedOrder = null" class="w-full py-4 bg-white border border-gray-100 text-gray-400 text-[10px] font-black tracking-widest rounded-2xl hover:bg-gray-50 transition-all">
@@ -200,9 +204,10 @@
  <!-- Order Chat Component -->
  <OrderChat
  v-if="selectedOrder"
+ :key="'chat-' + selectedOrder._id"
  :is-open="isChatOpen"
  :order-id="selectedOrder._id"
- :current-user-id="user?._id || ''"
+ :current-user-id="(cachedBusiness as any)?._id || user?._id || ''"
  :receiver-id="chatReceiverId"
  :receiver-name="chatReceiverName"
  :receiver-avatar="chatReceiverAvatar"
@@ -213,15 +218,17 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { Search, ChevronRight, Clock, Package, Star, ArrowRight, MessageSquare } from 'lucide-vue-next';
+import { Search, ChevronRight, Clock, Package, Star, ArrowRight, MessageSquare, Loader2 } from 'lucide-vue-next';
 import { GATEWAY_ENDPOINT_WITH_AUTH as api } from '@/api_factory/axios.config';
 import SideDrawer from '@/components/ui/SideDrawer.vue';
 import UiTable from '@/components/ui/UiTable.vue';
 import OrderChat from '@/components/core/OrderChat.vue';
 import { useUser } from '@/composables/modules/auth/user';
 import { useSocket } from "@/composables/useSocket";
+import { useGetBusiness } from '@/composables/modules/business/useGetBusiness';
 
 const { user } = useUser();
+const { cachedBusiness } = useGetBusiness();
 
 definePageMeta({ layout: 'vendor' });
 useHead({ title: 'Orders - Errandr Vendor' });
@@ -235,6 +242,7 @@ const isChatOpen = ref(false);
 const chatReceiverId = ref('');
 const chatReceiverName = ref('');
 const chatReceiverAvatar = ref('');
+const updatingOrderId = ref<string | null>(null);
 
 const openChat = (receiverId: string | undefined, name: string, avatar?: string) => {
  if (!receiverId) return;
@@ -305,9 +313,14 @@ const timeAgo = (date: string) => {
 
 const updateStatus = async (orderId: string, status: string) => {
  try {
+ updatingOrderId.value = orderId;
  await api.put(`/orders/${orderId}/status`, { status });
  await loadOrders();
+ if (selectedOrder.value?._id === orderId) {
+ selectedOrder.value = null;
+ }
  } catch (e) { console.error('Status sync failed:', e); }
+ finally { updatingOrderId.value = null; }
 };
 
 const loadOrders = async () => {

@@ -4,12 +4,10 @@
  <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 transition-all duration-300" :class="{'py-4': !scrolled, 'py-3 shadow-sm': scrolled}">
  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
  <div class="flex justify-between items-center">
- <div class="flex items-center gap-2">
- <div class="w-10 h-10 bg-parentPrimary rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-sm shadow-parentPrimary/20">
- <Store class="w-5 h-5" />
- </div>
- <span class="text-2xl font-black text-parentPrimary tracking-tighter">Errandr <span class="text-gray-400 font-medium text-lg ml-1">For Vendors</span></span>
- </div>
+  <div class="flex items-center gap-4 group cursor-pointer" @click="router.push('/')">
+  <img src="@/assets/img/logo.png" alt="Errandr Logo" class="h-10 lg:h-12 w-auto object-contain transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3" />
+  <span class="text-2xl font-black text-parentPrimary tracking-tighter">For Vendors</span>
+  </div>
  
  <div class="hidden md:flex items-center gap-8">
  <a href="#features" class="text-sm font-semibold text-gray-600 hover:text-parentPrimary transition-colors">Features</a>
@@ -30,102 +28,123 @@
  </nav>
 
  <!-- Hero Section -->
- <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-gray-50 border-b border-gray-100">
- <div class="absolute inset-0 z-0">
- <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-parentPrimary/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3"></div>
- </div>
- 
- <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
- <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
- <div class="max-w-2xl">
- <h1 class="text-5xl lg:text-7xl font-black tracking-tighter leading-[1.1] mb-6 text-gray-900">
- Turn campus cravings into <br />
- <span class="text-parentPrimary line-through decoration-4 decoration-blue-300">orders</span>
- <span class="text-emerald-500"> profit.</span>
- </h1>
- <p class="text-xl text-gray-500 font-medium mb-10 leading-relaxed max-w-lg">
- Reach thousands of hungry students daily. Manage your menu, track analytics, and grow your campus food business with Errandr.
- </p>
- 
- <div class="flex flex-col sm:flex-row items-center gap-4">
- <NuxtLink to="/auth/register" class="w-full sm:w-auto px-8 py-4 bg-parentPrimary text-white rounded-2xl font-bold text-lg shadow-xl shadow-parentPrimary/20 hover:-translate-y-1 transition-all text-center flex items-center justify-center gap-2 group">
- <Store class="w-5 h-5" />
- Create Free Store
- <ArrowRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
- </NuxtLink>
- <a href="#features" class="w-full sm:w-auto px-8 py-4 bg-white border border-gray-200 text-gray-700 rounded-2xl font-bold text-lg shadow-sm hover:border-parentPrimary/30 transition-all text-center flex items-center justify-center gap-2">
- <PlayCircle class="w-5 h-5 text-gray-400" />
- Explore Features
- </a>
- </div>
- 
- <div class="mt-12 flex items-center gap-6 border-t border-gray-200 pt-8">
- <div>
- <p class="text-3xl font-black text-gray-900 mb-1">50+</p>
- <p class="text-xs font-bold text-gray-500 tracking-widest flex items-center gap-1"><Store class="w-3 h-3"/> Active Vendors</p>
- </div>
- <div class="w-px h-10 bg-gray-200"></div>
- <div>
- <p class="text-3xl font-black text-gray-900 mb-1">10k+</p>
- <p class="text-xs font-bold text-gray-500 tracking-widest flex items-center gap-1"><TrendingUp class="w-3 h-3"/> Orders/Month</p>
- </div>
- </div>
- </div>
- 
- <div class="relative hidden py-10 lg:block">
- <div class="relative z-10 bg-white rounded-[3rem] shadow-2xl border border-gray-100 p-2 transform rotate-1 hover:rotate-0 transition-transform duration-500">
- <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=600&fit=crop" alt="Restaurant Kitchen" class="rounded-[2.5rem] object-cover h-[500px] w-full" />
- </div>
- <!-- Floating Elements -->
- <div class="absolute -left-12 bottom-20 bg-white p-5 rounded-3xl shadow-2xl border border-gray-100 flex items-center gap-4 z-20 animate-bounce" style="animation-duration: 4s;">
- <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 shadow-inner">
- <Wallet class="w-6 h-6" />
- </div>
- <div>
- <p class="text-[10px] font-bold text-gray-400 tracking-widest mb-0.5">Today's Sales</p>
- <p class="text-xl font-black text-gray-900 tracking-tight">₦ 42,500</p>
- </div>
- </div>
- </div>
- </div>
- </div>
+ <section class="relative pt-32 pb-24 lg:pt-56 lg:pb-40 overflow-hidden bg-white">
+  <!-- Ambient Background -->
+  <div class="absolute inset-0 z-0">
+  <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-parentPrimary/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4"></div>
+  <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-50 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/4"></div>
+  </div>
+  
+  <div class="max-w-7xl mx-auto px-6 sm:px-10 relative z-10">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+  <div class="max-w-3xl">
+  <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-parentPrimary/5 border border-parentPrimary/10 text-parentPrimary text-[11px] font-black tracking-widest uppercase mb-10 shadow-sm">
+  <Sparkles class="w-4 h-4" />
+  Empowering 500+ Campus Businesses
+  </div>
+  <h1 class="text-6xl lg:text-[5.5rem] font-black tracking-tighter leading-[0.95] mb-10 text-gray-900">
+  Fuel the <br />
+  <span class="text-parentPrimary relative inline-block">
+  Campus.
+  <svg class="absolute -bottom-2 left-0 w-full h-4 text-parentPrimary/20" viewBox="0 0 100 20" preserveAspectRatio="none"><path d="M0 10 Q50 20 100 10" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round"/></svg>
+  </span>
+  <br />
+  Earn More.
+  </h1>
+  <p class="text-[19px] text-gray-500 font-bold mb-12 leading-relaxed max-w-xl">
+  Join the most powerful commerce network on campus. Reach thousands of students, manage orders in real-time, and scale your kitchen with Errandr.
+  </p>
+  
+  <div class="flex flex-col sm:flex-row items-center gap-6">
+  <NuxtLink to="/auth/register" class="w-full sm:w-auto px-12 py-6 bg-gray-900 text-white rounded-[2rem] font-black text-sm uppercase tracking-widest shadow-2xl hover:bg-parentPrimary transition-all text-center flex items-center justify-center gap-3 group active:scale-95">
+  Launch My Store
+  <ArrowRight class="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+  </NuxtLink>
+  <a href="#features" class="w-full sm:w-auto px-10 py-6 bg-white border border-gray-100 text-gray-700 rounded-[2rem] font-black text-sm uppercase tracking-widest shadow-sm hover:border-parentPrimary/30 transition-all text-center flex items-center justify-center gap-3 active:scale-95">
+  <PlayCircle class="w-5 h-5 text-gray-400" />
+  How It Works
+  </a>
+  </div>
+  
+  <div class="mt-16 flex items-center gap-10 border-t border-gray-100 pt-10">
+  <div class="group/stat">
+  <p class="text-4xl font-black text-gray-900 mb-1 group-hover/stat:text-parentPrimary transition-colors">50+</p>
+  <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2 pt-1 border-t-2 border-transparent group-hover/stat:border-parentPrimary transition-all">
+  <Store class="w-3 h-3 text-parentPrimary"/> Active Hubs
+  </p>
+  </div>
+  <div class="w-px h-12 bg-gray-100"></div>
+  <div class="group/stat">
+  <p class="text-4xl font-black text-gray-900 mb-1 group-hover/stat:text-emerald-500 transition-colors">10k+</p>
+  <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2 pt-1 border-t-2 border-transparent group-hover/stat:border-emerald-500 transition-all">
+  <TrendingUp class="w-3 h-3 text-emerald-500"/> Orders Monthly
+  </p>
+  </div>
+  </div>
+  </div>
+  
+  <div class="relative hidden lg:block py-10">
+  <div class="absolute -inset-10 bg-parentPrimary/10 blur-[100px] rounded-full animate-pulse-slow"></div>
+  <div class="relative z-10 bg-white rounded-[4rem] shadow-[0_48px_96px_-16px_rgba(0,0,0,0.15)] border border-gray-50 p-3 transform perspective-[1000px] rotate-y-2 hover:rotate-0 transition-all duration-1000 group">
+  <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=800&fit=crop" alt="Restaurant Kitchen" class="rounded-[3.5rem] object-cover h-[650px] w-full" />
+  
+  <!-- Real-time Order Overlay -->
+  <div class="absolute -left-16 bottom-32 bg-white/90 backdrop-blur-3xl p-8 rounded-[2.5rem] shadow-2xl border border-white/50 max-w-[280px] z-20 animate-float">
+  <div class="flex items-center gap-5 mb-6">
+  <div class="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 shadow-inner border border-emerald-100/50">
+  <Wallet class="w-7 h-7" />
+  </div>
+  <div>
+  <p class="text-[10px] font-black text-gray-400 tracking-widest uppercase mb-1">Live Profit</p>
+  <p class="text-2xl font-black text-gray-900 tracking-tight">₦ 42,500</p>
+  </div>
+  </div>
+  <div class="space-y-3 pt-4 border-t border-gray-50">
+  <div class="flex items-center justify-between">
+  <span class="text-[9px] font-black text-gray-400 uppercase">Success Rate</span>
+  <span class="text-[9px] font-black text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-full">98%</span>
+  </div>
+  </div>
+  </div>
+
+  <!-- Floating Dashboard Tooltip -->
+  <div class="absolute -right-10 top-20 bg-gray-900 p-6 rounded-[2rem] shadow-2xl border border-white/10 max-w-[220px] z-20 animate-float-slow">
+  <div class="flex items-center gap-3 mb-3">
+  <div class="w-2 h-2 rounded-full bg-parentPrimary animate-ping"></div>
+  <p class="text-[10px] font-black text-white uppercase tracking-widest">New Order</p>
+  </div>
+  <p class="text-xs font-bold text-gray-400 leading-tight">Mavise Jollof <br />(Hostel B Drop-off)</p>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
  </section>
 
  <!-- Interactive Carousel: Success Stories / Testimonials -->
- <section id="success" class="py-24 bg-white overflow-hidden border-t border-gray-100">
- <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
- <div class="flex items-end justify-between">
+ <section id="success" class="py-32 bg-white overflow-hidden border-t border-gray-100">
+ <div class="max-w-7xl mx-auto px-6 sm:px-10">
+ <div class="flex items-center gap-4 mb-20">
+ <div class="h-px flex-1 bg-gray-100"></div>
+ <h2 class="text-xs font-black text-gray-400 tracking-[0.4em] uppercase">Trusted by the best</h2>
+ <div class="h-px flex-1 bg-gray-100"></div>
+ </div>
+ 
+ <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
+ <div v-for="(story, idx) in successStories" :key="idx" class="group relative">
+ <div class="absolute -inset-4 bg-parentPrimary opacity-0 group-hover:opacity-5 blur-3xl transition-opacity duration-700"></div>
+ <div class="relative bg-gray-50 p-12 rounded-[4rem] border border-gray-100 group-hover:bg-white group-hover:border-parentPrimary/20 transition-all duration-700 h-full flex flex-col justify-between shadow-sm hover:shadow-2xl hover:shadow-parentPrimary/5">
  <div>
- <div class="inline-flex items-center gap-2 text-parentPrimary font-bold text-sm tracking-widest mb-3">
- <Award class="w-4 h-4" /> Success Stories
+ <Quote class="w-16 h-16 text-parentPrimary/10 mb-10 group-hover:text-parentPrimary/20 transition-colors" />
+ <p class="text-2xl text-gray-900 font-black leading-[1.3] mb-12 tracking-tight italic">"{{ story.quote }}"</p>
  </div>
- <h2 class="text-4xl font-black text-gray-900 tracking-tight">Hear from our Top Vendors</h2>
- </div>
- <div class="hidden sm:flex gap-2">
- <button @click="scrollCarousel('left', 'testimonial-carousel')" class="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 hover:border-parentPrimary transition-colors text-gray-600">
- <ChevronLeft class="w-6 h-6" />
- </button>
- <button @click="scrollCarousel('right', 'testimonial-carousel')" class="w-12 h-12 rounded-full bg-parentPrimary text-white flex items-center justify-center hover:bg-parentPrimary/90 transition-colors shadow-lg shadow-parentPrimary/20">
- <ChevronRight class="w-6 h-6" />
- </button>
- </div>
- </div>
- </div>
-
- <!-- Carousel Container -->
- <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
- <div id="testimonial-carousel" class="flex gap-6 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8 -mx-4 px-4 sm:mx-0 sm:px-0">
- <div v-for="story in successStories" :key="story.id" class="snap-start flex-none w-[320px] sm:w-[400px]">
- <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 h-full flex flex-col justify-between">
+ <div class="flex items-center gap-6 mt-auto">
+ <img :src="story.image" class="w-16 h-16 rounded-2xl object-cover border-4 border-white shadow-xl group-hover:scale-110 transition-transform duration-500" alt="Vendor Owner" />
  <div>
- <Quote class="w-10 h-10 text-parentPrimary/20 mb-4" />
- <p class="text-lg text-gray-700 font-medium leading-relaxed italic mb-8">"{{ story.quote }}"</p>
- </div>
- <div class="flex items-center gap-4">
- <img :src="story.image" class="w-14 h-14 rounded-full object-cover border-2 border-white shadow-sm" alt="Vendor Owner" />
- <div>
- <h4 class="font-bold text-gray-900">{{ story.name }}</h4>
- <p class="text-sm text-gray-500 flex items-center gap-1.5"><Store class="w-3 h-3"/> {{ story.restaurant }}</p>
+ <h4 class="text-lg font-black text-gray-900">{{ story.name }}</h4>
+ <p class="text-[10px] font-black text-parentPrimary uppercase tracking-widest mt-1 flex items-center gap-2">
+ <Store class="w-3.5 h-3.5" /> {{ story.restaurant }}
+ </p>
  </div>
  </div>
  </div>
@@ -135,36 +154,41 @@
  </section>
 
  <!-- Features Section -->
- <section id="features" class="py-24 bg-gray-50">
- <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
- <div class="text-center max-w-2xl mx-auto mb-16">
- <h2 class="text-3xl font-black text-gray-900 tracking-tight mb-4">Built for Campus Restaurants</h2>
- <p class="text-gray-500 font-medium text-lg">Everything you need to run a high-volume digital kitchen.</p>
+ <section id="features" class="py-32 bg-gray-50 border-y border-gray-100">
+ <div class="max-w-7xl mx-auto px-6 sm:px-10">
+ <div class="flex flex-col md:flex-row items-end justify-between mb-24 gap-10 text-center md:text-left">
+ <div class="max-w-2xl">
+ <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-emerald-50 border border-emerald-100/50 text-emerald-600 text-[10px] font-black tracking-widest uppercase mb-8 shadow-sm">
+ <Zap class="w-4 h-4" /> Professional Grade
+ </div>
+ <h2 class="text-5xl lg:text-6xl font-black text-gray-900 tracking-tighter leading-[0.95]">Built specifically for <br /><span class="text-parentPrimary italic">campus kitchens.</span></h2>
+ </div>
+ <p class="text-gray-500 font-bold text-lg max-w-sm mb-2 leading-relaxed">Every tool you need to scale your student food business from zero to 1,000 orders.</p>
  </div>
  
- <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
- <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 group hover:border-parentPrimary/30 transition-colors">
- <div class="w-16 h-16 bg-parentPrimary/10 rounded-2xl flex items-center justify-center text-parentPrimary border border-parentPrimary/20 mb-6 group-hover:scale-110 transition-transform">
- <LineChart class="w-8 h-8" />
+ <div class="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12">
+ <div class="group bg-white p-12 rounded-[4rem] shadow-[0_30px_60px_rgba(0,0,0,0.04)] border border-gray-100 hover:border-parentPrimary/30 transition-all duration-500 hover:-translate-y-3">
+ <div class="w-24 h-24 bg-parentPrimary/10 rounded-[2rem] flex items-center justify-center text-parentPrimary border border-parentPrimary/20 mb-12 group-hover:scale-110 group-hover:bg-parentPrimary group-hover:text-white group-hover:rotate-6 transition-all duration-700 shadow-xl shadow-parentPrimary/5">
+ <LineChart class="w-12 h-12" />
  </div>
- <h3 class="text-xl font-bold text-gray-900 tracking-tight mb-3">Order Management</h3>
- <p class="text-gray-500 font-medium leading-relaxed">Accept, prepare, and dispatch orders with a single tap. Our dashboard gives you a real-time view of your kitchen's workload.</p>
+ <h3 class="text-2xl font-black text-gray-900 tracking-tighter mb-5">Order Engine</h3>
+ <p class="text-gray-500 font-bold leading-relaxed tracking-tight">Accept, prepare, and dispatch orders with a single tap. High-contrast dashboard designed for the heat of the kitchen.</p>
  </div>
  
- <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 group hover:border-emerald-300 transition-colors">
- <div class="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 border border-emerald-100 mb-6 group-hover:scale-110 transition-transform">
- <Wallet class="w-8 h-8" />
+ <div class="group bg-white p-12 rounded-[4rem] shadow-[0_30px_60px_rgba(0,0,0,0.04)] border border-gray-100 hover:border-emerald-400 transition-all duration-500 hover:-translate-y-3">
+ <div class="w-24 h-24 bg-emerald-50 rounded-[2rem] flex items-center justify-center text-emerald-600 border border-emerald-100 mb-12 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-white group-hover:-rotate-6 transition-all duration-700 shadow-xl shadow-emerald-500/5">
+ <Wallet class="w-12 h-12" />
  </div>
- <h3 class="text-xl font-bold text-gray-900 tracking-tight mb-3">Instant Payouts</h3>
- <p class="text-gray-500 font-medium leading-relaxed">Never wait for your money. Cash out your earnings instantly to your local bank account immediately after order fulfillment.</p>
+ <h3 class="text-2xl font-black text-gray-900 tracking-tighter mb-5">Instant Payouts</h3>
+ <p class="text-gray-500 font-bold leading-relaxed tracking-tight">Withdraw your profit instantly to any local bank account. No waiting periods, just pure revenue in your pocket.</p>
  </div>
 
- <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 group hover:border-amber-300 transition-colors">
- <div class="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-600 border border-amber-100 mb-6 group-hover:scale-110 transition-transform">
- <TrendingUp class="w-8 h-8" />
+ <div class="group bg-white p-12 rounded-[4rem] shadow-[0_30px_60px_rgba(0,0,0,0.04)] border border-gray-100 hover:border-blue-400 transition-all duration-500 hover:-translate-y-3">
+ <div class="w-24 h-24 bg-blue-50 rounded-[2rem] flex items-center justify-center text-blue-600 border border-blue-100 mb-12 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-700 shadow-xl shadow-blue-600/5">
+ <TrendingUp class="w-12 h-12" />
  </div>
- <h3 class="text-xl font-bold text-gray-900 tracking-tight mb-3">Growth Analytics</h3>
- <p class="text-gray-500 font-medium leading-relaxed">Understand what students love. Track your top-selling items, peak hours, and customer retention metrics effortlessly.</p>
+ <h3 class="text-2xl font-black text-gray-900 tracking-tighter mb-5">Growth Shield</h3>
+ <p class="text-gray-500 font-bold leading-relaxed tracking-tight">Identify peak hours and top-selling meals. Our analytics help you zero out waste and double your daily revenue.</p>
  </div>
  </div>
  </div>
@@ -191,13 +215,11 @@
  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
  <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
  <div class="md:col-span-1">
- <div class="flex items-center gap-2 mb-6">
- <div class="w-8 h-8 bg-parentPrimary rounded-lg flex items-center justify-center text-white font-bold shadow-sm">
- <Store class="w-4 h-4" />
- </div>
- <span class="text-xl font-black text-parentPrimary tracking-tighter">Errandr Vendors</span>
- </div>
- <p class="text-gray-500 text-sm leading-relaxed mb-6 font-medium">Empowering campus kitchens with powerful technology and access to a massive student audience.</p>
+  <NuxtLink to="/" class="flex items-center gap-4 mb-8 group cursor-pointer">
+  <img src="@/assets/img/logo.png" alt="Errandr Logo" class="h-10 w-auto object-contain transition-transform duration-500 group-hover:scale-105" />
+  <span class="text-xl font-black text-parentPrimary tracking-tighter">For Vendors</span>
+  </NuxtLink>
+  <p class="text-gray-500 text-[13px] font-bold leading-relaxed mb-10 max-w-xs">Empowering campus kitchens with powerful technology and access to a massive student audience.</p>
  <div class="flex items-center gap-4">
  <a href="#" class="w-10 h-10 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-400 hover:text-parentPrimary hover:border-parentPrimary transition-colors shadow-sm">
  <Twitter class="w-4 h-4"/>
@@ -231,8 +253,8 @@
  <div>
  <h4 class="font-bold text-gray-900 mb-6 tracking-wider text-xs">Errandr Network</h4>
  <ul class="space-y-4 text-sm font-medium text-gray-500">
- <li><a href="http://student.localhost:3000" class="hover:text-parentPrimary transition-colors flex items-center gap-2"><Utensils class="w-4 h-4" /> Order Food</a></li>
- <li><a href="http://errander.localhost:3000" class="hover:text-parentPrimary transition-colors flex items-center gap-2"><Bike class="w-4 h-4" /> Become a Rider</a></li>
+ <li><a href="http://errandr.shop" class="hover:text-parentPrimary transition-colors flex items-center gap-2"><Utensils class="w-4 h-4" /> Order Food</a></li>
+ <li><a href="http://dispatch.errandr.shop" class="hover:text-parentPrimary transition-colors flex items-center gap-2"><Bike class="w-4 h-4" /> Become a Rider</a></li>
  </ul>
  </div>
  </div>
@@ -252,8 +274,11 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { 
  ArrowRight, Twitter, Instagram, Facebook,
  LogIn, Store, TrendingUp, Wallet, LineChart, Rocket,
- PlayCircle, ChevronLeft, ChevronRight, Award, Quote, Utensils, Bike
+ PlayCircle, ChevronLeft, ChevronRight, Award, Quote, Utensils, Bike, Sparkles
 } from 'lucide-vue-next'
+
+const router = useRouter()
+const scrolled = ref(false)
 
 definePageMeta({
  layout: false
@@ -265,8 +290,6 @@ useHead({
  { name: 'description', content: 'Turn campus cravings into profit. Setup your digital store, reach students, and manage orders with Errandr.' }
  ]
 })
-
-const scrolled = ref(false)
 
 const handleScroll = () => {
  scrolled.value = window.scrollY > 50

@@ -81,7 +81,7 @@
  Verified Identity
  </p>
  </div>
- <div v-else class="py-4 text-center border-2 border-dashed border-white/10 rounded-2xl">
+ <div v-else class="py-4 text-center border border-dashed border-white/10 rounded-2xl">
  <p class="text-[10px] text-white/40 font-bold tracking-widest">No Bank Linked</p>
  <NuxtLink to="/dashboard/settings" class="text-[9px] text-blue-400 font-black tracking-widest mt-2 block hover:underline">Configure Now</NuxtLink>
  </div>

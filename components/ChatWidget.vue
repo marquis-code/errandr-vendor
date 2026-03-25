@@ -75,7 +75,7 @@
  <!-- Messages -->
  <div
  v-for="(message, idx) in messages"
- :key="message.id || message.createdAt"
+ :key="message._id || message.id || idx"
  class="flex"
  :class="getBubblePosition(message)"
  :style="{

@@ -1,5 +1,6 @@
 <template>
- <div v-if="isOpen" class="fixed inset-0 z-[100] flex justify-end animate-fade-in font-sans">
+ <Teleport to="body">
+ <div v-if="isOpen" class="fixed inset-0 z-[200] flex justify-end animate-fade-in font-sans pb-10 sm:pb-0">
  <!-- Backdrop -->
  <div @click="$emit('close')" class="absolute inset-0 bg-black/20 backdrop-blur-[2px] transition-opacity" />
  
@@ -38,7 +39,7 @@
  </div>
 
  <div v-if="loading" class="flex flex-col items-center justify-center h-40 space-y-4">
- <div class="w-8 h-8 border-4 border-[#25D366]/20 border-t-[#25D366] rounded-full animate-spin" />
+ <div class="w-8 h-8 border-2 border-[#25D366]/20 border-t-[#25D366] rounded-full animate-spin" />
  </div>
  
  <div v-else-if="messages.length === 0" class="flex flex-col items-center justify-center p-10 text-center space-y-3 mt-10">
@@ -113,7 +114,7 @@
 
  <!-- Media Preview if uploading -->
  <div v-if="uploadingMedia" class="flex flex-col items-center justify-center p-4 bg-white/50 backdrop-blur-sm rounded-2xl mx-10 animate-pulse border border-emerald-100">
- <div class="w-8 h-8 border-4 border-[#00A884]/20 border-t-[#00A884] rounded-full animate-spin mb-2" />
+ <div class="w-8 h-8 border-2 border-[#00A884]/20 border-t-[#00A884] rounded-full animate-spin mb-2" />
  <p class="text-[10px] font-bold text-emerald-600 tracking-widest">Sending media...</p>
  </div>
  </div>
@@ -167,6 +168,7 @@
  </div>
  </div>
  </div>
+ </Teleport>
 </template>
 
 <script setup lang="ts">
@@ -223,7 +225,7 @@ const {
  sendMessage, 
  sendTyping, 
  setupListeners 
-} = useOrderChat(props.orderId);
+} = useOrderChat(props.orderId, props.currentUserId, props.receiverId);
 
 // Custom sendMessage that supports attachments
 const sendMediaMessage = async (type: 'image' | 'voice', attachment: string, text = '') => {

@@ -1,4 +1,5 @@
 <template>
+ <Teleport to="body">
  <div class="z-[100]">
  <Transition name="fade">
  <div v-if="isOpen" class="fixed inset-0 bg-gray-900/40 backdrop-blur-[2px] transition-opacity" @click="$emit('close')" aria-hidden="true" />
@@ -34,6 +35,7 @@
  </div>
  </Transition>
  </div>
+ </Teleport>
 </template>
 
 <script setup lang="ts">

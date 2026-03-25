@@ -20,9 +20,9 @@
  </p>
  <div class="flex items-center gap-4">
  <div class="flex -space-x-3">
- <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=80&h=80&fit=crop" class="w-10 h-10 rounded-full border-2 border-white/50 object-cover" />
- <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop" class="w-10 h-10 rounded-full border-2 border-white/50 object-cover" />
- <img src="https://images.unsplash.com/photo-1599566150163-29194dcabd9c?w=80&h=80&fit=crop" class="w-10 h-10 rounded-full border-2 border-white/50 object-cover" />
+ <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=80&h=80&fit=crop" class="w-10 h-10 rounded-full border border-white/50 object-cover" />
+ <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop" class="w-10 h-10 rounded-full border border-white/50 object-cover" />
+ <img src="https://images.unsplash.com/photo-1599566150163-29194dcabd9c?w=80&h=80&fit=crop" class="w-10 h-10 rounded-full border border-white/50 object-cover" />
  </div>
  <p class="text-white/60 text-sm font-semibold">50+ vendors already on board</p>
  </div>
@@ -107,7 +107,7 @@
  type="text"
  maxlength="1"
  inputmode="numeric"
- class="w-12 h-16 text-center text-3xl font-black bg-gray-50 border-2 border-transparent rounded-2xl focus:ring-4 focus:ring-[#065fdb]/10 focus:border-[#065fdb] focus:bg-white outline-none transition-all duration-300 shadow-sm"
+ class="w-12 h-16 text-center text-3xl font-black bg-gray-50 border border-transparent rounded-2xl focus:ring-4 focus:ring-[#065fdb]/10 focus:border-[#065fdb] focus:bg-white outline-none transition-all duration-300 shadow-sm"
  />
  </div>
 
@@ -185,7 +185,7 @@
 
  <div class="flex gap-4 mt-2">
  <button type="button" @click="currentStep = 'otp'"
- class="w-14 h-14 flex items-center justify-center border-2 border-gray-100 text-gray-400 rounded-2xl font-bold transition-all hover:bg-gray-50 hover:text-gray-900 active:scale-95">
+ class="w-14 h-14 flex items-center justify-center border border-gray-100 text-gray-400 rounded-2xl font-bold transition-all hover:bg-gray-50 hover:text-gray-900 active:scale-95">
  <ArrowLeft class="w-6 h-6" />
  </button>
  <button type="submit"
@@ -207,7 +207,7 @@
  <!-- Logo Upload -->
  <div>
  <label class="block text-xs font-black text-gray-500 tracking-widest mb-3 ml-1">Store Logo</label>
- <div class="relative border-2 border-dashed border-gray-100 rounded-[2rem] p-8 text-center hover:border-[#065fdb]/30 hover:bg-gray-50/50 transition-all cursor-pointer group"
+ <div class="relative border border-dashed border-gray-100 rounded-[2rem] p-8 text-center hover:border-[#065fdb]/30 hover:bg-gray-50/50 transition-all cursor-pointer group"
  @click="triggerLogoUpload">
  <input type="file" ref="logoInput" accept="image/*" class="hidden" @change="handleLogoSelect" />
  <div v-if="!logoPreview" class="flex flex-col items-center gap-3">
@@ -221,8 +221,8 @@
  </div>
  <div v-else class="flex items-center gap-5">
  <div class="relative">
- <img :src="logoPreview" class="w-20 h-20 rounded-[1.5rem] object-cover border-2 border-white shadow-lg" />
- <div v-if="logoUrl" class="absolute -top-2 -right-2 w-6 h-6 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-md border-2 border-white">
+ <img :src="logoPreview" class="w-20 h-20 rounded-[1.5rem] object-cover border border-white shadow-lg" />
+ <div v-if="logoUrl" class="absolute -top-2 -right-2 w-6 h-6 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-md border border-white">
  <Check class="w-3.5 h-3.5" />
  </div>
  </div>
@@ -309,7 +309,7 @@
 
  <div class="flex gap-4 mt-2">
  <button type="button" @click="currentStep = 'business'"
- class="w-14 h-14 flex items-center justify-center border-2 border-gray-100 text-gray-400 rounded-2xl font-bold transition-all hover:bg-gray-50 hover:text-gray-900 active:scale-95">
+ class="w-14 h-14 flex items-center justify-center border border-gray-100 text-gray-400 rounded-2xl font-bold transition-all hover:bg-gray-50 hover:text-gray-900 active:scale-95">
  <ArrowLeft class="w-6 h-6" />
  </button>
  <button type="submit" :disabled="submitting"

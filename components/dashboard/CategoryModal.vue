@@ -5,7 +5,7 @@
  <div class="flex justify-center">
  <div 
  @click="triggerImageUpload"
- class="w-24 h-24 rounded-full bg-gray-50 border-2 border-dashed border-gray-200 flex flex-col items-center justify-center cursor-pointer hover:border-[#065fdb]/30 hover:bg-[#065fdb]/5 transition-all overflow-hidden relative group"
+ class="w-24 h-24 rounded-full bg-gray-50 border border-dashed border-gray-200 flex flex-col items-center justify-center cursor-pointer hover:border-[#065fdb]/30 hover:bg-[#065fdb]/5 transition-all overflow-hidden relative group"
  >
  <img v-if="previewImage" :src="previewImage" class="w-full h-full object-cover" />
  <div v-else class="text-center p-2">

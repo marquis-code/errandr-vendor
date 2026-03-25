@@ -251,9 +251,12 @@ import {
   Settings, 
   LogOut, 
   X,
-  Bell
+  Bell,
+  Megaphone,
+  Clock
 } from 'lucide-vue-next'
 import { useRealtimeNotifications } from '@/composables/core/useRealtimeNotifications'
+import ChatWidget from '@/components/ChatWidget.vue'
 
 useRealtimeNotifications() // Initialize listener
 
@@ -266,16 +269,22 @@ const logoutModalOpen = ref(false)
 const navItems = [
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { path: '/dashboard/inventory', label: 'Inventory', icon: Package },
+  { path: '/dashboard/pre-orders', label: 'Pre-Order Hub', icon: Clock },
   { path: '/dashboard/orders', label: 'Orders', icon: ClipboardList },
+  { path: '/dashboard/promotions', label: 'Promotions', icon: Megaphone },
   { path: '/dashboard/wallet', label: 'Wallet', icon: Wallet },
+  { path: '/dashboard/notifications', label: 'Notifications', icon: Bell },
   { path: '/dashboard/settings', label: 'Settings', icon: Settings }
 ]
 
 const pageTitles: Record<string, { title: string; description: string }> = {
   '/dashboard': { title: 'Vendor Dashboard', description: 'Monitor your sales and performance' },
   '/dashboard/inventory': { title: 'My Inventory', description: 'Manage your products and stock' },
+  '/dashboard/pre-orders': { title: 'Pre-Order Hub', description: 'Manage student pre-order batches and campaigns' },
   '/dashboard/orders': { title: 'Order Management', description: 'Process and track customer orders' },
+  '/dashboard/promotions': { title: 'Promotions', description: 'Create banners and special offers' },
   '/dashboard/wallet': { title: 'My Wallet', description: 'Manage your earnings and payouts' },
+  '/dashboard/notifications': { title: 'Notifications', description: 'Your recent alerts and messages' },
   '/dashboard/settings': { title: 'Store Settings', description: 'Configure your merchant profile' }
 }
 
