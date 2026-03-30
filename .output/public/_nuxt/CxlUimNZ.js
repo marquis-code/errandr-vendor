@@ -1,1 +1,0 @@
-import{_ as c,m as t,o as a,c as _,b as e,ac as r}from"./B2Rets8L.js";const s={};function l(m,u){const n=t("FullScreenLoader"),o=r;return a(),_("main",null,[e(n),e(o)])}const d=c(s,[["render",l]]);export{d as default};
