@@ -5,7 +5,7 @@ import { useCustomToast } from '@/composables/core/useCustomToast'
 
 // const { token, logOut } = useUser(); // REMOVED TOP-LEVEL CALL
 
-const $GATEWAY_ENDPOINT_WITHOUT_VERSION = (import.meta.env.VITE_BASE_URL || import.meta.env.VITE_API_BASE_URL || 'http://localhost:3005') as string;
+const $GATEWAY_ENDPOINT_WITHOUT_VERSION = (import.meta.env.VITE_BASE_URL || import.meta.env.VITE_API_BASE_URL) as string;
 const $GATEWAY_ENDPOINT = $GATEWAY_ENDPOINT_WITHOUT_VERSION + "/api/v1";
 const $GATEWAY_ENDPOINT_V2 = $GATEWAY_ENDPOINT_WITHOUT_VERSION + "/v2";
 const $IMAGE_UPLOAD_ENDPOINT = (import.meta.env
