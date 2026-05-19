@@ -169,7 +169,7 @@
       </div>
 
       <!-- Page Content -->
-      <div class="bg-white p-6">
+      <div class="bg-white py-6">
         <slot />
       </div>
     </main>

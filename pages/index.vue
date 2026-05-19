@@ -32,10 +32,10 @@
             Launch My Store
             <Rocket class="w-4 h-4 text-white" />
           </NuxtLink>
-          <a href="#features" class="px-6 py-3 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-full font-bold text-sm transition-all flex items-center justify-center gap-2 active:scale-95 cursor-pointer">
+          <!-- <a href="#features" class="px-6 py-3 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-full font-bold text-sm transition-all flex items-center justify-center gap-2 active:scale-95 cursor-pointer">
             <PlayCircle class="w-4 h-4 text-slate-400" />
             See How It Works
-          </a>
+          </a> -->
         </div>
       </div>
 

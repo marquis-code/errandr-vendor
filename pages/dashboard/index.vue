@@ -1,5 +1,5 @@
 <template>
- <div class="space-y-8 pb-20 animate-fade-in max-w-[1400px] mx-auto px-4 sm:px-8">
+ <div class="space-y-8 pb-20 animate-fade-in max-w-[1400px] px-4 mx-auto sm:px-8">
  <!-- Header Section -->
  <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pt-6">
  <div>
@@ -19,7 +19,7 @@
 
  <!-- Stats Grid -->
  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
- <div v-for="stat in performanceStats" :key="stat.label" class="bg-white p-6 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all group relative overflow-hidden">
+ <div v-for="stat in performanceStats" :key="stat.label" class="bg-white border border-gray-50 p-6 rounded-3xl transition-all group relative overflow-hidden">
  <div class="flex items-center justify-between mb-4 relative z-10">
  <div :class="stat.bgClass" class="w-12 h-12 rounded-2xl flex items-center justify-center border border-white/50">
  <component :is="stat.icon" class="w-5 h-5" />

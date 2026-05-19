@@ -28,7 +28,7 @@
  <div v-show="activeTab === 'profile'">
  <!-- Store Identity -->
  <section class="bg-white rounded-[2.5rem] border border-gray-100 shadow-sm overflow-hidden group">
- <div class="p-8 border-b border-gray-50 flex items-center justify-between">
+ <div class="p-8 border-b border-gray-50 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
  <div class="flex items-center gap-4">
  <div class="p-3 bg-blue-50 text-[#FF5C1A] rounded-2xl group-hover:scale-110 transition-transform">
  <StoreIcon class="w-5 h-5" />

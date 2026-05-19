@@ -1,7 +1,7 @@
 <template>
-  <div class="space-y-6 animate-fade-in h-screen container mx-auto pb-20 mt-6 px-4">
+  <div class="space-y-6 animate-fade-in container mx-auto pb-20 mt-6 px-4">
     <!-- Header -->
-    <div class="flex items-center justify-between">
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pt-6">
       <div>
         <h1 class="text-2xl font-bold text-gray-900 tracking-tight mb-1">Promotional Banners</h1>
         <p class="text-gray-500 text-sm">Upload banners to advertise special offers and discounts to students.</p>
