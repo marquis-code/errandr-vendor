@@ -4,72 +4,75 @@
     <LandingNavbar />
 
     <!-- Hero Section with Background Carousel & Continuous Marquee -->
-    <section class="relative pt-32 lg:pt-48 pb-10 overflow-hidden bg-gray-900">
-      <!-- Background Image Carousel -->
-      <transition-group name="fade" tag="div" class="absolute inset-0 z-0">
-        <div 
-          v-for="(img, idx) in heroImages" 
-          :key="img" 
-          v-show="currentHeroImage === idx"
-          class="absolute inset-0 bg-cover bg-center"
-          :style="{ backgroundImage: `url(${img})` }"
-        >
-          <!-- Dark Overlay for Readability -->
-          <div class="absolute inset-0 bg-gradient-to-b from-gray-900/80 via-gray-900/70 to-gray-900/90"></div>
-        </div>
-      </transition-group>
-      
-      <div class="max-w-7xl mx-auto px-6 sm:px-10 relative z-10 text-center flex flex-col items-center">
-        <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-black  mb-8 shadow-sm">
-          <Sparkles class="w-4 h-4 text-parentPrimary" />
-          Empowering 500+ Campus Businesses
-        </div>
-        
-        <h1 class="text-6xl lg:text-[7rem] font-black tracking-tighter leading-[0.9] mb-8 text-white max-w-5xl mx-auto drop-shadow-2xl">
-          Serve the <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-parentPrimary drop-shadow-sm">Campus.</span><br />
-          Scale Your Kitchen.
-        </h1>
-        
-        <p class="text-xl text-gray-200 font-bold mb-12 leading-relaxed max-w-2xl mx-auto drop-shadow-md">
-          Join the ultimate commerce network tailored for university food vendors. Reach thousands of students, track real-time orders, and manage your entire digital menu effortlessly.
-        </p>
-        
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 w-full sm:w-auto">
-          <NuxtLink to="/auth/register" class="w-full sm:w-auto px-10 py-4 bg-white text-gray-900 rounded-[2rem] font-black text-base shadow-2xl hover:bg-gray-100 hover:shadow-white/30 transition-all text-center flex items-center justify-center gap-3 group active:scale-95">
-            Launch My Store
-            <Rocket class="w-5 h-5 text-parentPrimary group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
-          </NuxtLink>
-          <a href="#features" class="w-full sm:w-auto px-10 py-4 bg-transparent border-2 border-white/30 text-white rounded-[2rem] font-black text-base hover:border-white hover:bg-white/10 transition-all text-center flex items-center justify-center gap-3 active:scale-95">
-            <PlayCircle class="w-5 h-5 text-white" />
-            See Features
-          </a>
-        </div>
-      </div>
+<!-- Hero Section with Background Carousel & Continuous Marquee -->
+<section class="relative pt-32 lg:pt-48 pb-10 overflow-hidden bg-gray-900">
+  <!-- Background Image Carousel -->
+  <transition-group name="fade" tag="div" class="absolute inset-0 z-0">
+    <div 
+      v-for="(img, idx) in heroImages" 
+      :key="img" 
+      v-show="currentHeroImage === idx"
+      class="absolute inset-0 bg-cover bg-center"
+      :style="{ backgroundImage: `url(${img})` }"
+    >
+      <!-- Dark Overlay for Readability -->
+      <div class="absolute inset-0 bg-gradient-to-b from-gray-900/80 via-gray-900/70 to-gray-900/90"></div>
+    </div>
+  </transition-group>
+  
+  <div class="max-w-7xl mx-auto px-6 sm:px-10 relative z-10 text-center flex flex-col items-center">
+    <!-- <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-black mb-8 shadow-sm">
+      <Sparkles class="w-4 h-4 text-parentPrimary" />
+      Trusted by 500+ Campus Vendors Across Nigeria
+    </div> -->
+    
+    <h1 class="text-4xl sm:text-5xl lg:text-[7rem] font-black tracking-tighter leading-[0.95] lg:leading-[0.9] mb-6 lg:mb-8 text-white max-w-5xl mx-auto drop-shadow-2xl">
+      Feed the <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-parentPrimary drop-shadow-sm">Campus.</span><br />
+      Grow Your Bag.
+    </h1>
+    
+    <p class="text-base sm:text-lg text-gray-200 font-medium mb-10 leading-relaxed max-w-xl mx-auto drop-shadow-md">
+      Erranders puts your food business right in the pocket of every student — from the hostel block to the lecture hall. Set up your store and start receiving orders today.
+    </p>
+    
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-6 w-full sm:w-auto">
+      <NuxtLink to="/auth/register" class="w-full sm:w-auto px-10 py-4 bg-white text-gray-900 rounded-[2rem] font-black text-base shadow-2xl hover:bg-gray-100 hover:shadow-white/30 transition-all text-center flex items-center justify-center gap-3 group active:scale-95">
+        Launch My Store
+        <Rocket class="w-5 h-5 text-parentPrimary group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
+      </NuxtLink>
+      <a href="#features" class="w-full sm:w-auto px-10 py-4 bg-transparent border-2 border-white/30 text-white rounded-[2rem] font-black text-base hover:border-white hover:bg-white/10 transition-all text-center flex items-center justify-center gap-3 active:scale-95">
+        <PlayCircle class="w-5 h-5 text-white" />
+        See How It Works
+      </a>
+    </div>
+  </div>
 
-      <!-- Aggressive Continuous Text Marquee (Normal Case) -->
-      <div class="mt-24 relative bg-parentPrimary overflow-hidden py-4 transform -rotate-1 shadow-2xl shadow-parentPrimary/20 border-y-4 border-gray-900">
-        <div class="flex animate-marquee-fast w-max items-center">
-          <div class="flex items-center gap-12 px-6" v-for="i in 6" :key="i">
-            <span class="text-3xl font-black text-white tracking-tight">10,000+ Hungry Students</span>
-            <Star class="w-8 h-8 text-yellow-300 fill-current" />
-            <span class="text-3xl font-black text-white tracking-tight outline-text">Instant Payouts</span>
-            <Zap class="w-8 h-8 text-yellow-300 fill-current" />
-            <span class="text-3xl font-black text-white tracking-tight">Real-Time Orders</span>
-            <TrendingUp class="w-8 h-8 text-yellow-300 stroke-[3]" />
-          </div>
-        </div>
+  <!-- Marquee Row 1 -->
+  <div class="mt-24 relative bg-parentPrimary overflow-hidden py-4 transform -rotate-1 shadow-2xl shadow-parentPrimary/20 border-y-4 border-gray-900">
+    <div class="flex animate-marquee-fast w-max items-center">
+      <div class="flex items-center gap-12 px-6" v-for="i in 6" :key="i">
+        <span class="text-3xl font-black text-white tracking-tight">10,000+ Students on Campus</span>
+        <Star class="w-8 h-8 text-yellow-300 fill-current" />
+        <span class="text-3xl font-black text-white tracking-tight outline-text">Fast & Reliable Payouts</span>
+        <Zap class="w-8 h-8 text-yellow-300 fill-current" />
+        <span class="text-3xl font-black text-white tracking-tight">Orders Coming In, Sharp Sharp</span>
+        <TrendingUp class="w-8 h-8 text-yellow-300 stroke-[3]" />
       </div>
-      <div class="relative bg-white overflow-hidden py-3 transform rotate-1 shadow-xl -mt-4 border-y-2 border-parentPrimary">
-        <div class="flex animate-marquee-reverse w-max items-center">
-          <div class="flex items-center gap-12 px-6" v-for="i in 6" :key="`rev-${i}`">
-            <span class="text-xl font-black text-gray-900 ">Campus Fast Delivery</span>
-            <Bike class="w-6 h-6 text-emerald-500" />
-            <span class="text-xl font-black text-gray-900 ">Zero Commission on First 50 Orders</span>
-            <Utensils class="w-6 h-6 text-parentPrimary" />
-          </div>
-        </div>
+    </div>
+  </div>
+
+  <!-- Marquee Row 2 -->
+  <div class="relative bg-white overflow-hidden py-3 transform rotate-1 shadow-xl -mt-4 border-y-2 border-parentPrimary">
+    <div class="flex animate-marquee-reverse w-max items-center">
+      <div class="flex items-center gap-12 px-6" v-for="i in 6" :key="`rev-${i}`">
+        <span class="text-xl font-black text-gray-900">Delivered Across Campus</span>
+        <Bike class="w-6 h-6 text-emerald-500" />
+        <span class="text-xl font-black text-gray-900">Zero Commission on Your First 50 Orders</span>
+        <Utensils class="w-6 h-6 text-parentPrimary" />
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
     <!-- Features Section -->
     <section id="features" class="py-32 bg-gray-50/50">
