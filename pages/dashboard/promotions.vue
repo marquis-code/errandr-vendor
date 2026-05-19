@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-6 animate-fade-in max-w-5xl mx-auto pb-20 mt-6 px-4">
+  <div class="space-y-6 animate-fade-in h-screen container mx-auto pb-20 mt-6 px-4">
     <!-- Header -->
     <div class="flex items-center justify-between">
       <div>
@@ -8,7 +8,7 @@
       </div>
       <button
         @click="showAddModal = true"
-        class="px-5 py-2.5 bg-gray-900 text-white rounded-xl text-xs font-bold shadow-md hover:bg-parentPrimary transition-colors flex items-center gap-2"
+        class="px-5 py-2.5 bg-gray-900 text-white rounded-xl text-sm font-bold shadow-md hover:bg-parentPrimary transition-colors flex items-center gap-2"
       >
         <Plus class="w-4 h-4" /> Create Banner
       </button>
@@ -35,11 +35,11 @@
         <table class="w-full text-left border-collapse">
           <thead>
             <tr class="bg-gray-50/50 border-b border-gray-100/80">
-              <th class="px-6 py-4 text-[10px] font-black tracking-widest text-gray-400 uppercase">Banner</th>
-              <th class="px-6 py-4 text-[10px] font-black tracking-widest text-gray-400 uppercase">Promotion info</th>
-              <th class="px-6 py-4 text-[10px] font-black tracking-widest text-gray-400 uppercase">Target Link</th>
-              <th class="px-6 py-4 text-[10px] font-black tracking-widest text-gray-400 uppercase">Status</th>
-              <th class="px-6 py-4 text-[10px] font-black tracking-widest text-gray-400 uppercase text-right">Actions</th>
+              <th class="px-6 py-4 text-sm font-black  text-gray-400 uppercase">Banner</th>
+              <th class="px-6 py-4 text-sm font-black  text-gray-400 uppercase">Promotion info</th>
+              <th class="px-6 py-4 text-sm font-black  text-gray-400 uppercase">Target Link</th>
+              <th class="px-6 py-4 text-sm font-black  text-gray-400 uppercase">Status</th>
+              <th class="px-6 py-4 text-sm font-black  text-gray-400 uppercase text-right">Actions</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-50">
@@ -48,27 +48,27 @@
                 <div class="h-16 w-32 rounded-lg bg-gray-100 relative overflow-hidden shadow-sm border border-gray-100">
                   <img v-if="banner.image" :src="banner.image" class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                   <div v-else class="w-full h-full flex items-center justify-center text-gray-400">
-                    <Image class="w-4 h-4 opacity-50" />
+                    <ImageIcon class="w-4 h-4 opacity-50" />
                   </div>
                 </div>
               </td>
               <td class="px-6 py-4">
                 <div class="max-w-xs">
                   <h3 class="text-sm font-bold text-gray-900 truncate">{{ banner.title || 'Untitled Promotion' }}</h3>
-                  <p class="text-xs text-gray-500 line-clamp-2 mt-1">{{ banner.description || 'No description provided.' }}</p>
+                  <p class="text-sm text-gray-500 line-clamp-2 mt-1">{{ banner.description || 'No description provided.' }}</p>
                 </div>
               </td>
               <td class="px-6 py-4">
-                <div v-if="banner.productId" class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-purple-50 text-purple-600 rounded-md text-[9px] font-black tracking-widest border border-purple-100">
+                <div v-if="banner.productId" class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-purple-50 text-purple-600 rounded-md text-sm font-black  border border-purple-100">
                   PRODUCT LINKED
                 </div>
-                <div v-else class="flex items-center text-[10px] font-bold text-parentPrimary tracking-wide truncate max-w-[150px]">
+                <div v-else class="flex items-center text-sm font-bold text-parentPrimary  truncate max-w-[150px]">
                   <LinkIcon class="w-3 h-3 mr-1.5 shrink-0" />
                   {{ banner.link || 'Internal Promotion' }}
                 </div>
               </td>
               <td class="px-6 py-4">
-                <span :class="banner.isActive ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-gray-50 text-gray-500 border border-gray-200'" class="px-2.5 py-1 rounded-md text-[9px] font-black tracking-widest shadow-sm inline-block">
+                <span :class="banner.isActive ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-gray-50 text-gray-500 border border-gray-200'" class="px-2.5 py-1 rounded-md text-sm font-black  shadow-sm inline-block">
                   {{ banner.isActive ? 'LIVE' : 'HIDDEN' }}
                 </span>
               </td>
@@ -94,12 +94,12 @@
       <div class="space-y-6">
         <!-- Image Upload Area -->
         <div>
-          <label class="block text-xs font-bold text-gray-700 tracking-wide mb-2">Banner Image</label>
+          <label class="block text-sm font-bold text-gray-700  mb-2">Banner Image</label>
           <div class="relative w-full h-40 rounded-2xl border border-dashed border-gray-200 hover:border-parentPrimary bg-gray-50 flex items-center justify-center cursor-pointer overflow-hidden transition-colors group">
             <template v-if="form.image">
               <img :src="form.image" class="w-full h-full object-cover" />
               <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <span class="text-white text-xs font-bold flex items-center gap-2"><Upload class="w-4 h-4" /> Change Image</span>
+                <span class="text-white text-sm font-bold flex items-center gap-2"><Upload class="w-4 h-4" /> Change Image</span>
               </div>
             </template>
             <template v-else>
@@ -107,14 +107,14 @@
                 <div class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center mx-auto mb-3 text-gray-400 group-hover:text-parentPrimary transition-colors">
                   <Upload class="w-5 h-5" />
                 </div>
-                <p class="text-xs font-bold text-gray-600">Click to upload banner</p>
-                <p class="text-[10px] text-gray-400 mt-1">Recommended size: 1200 x 400px (JPG, PNG)</p>
+                <p class="text-sm font-bold text-gray-600">Click to upload banner</p>
+                <p class="text-sm text-gray-400 mt-1">Recommended size: 1200 x 400px (JPG, PNG)</p>
               </div>
             </template>
             <input type="file" required accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" @change="handleFileUpload" />
             <div v-if="uploading" class="absolute inset-0 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center gap-3">
               <Loader2 class="w-6 h-6 animate-spin text-parentPrimary" />
-              <span class="text-xs font-bold tracking-widest text-gray-900">UPLOADING...</span>
+              <span class="text-sm font-bold  text-gray-900">UPLOADING...</span>
             </div>
           </div>
         </div>
@@ -124,7 +124,7 @@
         
         <!-- Product Link -->
         <div>
-          <label class="block text-xs font-bold text-gray-700 tracking-wide mb-2">Related Product (Optional)</label>
+          <label class="block text-sm font-bold text-gray-700  mb-2">Related Product (Optional)</label>
           <select v-model="form.productId" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium focus:outline-none focus:border-parentPrimary focus:ring-1 focus:ring-parentPrimary transition-colors appearance-none">
             <option value="">No specific product (General Store Promo)</option>
             <option v-for="p in products" :key="p._id" :value="p._id">
@@ -138,7 +138,7 @@
         <button 
           @click="addBanner" 
           :disabled="!form.image || !form.title || saving"
-          class="w-full py-4 bg-gray-900 text-white rounded-xl text-xs font-bold tracking-widest disabled:opacity-50 disabled:cursor-not-allowed hover:bg-parentPrimary transition-colors shadow-lg flex items-center justify-center gap-2"
+          class="w-full py-4 bg-gray-900 text-white rounded-xl text-sm font-bold  disabled:opacity-50 disabled:cursor-not-allowed hover:bg-parentPrimary transition-colors shadow-lg flex items-center justify-center gap-2"
         >
           <Loader2 v-if="saving" class="w-4 h-4 animate-spin shrink-0" />
           <span v-else>PUBLISH BANNER</span>
@@ -150,7 +150,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { Plus, Megaphone, Upload, Trash2, Eye, EyeOff, Loader2, Image, Link as LinkIcon } from 'lucide-vue-next'
+import { Plus, Megaphone, Upload, Trash2, Eye, EyeOff, Loader2, Image as ImageIcon, Link as LinkIcon } from 'lucide-vue-next'
 import { GATEWAY_ENDPOINT_WITH_AUTH as api } from '@/api_factory/axios.config'
 import { useUser } from '@/composables/modules/auth/user'
 import { useCustomToast } from '@/composables/core/useCustomToast'

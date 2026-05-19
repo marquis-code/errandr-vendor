@@ -10,7 +10,7 @@
  <img v-if="previewImage" :src="previewImage" class="w-full h-full object-cover" />
  <div v-else class="text-center p-2">
  <Plus class="w-5 h-5 text-gray-400 mx-auto" />
- <p class="text-[9px] font-black text-gray-400 mt-1">ICON</p>
+ <p class="text-sm font-black text-gray-400 mt-1">ICON</p>
  </div>
  <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity" v-if="previewImage">
  <Camera class="w-5 h-5 text-white" />
@@ -31,8 +31,8 @@
  </form>
 
  <template #footer>
- <button @click="$emit('close')" class="px-6 py-2 text-xs font-bold text-gray-400 tracking-widest hover:text-gray-900 transition-colors">Cancel</button>
- <button @click="handleSubmit" :disabled="loading" class="px-6 py-2.5 bg-[#065fdb] text-white rounded-xl font-bold text-xs tracking-widest hover:brightness-110 active:scale-95 transition-all flex items-center gap-2 shadow-lg shadow-[#065fdb]/20">
+ <button @click="$emit('close')" class="px-6 py-2 text-sm font-bold text-gray-400  hover:text-gray-900 transition-colors">Cancel</button>
+ <button @click="handleSubmit" :disabled="loading" class="px-6 py-2.5 bg-[#065fdb] text-white rounded-xl font-bold text-sm  hover:brightness-110 active:scale-95 transition-all flex items-center gap-2 shadow-lg shadow-[#065fdb]/20">
  <Loader2 v-if="loading" class="w-3.5 h-3.5 animate-spin" />
  {{ category ? 'Update' : 'Create' }}
  </button>

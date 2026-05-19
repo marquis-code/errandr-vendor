@@ -8,7 +8,7 @@
  >
  <Clock class="w-4 h-4 text-gray-400 mr-3 shrink-0" />
  <div class="flex-1 min-w-0">
- <p v-if="label" class="text-[10px] font-bold text-gray-400 tracking-widest mb-0.5">{{ label }}</p>
+ <p v-if="label" class="text-sm font-bold text-gray-400  mb-0.5">{{ label }}</p>
  <p class="text-sm font-bold text-gray-900">{{ displayTime }}</p>
  </div>
  <ChevronDown class="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors shrink-0" :class="{ 'rotate-180': open }" />
@@ -20,7 +20,7 @@
  <!-- Header -->
  <div class="bg-[#065fdb] px-5 py-4 flex items-center justify-between">
  <div>
- <p class="text-[10px] font-bold text-white/60 tracking-widest">Select Time</p>
+ <p class="text-sm font-bold text-white/60 ">Select Time</p>
  <p class="text-xl font-black text-white tracking-tight mt-0.5">{{ padZero(hour) }}:{{ padZero(minute) }} {{ period }}</p>
  </div>
  <button @click="open = false" class="text-white/60 hover:text-white transition-colors">
@@ -63,22 +63,22 @@
  <div class="flex gap-2 px-6 pb-4">
  <button
  @click="period = 'AM'"
- class="flex-1 py-3 rounded-xl text-sm font-bold tracking-widest transition-all"
+ class="flex-1 py-3 rounded-xl text-sm font-bold  transition-all"
  :class="period === 'AM' ? 'bg-gray-100 text-gray-900' : 'text-gray-400 hover:text-gray-600'"
  >AM</button>
  <button
  @click="period = 'PM'"
- class="flex-1 py-3 rounded-xl text-sm font-bold tracking-widest transition-all"
+ class="flex-1 py-3 rounded-xl text-sm font-bold  transition-all"
  :class="period === 'PM' ? 'bg-[#065fdb] text-white shadow-md shadow-[#065fdb]/20' : 'text-gray-400 hover:text-gray-600'"
  >PM</button>
  </div>
 
  <!-- Footer Actions -->
  <div class="flex items-center justify-between px-6 py-4 border-t border-gray-100 bg-gray-50/50">
- <button @click="setNow" class="px-4 py-2 border border-gray-200 rounded-xl text-xs font-bold text-gray-700 hover:bg-white transition-all">Now</button>
+ <button @click="setNow" class="px-4 py-2 border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-white transition-all">Now</button>
  <div class="flex items-center gap-2">
- <button @click="clearTime" class="px-4 py-2 text-xs font-bold text-gray-400 hover:text-gray-700 transition-colors">Clear</button>
- <button @click="confirmTime" class="px-6 py-2.5 bg-[#065fdb] text-white rounded-xl text-xs font-bold tracking-widest hover:brightness-110 transition-all shadow-md shadow-[#065fdb]/20">Confirm</button>
+ <button @click="clearTime" class="px-4 py-2 text-sm font-bold text-gray-400 hover:text-gray-700 transition-colors">Clear</button>
+ <button @click="confirmTime" class="px-6 py-2.5 bg-[#065fdb] text-white rounded-xl text-sm font-bold  hover:brightness-110 transition-all shadow-md shadow-[#065fdb]/20">Confirm</button>
  </div>
  </div>
  </div>

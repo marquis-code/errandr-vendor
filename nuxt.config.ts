@@ -3,7 +3,7 @@ import { defineNuxtConfig } from "nuxt/config";
 export default defineNuxtConfig({
   ssr: false,
   site: {
-    url: 'https://errandr.shop',
+    url: 'https://erranders.org',
     name: 'Errandr',
     description: 'Manage your store, track orders, and grow your campus business with Errandr.',
     defaultLocale: 'en',
@@ -14,7 +14,7 @@ export default defineNuxtConfig({
     host: 'localhost'
   },
 
-    nitro: {
+  nitro: {
     prerender: {
       routes: ['/', '/404.html'],
       ignore: ['/dynamic-routes', '/api'],
@@ -58,19 +58,19 @@ export default defineNuxtConfig({
             "Manage your store, track orders, and grow your campus business with Errandr. A seamless hub for all your merchant operations.",
         },
         { property: "og:type", content: "website" },
-        { property: "og:url", content: "https://errandr.shop" },
-        { property: "og:image", content: "https://errandr.shop/og-image.jpg" },
+        { property: "og:url", content: "https://erranders.org" },
+        { property: "og:image", content: "https://erranders.org/og-image.jpg" },
 
         // ✅ Twitter meta
         { name: "twitter:card", content: "summary_large_image" },
-        { property: "twitter:url", content: "https://errandr.shop" },
+        { property: "twitter:url", content: "https://erranders.org" },
         { name: "twitter:title", content: "Errandr — Vendor Portal" },
         {
           name: "twitter:description",
           content:
             "Manage your store, track orders, and grow your campus business with Errandr. A seamless hub for all your merchant operations.",
         },
-        { name: "twitter:image", content: "https://errandr.shop/og-image.jpg" },
+        { name: "twitter:image", content: "https://erranders.org/og-image.jpg" },
       ],
 
       link: [

@@ -16,7 +16,7 @@
  <div class="p-8 bg-gray-50/50 flex flex-col sm:flex-row gap-4 border-t border-gray-100">
  <button 
  type="button" 
- class="flex-1 py-4 px-6 bg-white border border-gray-100 text-gray-400 text-[10px] font-black tracking-widest rounded-2xl hover:bg-gray-100 hover:text-gray-900 transition-all active:scale-95 shadow-sm"
+ class="flex-1 py-4 px-6 bg-white border border-gray-100 text-gray-400 text-sm font-black  rounded-2xl hover:bg-gray-100 hover:text-gray-900 transition-all active:scale-95 shadow-sm"
  @click="$emit('cancel')"
  >
  Go Back
@@ -24,7 +24,7 @@
  <button 
  type="button" 
  :class="confirmBtnClass"
- class="flex-1 py-4 px-6 text-[10px] font-black tracking-widest rounded-2xl shadow-lg transition-all active:scale-95"
+ class="flex-1 py-4 px-6 text-sm font-black  rounded-2xl shadow-lg transition-all active:scale-95"
  @click="$emit('confirm')"
  >
  {{ confirmText || 'Proceed' }}
