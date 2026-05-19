@@ -237,7 +237,7 @@ import AnimatedInput from '@/components/ui/AnimatedInput.vue';
 import SideDrawer from '@/components/ui/SideDrawer.vue';
 
 definePageMeta({ layout: 'vendor' });
-useHead({ title: 'Financial Hub - Errandr Vendor' });
+useHead({ title: 'Financial Hub - Errander Vendor' });
 
 const { balance, wallet, transactions, loading: loadingWallet, fetchWallet, fetchTransactions, withdrawFunds } = useWallet();
 const { showToast } = useCustomToast();

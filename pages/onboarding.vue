@@ -127,5 +127,5 @@ const nextStep = async () => {
  }
 };
 
-useHead({ title: 'Vendor Onboarding - Errandr' });
+useHead({ title: 'Vendor Onboarding - Errander' });
 </script>

@@ -166,7 +166,7 @@ import ConfirmModal from '@/components/ui/ConfirmModal.vue';
 import UiTable from '@/components/ui/UiTable.vue';
 
 definePageMeta({ layout: 'vendor' });
-useHead({ title: 'Inventory - Errandr Vendor' });
+useHead({ title: 'Inventory - Errander Vendor' });
 
 const { products, loading: loadingProds, fetchProducts, createProduct, updateProduct, deleteProduct, toggleAvailability } = useVendorProducts();
 const { categories, fetchCategories, createCategory } = useVendorCategories();

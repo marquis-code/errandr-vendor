@@ -202,7 +202,7 @@ import { useVendorOrders } from '@/composables/modules/vendor/useVendorOrders';
 import UiTable from '@/components/ui/UiTable.vue';
 
 definePageMeta({ layout: 'vendor' });
-useHead({ title: 'Dashboard - Errandr Vendor' });
+useHead({ title: 'Dashboard - Errander Vendor' });
 
 const { orders, loading: loadingOrders, loadMyVendorOrders } = useVendorOrders();
 const currentStats = ref<any>({});

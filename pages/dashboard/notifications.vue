@@ -94,7 +94,7 @@ definePageMeta({
   layout: 'vendor'
 })
 
-useHead({ title: 'Notifications - Errandr Vendor' })
+useHead({ title: 'Notifications - Errander Vendor' })
 
 const {
   notifications,
