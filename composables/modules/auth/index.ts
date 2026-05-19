@@ -72,6 +72,60 @@ export const useAuth = () => {
     }
   };
 
+  const forgotPassword = async (email: string) => {
+    loading.value = true;
+    try {
+      const res = await auth_api.forgotPassword(email);
+      if (res?.type === 'ERROR') throw res;
+      showToast({
+        title: "OTP Sent!",
+        message: "A password reset code has been sent to your email 📬",
+        toastType: "success"
+      });
+      return res.data;
+    } catch (e: any) {
+      throw e;
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const verifyResetOtp = async (payload: { email: string; otp: string }) => {
+    loading.value = true;
+    try {
+      const res = await auth_api.verifyResetOtp(payload);
+      if (res?.type === 'ERROR') throw res;
+      showToast({
+        title: "Code Verified!",
+        message: "You can now reset your password.",
+        toastType: "success"
+      });
+      return res.data;
+    } catch (e: any) {
+      throw e;
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const resetPassword = async (payload: any) => {
+    loading.value = true;
+    try {
+      const res = await auth_api.resetPassword(payload);
+      if (res?.type === 'ERROR') throw res;
+      showToast({
+        title: "Password Updated!",
+        message: "Your password has been successfully reset. Log in ✨",
+        toastType: "success"
+      });
+      return res.data;
+    } catch (e: any) {
+      throw e;
+    } finally {
+      loading.value = false;
+    }
+  };
+
   const fetchProfile = async () => {
     try {
       const res = await auth_api.getProfile();
@@ -85,6 +139,9 @@ export const useAuth = () => {
     loading,
     login,
     register,
+    forgotPassword,
+    verifyResetOtp,
+    resetPassword,
     fetchProfile,
     logOut
   };

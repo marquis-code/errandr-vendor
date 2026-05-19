@@ -37,7 +37,9 @@ export const useUser = () => {
     token.value = null;
     if (typeof window !== 'undefined') {
       localStorage.removeItem('errandr_cart');
-      window.location.href = '/auth/login';
+      if (window.location.pathname !== '/auth/login') {
+        window.location.href = '/auth/login';
+      }
     }
   };
 
