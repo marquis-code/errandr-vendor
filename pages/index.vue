@@ -160,7 +160,7 @@
             Everything you need to <br/><span class="text-parentPrimary">dominate campus food delivery.</span>
           </h2>
           <p class="text-gray-500 font-bold text-lg leading-relaxed">
-            We built Errandr strictly for the chaos of a busy kitchen. Accept orders, analyze sales, and manage your menu in seconds.
+            We built Errander strictly for the chaos of a busy kitchen. Accept orders, analyze sales, and manage your menu in seconds.
           </p>
         </div>
         
@@ -185,7 +185,7 @@
       
       <div class="max-w-7xl mx-auto px-6 sm:px-10 relative z-10 mb-12 text-center">
         <h2 class="text-3xl lg:text-4xl font-black text-slate-900 tracking-tighter">Trusted by top campus brands.</h2>
-        <p class="text-slate-500 font-medium mt-3 text-sm">Hear from vendors who scaled their kitchens with Errandr.</p>
+        <p class="text-slate-500 font-medium mt-3 text-sm">Hear from vendors who scaled their kitchens with Errander.</p>
       </div>
       
       <!-- Continuously Scrolling Testimonials -->
@@ -232,7 +232,7 @@
           Ready to digitize your <br/> campus restaurant?
         </h2>
         <p class="text-slate-500 font-medium text-lg mb-10 max-w-xl">
-          Join hundreds of successful vendors on Errandr today and watch your order volume explode.
+          Join hundreds of successful vendors on Errander today and watch your order volume explode.
         </p>
         <NuxtLink to="/auth/register" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-full font-bold shadow-md shadow-[#FF5C1A]/10 transition-all text-sm group cursor-pointer active:scale-95">
           Create Free Profile <ArrowRight class="w-4 h-4 text-white group-hover:translate-x-0.5 transition-transform"/>
@@ -261,9 +261,9 @@ definePageMeta({
 })
 
 useHead({
-  title: 'Errandr for Vendors | Grow Your Campus Business',
+  title: 'Errander for Vendors | Grow Your Campus Business',
   meta: [
-    { name: 'description', content: 'Turn campus cravings into profit. Setup your digital store, reach students, and manage orders with Errandr.' }
+    { name: 'description', content: 'Turn campus cravings into profit. Setup your digital store, reach students, and manage orders with Errander.' }
   ]
 })
 
@@ -305,8 +305,8 @@ const toolkitFeatures = [
 
 // Data for Testimonials
 const successStories = [
-  { id: 1, quote: 'Joining Errandr doubled our daily orders. Reaching students directly in their hostels was a game changer for our weekend sales.', name: 'Chef Tunde', restaurant: 'Campus Grill House', image: 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=150&h=150&fit=crop' },
-  { id: 2, quote: 'The instant payout feature is incredible. Cash flow is crucial for our inventory, and Errandr makes it seamless.', name: 'Sarah', restaurant: 'Fresh Bites Bakery', image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=150&h=150&fit=crop' },
+  { id: 1, quote: 'Joining Errander doubled our daily orders. Reaching students directly in their hostels was a game changer for our weekend sales.', name: 'Chef Tunde', restaurant: 'Campus Grill House', image: 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=150&h=150&fit=crop' },
+  { id: 2, quote: 'The instant payout feature is incredible. Cash flow is crucial for our inventory, and Errander makes it seamless.', name: 'Sarah', restaurant: 'Fresh Bites Bakery', image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=150&h=150&fit=crop' },
   { id: 3, quote: 'The analytics dashboard helps us understand peak hours. We now prep earlier for the dinner rush and zero out waste.', name: 'Mr. John', restaurant: 'Pizza Hub', image: 'https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?w=150&h=150&fit=crop' },
   { id: 4, quote: 'Menu management is so easy. If we run out of chicken, I just toggle it off on my phone in 2 seconds.', name: 'Mama Nkechi', restaurant: 'Nkechi Foods', image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=150&h=150&fit=crop' },
 ]

@@ -175,7 +175,7 @@ import {
 import { vendors_api } from '@/api_factory/modules/vendors'
 
 definePageMeta({ layout: 'vendor' })
-useHead({ title: 'Pre-Order Hub - Errandr Vendor' })
+useHead({ title: 'Pre-Order Hub - Errander Vendor' })
 
 const showCampaignModal = ref(false)
 const batches = ref<any[]>([])

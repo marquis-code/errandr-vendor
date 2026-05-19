@@ -158,7 +158,7 @@ import UiAnimatedInput from '@/components/ui/AnimatedInput.vue'
 import Modal from '@/components/ui/Modal.vue'
 
 definePageMeta({ layout: 'vendor' })
-useHead({ title: 'Promotions - Errandr Vendor' })
+useHead({ title: 'Promotions - Errander Vendor' })
 
 const { showToast } = useCustomToast()
 const { user } = useUser()

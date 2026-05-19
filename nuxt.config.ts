@@ -4,8 +4,8 @@ export default defineNuxtConfig({
   ssr: false,
   site: {
     url: 'https://erranders.org',
-    name: 'Errandr',
-    description: 'Manage your store, track orders, and grow your campus business with Errandr.',
+    name: 'Errander',
+    description: 'Manage your store, track orders, and grow your campus business with Errander.',
     defaultLocale: 'en',
   },
 
@@ -32,7 +32,7 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: 'Errandr - Vendor Portal',
+      title: 'Errander - Vendor Portal',
       htmlAttrs: { lang: "en" },
       meta: [
         { charset: "utf-8" },
@@ -42,20 +42,20 @@ export default defineNuxtConfig({
         // ✅ SEO meta
         {
           name: "description",
-          content: 'Manage your store, track orders, and grow your campus business with Errandr.'
+          content: 'Manage your store, track orders, and grow your campus business with Errander.'
         },
         {
           name: "keywords",
-          content: 'Errandr vendor, merchant portal, campus food sales, grow your business'
+          content: 'Errander vendor, merchant portal, campus food sales, grow your business'
         },
-        { name: "author", content: "Errandr" },
+        { name: "author", content: "Errander" },
 
         // ✅ Open Graph (for social previews)
-        { property: "og:title", content: "Errandr — Vendor Portal" },
+        { property: "og:title", content: "Errander — Vendor Portal" },
         {
           property: "og:description",
           content:
-            "Manage your store, track orders, and grow your campus business with Errandr. A seamless hub for all your merchant operations.",
+            "Manage your store, track orders, and grow your campus business with Errander. A seamless hub for all your merchant operations.",
         },
         { property: "og:type", content: "website" },
         { property: "og:url", content: "https://erranders.org" },
@@ -64,11 +64,11 @@ export default defineNuxtConfig({
         // ✅ Twitter meta
         { name: "twitter:card", content: "summary_large_image" },
         { property: "twitter:url", content: "https://erranders.org" },
-        { name: "twitter:title", content: "Errandr — Vendor Portal" },
+        { name: "twitter:title", content: "Errander — Vendor Portal" },
         {
           name: "twitter:description",
           content:
-            "Manage your store, track orders, and grow your campus business with Errandr. A seamless hub for all your merchant operations.",
+            "Manage your store, track orders, and grow your campus business with Errander. A seamless hub for all your merchant operations.",
         },
         { name: "twitter:image", content: "https://erranders.org/og-image.jpg" },
       ],

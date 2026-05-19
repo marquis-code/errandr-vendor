@@ -416,7 +416,7 @@ import SelectInput from '@/components/ui/SelectInput.vue';
 import SideDrawer from '@/components/ui/SideDrawer.vue';
 
 definePageMeta({ layout: 'vendor' });
-useHead({ title: 'Settings - Errandr Vendor' });
+useHead({ title: 'Settings - Errander Vendor' });
 
 const { showToast } = useCustomToast();
 const { wallet, updatePreferences, fetchWallet } = useWallet();

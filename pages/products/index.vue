@@ -328,7 +328,7 @@ const handleDelete = async (id: string) => {
 };
 
 onMounted(fetchProducts);
-useHead({ title: 'Menu Management - Errandr Vendor' });
+useHead({ title: 'Menu Management - Errander Vendor' });
 </script>
 
 <style scoped>

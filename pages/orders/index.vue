@@ -272,7 +272,7 @@ onMounted(async () => {
  on('statusUpdate', () => loadOrders());
 });
 
-useHead({ title: 'Orders - Errandr Vendor' });
+useHead({ title: 'Orders - Errander Vendor' });
 </script>
 
 <style scoped>

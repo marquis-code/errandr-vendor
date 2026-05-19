@@ -8,7 +8,7 @@
         <div class="w-10 h-10 bg-parentPrimary rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-sm">
           E
         </div>
-        <span class="text-xl font-black text-parentPrimary tracking-tighter">Errandr</span>
+        <span class="text-xl font-black text-parentPrimary tracking-tighter">Errander</span>
       </div>
       
       <!-- Navigation -->
@@ -46,7 +46,7 @@
           <div class="w-8 h-8 bg-parentPrimary rounded-lg flex items-center justify-center text-white font-bold text-lg">
             E
           </div>
-          <span class="font-black text-parentPrimary tracking-tighter">Errandr</span>
+          <span class="font-black text-parentPrimary tracking-tighter">Errander</span>
         </div>
 
         <div class="flex items-center gap-2">
@@ -84,7 +84,7 @@
             <div class="w-8 h-8 bg-parentPrimary rounded-lg flex items-center justify-center text-white font-bold text-lg">
               E
             </div>
-            <span class="font-black text-parentPrimary tracking-tighter">Errandr</span>
+            <span class="font-black text-parentPrimary tracking-tighter">Errander</span>
           </div>
           <button
             @click="showMobileMenu = false"
@@ -290,7 +290,7 @@ const pageTitles: Record<string, { title: string; description: string }> = {
 }
 
 const pageTitle = computed(() => pageTitles[route.path]?.title || 'Merchant Dashboard')
-const pageDescription = computed(() => pageTitles[route.path]?.description || 'Grow your business with Errandr')
+const pageDescription = computed(() => pageTitles[route.path]?.description || 'Grow your business with Errander')
 
 const userDisplayName = computed(() => {
   if (!user.value) return 'Vendor'

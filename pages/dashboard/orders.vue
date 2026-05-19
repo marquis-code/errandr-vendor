@@ -231,7 +231,7 @@ const { user } = useUser();
 const { cachedBusiness } = useGetBusiness();
 
 definePageMeta({ layout: 'vendor' });
-useHead({ title: 'Orders - Errandr Vendor' });
+useHead({ title: 'Orders - Errander Vendor' });
 
 const loading = ref(true);
 const orders = ref<any[]>([]);
