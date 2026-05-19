@@ -1,6 +1,6 @@
 <template>
   <Teleport to="body">
-    <div class="fixed bottom-32 left-1/2 transform -translate-x-1/2 z-[9999] flex flex-col-reverse gap-3 max-w-sm w-full items-center px-4">
+    <div class="fixed top-6 left-1/2 transform -translate-x-1/2 z-[9999] flex flex-col gap-3 max-w-[420px] w-full items-center px-4">
       <TransitionGroup name="toast">
         <div
           v-for="toast in toasts"
@@ -8,44 +8,48 @@
           :class="[
             'toast-base',
             {
-              'bg-[#FEF3F2] border-[#FF383013]': toast.type === 'error',
-              'bg-green-50 border-primary-200': toast.type === 'success',
-              'bg-yellow-50 border-yellow-200': toast.type === 'warning',
-              'bg-blue-50 border-blue-200': toast.type === 'info'
+              'border-l-4 border-l-rose-500': toast.type === 'error',
+              'border-l-4 border-l-emerald-500': toast.type === 'success',
+              'border-l-4 border-l-amber-500': toast.type === 'warning',
+              'border-l-4 border-l-blue-500': toast.type === 'info'
             }
           ]"
-          class="w-full rounded-2xl border p-[12px] flex items-center gap-3 cursor-pointer"
+          class="w-full rounded-2xl border border-gray-100 bg-white/95 backdrop-blur-xl p-4 flex items-start gap-3.5 cursor-pointer shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:shadow-[0_25px_60px_rgba(0,0,0,0.12)] transition-all duration-300"
           @click="removeToast(toast.id)"
         >
-          <div class="flex-shrink-0">
+          <!-- Status Icon container -->
+          <div class="flex-shrink-0 mt-0.5">
             <div :class="[
-              'w-8 h-8 rounded-full flex items-center justify-center',
+              'w-9 h-9 rounded-xl flex items-center justify-center shadow-sm',
               {
-                'text-white': toast.type === 'error',
-                'bg-primary-500 text-white': toast.type === 'success', 
-                'bg-yellow-500 text-white': toast.type === 'warning',
-                'bg-blue-500 text-white': toast.type === 'info'
+                'bg-rose-50 text-rose-600': toast.type === 'error',
+                'bg-emerald-50 text-emerald-600': toast.type === 'success', 
+                'bg-amber-50 text-amber-600': toast.type === 'warning',
+                'bg-blue-50 text-blue-600': toast.type === 'info'
               }
             ]">
-              <CheckCircle v-if="toast.type === 'success'" :size="18" />
-              <AlertCircle v-else-if="toast.type === 'error'" :size="18" />
-
-              <AlertTriangle v-else-if="toast.type === 'warning'" :size="18" />
-              <Info v-else :size="18" />
+              <CheckCircle v-if="toast.type === 'success'" :size="20" class="stroke-[2.5]" />
+              <AlertCircle v-else-if="toast.type === 'error'" :size="20" class="stroke-[2.5]" />
+              <AlertTriangle v-else-if="toast.type === 'warning'" :size="20" class="stroke-[2.5]" />
+              <Info v-else :size="20" class="stroke-[2.5]" />
             </div>
           </div>
+          
+          <!-- Content Container -->
           <div class="flex-1 min-w-0">
-            <p :class="[
-              'font-medium text-sm leading-tight',
-              {
-                'text-[#FF3830]': toast.type === 'error',
-                'text-primary-800': toast.type === 'success',
-                'text-yellow-800': toast.type === 'warning', 
-                'text-blue-800': toast.type === 'info'
-              }
-            ]">
+            <!-- Toast Title (if exists, or fall back to capitalized type) -->
+            <h4 class="font-black text-sm text-gray-900 leading-snug tracking-tight">
+              {{ toast.title || (toast.type.charAt(0).toUpperCase() + toast.type.slice(1)) }}
+            </h4>
+            <!-- Toast Message -->
+            <p class="text-xs font-bold text-gray-500 leading-relaxed mt-0.5">
               {{ toast.message }}
             </p>
+          </div>
+          
+          <!-- Close button hint -->
+          <div class="flex-shrink-0 self-center text-gray-300 hover:text-gray-500 transition-colors pl-2">
+            <X :size="16" />
           </div>
         </div>
       </TransitionGroup>
@@ -55,7 +59,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { CheckCircle, AlertCircle, AlertTriangle, Info } from 'lucide-vue-next'
+import { CheckCircle, AlertCircle, AlertTriangle, Info, X } from 'lucide-vue-next'
 
 interface Toast {
   id: number
@@ -109,20 +113,20 @@ defineExpose({
 <style scoped>
 /* Animations */
 .toast-enter-active {
-  transition: all 0.3s ease-out;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .toast-leave-active {
-  transition: all 0.3s ease-in;
+  transition: all 0.3s cubic-bezier(0.7, 0, 0.84, 0);
 }
 
 .toast-enter-from {
-  transform: translateY(100%);
+  transform: translateY(-40px) scale(0.95);
   opacity: 0;
 }
 
 .toast-leave-to {
-  transform: translateY(100%);
+  transform: translateY(-20px) scale(0.95);
   opacity: 0;
 }
 
@@ -131,7 +135,6 @@ defineExpose({
 }
 
 .toast-base:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(1px);
 }
 </style>

@@ -17,6 +17,18 @@ export const auth_api = {
     return GATEWAY_ENDPOINT.post('/auth/send-otp', { email });
   },
 
+  forgotPassword: (email: string) => {
+    return GATEWAY_ENDPOINT.post('/auth/forgot-password', { email });
+  },
+
+  verifyResetOtp: (payload: { email: string; otp: string }) => {
+    return GATEWAY_ENDPOINT.post('/auth/verify-reset-otp', payload);
+  },
+
+  resetPassword: (payload: any) => {
+    return GATEWAY_ENDPOINT.post('/auth/reset-password', payload);
+  },
+
   getProfile: () => {
     return GATEWAY_ENDPOINT_WITH_AUTH.get('/auth/profile');
   },
