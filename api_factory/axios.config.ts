@@ -5,10 +5,15 @@ import { useCustomToast } from '@/composables/core/useCustomToast'
 
 // const { token, logOut } = useUser(); // REMOVED TOP-LEVEL CALL
 
-const $GATEWAY_ENDPOINT_WITHOUT_VERSION = "https://api.erranders.org";
-const $GATEWAY_ENDPOINT = "https://api.erranders.org/api/v1";
-const $GATEWAY_ENDPOINT_V2 = "https://api.erranders.org/v2";
-const $IMAGE_UPLOAD_ENDPOINT = "https://api.erranders.org";
+const isDev = import.meta.env.DEV;
+const envApiUrl = import.meta.env.VITE_API_BASE_URL;
+const rawBaseUrl = envApiUrl || (isDev ? "http://localhost:3000" : "https://api.erranders.org");
+const cleanBaseUrl = rawBaseUrl.replace(/\/api\/v1\/?$/, '').replace(/\/$/, '');
+
+const $GATEWAY_ENDPOINT_WITHOUT_VERSION = cleanBaseUrl;
+const $GATEWAY_ENDPOINT = `${cleanBaseUrl}/api/v1`;
+const $GATEWAY_ENDPOINT_V2 = `${cleanBaseUrl}/v2`;
+const $IMAGE_UPLOAD_ENDPOINT = cleanBaseUrl;
 
 export const GATEWAY_ENDPOINT = axios.create({
   baseURL: $GATEWAY_ENDPOINT,

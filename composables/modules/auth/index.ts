@@ -13,6 +13,7 @@ export const useAuth = () => {
     loading.value = true;
     try {
       const res = await auth_api.login(payload);
+      if (res?.type === 'ERROR') throw res;
       
       // Handle potential response wrapping (res.data or res.data.data)
       const responseData = res.data?.data || res.data;
@@ -51,11 +52,13 @@ export const useAuth = () => {
     loading.value = true;
     try {
       const res = await auth_api.register(payload);
+      if (res?.type === 'ERROR') throw res;
+      
       setUser(res.data.user);
       setToken(res.data.token);
       showToast({
         title: "Account Created!",
-        message: "Welcome to Errandr.",
+        message: "Welcome to Erranders.",
         toastType: "success",
       });
       if (!options?.skipRedirect) {

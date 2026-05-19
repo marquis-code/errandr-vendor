@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-6 animate-fade-in max-w-4xl mx-auto pb-16">
+  <div class="space-y-6 h-screen animate-fade-in container mx-auto pb-16">
     <!-- Header -->
     <div class="flex items-center justify-between">
       <div>
@@ -9,7 +9,7 @@
       <button
         v-if="notifications.length > 0 && unreadCount > 0"
         @click="markAllAsRead"
-        class="text-xs font-semibold text-parentPrimary hover:underline"
+        class="text-sm font-semibold text-parentPrimary hover:underline"
       >
         Mark all as read
       </button>
@@ -55,7 +55,7 @@
             <div class="flex items-start justify-between gap-2">
               <h4 class="text-base font-bold text-gray-900">{{ notif.title }}</h4>
               <div class="flex items-center gap-2 flex-shrink-0 mt-1">
-                <span class="text-[10px] font-bold text-gray-400 whitespace-nowrap">{{ formatTime(notif.createdAt) }}</span>
+                <span class="text-sm font-bold text-gray-400 whitespace-nowrap">{{ formatTime(notif.createdAt) }}</span>
                 <div v-if="!notif.read" class="w-2.5 h-2.5 rounded-full bg-parentPrimary flex-shrink-0" />
               </div>
             </div>
@@ -65,13 +65,13 @@
             <div v-if="notif.type === 'NEW_ORDER_AVAILABLE' && !notif.data?.accepted" class="flex gap-3 mt-4">
               <button
                 @click.stop="handleNotifClick(notif)"
-                class="px-5 py-2 text-xs font-bold text-white bg-parentPrimary rounded-xl hover:brightness-110 transition-all shadow-sm"
+                class="px-5 py-2 text-sm font-bold text-white bg-parentPrimary rounded-xl hover:brightness-110 transition-all shadow-sm"
               >
                 View Order
               </button>
               <button
                 @click.stop="dismissNotification(notif.id)"
-                class="px-5 py-2 text-xs font-semibold text-gray-500 bg-gray-50 rounded-xl hover:bg-gray-100 transition-all border border-gray-100"
+                class="px-5 py-2 text-sm font-semibold text-gray-500 bg-gray-50 rounded-xl hover:bg-gray-100 transition-all border border-gray-100"
               >
                 Dismiss
               </button>

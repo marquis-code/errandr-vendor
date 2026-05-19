@@ -2,12 +2,12 @@
  <div class="mb-5 relative" ref="containerRef">
  <!-- Header -->
  <div class="flex items-center justify-between mb-2 px-1">
- <label v-if="label" class="text-[10px] font-black text-gray-400 tracking-[0.15em]">
+ <label v-if="label" class="text-sm text-gray-400">
  {{ label }}
  </label>
  <div v-if="info" class="group relative">
  <Info class="w-3.5 h-3.5 text-gray-300 hover:text-[#065fdb] cursor-help transition-colors" />
- <div class="absolute right-0 bottom-full mb-2 w-48 p-2 bg-gray-900 text-white text-[9px] font-medium rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 shadow-xl">
+ <div class="absolute right-0 bottom-full mb-2 w-48 p-2 bg-gray-900 text-white text-sm font-medium rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 shadow-xl">
  {{ info }}
  </div>
  </div>
@@ -49,7 +49,7 @@
  ref="searchInputRef"
  v-model="searchQuery"
  type="text"
- class="w-full pl-10 pr-4 py-2.5 bg-gray-50/50 border-none rounded-xl outline-none text-xs font-medium text-gray-900 placeholder-gray-300"
+ class="w-full pl-10 pr-4 py-2.5 bg-gray-50/50 border-none rounded-xl outline-none text-sm font-medium text-gray-900 placeholder-gray-300"
  placeholder="Search options..."
  @click.stop
  />
@@ -82,7 +82,7 @@
  <div class="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3">
  <Search class="w-5 h-5 text-gray-200" />
  </div>
- <p class="text-xs font-bold text-gray-400 tracking-widest">No results found</p>
+ <p class="text-sm font-bold text-gray-400 ">No results found</p>
  </div>
  </div>
  </div>
@@ -90,11 +90,11 @@
 
  <!-- Footer Description -->
  <div class="flex items-start justify-between mt-1.5 px-1">
- <div v-if="description" class="text-[9px] font-medium text-gray-400 italic">
+ <div v-if="description" class="text-sm font-medium text-gray-400 ">
  e.g. {{ description }}
  </div>
  <Transition name="slide-fade">
- <p v-if="errorMessage && showError" class="text-[9px] font-bold text-red-500 tracking-wider">
+ <p v-if="errorMessage && showError" class="text-sm font-bold text-red-500 r">
  {{ errorMessage }}
  </p>
  </Transition>

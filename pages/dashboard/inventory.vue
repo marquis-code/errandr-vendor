@@ -4,9 +4,9 @@
  <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pt-6">
  <div class="space-y-1">
  <h1 class="text-2xl font-bold text-gray-900 tracking-tight sm:text-3xl">Menu Management</h1>
- <p class="text-xs text-gray-400 font-medium italic flex items-center gap-2">
+ <p class="text-sm text-gray-400 font-medium  flex items-center gap-2">
  Organize your meals and categories in real-time. 
- <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-[9px] font-bold bg-blue-50 text-[#065fdb]">
+ <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-sm font-bold bg-blue-50 text-[#065fdb]">
  {{ products.length }} ITEMS LIVE
  </span>
  </p>
@@ -15,13 +15,13 @@
  <div class="flex flex-wrap items-center gap-3">
  <button 
  @click="isCategoryDrawerOpen = true"
- class="px-5 py-3 bg-white border border-gray-50 text-gray-500 rounded-xl font-bold text-[10px] tracking-widest shadow-sm hover:shadow-md active:scale-95 transition-all flex items-center gap-2"
+ class="px-5 py-3 bg-white border border-gray-50 text-gray-500 rounded-xl font-bold text-sm  shadow-sm hover:shadow-md active:scale-95 transition-all flex items-center gap-2"
  >
  <FolderPlus class="w-4 h-4" /> Manage Categories
  </button>
  <button 
  @click="openAddProduct"
- class="px-6 py-3 bg-gray-900 text-white rounded-xl font-bold text-[10px] tracking-widest shadow-lg hover:bg-black active:scale-95 transition-all flex items-center gap-2"
+ class="px-6 py-3 bg-gray-900 text-white rounded-xl font-bold text-sm  shadow-lg hover:bg-black active:scale-95 transition-all flex items-center gap-2"
  >
  <Plus class="w-4 h-4" /> Add New Item
  </button>
@@ -45,7 +45,7 @@
  <div class="flex items-center gap-1 overflow-x-auto max-w-full md:max-w-[400px] lg:max-w-none no-scrollbar py-0.5 px-1">
  <button
  @click="activeCategory = 'all'"
- class="shrink-0 px-4 py-2 rounded-lg text-[10px] font-bold tracking-widest transition-all"
+ class="shrink-0 px-4 py-2 rounded-lg text-sm font-bold  transition-all"
  :class="activeCategory === 'all' ? 'bg-white text-[#065fdb] shadow-sm' : 'text-gray-400 hover:text-gray-600'"
  >
  All Items
@@ -54,7 +54,7 @@
  v-for="cat in categories"
  :key="cat._id"
  @click="activeCategory = cat.name"
- class="shrink-0 px-4 py-2 rounded-lg text-[10px] font-bold tracking-widest transition-all border"
+ class="shrink-0 px-4 py-2 rounded-lg text-sm font-bold  transition-all border"
  :class="activeCategory === cat.name ? 'bg-white text-[#065fdb] shadow-sm' : 'text-gray-400 border-transparent hover:text-gray-600'"
  >
  {{ cat.name }}
@@ -78,7 +78,7 @@
  </div>
  <div class="truncate">
  <p class="font-bold text-gray-900 truncate">{{ (item as any).name }}</p>
- <p class="text-[9px] text-gray-400 font-bold tracking-widest">{{ (item as any).category }}</p>
+ <p class="text-sm text-gray-400 font-bold ">{{ (item as any).category }}</p>
  </div>
  </div>
  </template>
@@ -86,7 +86,7 @@
  <template #price="{ item }">
  <div class="flex flex-col">
  <span class="font-bold text-gray-900">₦{{ (item as any).price?.toLocaleString() }}</span>
- <span v-if="(item as any).discountPrice" class="text-[8px] text-emerald-500 font-bold tracking-widest">Disc. Active</span>
+ <span v-if="(item as any).discountPrice" class="text-xs text-emerald-500 font-bold ">Disc. Active</span>
  </div>
  </template>
 
@@ -96,7 +96,7 @@
  class="w-1.5 h-1.5 rounded-full" 
  :class="(item as any).stockQuantity === 0 ? 'bg-red-500' : ((item as any).stockQuantity < 5 && (item as any).stockQuantity !== -1 ? 'bg-amber-500' : 'bg-emerald-500')"
  />
- <span class="text-xs font-bold text-gray-600">
+ <span class="text-sm font-bold text-gray-600">
  {{ (item as any).stockQuantity === -1 ? 'Unlimited' : ((item as any).stockQuantity || 0) + ' Left' }}
  </span>
  </div>
@@ -105,7 +105,7 @@
  <template #status="{ item }">
  <span 
  :class="(item as any).isAvailable ? 'bg-emerald-50 text-emerald-600 border-emerald-100/50' : 'bg-red-50 text-red-600 border-red-100/50'"
- class="text-[8px] font-bold tracking-widest px-2 py-0.5 rounded-lg border-0 cursor-pointer hover:scale-105 transition-transform"
+ class="text-xs font-bold  px-2 py-0.5 rounded-lg border-0 cursor-pointer hover:scale-105 transition-transform"
  @click.stop="quickToggleAvailability(item as any)"
  >
  {{ (item as any).isAvailable ? 'Available' : 'Unavailable' }}

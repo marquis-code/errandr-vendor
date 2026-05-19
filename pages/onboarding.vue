@@ -25,11 +25,11 @@
 
  <div class="space-y-4">
  <div>
- <label class="block text-[10px] font-bold text-dark-500 tracking-widest mb-2">Store Name</label>
+ <label class="block text-sm font-bold text-dark-500  mb-2">Store Name</label>
  <input v-model="form.storeName" type="text" class="glass-input w-full p-4" placeholder="e.g. Tunde's Tasty Treats" />
  </div>
  <div>
- <label class="block text-[10px] font-bold text-dark-500 tracking-widest mb-2">Store Description</label>
+ <label class="block text-sm font-bold text-dark-500  mb-2">Store Description</label>
  <textarea v-model="form.description" rows="3" class="glass-input w-full p-4 resize-none" placeholder="What do you sell? Tell your customers..."></textarea>
  </div>
  </div>
@@ -49,7 +49,7 @@
  <div class="flex items-center justify-between p-4 glass rounded-2xl border-white/5 cursor-pointer hover:border-primary-500/30 transition-all" @click="form.preOrderOnly = !form.preOrderOnly">
  <div>
  <p class="text-sm font-bold text-white">Pre-order Only</p>
- <p class="text-xs text-dark-500">Customers must order in advance.</p>
+ <p class="text-sm text-dark-500">Customers must order in advance.</p>
  </div>
  <div class="w-12 h-6 rounded-full relative transition-colors duration-300" :class="form.preOrderOnly ? 'bg-primary-500' : 'bg-dark-800'">
  <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform duration-300" :class="form.preOrderOnly ? 'translate-x-6' : ''" />
@@ -57,7 +57,7 @@
  </div>
 
  <div v-if="form.preOrderOnly">
- <label class="block text-[10px] font-bold text-dark-500 tracking-widest mb-2">Preparation Lead Time (Hours)</label>
+ <label class="block text-sm font-bold text-dark-500  mb-2">Preparation Lead Time (Hours)</label>
  <input v-model="form.preOrderLeadTime" type="number" class="glass-input w-full p-4" placeholder="e.g. 24" />
  </div>
  </div>
@@ -75,13 +75,13 @@
 
  <div class="space-y-4">
  <div class="p-6 border border-dashed border-white/10 rounded-2xl text-center hover:border-primary-500/30 transition-all cursor-pointer">
- <p class="text-xs text-dark-400 mb-2">Upload Student ID (Optional)</p>
- <p class="text-[10px] text-dark-600">Helps build trust with customers</p>
+ <p class="text-sm text-dark-400 mb-2">Upload Student ID (Optional)</p>
+ <p class="text-sm text-dark-600">Helps build trust with customers</p>
  </div>
  
  <div class="flex items-center gap-3 p-4 bg-primary-500/5 rounded-2xl border border-primary-500/10">
  <span class="text-xl">🎓</span>
- <p class="text-[10px] text-primary-400 font-bold leading-tight tracking-wider">You are joining as a Student Entrepreneur. Listing is 100% free.</p>
+ <p class="text-sm text-primary-400 font-bold leading-tight r">You are joining as a Student Entrepreneur. Listing is 100% free.</p>
  </div>
  </div>
  </div>
@@ -89,7 +89,7 @@
  <!-- Nav Buttons -->
  <div class="flex gap-4 mt-8">
  <button v-if="step > 1" @click="step--" class="flex-1 py-4 glass rounded-xl text-sm font-bold text-dark-400 hover:text-white transition-all">Back</button>
- <button @click="nextStep" class="flex-[2] btn-primary py-4 rounded-xl text-sm font-bold tracking-widest">
+ <button @click="nextStep" class="flex-[2] btn-primary py-4 rounded-xl text-sm font-bold ">
  {{ step === 3 ? 'Launch My Store' : 'Continue' }}
  </button>
  </div>

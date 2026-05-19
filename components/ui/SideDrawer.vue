@@ -12,7 +12,7 @@
  <div class="px-8 py-6 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-20">
  <div>
  <h2 v-if="title" class="text-xl font-black text-gray-900 tracking-tight">{{ title }}</h2>
- <p v-if="subtitle" class="text-[10px] font-bold text-gray-400 tracking-widest mt-1">{{ subtitle }}</p>
+ <p v-if="subtitle" class="text-sm font-bold text-gray-400  mt-1">{{ subtitle }}</p>
  </div>
  <button 
  type="button" 

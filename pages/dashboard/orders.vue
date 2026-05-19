@@ -4,9 +4,9 @@
  <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pt-6">
  <div class="space-y-1">
  <h1 class="text-2xl font-bold text-gray-900 tracking-tight sm:text-3xl">Live Pipeline</h1>
- <p class="text-xs text-gray-400 font-medium italic flex items-center gap-2">
+ <p class="text-sm text-gray-400 font-medium  flex items-center gap-2">
  Monitor and fulfill your active campus orders. 
- <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-[9px] font-bold bg-amber-50 text-amber-600 ">
+ <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-sm font-bold bg-amber-50 text-amber-600 ">
  {{ orders.length }} Pending
  </span>
  </p>
@@ -31,7 +31,7 @@
  v-for="filter in statusFilters"
  :key="filter.key"
  @click="activeFilter = filter.key"
- class="shrink-0 px-4 py-2 rounded-xl text-[10px] font-bold tracking-widest transition-all border"
+ class="shrink-0 px-4 py-2 rounded-xl text-sm font-bold  transition-all border"
  :class="activeFilter === filter.key ? 'bg-gray-900 text-white shadow-lg' : 'bg-white text-gray-400 hover:text-gray-600 shadow-sm'"
  >
  {{ filter.label }}
@@ -49,17 +49,17 @@
  >
  <template #orderId="{ item }">
  <div class="flex items-center gap-3">
- <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-[10px] shrink-0 shadow-inner">
+ <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-sm shrink-0 shadow-inner">
  {{ (item as any).status === 'pending' ? '🔔' : statusEmoji((item as any).status) }}
  </div>
- <span class="font-bold text-gray-900 text-sm italic tracking-tight">#{{ (item as any).orderNumber }}</span>
+ <span class="font-bold text-gray-900 text-sm  tracking-tight">#{{ (item as any).orderNumber }}</span>
  </div>
  </template>
 
  <template #customer="{ item }">
  <div>
  <p class="font-bold text-gray-900 text-sm">{{ (item as any).customer?.firstName }} {{ (item as any).customer?.lastName }}</p>
- <p class="text-[9px] text-gray-400 font-bold tracking-widest">{{ (item as any).items?.length || 0 }} Items</p>
+ <p class="text-sm text-gray-400 font-bold ">{{ (item as any).items?.length || 0 }} Items</p>
  </div>
  </template>
 
@@ -68,13 +68,13 @@
  </template>
 
  <template #status="{ item }">
- <span :class="getStatusBadge((item as any).status)" class="text-[8px] font-bold tracking-widest px-2.5 py-1 rounded-lg inline-block">
+ <span :class="getStatusBadge((item as any).status)" class="text-xs font-bold px-2.5 py-1 rounded-lg inline-block">
  {{ formatStatus((item as any).status) }}
  </span>
  </template>
 
  <template #time="{ item }">
- <span class="text-[9px] font-bold text-gray-400 tracking-widest">{{ timeAgo((item as any).createdAt) }}</span>
+ <span class="text-sm font-bold text-gray-400 ">{{ timeAgo((item as any).createdAt) }}</span>
  </template>
 
  <template #actions="{ item }">
@@ -99,22 +99,22 @@
  <div class="w-16 h-16 bg-white rounded-[1.5rem] flex items-center justify-center text-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-4">
  {{ statusEmoji(selectedOrder.status) }}
  </div>
- <p class="text-[10px] text-gray-400 font-bold tracking-widest mb-1">Current Status</p>
- <span :class="getStatusBadge(selectedOrder.status)" class="text-[11px] font-bold tracking-[0.15em] px-4 py-1.5 rounded-xl border bg-white shadow-sm">
+ <p class="text-sm text-gray-400 font-bold  mb-1">Current Status</p>
+ <span :class="getStatusBadge(selectedOrder.status)" class="text-sm font-bold px-4 py-1.5 rounded-xl border bg-white shadow-sm">
  {{ formatStatus(selectedOrder.status) }}
  </span>
  </div>
 
  <!-- Items List -->
  <div class="space-y-4">
- <h4 class="text-[10px] font-black text-gray-400 tracking-widest px-1">Order Items</h4>
+ <h4 class="text-sm font-black text-gray-400  px-1">Order Items</h4>
  <div class="space-y-3">
  <div v-for="item in selectedOrder.items" :key="item._id" class="p-4 bg-white border border-gray-50 rounded-2xl flex items-center justify-between group hover:shadow-md transition-all">
  <div class="flex items-center gap-4">
- <span class="w-8 h-8 bg-gray-50 rounded-lg flex items-center justify-center text-[10px] font-black text-gray-900">{{ item.quantity }}x</span>
+ <span class="w-8 h-8 bg-gray-50 rounded-lg flex items-center justify-center text-sm font-black text-gray-900">{{ item.quantity }}x</span>
  <div>
  <p class="text-sm font-bold text-gray-900">{{ item.name }}</p>
- <p class="text-[9px] text-gray-400 font-medium italic">Unit Price: ₦{{ item.price?.toLocaleString() }}</p>
+ <p class="text-sm text-gray-400 font-medium ">Unit Price: ₦{{ item.price?.toLocaleString() }}</p>
  </div>
  </div>
  <span class="text-sm font-bold text-gray-900">₦{{ item.subtotal?.toLocaleString() }}</span>
@@ -127,11 +127,11 @@
  <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-[#065fdb]/20 rounded-full blur-3xl" />
  <div class="relative z-10 flex justify-between items-end">
  <div>
- <p class="text-[9px] font-bold text-white/40 tracking-widest mb-1">Total Payout</p>
+ <p class="text-sm font-bold text-white/40  mb-1">Total Payout</p>
  <h3 class="text-3xl font-bold tracking-tight">₦{{ selectedOrder.total?.toLocaleString() }}</h3>
  </div>
  <div class="text-right">
- <p class="text-[9px] font-bold text-white/40 tracking-widest mb-1">Earnings</p>
+ <p class="text-sm font-bold text-white/40  mb-1">Earnings</p>
  <p class="text-lg font-bold">₦{{ (selectedOrder.total * 0.9).toLocaleString() }}</p>
  </div>
  </div>
@@ -144,7 +144,7 @@
  </div>
  <div class="flex-1">
  <p class="text-sm font-bold text-gray-900">{{ selectedOrder.customer?.firstName }} {{ selectedOrder.customer?.lastName }}</p>
- <p class="text-[10px] text-gray-500 font-medium italic">Ordered {{ timeAgo(selectedOrder.createdAt) }}</p>
+ <p class="text-sm text-gray-500 font-medium ">Ordered {{ timeAgo(selectedOrder.createdAt) }}</p>
  </div>
  <button 
  @click="openChat(selectedOrder.customer?._id, selectedOrder.customer?.firstName + ' ' + selectedOrder.customer?.lastName, selectedOrder.customer?.avatar)"
@@ -155,12 +155,12 @@
  </div>
 
  <div v-if="selectedOrder.errander" class="pt-4 border-t border-gray-50 flex items-center gap-4">
- <div class="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-xs font-bold text-indigo-600">
+ <div class="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-sm font-bold text-indigo-600">
  {{ selectedOrder.errander?.firstName?.[0] }}
  </div>
  <div class="flex-1">
- <p class="text-xs font-bold text-gray-900">{{ selectedOrder.errander?.firstName }} (Rider)</p>
- <p class="text-[9px] text-gray-400 font-medium tracking-widest">Assigned Delivery Agent</p>
+ <p class="text-sm font-bold text-gray-900">{{ selectedOrder.errander?.firstName }} (Rider)</p>
+ <p class="text-sm text-gray-400 font-medium ">Assigned Delivery Agent</p>
  </div>
  <button 
  @click="openChat(selectedOrder.errander?._id, selectedOrder.errander?.firstName + ' (Rider)', selectedOrder.errander?.avatar)"
@@ -179,7 +179,7 @@
  v-if="['pending', 'confirmed'].includes(selectedOrder.status)" 
  @click="updateStatus(selectedOrder._id, 'preparing')" 
  :disabled="updatingOrderId === selectedOrder._id"
- class="w-full py-4 bg-gray-900 text-white rounded-2xl text-[10px] font-black tracking-widest hover:bg-black active:scale-95 transition-all shadow-xl shadow-black/10 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+ class="w-full py-4 bg-gray-900 text-white rounded-2xl text-sm font-black  hover:bg-black active:scale-95 transition-all shadow-xl shadow-black/10 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
  >
  <component :is="updatingOrderId === selectedOrder._id ? 'Loader2' : 'Clock'" :class="[updatingOrderId === selectedOrder._id ? 'animate-spin' : '', 'w-4 h-4']" />
  {{ updatingOrderId === selectedOrder._id ? 'UPDATING...' : 'START PREPARING' }}
@@ -188,13 +188,13 @@
  v-if="selectedOrder.status === 'preparing'" 
  @click="updateStatus(selectedOrder._id, 'ready_for_pickup')" 
  :disabled="updatingOrderId === selectedOrder._id"
- class="w-full py-4 bg-[#065fdb] text-white rounded-2xl text-[10px] font-black tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-[#065fdb]/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+ class="w-full py-4 bg-[#065fdb] text-white rounded-2xl text-sm font-black  hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-[#065fdb]/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
  >
  <component :is="updatingOrderId === selectedOrder._id ? 'Loader2' : 'Package'" :class="[updatingOrderId === selectedOrder._id ? 'animate-spin' : '', 'w-4 h-4']" />
  {{ updatingOrderId === selectedOrder._id ? 'UPDATING...' : 'READY FOR PICKUP' }}
  </button>
  
- <button @click="selectedOrder = null" class="w-full py-4 bg-white border border-gray-100 text-gray-400 text-[10px] font-black tracking-widest rounded-2xl hover:bg-gray-50 transition-all">
+ <button @click="selectedOrder = null" class="w-full py-4 bg-white border border-gray-100 text-gray-400 text-sm font-black  rounded-2xl hover:bg-gray-50 transition-all">
  Close Details
  </button>
  </div>

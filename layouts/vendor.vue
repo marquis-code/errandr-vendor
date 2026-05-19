@@ -102,7 +102,7 @@
             </div>
             <div class="flex-1 min-w-0">
               <h3 class="font-semibold text-gray-900 truncate">{{ userDisplayName }}</h3>
-              <p class="text-xs text-gray-500 truncate">{{ user?.email }}</p>
+              <p class="text-sm text-gray-500 truncate">{{ user?.email }}</p>
             </div>
           </div>
         </div>
@@ -160,7 +160,7 @@
                 </div>
                 <div class="text-left">
                   <p class="text-sm font-semibold text-gray-900">{{ userDisplayName }}</p>
-                  <p class="text-xs text-gray-500">{{ user?.email }}</p>
+                  <p class="text-sm text-gray-500">{{ user?.email }}</p>
                 </div>
               </div>
             </div>
@@ -253,7 +253,8 @@ import {
   X,
   Bell,
   Megaphone,
-  Clock
+  Clock,
+  Menu
 } from 'lucide-vue-next'
 import { useRealtimeNotifications } from '@/composables/core/useRealtimeNotifications'
 import ChatWidget from '@/components/ChatWidget.vue'

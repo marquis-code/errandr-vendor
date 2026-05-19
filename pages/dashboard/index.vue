@@ -3,13 +3,13 @@
  <!-- Header Section -->
  <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pt-6">
  <div>
- <h1 class="text-2xl font-bold text-gray-900 tracking-tight sm:text-3xl">Dashboard</h1>
- <p class="text-sm text-gray-400 mt-1 font-medium italic">Welcome back to your store overview</p>
+ <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">Dashboard</h1>
+ <p class="text-sm text-gray-400 mt-1 font-medium">Welcome back to your store overview</p>
  </div>
  <div class="flex items-center gap-3">
  <div class="flex items-center gap-2 bg-emerald-50/50 px-4 py-2 rounded-xl">
  <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
- <span class="text-emerald-600 text-[9px] font-bold tracking-widest">Store Online</span>
+ <span class="text-emerald-600 text-sm font-bold">Store Online</span>
  </div>
  <NuxtLink to="/dashboard/settings" class="p-3 bg-white border border-gray-50 rounded-xl shadow-sm hover:shadow-md transition-all active:scale-95 group">
  <Settings class="w-5 h-5 text-gray-400 group-hover:text-[#065fdb] transition-colors" />
@@ -24,13 +24,13 @@
  <div :class="stat.bgClass" class="w-12 h-12 rounded-2xl flex items-center justify-center border border-white/50">
  <component :is="stat.icon" class="w-5 h-5" />
  </div>
- <span v-if="stat.trend" class="text-[9px] font-bold px-2 py-0.5 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-100 tracking-widest ">
+ <span v-if="stat.trend" class="text-sm font-bold px-2 py-0.5 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-100">
  Live
  </span>
  </div>
  <div class="relative z-10">
- <p class="text-[10px] font-bold text-gray-400 tracking-widest mb-1">{{ stat.label }}</p>
- <h3 class="text-2xl font-bold text-gray-900 tracking-tight">{{ stat.value }}</h3>
+ <p class="text-sm font-bold text-gray-400 mb-1">{{ stat.label }}</p>
+ <h3 class="text-2xl font-bold text-gray-900">{{ stat.value }}</h3>
  </div>
  </div>
  </div>
@@ -39,12 +39,12 @@
  <!-- Recent Orders Table -->
  <div class="lg:col-span-2 space-y-6">
  <div class="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden flex flex-col min-h-[500px]">
- <div class="px-8 py-6 border-b border-gray-50 flex items-center justify-between bg-gray-50/30">
+ <div class="px-8 py-6 border-b border-gray-50 flex flex-col sm:flex-row sm:items-center justify-between bg-gray-50/30 gap-4">
  <div>
- <h3 class="font-bold text-gray-900 text-lg tracking-tight">Recent Orders</h3>
- <p class="text-[9px] font-bold text-gray-400 tracking-widest mt-0.5">Real-time incoming requests</p>
+ <h3 class="font-bold text-gray-900 text-lg">Recent Orders</h3>
+ <p class="text-sm font-bold text-gray-400 mt-0.5">Real-time incoming requests</p>
  </div>
- <NuxtLink to="/dashboard/orders" class="text-[9px] font-bold text-[#065fdb] tracking-widest hover:bg-blue-50 px-4 py-2 bg-white rounded-lg border border-gray-100 transition-colors">See All</NuxtLink>
+ <NuxtLink to="/dashboard/orders" class="text-sm font-bold text-[#065fdb] hover:bg-blue-50 px-4 py-2 bg-white rounded-lg border border-gray-100 transition-colors self-start sm:self-auto whitespace-nowrap">See All</NuxtLink>
  </div>
  
  <UiTable 
@@ -56,29 +56,29 @@
  >
  <template #customer="{ item }">
  <div class="flex items-center gap-3">
- <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center font-bold text-xs text-gray-500 border border-white">
+ <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center font-bold text-sm text-gray-500 border border-white">
  {{ item.customer?.firstName?.[0] }}{{ item.customer?.lastName?.[0] }}
  </div>
  <div class="truncate">
  <p class="font-bold text-gray-900 truncate">{{ item.customer?.firstName }} {{ item.customer?.lastName }}</p>
- <p class="text-[9px] text-gray-400 font-medium ">{{ item.customer?.phone || 'No phone' }}</p>
+ <p class="text-sm text-gray-400 font-medium">{{ item.customer?.phone || 'No phone' }}</p>
  </div>
  </div>
  </template>
  <template #store="{ item }">
  <div class="flex items-center gap-2">
- <div class="w-5 h-5 rounded-md bg-gray-100 overflow-hidden flex items-center justify-center border border-gray-100">
+ <div class="w-5 h-5 rounded-md bg-gray-100 overflow-hidden flex items-center justify-center border border-gray-100 shrink-0">
  <img v-if="item.vendor?.logo" :src="item.vendor.logo" class="w-full h-full object-cover" />
  <Building v-else class="w-2.5 h-2.5 text-gray-300" />
  </div>
- <span class="text-[10px] font-bold text-gray-600 truncate max-w-[100px]">{{ item.vendor?.storeName || 'N/A' }}</span>
+ <span class="text-sm font-bold text-gray-600 truncate max-w-[120px]">{{ item.vendor?.storeName || 'N/A' }}</span>
  </div>
  </template>
  <template #total="{ item }">
- <span class="font-bold text-gray-900">₦{{ item.total?.toLocaleString() }}</span>
+ <span class="font-bold text-gray-900 whitespace-nowrap">₦{{ item.total?.toLocaleString() }}</span>
  </template>
  <template #status="{ item }">
- <span :class="getStatusBadge(item.status)" class="text-[8px] font-bold tracking-widest px-2 py-0.5 rounded-lg border">
+ <span :class="getStatusBadge(item.status)" class="text-sm font-bold px-2 py-1 rounded-lg border whitespace-nowrap">
  {{ item.status.replace(/_/g, ' ') }}
  </span>
  </template>
@@ -96,11 +96,11 @@
  <ShieldCheck class="w-5 h-5" />
  </div>
  <div>
- <h4 class="text-sm font-bold text-gray-900 tracking-tight">Setup your store for success</h4>
- <p class="text-[10px] text-gray-500 font-medium mt-1 tracking-widest">Complete these steps to start receiving orders</p>
+ <h4 class="text-base font-bold text-gray-900">Setup your store for success</h4>
+ <p class="text-sm text-gray-500 font-medium mt-1">Complete these steps to start receiving orders</p>
  </div>
  </div>
- <NuxtLink to="/dashboard/settings" class="px-6 py-3 bg-white text-gray-900 rounded-xl text-[9px] font-black tracking-widest hover:shadow-md transition-all border border-gray-100">
+ <NuxtLink to="/dashboard/settings" class="px-6 py-3 bg-white text-gray-900 rounded-xl text-sm font-black hover:shadow-md transition-all border border-gray-100 whitespace-nowrap text-center">
  Setup Store Profile
  </NuxtLink>
  </div>
@@ -114,9 +114,9 @@
  <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center mb-6 border border-white/10 shadow-inner">
  <Package class="w-5 h-5 text-[#065fdb]" />
  </div>
- <h3 class="text-xl font-bold tracking-tight mb-2">Inventory Health</h3>
- <p class="text-white/40 text-[9px] mb-8 font-bold tracking-widest">Some items running low</p>
- <NuxtLink to="/dashboard/inventory" class="inline-flex px-6 py-3 bg-white text-gray-900 rounded-xl text-[9px] font-bold tracking-widest hover:scale-105 transition-transform shadow-lg shadow-black/20">Manage Stock</NuxtLink>
+ <h3 class="text-xl font-bold mb-2">Inventory Health</h3>
+ <p class="text-white/40 text-sm mb-8 font-bold">Some items running low</p>
+ <NuxtLink to="/dashboard/inventory" class="inline-flex px-6 py-3 bg-white text-gray-900 rounded-xl text-sm font-bold hover:scale-105 transition-transform shadow-lg shadow-black/20">Manage Stock</NuxtLink>
  </div>
  </div>
  
@@ -125,9 +125,9 @@
  <div class="flex items-center gap-0.5 mb-6">
  <Star v-for="i in 5" :key="i" class="w-4 h-4 text-amber-400 fill-amber-400" />
  </div>
- <p class="text-[9px] text-amber-900/40 font-bold tracking-widest mb-1">Store Rating</p>
- <h3 class="text-4xl font-black text-amber-950 tracking-tighter">{{ Number(currentStats.rating || 5).toFixed(1) }}</h3>
- <p class="text-[9px] text-amber-700/60 font-bold tracking-widest mt-4 flex items-center gap-2">
+ <p class="text-sm text-amber-900/40 font-bold mb-1">Store Rating</p>
+ <h3 class="text-4xl font-black text-amber-950">{{ Number(currentStats.rating || 5).toFixed(1) }}</h3>
+ <p class="text-sm text-amber-700/60 font-bold mt-4 flex items-center gap-2">
  <CheckCircle class="w-3 h-3" /> {{ currentStats.reviewsCount || 0 }} CUSTOMER REVIEWS
  </p>
  </div>
@@ -139,51 +139,51 @@
  <div class="space-y-8">
  <div class="bg-white rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-8 space-y-8 transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
  <div class="flex items-center gap-4">
- <div class="w-12 h-12 rounded-xl bg-[#065fdb]/5 text-[#065fdb] flex items-center justify-center border border-[#065fdb]/10 shadow-sm">
+ <div class="w-12 h-12 rounded-xl bg-[#065fdb]/5 text-[#065fdb] flex items-center justify-center border border-[#065fdb]/10 shadow-sm shrink-0">
  <Banknote class="w-5 h-5" />
  </div>
  <div>
- <h3 class="text-lg font-bold text-gray-900 tracking-tight">Earnings</h3>
- <p class="text-[9px] font-bold text-gray-400 tracking-widest">Today's Settlement</p>
+ <h3 class="text-lg font-bold text-gray-900">Earnings</h3>
+ <p class="text-sm font-bold text-gray-400">Today's Settlement</p>
  </div>
  </div>
  
  <div class="space-y-1">
- <p class="text-[9px] font-bold text-gray-400 tracking-widest ml-1">Current Balance</p>
+ <p class="text-sm font-bold text-gray-400 ml-1">Current Balance</p>
  <div class="flex items-baseline gap-1">
  <span class="text-lg font-black text-gray-200">₦</span>
- <h4 class="text-4xl font-bold text-gray-900 tracking-tight">{{ currentStats.todaySales?.toLocaleString() || '0' }}</h4>
+ <h4 class="text-4xl font-bold text-gray-900">{{ currentStats.todaySales?.toLocaleString() || '0' }}</h4>
  </div>
  </div>
 
  <div class="p-5 bg-gray-50/50 rounded-2xl border border-gray-50/50 space-y-3 shadow-inner">
- <div class="flex justify-between items-center text-[9px] font-bold tracking-widest">
+ <div class="flex justify-between items-center text-sm font-bold">
  <span class="text-gray-400">Target</span>
  <span class="text-[#065fdb]">₦65,000</span>
  </div>
  <div class="h-1.5 bg-gray-200 rounded-full overflow-hidden">
  <div class="h-full bg-[#065fdb] transition-all duration-1000" :style="{ width: Math.min((currentStats.todaySales / 65000) * 100, 100) + '%' }"></div>
  </div>
- <p class="text-[8px] text-gray-400 font-bold italic text-center">
+ <p class="text-sm text-gray-400 font-bold mt-2 text-center">
  {{ Math.round((currentStats.todaySales / 65000) * 100) }}% complete
  </p>
  </div>
 
- <NuxtLink to="/dashboard/wallet" class="flex items-center justify-center w-full py-4 bg-gray-900 text-white rounded-xl font-bold text-[9px] tracking-widest hover:bg-black transition-all active:scale-95 group shadow-xl shadow-black/10">
+ <NuxtLink to="/dashboard/wallet" class="flex items-center justify-center w-full py-4 bg-gray-900 text-white rounded-xl font-bold text-sm hover:bg-black transition-all active:scale-95 group shadow-xl shadow-black/10">
  Financial Hub <ArrowRight class="w-3.5 h-3.5 ml-2 group-hover:translate-x-1 transition-transform" />
  </NuxtLink>
  </div>
 
  <div class="bg-[#065fdb] rounded-[2.5rem] p-8 text-white shadow-2xl relative overflow-hidden group">
  <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-3xl opacity-50"></div>
- <h3 class="text-lg font-bold flex items-center gap-3 relative z-10 tracking-tight">
+ <h3 class="text-lg font-bold flex items-center gap-3 relative z-10">
  <Megaphone class="w-5 h-5" /> Campus Insight
  </h3>
- <p class="text-white/60 text-[10px] font-bold leading-relaxed mt-6 relative z-10 tracking-wide">
+ <p class="text-white/60 text-sm font-bold leading-relaxed mt-6 relative z-10">
  Students are searching for <span class="text-white underline decoration-white/30 decoration-2 underline-offset-4">Shawarma</span> more than usual.
  </p>
  <div class="mt-8 relative z-10">
- <button class="px-6 py-2.5 bg-white/10 border border-white/20 rounded-xl text-[8px] font-bold tracking-widest hover:bg-white/20 transition-all">Quick Promo</button>
+ <button class="px-6 py-2.5 bg-white/10 border border-white/20 rounded-xl text-sm font-bold hover:bg-white/20 transition-all">Quick Promo</button>
  </div>
  </div>
  </div>

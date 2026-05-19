@@ -33,7 +33,7 @@
  
  <!-- Date Marker -->
  <div class="flex justify-center mb-6 sticky top-2 z-10">
- <span class="px-3 py-1 bg-[#D1E9F6] text-[#54656F] text-[11px] font-bold rounded-lg shadow-sm tracking-wide ">
+ <span class="px-3 py-1 bg-[#D1E9F6] text-[#54656F] text-[11px] font-bold rounded-lg shadow-sm  ">
  Order Coordination
  </span>
  </div>
@@ -93,7 +93,7 @@
  <div class="flex items-end gap-2 flex-wrap">
  <span v-if="msg.message" class="break-words flex-1 min-w-0 font-medium">{{ msg.message }}</span>
  <div class="flex items-center gap-1 shrink-0 mt-1 self-end">
- <span class="text-[10px] text-gray-400 font-medium">
+ <span class="text-sm text-gray-400 font-medium">
  {{ formatTime(msg.createdAt) }}
  </span>
  <!-- WhatsApp Ticks -->
@@ -107,7 +107,7 @@
  </div>
  
  <div v-if="isTyping" class="flex items-center ml-2 transition-all">
- <div class="bg-white px-3 py-2 rounded-lg shadow-sm text-[12px] text-[#075E54] font-bold italic animate-pulse">
+ <div class="bg-white px-3 py-2 rounded-lg shadow-sm text-[12px] text-[#075E54] font-bold  animate-pulse">
  {{ receiverName || 'User' }} is typing...
  </div>
  </div>
@@ -115,7 +115,7 @@
  <!-- Media Preview if uploading -->
  <div v-if="uploadingMedia" class="flex flex-col items-center justify-center p-4 bg-white/50 backdrop-blur-sm rounded-2xl mx-10 animate-pulse border border-emerald-100">
  <div class="w-8 h-8 border-2 border-[#00A884]/20 border-t-[#00A884] rounded-full animate-spin mb-2" />
- <p class="text-[10px] font-bold text-emerald-600 tracking-widest">Sending media...</p>
+ <p class="text-sm font-bold text-emerald-600 ">Sending media...</p>
  </div>
  </div>
 
@@ -130,7 +130,7 @@
  <div class="h-full bg-emerald-500 animate-progress" />
  </div>
  </div>
- <button @click="cancelRecording" class="text-xs font-bold text-red-500 tracking-widest">Cancel</button>
+ <button @click="cancelRecording" class="text-sm font-bold text-red-500 ">Cancel</button>
  </div>
 
  <div class="flex items-center gap-2">

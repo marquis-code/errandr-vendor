@@ -11,8 +11,8 @@
  class="w-full pl-11 pr-14 py-2.5 bg-gray-50/70 hover:bg-gray-100 transition-colors border-none rounded-xl text-sm font-medium focus:outline-none focus:bg-white focus:ring-2 focus:ring-parentPrimary/20"
  />
  <div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
- <kbd class="px-1.5 py-0.5 text-[10px] font-bold bg-white text-gray-400 rounded-md border border-gray-200">⌘</kbd>
- <kbd class="px-1.5 py-0.5 text-[10px] font-bold bg-white text-gray-400 rounded-md border border-gray-200">K</kbd>
+ <kbd class="px-1.5 py-0.5 text-sm font-bold bg-white text-gray-400 rounded-md border border-gray-200">⌘</kbd>
+ <kbd class="px-1.5 py-0.5 text-sm font-bold bg-white text-gray-400 rounded-md border border-gray-200">K</kbd>
  </div>
  </div>
  <div class="flex items-center gap-4">
@@ -41,7 +41,7 @@
  v-for="filter in statusFilters"
  :key="filter.key"
  @click="activeFilter = filter.key"
- class="px-4 py-1.5 rounded-full text-xs font-bold transition-all tracking-wider whitespace-nowrap"
+ class="px-4 py-1.5 rounded-full text-sm font-bold transition-all r whitespace-nowrap"
  :class="activeFilter === filter.key ? 'bg-parentPrimary text-white shadow-sm' : 'text-gray-500 hover:bg-gray-100 bg-gray-50 border border-transparent'"
  >
  {{ filter.label }}
@@ -98,7 +98,7 @@
  <p class="text-[13px] font-bold text-gray-900 tracking-tighter">₦{{ order.total?.toLocaleString() }}</p>
  </td>
  <td class="py-4 px-2">
- <span :class="getStatusBadge(order.status)" class="text-[10px] font-bold tracking-widest px-2.5 py-1 rounded-md border block w-fit">
+ <span :class="getStatusBadge(order.status)" class="text-sm font-bold  px-2.5 py-1 rounded-md border block w-fit">
  {{ formatStatus(order.status) }}
  </span>
  </td>
@@ -124,7 +124,7 @@
  <h3 class="text-xl font-bold text-gray-900 tracking-tight">Order #{{ selectedOrder.orderNumber }}</h3>
  <p class="text-sm font-medium text-gray-500 mb-4">{{ selectedOrder.customer?.firstName }} {{ selectedOrder.customer?.lastName }}</p>
  
- <span :class="getStatusBadge(selectedOrder.status)" class="text-[10px] font-bold tracking-widest px-3 py-1.5 rounded-full border shadow-sm">
+ <span :class="getStatusBadge(selectedOrder.status)" class="text-sm font-bold  px-3 py-1.5 rounded-full border shadow-sm">
  {{ formatStatus(selectedOrder.status) }}
  </span>
  </div>
@@ -132,45 +132,45 @@
  <div class="py-6 space-y-6">
  <div class="bg-gray-50/80 rounded-2xl p-6 space-y-4 shadow-inner border border-gray-100/50">
  <div class="flex justify-between items-center mb-2">
- <p class="text-[10px] font-bold text-gray-400 tracking-widest">Order Contents</p>
- <span class="text-[10px] font-bold text-gray-500">{{ timeAgo(selectedOrder.createdAt) }}</span>
+ <p class="text-sm font-bold text-gray-400 ">Order Contents</p>
+ <span class="text-sm font-bold text-gray-500">{{ timeAgo(selectedOrder.createdAt) }}</span>
  </div>
  <div class="space-y-3">
  <div v-for="item in selectedOrder.items" :key="item._id" class="flex items-center justify-between text-sm">
  <div class="flex items-center gap-3">
- <span class="w-7 h-7 bg-white rounded-lg flex items-center justify-center text-[10px] font-black text-gray-400 border border-gray-100 shadow-sm">{{ item.quantity }}x</span>
+ <span class="w-7 h-7 bg-white rounded-lg flex items-center justify-center text-sm font-black text-gray-400 border border-gray-100 shadow-sm">{{ item.quantity }}x</span>
  <span class="text-gray-900 font-bold tracking-tight text-[13px]">{{ item.name }}</span>
  </div>
  <span class="text-gray-500 font-medium text-[13px]">₦{{ item.subtotal?.toLocaleString() }}</span>
  </div>
  </div>
  <div class="pt-4 mt-4 border-t border-gray-200/50 flex justify-between items-center">
- <span class="text-xs font-bold text-gray-500 tracking-widest">Total Value</span>
+ <span class="text-sm font-bold text-gray-500 ">Total Value</span>
  <span class="text-xl font-black text-gray-900 tracking-tight">₦{{ selectedOrder.total?.toLocaleString() }}</span>
  </div>
  </div>
 
  <div class="pt-4 border-t border-gray-100 flex flex-col gap-3">
- <h4 class="text-[10px] font-bold tracking-widest text-gray-400 mb-2">Vendor Actions</h4>
+ <h4 class="text-sm font-bold  text-gray-400 mb-2">Vendor Actions</h4>
  
  <button 
  v-if="selectedOrder.status === 'confirmed'" 
  @click="updateStatus(selectedOrder._id, 'preparing'); selectedOrder = null;" 
- class="w-full px-5 py-4 bg-parentPrimary text-white rounded-xl text-[11px] font-bold tracking-widest shadow-lg shadow-parentPrimary/20 hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+ class="w-full px-5 py-4 bg-parentPrimary text-white rounded-xl text-[11px] font-bold  shadow-lg shadow-parentPrimary/20 hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
  >
  Start Preparing <ChevronRight class="w-3.5 h-3.5" />
  </button>
  <button 
  v-if="selectedOrder.status === 'preparing'" 
  @click="updateStatus(selectedOrder._id, 'ready_for_pickup'); selectedOrder = null;" 
- class="w-full px-5 py-4 bg-gray-900 text-white rounded-xl text-[11px] font-bold tracking-widest shadow-lg shadow-gray-900/10 hover:bg-black active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+ class="w-full px-5 py-4 bg-gray-900 text-white rounded-xl text-[11px] font-bold  shadow-lg shadow-gray-900/10 hover:bg-black active:scale-[0.98] transition-all flex items-center justify-center gap-2"
  >
  Mark Ready for Errander <ChevronRight class="w-3.5 h-3.5" />
  </button>
  
  <NuxtLink 
  :to="`/orders/${selectedOrder._id}`" 
- class="w-full px-5 py-3.5 bg-white text-gray-500 rounded-xl text-[11px] font-bold tracking-widest border border-gray-200 hover:text-gray-900 hover:border-gray-300 transition-all text-center mt-2 group"
+ class="w-full px-5 py-3.5 bg-white text-gray-500 rounded-xl text-[11px] font-bold  border border-gray-200 hover:text-gray-900 hover:border-gray-300 transition-all text-center mt-2 group"
  >
  Report Issue <span class="group-hover:translate-x-1 inline-block transition-transform">→</span>
  </NuxtLink>

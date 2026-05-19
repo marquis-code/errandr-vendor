@@ -20,7 +20,7 @@
  <div class="px-6 py-5 border-b border-gray-100 flex items-center justify-between shrink-0 bg-white/80 backdrop-blur-sm sticky top-0 z-10">
  <div>
  <h3 class="text-xl font-black text-gray-900 tracking-tight">{{ title }}</h3>
- <p v-if="description" class="text-xs font-bold text-gray-400 tracking-widest mt-1">{{ description }}</p>
+ <p v-if="description" class="text-sm font-bold text-gray-400  mt-1">{{ description }}</p>
  </div>
  <button 
  @click="$emit('close')"

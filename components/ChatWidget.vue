@@ -13,7 +13,7 @@
  <div class="flex items-center justify-between px-4 py-3 bg-gray-900 text-white">
  <div>
  <p class="text-sm font-semibold">Chat with us</p>
- <p class="text-xs text-white/70">
+ <p class="text-sm text-white/70">
  {{ isConnected ? 'Online' : 'Connecting...' }}
  </p>
  </div>
@@ -26,7 +26,7 @@
  </div>
 
  <div v-if="isGuest && needsGuestInfo" class="px-4 py-4 space-y-3 border-b border-gray-100">
- <p class="text-xs text-gray-600">Tell us your name and email to start.</p>
+ <p class="text-sm text-gray-600">Tell us your name and email to start.</p>
  <UiAnimatedInput
  v-model="guestProfile.name"
  type="text"
@@ -56,7 +56,7 @@
  <div ref="messageContainer" class="flex-1 overflow-y-auto px-4 py-4 space-y-4 bg-gray-50">
  <!-- FAQs Section -->
  <div v-if="faqs.length > 0 && messages.length === 0" class="space-y-2">
- <p class="text-xs font-medium text-gray-500 tracking-wide">Frequently Asked Questions</p>
+ <p class="text-sm font-medium text-gray-500 ">Frequently Asked Questions</p>
  <div class="space-y-2">
  <button
  v-for="faq in faqs.slice(0, 5)"
@@ -67,7 +67,7 @@
  {{ faq.question }}
  </button>
  </div>
- <p v-if="faqs.length > 5" class="text-xs text-gray-400 text-center mt-2">
+ <p v-if="faqs.length > 5" class="text-sm text-gray-400 text-center mt-2">
  Or type your own question below
  </p>
  </div>
@@ -84,19 +84,19 @@
  }"
  >
  <div
- class="max-w-[85%] rounded-2xl px-5 py-3 text-xs shadow-sm"
+ class="max-w-[85%] rounded-2xl px-5 py-3 text-sm shadow-sm"
  :class="getBubbleStyle(message)"
  >
  <p class="text-[12px] font-semibold mb-1" :class="getBubbleLabelStyle(message)" v-if="showSenderLabel(message)">
  {{ message.senderName || (message.senderType === 'bot' ? 'Bot' : 'Support') }}
  </p>
  <p class="whitespace-pre-wrap leading-relaxed text-[13px]">{{ message.content }}</p>
- <p class="text-[10px] mt-1.5 text-right" :class="getBubbleTimeStyle(message)" v-if="message.createdAt">
+ <p class="text-sm mt-1.5 text-right" :class="getBubbleTimeStyle(message)" v-if="message.createdAt">
  {{ formatTime(message.createdAt) }}
  </p>
  </div>
  </div>
- <div v-if="isTyping" class="text-xs text-gray-500 italic">Someone is typing...</div>
+ <div v-if="isTyping" class="text-sm text-gray-500 ">Someone is typing...</div>
  </div>
 
  <div class="border-t border-gray-100 px-3 py-3 bg-white">

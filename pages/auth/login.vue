@@ -1,76 +1,140 @@
 <template>
-  <div class="min-h-screen w-full flex flex-col md:flex-row bg-white overflow-hidden">
-    <!-- Left Side: Image Panel -->
-    <div class="hidden md:block w-1/2 relative overflow-hidden">
-      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&h=1600&fit=crop" alt="Campus vendor kitchen" class="absolute inset-0 w-full h-full object-cover" />
-      <div class="absolute inset-0 bg-gradient-to-b from-[#065fdb]/80 via-[#065fdb]/70 to-black/80"></div>
-      <div class="relative z-10 flex flex-col justify-between h-full p-12 lg:p-16">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/30">
-            <Store class="w-5 h-5 text-white" />
+  <div class="min-h-screen w-full bg-white sm:bg-gray-50 flex items-center justify-center p-6 relative overflow-hidden">
+    <!-- Ambient Background -->
+    <div class="absolute top-0 left-0 w-[600px] h-[600px] bg-parentPrimary/10 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px] translate-x-1/2 translate-y-1/2"></div>
+
+    <div class="w-full max-w-[420px] relative z-10">
+      <!-- Back to Home -->
+      <NuxtLink to="/" class="absolute -top-16 left-0 flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-gray-900 transition-colors">
+        <ArrowLeft class="w-4 h-4" /> Back to website
+      </NuxtLink>
+
+      <!-- Main Content -->
+      <div class="w-full">
+        
+        <!-- Header -->
+        <div class="text-center mb-10">
+          <div class="inline-flex items-center justify-center w-16 h-16 rounded-[1.5rem] bg-parentPrimary/10 text-parentPrimary mb-6 shadow-inner">
+            <Store class="w-8 h-8" />
           </div>
-          <span class="text-xl font-black text-white tracking-tighter">Errandr</span>
+          <h1 class="text-3xl font-black text-gray-900 tracking-tight mb-2">Welcome Back</h1>
+          <p class="text-gray-500 font-medium text-sm">Sign in to your merchant dashboard</p>
         </div>
-        <div class="max-w-md">
-          <h2 class="text-5xl font-black text-white leading-[1.1] tracking-tighter mb-6">Manage your store, track every order.</h2>
-          <p class="text-white/70 text-lg font-medium leading-relaxed">Sign in to your merchant dashboard and keep your campus business running smoothly.</p>
+
+        <!-- Form -->
+        <form @submit.prevent="handleLogin" class="space-y-6">
+          <UiAnimatedInput 
+            v-model="email" 
+            type="email" 
+            label="Email Address" 
+            :hasError="!!validationErrors.email"
+            :errorMessage="validationErrors.email"
+            @input="validationErrors.email = ''" 
+          />
+          
+          <div class="space-y-2">
+            <UiAnimatedInput 
+              v-model="password" 
+              type="password" 
+              label="Password" 
+              :hasError="!!validationErrors.password"
+              :errorMessage="validationErrors.password"
+              @input="validationErrors.password = ''" 
+            />
+            <div class="flex justify-end">
+              <NuxtLink to="/auth/forgot-password" class="text-[13px] font-bold text-parentPrimary hover:text-[#054ec0] transition-colors">
+                Forgot password?
+              </NuxtLink>
+            </div>
+          </div>
+
+          <transition name="fade">
+            <div v-if="error" class="flex items-center gap-2 p-4 bg-red-50 border border-red-100 rounded-2xl text-[13px] font-bold text-red-600">
+              <AlertCircle class="w-4 h-4 shrink-0" />
+              {{ error }}
+            </div>
+          </transition>
+
+          <button type="submit" :disabled="loading"
+            class="w-full py-4 bg-[#065fdb] hover:bg-[#054ec0] text-white rounded-2xl font-black text-base transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-xl shadow-[#065fdb]/20 group active:scale-[0.98]">
+            <Loader2 v-if="loading" class="animate-spin w-5 h-5" />
+            <span v-else>Sign In</span>
+            <ArrowRight v-if="!loading" class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </button>
+        </form>
+
+        <!-- Footer -->
+        <div class="mt-10 text-center pt-8 border-t border-gray-200">
+          <p class="text-gray-500 font-medium text-sm">
+            Don't have a store yet? 
+            <NuxtLink to="/auth/register" class="text-parentPrimary font-bold hover:underline">Open one now</NuxtLink>
+          </p>
         </div>
       </div>
-    </div>
-
-    <!-- Right Side: Form -->
-    <div class="w-full md:w-1/2 flex flex-col justify-center px-6 sm:px-12 md:px-20 lg:px-28 py-12 relative z-10">
-      <div class="mb-12">
-        <div class="flex items-center gap-2 mb-8 md:hidden">
-          <div class="w-8 h-8 rounded-lg bg-[#065fdb] flex items-center justify-center"><Store class="w-4 h-4 text-white" /></div>
-          <span class="text-xl font-bold text-gray-900 tracking-tight">Errandr</span>
-        </div>
-        <h1 class="text-4xl font-extrabold text-gray-900 mb-3 tracking-tight">Merchant Login</h1>
-        <p class="text-gray-500 text-lg">Sign in to manage your shop and track orders</p>
-      </div>
-
-      <form @submit.prevent="handleLogin" class="space-y-6 max-w-md">
-        <UiAnimatedInput v-model="email" type="email" label="Email" required />
-        <UiAnimatedInput v-model="password" type="password" label="Password" required />
-        <div class="flex items-center justify-between">
-          <NuxtLink to="/auth/forgot-password" class="text-sm font-semibold text-[#065fdb] hover:underline">Forgot your password?</NuxtLink>
-        </div>
-
-        <p v-if="error" class="text-red-500 text-sm font-medium">{{ error }}</p>
-
-        <button type="submit" :disabled="loading"
-          class="w-full py-3 bg-[#065fdb] hover:bg-[#054ec0] text-white rounded-xl font-bold text-base transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-md shadow-[#065fdb]/20">
-          <Loader2 v-if="loading" class="animate-spin w-6 h-6" />
-          {{ loading ? 'Signing in...' : 'Sign In' }}
-        </button>
-
-        <p class="text-center text-gray-600 font-medium mt-8">
-          Want to sell on Errandr? <NuxtLink to="/auth/register" class="text-[#065fdb] font-bold hover:underline">Open Your Store</NuxtLink>
-        </p>
-      </form>
-
-      <div class="mt-auto pt-12 flex flex-wrap gap-x-6 gap-y-2 text-xs text-gray-400 font-medium">
-        <p>&copy; {{ new Date().getFullYear() }} Errandr</p>
-        <NuxtLink to="/terms" class="hover:text-gray-600">Terms</NuxtLink>
-        <NuxtLink to="/terms" class="hover:text-gray-600">Privacy</NuxtLink>
+      
+      <div class="mt-8 text-center flex items-center justify-center gap-4 text-sm font-bold text-gray-400">
+        <p>&copy; {{ new Date().getFullYear() }} Erranders</p>
+        <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+        <NuxtLink to="/terms" class="hover:text-gray-600 transition-colors">Terms & Privacy</NuxtLink>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Loader2, Store } from 'lucide-vue-next'
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
+import { Store, Loader2, ArrowRight, ArrowLeft, AlertCircle } from 'lucide-vue-next'
 import { useAuth } from '@/composables/modules/auth'
+
 definePageMeta({ layout: false })
+useHead({ title: 'Merchant Sign In - Erranders' })
+
 const { login, loading } = useAuth()
 const email = ref('')
 const password = ref('')
 const error = ref('')
+
+const validationErrors = reactive({
+  email: '',
+  password: ''
+})
+
+const validate = () => {
+  let isValid = true
+  validationErrors.email = ''
+  validationErrors.password = ''
+
+  if (!email.value) {
+    validationErrors.email = 'Email address is required'
+    isValid = false
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+    validationErrors.email = 'Please enter a valid email'
+    isValid = false
+  }
+
+  if (!password.value) {
+    validationErrors.password = 'Password is required'
+    isValid = false
+  }
+
+  return isValid
+}
+
 const handleLogin = async () => {
   error.value = ''
-  try { await login({ email: email.value, password: password.value }) }
-  catch (e: any) { error.value = e.data?.message || 'Invalid credentials' }
+  if (!validate()) return
+
+  try { 
+    await login({ email: email.value, password: password.value }) 
+  }
+  catch (e: any) { 
+    error.value = e.data?.message || e.response?.data?.message || 'Invalid credentials' 
+  }
 }
-useHead({ title: 'Merchant Sign In - Errandr' })
 </script>
+
+<style scoped>
+.fade-enter-active, .fade-leave-active { transition: opacity 0.3s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
+</style>
