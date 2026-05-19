@@ -100,10 +100,10 @@
         <p class="text-sm font-medium text-gray-500 ">
           &copy; {{ new Date().getFullYear() }} Erranders Inc. All rights reserved.
         </p>
-        <div class="flex items-center gap-2 text-sm font-medium text-gray-500">
+        <!-- <div class="flex items-center gap-2 text-sm font-medium text-gray-500">
           <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
           All Systems Operational
-        </div>
+        </div> -->
       </div>
     </div>
   </footer>
