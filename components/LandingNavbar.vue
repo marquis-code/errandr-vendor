@@ -17,12 +17,13 @@
       >
         <!-- Logo -->
         <NuxtLink to="/" class="flex items-center gap-3 group relative z-10">
-          <!-- <div class="relative overflow-hidden rounded-xl bg-white/10 p-1 backdrop-blur-sm">
-             <img src="@/assets/img/logo.png" alt="Erranders Logo" class="h-10 w-auto object-contain transition-transform duration-500 group-hover:scale-110" />
-          </div> -->
-          <span class="text-xl font-black tracking-tight transition-colors" :class="[scrolled ? 'text-gray-900' : 'text-white']">
+          <div class="relative overflow-hidden rounded-xl bg-white/10 p-1 backdrop-blur-sm">
+             <img src="@/assets/img/logo-light.png" alt="Erranders Logo" class="h-10 w-auto object-contain transition-transform duration-500 group-hover:scale-110" />
+          </div>
+
+          <!-- <span class="text-xl font-black tracking-tight transition-colors" :class="[scrolled ? 'text-gray-900' : 'text-gray-900']">
             Erranders<span class="text-parentPrimary">.</span>
-          </span>
+          </span> -->
         </NuxtLink>
         
         <!-- Desktop Links -->
@@ -33,8 +34,8 @@
              :to="link.path"
              class="relative px-5 py-2.5 text-[15px] font-bold transition-colors group"
              :class="[
-               scrolled ? 'text-gray-600 hover:text-gray-900' : 'text-gray-300 hover:text-white',
-               { '!text-gray-900': route.path === link.path && scrolled, '!text-white': route.path === link.path && !scrolled }
+               scrolled ? 'text-gray-600 hover:text-gray-900' : 'text-gray-300 hover:text-gray-900',
+               { '!text-gray-900': route.path === link.path }
              ]"
            >
              {{ link.name }}
@@ -44,7 +45,7 @@
 
         <!-- Desktop Actions -->
         <div class="hidden lg:flex items-center gap-4 relative z-10">
-          <NuxtLink to="/auth/login" class="text-sm font-bold transition-colors px-4 py-2" :class="[scrolled ? 'text-gray-600 hover:text-gray-900' : 'text-gray-300 hover:text-white']">
+          <NuxtLink to="/auth/login" class="text-sm font-bold transition-colors px-4 py-2" :class="[scrolled ? 'text-gray-600 hover:text-gray-900' : 'text-gray-300 hover:text-gray-900']">
             Log In
           </NuxtLink>
           <NuxtLink to="/auth/register" class="relative group overflow-hidden px-7 py-2.5 rounded-full bg-gray-900 text-white text-sm font-bold shadow-[0_0_40px_-10px_rgba(0,0,0,0.5)] hover:shadow-[0_0_60px_-15px_rgba(0,0,0,0.7)] transition-all duration-300">
@@ -59,7 +60,7 @@
         <button 
           @click="isMobileMenuOpen = !isMobileMenuOpen" 
           class="lg:hidden relative z-50 w-12 h-12 flex items-center justify-center rounded-full border focus:outline-none shadow-sm transition-colors"
-          :class="[scrolled ? 'bg-white border-gray-100 text-gray-900' : 'bg-white/10 border-white/20 text-white backdrop-blur-md']"
+          :class="[scrolled ? 'bg-white border-gray-100 text-gray-900' : 'border-black text-black backdrop-blur-md']"
         >
           <Menu v-if="!isMobileMenuOpen" class="w-5 h-5" />
           <X v-else class="w-5 h-5" />
@@ -86,14 +87,14 @@
           <NuxtLink 
             to="/auth/login" 
             @click="isMobileMenuOpen = false"
-            class="w-full py-4 text-center text-lg font-bold text-gray-600 bg-gray-50 rounded-2xl border border-gray-100"
+            class="w-full py-3 text-center text-sm font-bold text-gray-600 bg-gray-50 rounded-2xl border border-gray-100"
           >
             Log In to Dashboard
           </NuxtLink>
           <NuxtLink 
             to="/auth/register" 
             @click="isMobileMenuOpen = false"
-            class="w-full py-4 text-center text-lg font-bold text-white bg-parentPrimary rounded-2xl shadow-xl shadow-parentPrimary/20 flex items-center justify-center gap-2"
+            class="w-full py-3 text-center text-sm font-bold text-white bg-parentPrimary rounded-2xl shadow-xl shadow-parentPrimary/20 flex items-center justify-center gap-2"
           >
             Create Store <ArrowRight class="w-5 h-5" />
           </NuxtLink>

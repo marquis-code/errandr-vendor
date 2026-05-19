@@ -19,7 +19,7 @@
  v-model="searchQuery"
  type="text" 
  placeholder="Find order or customer..." 
- class="w-full pl-11 pr-4 py-3 bg-white border border-gray-50 rounded-xl text-sm font-medium placeholder:text-gray-300 focus:ring-4 focus:ring-[#065fdb]/5 focus:border-[#065fdb]/30 outline-none transition-all shadow-sm"
+ class="w-full pl-11 pr-4 py-3 bg-white border border-gray-50 rounded-xl text-sm font-medium placeholder:text-gray-300 focus:ring-4 focus:ring-[#FF5C1A]/5 focus:border-[#FF5C1A]/30 outline-none transition-all shadow-sm"
  />
  </div>
  </div>
@@ -124,7 +124,7 @@
 
  <!-- Total Summary -->
  <div class="p-6 bg-gray-900 rounded-3xl text-white shadow-2xl relative overflow-hidden group">
- <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-[#065fdb]/20 rounded-full blur-3xl" />
+ <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-[#FF5C1A]/20 rounded-full blur-3xl" />
  <div class="relative z-10 flex justify-between items-end">
  <div>
  <p class="text-sm font-bold text-white/40  mb-1">Total Payout</p>
@@ -139,7 +139,7 @@
 
  <div class="p-6 bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-gray-50/50 flex flex-col gap-4">
  <div class="flex items-center gap-4">
- <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center font-bold text-[#065fdb] shadow-inner">
+ <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center font-bold text-[#FF5C1A] shadow-inner">
  {{ selectedOrder.customer?.firstName?.[0] }}{{ selectedOrder.customer?.lastName?.[0] }}
  </div>
  <div class="flex-1">
@@ -148,7 +148,7 @@
  </div>
  <button 
  @click="openChat(selectedOrder.customer?._id, selectedOrder.customer?.firstName + ' ' + selectedOrder.customer?.lastName, selectedOrder.customer?.avatar)"
- class="p-3 bg-[#065fdb]/5 text-[#065fdb] rounded-xl hover:bg-[#065fdb] hover:text-white transition-all shadow-sm border border-[#065fdb]/10"
+ class="p-3 bg-[#FF5C1A]/5 text-[#FF5C1A] rounded-xl hover:bg-[#FF5C1A] hover:text-white transition-all shadow-sm border border-[#FF5C1A]/10"
  >
  <MessageSquare class="w-4 h-4" />
  </button>
@@ -188,7 +188,7 @@
  v-if="selectedOrder.status === 'preparing'" 
  @click="updateStatus(selectedOrder._id, 'ready_for_pickup')" 
  :disabled="updatingOrderId === selectedOrder._id"
- class="w-full py-4 bg-[#065fdb] text-white rounded-2xl text-sm font-black  hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-[#065fdb]/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+ class="w-full py-4 bg-[#FF5C1A] text-white rounded-2xl text-sm font-black  hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-[#FF5C1A]/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
  >
  <component :is="updatingOrderId === selectedOrder._id ? 'Loader2' : 'Package'" :class="[updatingOrderId === selectedOrder._id ? 'animate-spin' : '', 'w-4 h-4']" />
  {{ updatingOrderId === selectedOrder._id ? 'UPDATING...' : 'READY FOR PICKUP' }}

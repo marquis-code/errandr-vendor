@@ -82,8 +82,8 @@ input[type=number] {
 }
 
 .custom-checkbox:checked {
-  background-color: #065fdb;
-  border-color: #065fdb;
+  background-color: #FF5C1A;
+  border-color: #FF5C1A;
 }
 
 .custom-checkbox:checked::after {
@@ -99,12 +99,12 @@ input[type=number] {
 }
 
 .custom-checkbox:hover {
-  border-color: #065fdb;
+  border-color: #FF5C1A;
 }
 
 .custom-checkbox:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(6, 95, 219, 0.1);
+  box-shadow: 0 0 0 3px rgba(255, 92, 26, 0.1);
 }
 
 .custom-input {
@@ -130,8 +130,8 @@ input[type=number] {
 
 .glass-input:focus {
   background: rgba(255, 255, 255, 0.08);
-  border-color: #065fdb;
-  box-shadow: 0 0 20px rgba(6, 95, 219, 0.1);
+  border-color: #FF5C1A;
+  box-shadow: 0 0 20px rgba(255, 92, 26, 0.1);
 }
 
 .bg-dark-950 {
@@ -151,7 +151,7 @@ input[type=number] {
 }
 
 .btn-primary {
-  background-color: #065fdb;
+  background-color: #FF5C1A;
   color: white;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -159,7 +159,7 @@ input[type=number] {
 .btn-primary:hover {
   filter: brightness(1.1);
   transform: translateY(-1px);
-  box-shadow: 0 10px 20px rgba(6, 95, 219, 0.2);
+  box-shadow: 0 10px 20px rgba(255, 92, 26, 0.2);
 }
 
 .animate-fade-in {

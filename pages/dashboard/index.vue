@@ -12,7 +12,7 @@
  <span class="text-emerald-600 text-sm font-bold">Store Online</span>
  </div>
  <NuxtLink to="/dashboard/settings" class="p-3 bg-white border border-gray-50 rounded-xl shadow-sm hover:shadow-md transition-all active:scale-95 group">
- <Settings class="w-5 h-5 text-gray-400 group-hover:text-[#065fdb] transition-colors" />
+ <Settings class="w-5 h-5 text-gray-400 group-hover:text-[#FF5C1A] transition-colors" />
  </NuxtLink>
  </div>
  </div>
@@ -44,7 +44,7 @@
  <h3 class="font-bold text-gray-900 text-lg">Recent Orders</h3>
  <p class="text-sm font-bold text-gray-400 mt-0.5">Real-time incoming requests</p>
  </div>
- <NuxtLink to="/dashboard/orders" class="text-sm font-bold text-[#065fdb] hover:bg-blue-50 px-4 py-2 bg-white rounded-lg border border-gray-100 transition-colors self-start sm:self-auto whitespace-nowrap">See All</NuxtLink>
+ <NuxtLink to="/dashboard/orders" class="text-sm font-bold text-[#FF5C1A] hover:bg-blue-50 px-4 py-2 bg-white rounded-lg border border-gray-100 transition-colors self-start sm:self-auto whitespace-nowrap">See All</NuxtLink>
  </div>
  
  <UiTable 
@@ -92,7 +92,7 @@
  <!-- Onboarding Guide if no orders -->
  <div v-if="orders.length === 0 && !loadingOrders" class="p-8 bg-blue-50/30 border-t border-blue-50/50 flex flex-col md:flex-row items-center justify-between gap-6 mt-auto">
  <div class="flex items-start gap-4">
- <div class="w-10 h-10 rounded-xl bg-[#065fdb] text-white flex items-center justify-center shadow-lg shrink-0">
+ <div class="w-10 h-10 rounded-xl bg-[#FF5C1A] text-white flex items-center justify-center shadow-lg shrink-0">
  <ShieldCheck class="w-5 h-5" />
  </div>
  <div>
@@ -109,10 +109,10 @@
  <!-- Marketing / Insight Cards -->
  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
  <div class="bg-gray-900 rounded-[2.5rem] p-8 text-white shadow-2xl shadow-black/20 relative overflow-hidden group">
- <div class="absolute -right-10 -top-10 w-40 h-40 bg-[#065fdb]/30 rounded-full blur-3xl opacity-50"></div>
+ <div class="absolute -right-10 -top-10 w-40 h-40 bg-[#FF5C1A]/30 rounded-full blur-3xl opacity-50"></div>
  <div class="relative z-10">
  <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center mb-6 border border-white/10 shadow-inner">
- <Package class="w-5 h-5 text-[#065fdb]" />
+ <Package class="w-5 h-5 text-[#FF5C1A]" />
  </div>
  <h3 class="text-xl font-bold mb-2">Inventory Health</h3>
  <p class="text-white/40 text-sm mb-8 font-bold">Some items running low</p>
@@ -139,7 +139,7 @@
  <div class="space-y-8">
  <div class="bg-white rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-8 space-y-8 transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
  <div class="flex items-center gap-4">
- <div class="w-12 h-12 rounded-xl bg-[#065fdb]/5 text-[#065fdb] flex items-center justify-center border border-[#065fdb]/10 shadow-sm shrink-0">
+ <div class="w-12 h-12 rounded-xl bg-[#FF5C1A]/5 text-[#FF5C1A] flex items-center justify-center border border-[#FF5C1A]/10 shadow-sm shrink-0">
  <Banknote class="w-5 h-5" />
  </div>
  <div>
@@ -159,10 +159,10 @@
  <div class="p-5 bg-gray-50/50 rounded-2xl border border-gray-50/50 space-y-3 shadow-inner">
  <div class="flex justify-between items-center text-sm font-bold">
  <span class="text-gray-400">Target</span>
- <span class="text-[#065fdb]">₦65,000</span>
+ <span class="text-[#FF5C1A]">₦65,000</span>
  </div>
  <div class="h-1.5 bg-gray-200 rounded-full overflow-hidden">
- <div class="h-full bg-[#065fdb] transition-all duration-1000" :style="{ width: Math.min((currentStats.todaySales / 65000) * 100, 100) + '%' }"></div>
+ <div class="h-full bg-[#FF5C1A] transition-all duration-1000" :style="{ width: Math.min((currentStats.todaySales / 65000) * 100, 100) + '%' }"></div>
  </div>
  <p class="text-sm text-gray-400 font-bold mt-2 text-center">
  {{ Math.round((currentStats.todaySales / 65000) * 100) }}% complete
@@ -174,7 +174,7 @@
  </NuxtLink>
  </div>
 
- <div class="bg-[#065fdb] rounded-[2.5rem] p-8 text-white shadow-2xl relative overflow-hidden group">
+ <div class="bg-[#FF5C1A] rounded-[2.5rem] p-8 text-white shadow-2xl relative overflow-hidden group">
  <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-3xl opacity-50"></div>
  <h3 class="text-lg font-bold flex items-center gap-3 relative z-10">
  <Megaphone class="w-5 h-5" /> Campus Insight

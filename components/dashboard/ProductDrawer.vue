@@ -28,16 +28,16 @@
  v-if="allImages.length < 4"
  type="button"
  @click="triggerImageUpload"
- class="aspect-square rounded-2xl bg-gray-50 border border-dashed border-gray-200 flex flex-col items-center justify-center transition-all hover:bg-[#065fdb]/5 hover:border-[#065fdb]/30 group"
+ class="aspect-square rounded-2xl bg-gray-50 border border-dashed border-gray-200 flex flex-col items-center justify-center transition-all hover:bg-[#FF5C1A]/5 hover:border-[#FF5C1A]/30 group"
  >
- <div class="w-10 h-10 bg-white rounded-xl shadow-sm text-[#065fdb] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+ <div class="w-10 h-10 bg-white rounded-xl shadow-sm text-[#FF5C1A] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
  <Plus class="w-5 h-5" />
  </div>
  <p class="text-sm font-black text-gray-400 ">Add Photo</p>
  <input type="file" ref="imageRef" class="hidden" @change="handleFileUpload" accept="image/*" multiple />
  </button>
  </div>
- <p v-if="uploading" class="text-sm text-[#065fdb] font-bold animate-pulse px-1">UPLOADING IMAGE...</p>
+ <p v-if="uploading" class="text-sm text-[#FF5C1A] font-bold animate-pulse px-1">UPLOADING IMAGE...</p>
  </section>
 
  <div class="space-y-8">
@@ -105,7 +105,7 @@
  <Star class="w-4 h-4 text-parentPrimary" />
  <span class="text-sm font-bold text-gray-700">Feature on menu</span>
  </div>
- <input type="checkbox" v-model="form.isFeatured" class="w-5 h-5 rounded-lg border-gray-200 text-[#065fdb] focus:ring-[#065fdb]" />
+ <input type="checkbox" v-model="form.isFeatured" class="w-5 h-5 rounded-lg border-gray-200 text-[#FF5C1A] focus:ring-[#FF5C1A]" />
  </div>
 
  <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100/50">

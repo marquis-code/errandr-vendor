@@ -4,21 +4,20 @@
     <LandingNavbar />
 
     <!-- Hero Section -->
-    <section class="relative pt-40 pb-20 overflow-hidden bg-gray-900">
-      <div class="absolute inset-0 z-0 pointer-events-none">
-        <div class="absolute top-0 left-0 w-[500px] h-[500px] bg-parentPrimary/20 rounded-full blur-[100px] -translate-x-1/4"></div>
-      </div>
+    <section class="relative pt-40 pb-20 overflow-hidden bg-gradient-to-b from-slate-50/80 via-white to-white border-b border-slate-100">
+      <!-- Soft Minimalist Grid Dot Overlay -->
+      <div class="absolute inset-0 bg-[radial-gradient(#e2e8f0_1.5px,transparent_1.5px)] [background-size:24px_24px] opacity-70 z-0 pointer-events-none"></div>
 
       <div class="max-w-7xl mx-auto px-6 sm:px-10 relative z-10 text-center">
-        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 text-sm font-medium text-gray-300 mb-8">
-          <span class="w-2 h-2 rounded-full bg-parentPrimary"></span>
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-slate-600 text-xs font-bold tracking-wide shadow-sm mb-8">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#FF5C1A]"></span>
           Merchant Success
         </div>
-        <h1 class="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] text-white mb-6 max-w-4xl mx-auto">
+        <h1 class="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] text-slate-900 mb-6 max-w-4xl mx-auto">
           We're here for <br />
-          <span class="text-parentPrimary  bg-parentPrimary/10 px-6 rounded-3xl">your growth.</span>
+          <span class="text-[#FF5C1A] bg-[#FF5C1A]/5 px-6 rounded-3xl">your growth.</span>
         </h1>
-        <p class="text-xl text-gray-400 font-medium max-w-2xl mx-auto leading-relaxed tracking-tight">
+        <p class="text-xl text-slate-500 font-medium max-w-2xl mx-auto leading-relaxed tracking-tight">
           Dedicated support for our campus partners. From technical assistance to banking inquiries, we've got you covered.
         </p>
       </div>

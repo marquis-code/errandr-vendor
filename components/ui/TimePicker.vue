@@ -4,7 +4,7 @@
  <div
  @click="open = !open"
  class="flex items-center w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl cursor-pointer hover:border-gray-300 transition-all group"
- :class="{ 'border-[#065fdb] ring-2 ring-[#065fdb]/10': open }"
+ :class="{ 'border-[#FF5C1A] ring-2 ring-[#FF5C1A]/10': open }"
  >
  <Clock class="w-4 h-4 text-gray-400 mr-3 shrink-0" />
  <div class="flex-1 min-w-0">
@@ -18,7 +18,7 @@
  <Transition name="picker-fade">
  <div v-if="open" class="absolute z-50 top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-gray-200 shadow-2xl shadow-gray-900/10 overflow-hidden" style="min-width: 260px;">
  <!-- Header -->
- <div class="bg-[#065fdb] px-5 py-4 flex items-center justify-between">
+ <div class="bg-[#FF5C1A] px-5 py-4 flex items-center justify-between">
  <div>
  <p class="text-sm font-bold text-white/60 ">Select Time</p>
  <p class="text-xl font-black text-white tracking-tight mt-0.5">{{ padZero(hour) }}:{{ padZero(minute) }} {{ period }}</p>
@@ -69,7 +69,7 @@
  <button
  @click="period = 'PM'"
  class="flex-1 py-3 rounded-xl text-sm font-bold  transition-all"
- :class="period === 'PM' ? 'bg-[#065fdb] text-white shadow-md shadow-[#065fdb]/20' : 'text-gray-400 hover:text-gray-600'"
+ :class="period === 'PM' ? 'bg-[#FF5C1A] text-white shadow-md shadow-[#FF5C1A]/20' : 'text-gray-400 hover:text-gray-600'"
  >PM</button>
  </div>
 
@@ -78,7 +78,7 @@
  <button @click="setNow" class="px-4 py-2 border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-white transition-all">Now</button>
  <div class="flex items-center gap-2">
  <button @click="clearTime" class="px-4 py-2 text-sm font-bold text-gray-400 hover:text-gray-700 transition-colors">Clear</button>
- <button @click="confirmTime" class="px-6 py-2.5 bg-[#065fdb] text-white rounded-xl text-sm font-bold  hover:brightness-110 transition-all shadow-md shadow-[#065fdb]/20">Confirm</button>
+ <button @click="confirmTime" class="px-6 py-2.5 bg-[#FF5C1A] text-white rounded-xl text-sm font-bold  hover:brightness-110 transition-all shadow-md shadow-[#FF5C1A]/20">Confirm</button>
  </div>
  </div>
  </div>

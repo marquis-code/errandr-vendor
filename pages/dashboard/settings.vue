@@ -13,7 +13,7 @@
  <!-- Sidebar Tabs -->
  <div class="w-full lg:w-64 shrink-0 space-y-2">
  <button @click="activeTab = 'profile'" :class="activeTab === 'profile' ? 'bg-gray-900 text-white shadow-md' : 'bg-white text-gray-500 hover:bg-gray-50 border-gray-100'" class="w-full flex items-center gap-3 px-5 py-4 rounded-2xl font-bold text-sm transition-all text-left border">
- <StoreIcon class="w-5 h-5" :class="activeTab === 'profile' ? 'text-white' : 'text-[#065fdb]'" /> Store Identity
+ <StoreIcon class="w-5 h-5" :class="activeTab === 'profile' ? 'text-white' : 'text-[#FF5C1A]'" /> Store Identity
  </button>
  <button @click="activeTab = 'operations'" :class="activeTab === 'operations' ? 'bg-gray-900 text-white shadow-md' : 'bg-white text-gray-500 hover:bg-gray-50 border-gray-100'" class="w-full flex items-center gap-3 px-5 py-4 rounded-2xl font-bold text-sm transition-all text-left border">
  <Clock class="w-5 h-5" :class="activeTab === 'operations' ? 'text-white' : 'text-amber-500'" /> Operations & Status
@@ -30,7 +30,7 @@
  <section class="bg-white rounded-[2.5rem] border border-gray-100 shadow-sm overflow-hidden group">
  <div class="p-8 border-b border-gray-50 flex items-center justify-between">
  <div class="flex items-center gap-4">
- <div class="p-3 bg-blue-50 text-[#065fdb] rounded-2xl group-hover:scale-110 transition-transform">
+ <div class="p-3 bg-blue-50 text-[#FF5C1A] rounded-2xl group-hover:scale-110 transition-transform">
  <StoreIcon class="w-5 h-5" />
  </div>
  <h3 class="text-lg font-bold text-gray-900">Store Identity</h3>
@@ -61,7 +61,7 @@
  <p class="text-sm text-gray-400 font-medium  leading-relaxed">
  Recommended: Square PNG/JPG<br/>Max size: 5MB
  </p>
- <p v-if="logoUploading" class="text-sm text-[#065fdb] font-bold mt-2 animate-pulse">UPLOADING...</p>
+ <p v-if="logoUploading" class="text-sm text-[#FF5C1A] font-bold mt-2 animate-pulse">UPLOADING...</p>
  </div>
  </div>
 
@@ -76,12 +76,12 @@
  <AnimatedInput v-model="profile.address" label="Street Address" description="Specific location for pickups" />
  <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100/50">
  <div class="flex items-center gap-3">
- <div class="p-2 bg-white rounded-lg shadow-sm text-[#065fdb]">
+ <div class="p-2 bg-white rounded-lg shadow-sm text-[#FF5C1A]">
  <Building class="w-4 h-4" />
  </div>
  <span class="text-sm font-bold text-gray-700">Inside Campus</span>
  </div>
- <input type="checkbox" v-model="profile.isInsideCampus" class="w-5 h-5 rounded-lg border-gray-200 text-[#065fdb] focus:ring-[#065fdb]" />
+ <input type="checkbox" v-model="profile.isInsideCampus" class="w-5 h-5 rounded-lg border-gray-200 text-[#FF5C1A] focus:ring-[#FF5C1A]" />
  </div>
  </div>
  </div>
@@ -162,7 +162,7 @@
  </div>
  <button 
  @click="addPack" 
- class="p-2 bg-blue-50 text-[#065fdb] rounded-lg hover:bg-blue-100 transition-all"
+ class="p-2 bg-blue-50 text-[#FF5C1A] rounded-lg hover:bg-blue-100 transition-all"
  >
  <Plus class="w-4 h-4" />
  </button>
@@ -187,7 +187,7 @@
  </div>
  <div class="flex items-center gap-2 pt-5">
  <span class="text-sm font-bold text-gray-400 ">Active</span>
- <input type="checkbox" v-model="pack.isActive" class="w-4 h-4 rounded border-gray-200 text-[#065fdb]" />
+ <input type="checkbox" v-model="pack.isActive" class="w-4 h-4 rounded border-gray-200 text-[#FF5C1A]" />
  </div>
  </div>
  </div>
@@ -208,7 +208,7 @@
  :class="bh.isClosed ? 'bg-gray-50/50 opacity-60' : 'bg-white'">
  <div class="flex items-center gap-4 min-w-[120px]">
  <div class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm shadow-sm"
- :class="bh.isClosed ? 'bg-gray-200 text-gray-400' : 'bg-blue-50 text-[#065fdb]'">
+ :class="bh.isClosed ? 'bg-gray-200 text-gray-400' : 'bg-blue-50 text-[#FF5C1A]'">
  {{ bh.day.slice(0, 3) }}
  </div>
  <span class="text-sm font-bold text-gray-900 capitalize">{{ bh.day }}</span>
@@ -216,16 +216,16 @@
  
  <div class="flex items-center gap-4 flex-1 justify-end sm:justify-center">
  <div class="flex items-center gap-2" v-if="!bh.isClosed">
- <input type="time" v-model="bh.open" class="text-sm font-bold p-2 rounded-lg border-gray-100 focus:ring-[#065fdb]" />
+ <input type="time" v-model="bh.open" class="text-sm font-bold p-2 rounded-lg border-gray-100 focus:ring-[#FF5C1A]" />
  <span class="text-gray-300">→</span>
- <input type="time" v-model="bh.close" class="text-sm font-bold p-2 rounded-lg border-gray-100 focus:ring-[#065fdb]" />
+ <input type="time" v-model="bh.close" class="text-sm font-bold p-2 rounded-lg border-gray-100 focus:ring-[#FF5C1A]" />
  </div>
  <div v-else class="text-sm font-black text-rose-400 ">Store Closed</div>
  </div>
 
  <div class="flex items-center gap-2 ml-4">
  <span class="text-sm font-bold text-gray-400 ">{{ bh.isClosed ? 'Offline' : 'Online' }}</span>
- <input type="checkbox" :checked="!bh.isClosed" @change="bh.isClosed = !($event.target as HTMLInputElement).checked" class="w-5 h-5 rounded-lg border-gray-200 text-[#065fdb]" />
+ <input type="checkbox" :checked="!bh.isClosed" @change="bh.isClosed = !($event.target as HTMLInputElement).checked" class="w-5 h-5 rounded-lg border-gray-200 text-[#FF5C1A]" />
  </div>
  </div>
  </div>
@@ -284,7 +284,7 @@
  <div v-if="payoutAccounts.length === 0" class="py-6 text-center space-y-3">
  <div class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mx-auto border border-gray-100  font-serif text-gray-300">₦</div>
  <p class="text-sm text-gray-400 font-bold ">No bank accounts linked</p>
- <button @click="openAddAccount" class="text-sm font-black text-[#065fdb]  hover:underline">Link Account</button>
+ <button @click="openAddAccount" class="text-sm font-black text-[#FF5C1A]  hover:underline">Link Account</button>
  </div>
 
  <div v-else class="space-y-3">
@@ -292,7 +292,7 @@
  v-for="acc in payoutAccounts" 
  :key="acc.accountNumber"
  class="p-4 rounded-2xl border transition-all cursor-pointer relative group/acc"
- :class="acc.isActive ? 'border-[#065fdb] bg-blue-50/30' : 'border-gray-50 bg-white hover:border-gray-200'"
+ :class="acc.isActive ? 'border-[#FF5C1A] bg-blue-50/30' : 'border-gray-50 bg-white hover:border-gray-200'"
  @click="setActiveAccount(acc)"
  >
  <div class="flex items-center justify-between">
@@ -301,7 +301,7 @@
  <p class="text-sm text-gray-500 font-bold">{{ maskAccountNumber(acc.accountNumber) }}</p>
  <p class="text-sm text-gray-400 font-medium  mt-1">{{ acc.accountName }}</p>
  </div>
- <div v-if="acc.isActive" class="w-6 h-6 bg-[#065fdb] rounded-lg flex items-center justify-center text-white shadow-lg shadow-[#065fdb]/20">
+ <div v-if="acc.isActive" class="w-6 h-6 bg-[#FF5C1A] rounded-lg flex items-center justify-center text-white shadow-lg shadow-[#FF5C1A]/20">
  <CheckCircle class="w-3.5 h-3.5" />
  </div>
  <button 
@@ -363,7 +363,7 @@
  @update:model-value="onAccountChange"
  />
  <div v-if="resolvingAccount" class="absolute right-4 top-1/2 -translate-y-1/2">
- <Loader2 class="animate-spin w-4 h-4 text-[#065fdb]" />
+ <Loader2 class="animate-spin w-4 h-4 text-[#FF5C1A]" />
  </div>
  </div>
 

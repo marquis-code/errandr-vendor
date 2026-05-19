@@ -6,7 +6,7 @@
  <h1 class="text-2xl font-bold text-gray-900 tracking-tight sm:text-3xl">Menu Management</h1>
  <p class="text-sm text-gray-400 font-medium  flex items-center gap-2">
  Organize your meals and categories in real-time. 
- <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-sm font-bold bg-blue-50 text-[#065fdb]">
+ <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-sm font-bold bg-blue-50 text-[#FF5C1A]">
  {{ products.length }} ITEMS LIVE
  </span>
  </p>
@@ -37,7 +37,7 @@
  v-model="searchQuery"
  type="text" 
  placeholder="Search items..." 
- class="w-full pl-11 pr-4 py-3 bg-white border-transparent focus:border-[#065fdb]/30 rounded-xl text-sm font-medium placeholder:text-gray-300 focus:ring-4 focus:ring-[#065fdb]/5 outline-none transition-all"
+ class="w-full pl-11 pr-4 py-3 bg-white border-transparent focus:border-[#FF5C1A]/30 rounded-xl text-sm font-medium placeholder:text-gray-300 focus:ring-4 focus:ring-[#FF5C1A]/5 outline-none transition-all"
  />
  </div>
 
@@ -46,7 +46,7 @@
  <button
  @click="activeCategory = 'all'"
  class="shrink-0 px-4 py-2 rounded-lg text-sm font-bold  transition-all"
- :class="activeCategory === 'all' ? 'bg-white text-[#065fdb] shadow-sm' : 'text-gray-400 hover:text-gray-600'"
+ :class="activeCategory === 'all' ? 'bg-white text-[#FF5C1A] shadow-sm' : 'text-gray-400 hover:text-gray-600'"
  >
  All Items
  </button>
@@ -55,7 +55,7 @@
  :key="cat._id"
  @click="activeCategory = cat.name"
  class="shrink-0 px-4 py-2 rounded-lg text-sm font-bold  transition-all border"
- :class="activeCategory === cat.name ? 'bg-white text-[#065fdb] shadow-sm' : 'text-gray-400 border-transparent hover:text-gray-600'"
+ :class="activeCategory === cat.name ? 'bg-white text-[#FF5C1A] shadow-sm' : 'text-gray-400 border-transparent hover:text-gray-600'"
  >
  {{ cat.name }}
  </button>
