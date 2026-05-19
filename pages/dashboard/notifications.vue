@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-6 h-screen animate-fade-in container mx-auto pb-16">
+  <div class="space-y-6 h-screen animate-fade-in max-w-[1400px] px-4 mx-auto pb-20 sm:px-8">
     <!-- Header -->
     <div class="flex items-center justify-between">
       <div>

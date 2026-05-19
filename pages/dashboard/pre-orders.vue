@@ -1,9 +1,9 @@
 <template>
-  <div class="space-y-8 pb-20 animate-fade-in max-w-7xl mx-auto px-4">
+  <div class="space-y-8 pb-20 animate-fade-in container mx-auto px-4">
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
       <div>
-        <h1 class="text-3xl font-black text-gray-900 ">Pre-Order Hub</h1>
+        <h1 class="text-xl font-medium text-gray-900 ">Pre-Order Hub</h1>
         <p class="text-sm text-gray-500 font-bold mt-1 ">Manage your student business batches and scheduled deliveries.</p>
       </div>
       <button @click="showCampaignModal = true" class="px-8 py-3.5 bg-gray-900 text-white rounded-2xl font-black text-sm   hover:bg-parentPrimary transition-all shadow-xl shadow-black/10 active:scale-95 flex items-center gap-2">
@@ -13,10 +13,10 @@
 
     <!-- Stats Matrix -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div v-for="stat in hubStats" :key="stat.label" class="bg-white p-8 rounded-[2.5rem] border border-gray-50 shadow-sm group hover:shadow-xl transition-all relative overflow-hidden">
+      <div v-for="stat in hubStats" :key="stat.label" class="bg-white p-8 rounded-lg border border-gray-50  transition-all relative overflow-hidden">
         <div class="absolute -right-4 -top-4 w-24 h-24 bg-parentPrimary/5 rounded-full blur-2xl group-hover:bg-parentPrimary/10 transition-colors"></div>
         <div class="relative z-10">
-          <div class="w-12 h-12 rounded-2xl mb-6 flex items-center justify-center border border-gray-100 shadow-inner" :class="stat.bg">
+          <div class="w-12 h-12 rounded-2xl mb-6 flex items-center justify-center border border-gray-100 " :class="stat.bg">
             <component :is="stat.icon" class="w-5 h-5" :class="stat.color" />
           </div>
           <p class="text-sm font-black text-gray-400   mb-1">{{ stat.label }}</p>
