@@ -6,7 +6,7 @@
  {{ label }}
  </label>
  <div v-if="info" class="group relative">
- <Info class="w-3.5 h-3.5 text-gray-300 hover:text-[#065fdb] cursor-help transition-colors" />
+ <Info class="w-3.5 h-3.5 text-gray-300 hover:text-[#FF5C1A] cursor-help transition-colors" />
  <div class="absolute right-0 bottom-full mb-2 w-48 p-2 bg-gray-900 text-white text-sm font-medium rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 shadow-xl">
  {{ info }}
  </div>
@@ -16,10 +16,10 @@
  <!-- Select trigger -->
  <div
  @click="toggleDropdown"
- class="w-full h-14 px-4 bg-white border border-gray-100 rounded-2xl flex justify-between items-center cursor-pointer hover:border-[#065fdb] transition-all duration-300"
+ class="w-full h-14 px-4 bg-white border border-gray-100 rounded-2xl flex justify-between items-center cursor-pointer hover:border-[#FF5C1A] transition-all duration-300"
  :class="[
  disabled ? 'opacity-50 cursor-not-allowed bg-gray-50' : '',
- showDropdown ? 'ring-2 ring-[#065fdb]/10 border-[#065fdb] shadow-sm' : '',
+ showDropdown ? 'ring-2 ring-[#FF5C1A]/10 border-[#FF5C1A] shadow-sm' : '',
  (hasError || (errorMessage && showError)) ? 'border-red-500 ring-red-500/10' : ''
  ]"
  >
@@ -31,7 +31,7 @@
  
  <ChevronDown
  class="w-4 h-4 text-gray-400 transition-transform duration-300"
- :class="{ 'transform rotate-180 text-[#065fdb]': showDropdown }"
+ :class="{ 'transform rotate-180 text-[#FF5C1A]': showDropdown }"
  />
  </div>
 
@@ -65,7 +65,7 @@
  class="px-4 py-3 rounded-xl cursor-pointer transition-all flex items-center justify-between group"
  :class="[
  getValue(option) === modelValue 
- ? 'bg-[#065fdb]/5 text-[#065fdb]' 
+ ? 'bg-[#FF5C1A]/5 text-[#FF5C1A]' 
  : 'text-gray-600 hover:bg-gray-50'
  ]"
  >

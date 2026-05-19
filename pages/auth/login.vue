@@ -43,7 +43,7 @@
               @input="validationErrors.password = ''" 
             />
             <div class="flex justify-end">
-              <NuxtLink to="/auth/forgot-password" class="text-[13px] font-bold text-parentPrimary hover:text-[#054ec0] transition-colors">
+              <NuxtLink to="/auth/forgot-password" class="text-[13px] font-bold text-parentPrimary hover:text-[#E54D12] transition-colors">
                 Forgot password?
               </NuxtLink>
             </div>
@@ -57,7 +57,7 @@
           </transition>
 
           <button type="submit" :disabled="loading"
-            class="w-full py-4 bg-[#065fdb] hover:bg-[#054ec0] text-white rounded-2xl font-black text-base transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-xl shadow-[#065fdb]/20 group active:scale-[0.98]">
+            class="w-full py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-black text-base transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 group active:scale-[0.98]">
             <Loader2 v-if="loading" class="animate-spin w-5 h-5" />
             <span v-else>Sign In</span>
             <ArrowRight v-if="!loading" class="w-5 h-5 group-hover:translate-x-1 transition-transform" />

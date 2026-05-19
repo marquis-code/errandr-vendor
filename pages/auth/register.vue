@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen w-full bg-white sm:bg-gray-50 flex items-center justify-center px-4 py-12 relative overflow-hidden">
+  <div class="min-h-screen w-full bg-white  flex items-center justify-center px-4 py-12 relative overflow-hidden">
     <!-- Ambient Background -->
     <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-parentPrimary/10 rounded-full blur-[120px] translate-x-1/4 -translate-y-1/4"></div>
     <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px] -translate-x-1/4 translate-y-1/4"></div>
@@ -8,7 +8,7 @@
       
       <!-- Header -->
       <div class="text-center mb-8">
-        <span class="text-2xl font-black tracking-tight hidden sm:block transition-colors">
+        <span class="text-2xl font-black text-black tracking-tight hidden sm:block transition-colors">
           Erranders<span class="text-parentPrimary">.</span>
         </span>
         <h1 class="text-3xl font-black text-gray-900 tracking-tight mb-2">Open Your Store</h1>
@@ -52,7 +52,7 @@
               <!-- <div v-if="error" class="p-3 bg-red-50 text-red-600 text-smfont-bold rounded-xl flex items-center gap-2"><AlertCircle class="w-4 h-4 shrink-0" /> {{ error }}</div> -->
 
               <div class="mt-auto pt-4">
-                <button type="submit" :disabled="loading" class="w-full py-4 bg-[#065fdb] hover:bg-[#054ec0] text-white rounded-2xl font-black text-base transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-xl shadow-[#065fdb]/20 active:scale-[0.98]">
+                <button type="submit" :disabled="loading" class="w-full py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-black text-base transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 active:scale-[0.98]">
                   <Loader2 v-if="loading" class="animate-spin w-5 h-5" />
                   <span>Continue</span>
                   <ArrowRight v-if="!loading" class="w-5 h-5" />
@@ -67,20 +67,20 @@
           <!-- OTP Step -->
           <transition name="slide-up" mode="out-in">
             <div v-if="currentStep === 'otp'" class="w-full flex flex-col items-center justify-center text-center space-y-6">
-              <div class="w-16 h-16 bg-blue-50 rounded-[1.5rem] flex items-center justify-center mx-auto mb-2 text-[#065fdb] shadow-inner">
+              <div class="w-16 h-16 bg-blue-50 rounded-[1.5rem] flex items-center justify-center mx-auto mb-2 text-[#FF5C1A] shadow-inner">
                 <Mail class="w-8 h-8" />
               </div>
               <h2 class="text-2xl font-black text-gray-900 tracking-tight">Check your inbox</h2>
               <p class="text-gray-500 text-smfont-medium leading-relaxed">We sent a 6-digit code to <br><strong class="text-gray-900">{{ form.email }}</strong></p>
 
               <div class="flex justify-center gap-2 py-4">
-                <input v-for="(_, i) in 6" :key="i" :ref="el => { if (el) otpRefs[i] = el as HTMLInputElement }" v-model="otpDigits[i]" @input="handleOTPInput(i)" @keydown.backspace="handleOTPBackspace(i, $event)" @paste.prevent="handleOTPPaste" type="text" maxlength="1" inputmode="numeric" class="w-12 h-14 text-center text-2xl font-black bg-gray-50 border border-gray-200 rounded-xl focus:border-[#065fdb] focus:ring-4 focus:ring-[#065fdb]/10 outline-none transition-all" />
+                <input v-for="(_, i) in 6" :key="i" :ref="el => { if (el) otpRefs[i] = el as HTMLInputElement }" v-model="otpDigits[i]" @input="handleOTPInput(i)" @keydown.backspace="handleOTPBackspace(i, $event)" @paste.prevent="handleOTPPaste" type="text" maxlength="1" inputmode="numeric" class="w-12 h-14 text-center text-2xl font-black bg-gray-50 border border-gray-200 rounded-xl focus:border-[#FF5C1A] focus:ring-4 focus:ring-[#FF5C1A]/10 outline-none transition-all" />
               </div>
 
               <!-- <div v-if="error" class="p-3 bg-red-50 text-red-600 text-smfont-bold rounded-xl flex items-center justify-center gap-2 w-full"><AlertCircle class="w-4 h-4 shrink-0" /> {{ error }}</div> -->
 
               <div class="w-full mt-auto pt-4">
-                <button @click="verifyOTP" :disabled="verifyingOTP || otpDigits.join('').length < 6" class="w-full py-4 bg-[#065fdb] hover:bg-[#054ec0] text-white rounded-2xl font-black text-base transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#065fdb]/20 disabled:opacity-50 active:scale-[0.98]">
+                <button @click="verifyOTP" :disabled="verifyingOTP || otpDigits.join('').length < 6" class="w-full py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-black text-base transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 disabled:opacity-50 active:scale-[0.98]">
                   <Loader2 v-if="verifyingOTP" class="animate-spin w-5 h-5" />
                   <span v-else>Verify Email</span>
                 </button>
@@ -127,7 +127,7 @@
 
               <div class="flex gap-3 pt-4 mt-auto">
                 <button type="button" @click="currentStep = 'otp'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-2xl font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
-                <button type="submit" class="flex-1 py-4 bg-[#065fdb] hover:bg-[#054ec0] text-white rounded-2xl font-black text-base transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#065fdb]/20 active:scale-[0.98]">
+                <button type="submit" class="flex-1 py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-black text-base transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 active:scale-[0.98]">
                   Continue <ArrowRight class="w-5 h-5" />
                 </button>
               </div>
@@ -193,7 +193,7 @@
 
               <div class="flex gap-3 pt-4 mt-auto">
                 <button type="button" @click="currentStep = 'business'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-2xl font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
-                <button type="submit" :disabled="submitting || logoUploading" class="flex-1 py-4 bg-[#065fdb] hover:bg-[#054ec0] text-white rounded-2xl font-black text-base transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#065fdb]/20 disabled:opacity-50 active:scale-[0.98]">
+                <button type="submit" :disabled="submitting || logoUploading" class="flex-1 py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-black text-base transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 disabled:opacity-50 active:scale-[0.98]">
                   <Loader2 v-if="submitting" class="animate-spin w-5 h-5" />
                   <span>{{ submitting ? 'Launching...' : 'Launch Store 🚀' }}</span>
                 </button>

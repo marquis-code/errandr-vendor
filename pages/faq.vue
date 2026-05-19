@@ -4,16 +4,19 @@
     <LandingNavbar />
 
     <!-- Hero Section -->
-    <section class="relative pt-40 pb-20 overflow-hidden bg-gray-900">
+    <section class="relative pt-40 pb-20 overflow-hidden bg-gradient-to-b from-slate-50/80 via-white to-white border-b border-slate-100">
+      <!-- Soft Minimalist Grid Dot Overlay -->
+      <div class="absolute inset-0 bg-[radial-gradient(#e2e8f0_1.5px,transparent_1.5px)] [background-size:24px_24px] opacity-70 z-0 pointer-events-none"></div>
+
       <div class="max-w-7xl mx-auto px-6 sm:px-10 relative z-10 text-center">
-        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 text-sm font-medium text-gray-300 mb-8 shadow-sm">
-          <HelpCircle class="w-4 h-4 text-parentPrimary" />
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-slate-600 text-xs font-bold tracking-wide shadow-sm mb-8">
+          <HelpCircle class="w-3.5 h-3.5 text-[#FF5C1A]" />
           Merchant Knowledge Base
         </div>
-        <h1 class="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] text-white mb-6 max-w-4xl mx-auto">
-          Partner <span class="text-parentPrimary ">Insights.</span>
+        <h1 class="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] text-slate-900 mb-6 max-w-4xl mx-auto">
+          Partner <span class="text-[#FF5C1A]">Insights.</span>
         </h1>
-        <p class="text-xl text-gray-400 font-medium max-w-2xl mx-auto leading-relaxed tracking-tight">
+        <p class="text-xl text-slate-500 font-medium max-w-2xl mx-auto leading-relaxed tracking-tight">
           Everything you need to know about scaling your campus business with Erranders.
         </p>
       </div>

@@ -134,7 +134,7 @@
  </div>
  <div>
  <p class="text-sm font-bold text-gray-900 leading-none mb-1">{{ (item as any).description }}</p>
- <p v-if="(item as any).order" class="text-sm text-[#065fdb] font-black ">
+ <p v-if="(item as any).order" class="text-sm text-[#FF5C1A] font-black ">
  REF: SEC-{{ (item as any)._id?.slice(-8).toUpperCase() }}
  </p>
  </div>
@@ -180,7 +180,7 @@
  <div class="space-y-10 py-6">
  <div class="p-8 bg-white rounded-[2.5rem] shadow-sm border border-gray-100 text-center space-y-6 relative overflow-hidden group border border-gray-50/50">
  <div class="absolute inset-0 bg-blue-50/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
- <div class="w-20 h-20 bg-white rounded-3xl flex items-center justify-center mx-auto shadow-sm border border-gray-100 text-[#065fdb] relative z-10">
+ <div class="w-20 h-20 bg-white rounded-3xl flex items-center justify-center mx-auto shadow-sm border border-gray-100 text-[#FF5C1A] relative z-10">
  <Banknote class="w-10 h-10" />
  </div>
  <div class="relative z-10">

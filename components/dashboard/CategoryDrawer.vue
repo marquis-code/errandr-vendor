@@ -68,8 +68,8 @@
  </div>
 
  <div v-if="uploading" class="flex items-center gap-3 p-4 bg-blue-50 rounded-xl border border-blue-100/50">
- <Loader2 class="w-4 h-4 text-[#065fdb] animate-spin" />
- <p class="text-sm font-black text-[#065fdb] ">Processing Image...</p>
+ <Loader2 class="w-4 h-4 text-[#FF5C1A] animate-spin" />
+ <p class="text-sm font-black text-[#FF5C1A] ">Processing Image...</p>
  </div>
  </div>
 

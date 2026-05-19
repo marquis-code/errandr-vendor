@@ -41,7 +41,7 @@
               type="text" 
               maxlength="1" 
               inputmode="numeric" 
-              class="w-12 h-14 text-center text-2xl font-black bg-gray-50 border border-gray-200 rounded-xl focus:border-[#065fdb] focus:ring-4 focus:ring-[#065fdb]/10 outline-none transition-all" 
+              class="w-12 h-14 text-center text-2xl font-black bg-gray-50 border border-gray-200 rounded-xl focus:border-[#FF5C1A] focus:ring-4 focus:ring-[#FF5C1A]/10 outline-none transition-all" 
             />
           </div>
 
@@ -55,7 +55,7 @@
           <button 
             @click="handleVerifyOTP" 
             :disabled="loading || otpDigits.join('').length < 6"
-            class="w-full py-4 bg-[#065fdb] hover:bg-[#054ec0] text-white rounded-2xl font-black text-base transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-xl shadow-[#065fdb]/20 group active:scale-[0.98]"
+            class="w-full py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-black text-base transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 group active:scale-[0.98]"
           >
             <Loader2 v-if="loading" class="animate-spin w-5 h-5" />
             <span v-else>Verify Reset Code</span>
@@ -117,7 +117,7 @@
             <button 
               type="submit" 
               :disabled="loading"
-              class="w-full py-4 bg-[#065fdb] hover:bg-[#054ec0] text-white rounded-2xl font-black text-base transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-xl shadow-[#065fdb]/20 group active:scale-[0.98]"
+              class="w-full py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-black text-base transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 group active:scale-[0.98]"
             >
               <Loader2 v-if="loading" class="animate-spin w-5 h-5" />
               <span v-else>Set New Password</span>
