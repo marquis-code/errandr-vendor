@@ -9,16 +9,19 @@
     <div class="w-full max-w-[500px] relative z-10">
       
       <!-- Header -->
-      <div class="text-center mb-8">
-        <span class="text-2xl font-black text-black tracking-tight hidden sm:block transition-colors">
-          Erranders<span class="text-parentPrimary">.</span>
-        </span>
-        <h1 class="text-3xl font-black text-gray-900 tracking-tight mb-2">Open Your Store</h1>
-        <p class="text-gray-500 font-medium text-sm">Join the campus delivery network</p>
-      </div>
+      <transition name="fade" mode="out-in">
+        <div v-if="currentStep !== 'success'" class="text-center mb-8">
+          <span class="text-2xl font-black text-black tracking-tight hidden sm:block transition-colors">
+            Erranders<span class="text-parentPrimary">.</span>
+          </span>
+          <h1 class="text-3xl font-black text-gray-900 tracking-tight mb-2">Open Your Store</h1>
+          <p class="text-gray-500 font-medium text-sm">Join the campus delivery network</p>
+        </div>
+      </transition>
 
       <!-- Step Indicator -->
-      <div class="mb-8 flex items-center justify-between relative px-6">
+      <transition name="fade" mode="out-in">
+        <div v-if="currentStep !== 'success'" class="mb-8 flex items-center justify-between relative px-6">
         <div class="absolute left-10 right-10 top-1/2 -translate-y-1/2 h-1 bg-gray-200 rounded-full z-0"></div>
         <div class="absolute left-10 top-1/2 -translate-y-1/2 h-1 bg-parentPrimary rounded-full z-0 transition-all duration-500" :style="{ width: progressWidth }"></div>
 
@@ -30,6 +33,7 @@
           </div>
         </div>
       </div>
+      </transition>
 
       <!-- Main Content -->
       <div class="relative min-h-[500px] flex flex-col w-full">
@@ -302,6 +306,34 @@
               </div>
             </form>
           </transition>
+
+          <!-- Success Step -->
+          <transition name="success-zoom" mode="out-in">
+            <div v-if="currentStep === 'success'" class="w-full flex flex-col items-center justify-center text-center space-y-6 min-h-[400px] bg-white rounded-[2rem] relative z-20 border border-gray-100 shadow-[0_20px_60px_-15px_rgba(255,92,26,0.1)] p-8">
+              <div class="relative w-28 h-28 flex items-center justify-center mb-4">
+                <div class="absolute inset-0 bg-[#FF5C1A]/10 rounded-full animate-ping" style="animation-duration: 2s;"></div>
+                <div class="absolute inset-2 bg-[#FF5C1A]/20 rounded-full animate-ping" style="animation-duration: 2s; animation-delay: 0.5s;"></div>
+                <div class="w-24 h-24 bg-gradient-to-br from-[#FF5C1A] to-[#FFA785] rounded-full flex items-center justify-center text-white shadow-2xl shadow-[#FF5C1A]/40 relative z-10 animate-bounce">
+                  <Check class="w-12 h-12" stroke-width="3" />
+                </div>
+              </div>
+              
+              <div class="space-y-3">
+                <h2 class="text-3xl font-black text-gray-900 tracking-tight">Welcome aboard! 🎉</h2>
+                <div class="relative">
+                  <p class="text-gray-500 font-medium leading-relaxed max-w-[300px] mx-auto text-[15px]">
+                    We're incredibly excited to have you as a vendor. Get ready to share your magic with the campus! 💖
+                  </p>
+                </div>
+              </div>
+
+              <div class="w-full pt-8 mt-auto">
+                <button @click="proceedToDashboard" class="w-full py-3.5 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-black text-[17px] transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/25 active:scale-[0.98] group">
+                  Proceed to Dashboard <ArrowRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            </div>
+          </transition>
         </div>
       </div>
       
@@ -317,8 +349,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch, onMounted, onUnmounted, computed } from 'vue'
+import { ref, reactive, watch, onMounted, onUnmounted, computed, nextTick } from 'vue'
 import { Loader2, ArrowRight, ArrowLeft, Store, Check, ImageIcon, X, CheckCircle, AlertCircle, Mail, HelpCircle, MapPin, GraduationCap, Clock3 } from 'lucide-vue-next'
+import confetti from 'canvas-confetti'
 import { useAuth } from '@/composables/modules/auth'
 import { vendors_api } from '@/api_factory/modules/vendors'
 import { payments_api } from '@/api_factory/modules/payments'
@@ -562,10 +595,45 @@ const handleFinalSubmit = async () => {
 
     const res = await vendors_api.createVendor(payload)
     if (res?.type === 'ERROR') throw res;
-    showToast({ title: 'You\'re In! 🎉', message: 'Your store is live!', toastType: 'success' })
-    navigateTo('/dashboard')
+    
+    // Show personalized success modal instead of immediate redirect
+    currentStep.value = 'success'
+    nextTick(() => {
+      triggerConfetti()
+    })
   } catch (e: any) { error.value = e?.data?.message || e?.response?.data?.message || 'Failed to create store.' }
   finally { submitting.value = false }
+}
+
+const triggerConfetti = () => {
+  const duration = 3500;
+  const end = Date.now() + duration;
+
+  const frame = () => {
+    confetti({
+      particleCount: 7,
+      angle: 60,
+      spread: 65,
+      origin: { x: 0, y: 0.6 },
+      colors: ['#FF5C1A', '#FFA785', '#FFF', '#FFD700', '#FF69B4']
+    });
+    confetti({
+      particleCount: 7,
+      angle: 120,
+      spread: 65,
+      origin: { x: 1, y: 0.6 },
+      colors: ['#FF5C1A', '#FFA785', '#FFF', '#FFD700', '#FF69B4']
+    });
+
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  };
+  frame();
+};
+
+const proceedToDashboard = () => {
+  navigateTo('/dashboard')
 }
 
 onMounted(() => fetchBanks())
@@ -579,4 +647,26 @@ onUnmounted(() => { if (cooldownInterval) clearInterval(cooldownInterval) })
 .slide-up-enter-from { opacity: 0; transform: translateY(20px) scale(0.98); }
 .slide-up-leave-to { opacity: 0; transform: translateY(-20px) scale(0.98); }
 .slide-up-enter-to, .slide-up-leave-from { opacity: 1; transform: translateY(0) scale(1); }
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+.success-zoom-enter-active {
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.success-zoom-leave-active {
+  transition: all 0.3s ease-in;
+}
+.success-zoom-enter-from {
+  opacity: 0;
+  transform: scale(0.8) translateY(20px);
+}
+.success-zoom-leave-to {
+  opacity: 0;
+  transform: scale(0.9) translateY(-20px);
+}
 </style>
