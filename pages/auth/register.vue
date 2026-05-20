@@ -116,9 +116,28 @@
                   <input type="checkbox" v-model="vendor.isStudentBusiness" class="w-4 h-4 rounded text-parentPrimary border-gray-300 focus:ring-parentPrimary/20 pointer-events-none" />
                   <span class="text-sm font-bold text-gray-700">Student Entrepreneur</span>
                 </div>
+                <div class="flex flex-col gap-2 p-3 bg-gray-50 rounded-xl border border-gray-100 cursor-pointer hover:border-parentPrimary/30 transition-colors">
+                  <div class="flex items-center justify-between w-full" @click="vendor.preOrderOnly = !vendor.preOrderOnly">
+                    <div class="flex items-center gap-3">
+                      <input type="checkbox" v-model="vendor.preOrderOnly" class="w-4 h-4 rounded text-parentPrimary border-gray-300 focus:ring-parentPrimary/20 pointer-events-none" />
+                      <span class="text-sm font-bold text-gray-700">Operate a preorder business system</span>
+                    </div>
+                    <button type="button" @click.stop="showPreOrderInfo = !showPreOrderInfo" class="text-gray-400 hover:text-parentPrimary p-1 rounded-full hover:bg-gray-200/50 transition-colors flex items-center justify-center">
+                      <HelpCircle class="w-4 h-4" />
+                    </button>
+                  </div>
+                  
+                  <!-- Cute Tooltip Note -->
+                  <div v-if="showPreOrderInfo" class="mt-1 p-3 bg-amber-50/70 border border-amber-100 rounded-xl text-xs text-amber-800 leading-relaxed relative animate-fade-in">
+                    <div class="font-bold flex items-center gap-1.5 mb-1 text-amber-900">
+                      <span>✨</span> How it works:
+                    </div>
+                    Perfect for bakers, custom creators, and chefs! 🍰🎨 Customers order in advance (e.g., 24h notice or batch schedules) so you have ample time to prep your magic without instant delivery stress!
+                  </div>
+                </div>
               </div>
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              <div class="pt-2 space-y-4">
                 <UiAnimatedInput v-model="vendor.matricNumber" type="text" label="Matric Number" />
                 <UiSelectInput v-model="vendor.university" label="University" :options="universityOptions" searchable />
               </div>
@@ -216,7 +235,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, watch, onMounted, onUnmounted, computed } from 'vue'
-import { Loader2, ArrowRight, ArrowLeft, Store, Check, ImageIcon, X, CheckCircle, AlertCircle, Mail } from 'lucide-vue-next'
+import { Loader2, ArrowRight, ArrowLeft, Store, Check, ImageIcon, X, CheckCircle, AlertCircle, Mail, HelpCircle } from 'lucide-vue-next'
 import { useAuth } from '@/composables/modules/auth'
 import { vendors_api } from '@/api_factory/modules/vendors'
 import { payments_api } from '@/api_factory/modules/payments'
@@ -231,6 +250,7 @@ const { showToast } = useCustomToast()
 const error = ref('')
 const currentStep = ref<'account' | 'otp' | 'business' | 'logistics'>('account')
 const submitting = ref(false)
+const showPreOrderInfo = ref(false)
 
 const displayStep = computed(() => {
   if (currentStep.value === 'account') return 1
@@ -343,7 +363,7 @@ const resendOTP = async () => {
 
 const vendor = reactive({
   storeName: '', description: '', category: 'restaurant', address: '',
-  isInsideCampus: false, isStudentBusiness: false, matricNumber: '', university: '',
+  isInsideCampus: false, isStudentBusiness: false, preOrderOnly: false, matricNumber: '', university: '',
   operatingHours: { open: '08:00 AM', close: '08:00 PM' },
   preparationTime: 15, minimumOrder: 0, deliveryFee: 0,
   bankDetails: { bankCode: '', bankName: '', accountNumber: '', accountName: '' },
@@ -450,7 +470,7 @@ const handleFinalSubmit = async () => {
   try {
     const payload: any = {
       storeName: vendor.storeName, description: vendor.description, category: vendor.category, address: vendor.address,
-      isInsideCampus: vendor.isInsideCampus, isStudentBusiness: vendor.isStudentBusiness, operatingHours: vendor.operatingHours,
+      isInsideCampus: vendor.isInsideCampus, isStudentBusiness: vendor.isStudentBusiness, preOrderOnly: vendor.preOrderOnly, operatingHours: vendor.operatingHours,
       preparationTime: vendor.preparationTime, minimumOrder: vendor.minimumOrder, deliveryFee: vendor.deliveryFee,
     }
     if (logoUrl.value) payload.logo = logoUrl.value
