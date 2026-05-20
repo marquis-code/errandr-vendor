@@ -1,8 +1,10 @@
 <template>
-  <div class="min-h-screen w-full bg-white  flex items-center justify-center px-4 py-12 relative overflow-hidden">
+  <div class="min-h-screen w-full bg-white flex items-center justify-center px-4 py-12 relative">
     <!-- Ambient Background -->
-    <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-parentPrimary/10 rounded-full blur-[120px] translate-x-1/4 -translate-y-1/4"></div>
-    <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px] -translate-x-1/4 translate-y-1/4"></div>
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-parentPrimary/10 rounded-full blur-[120px] translate-x-1/4 -translate-y-1/4"></div>
+      <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px] -translate-x-1/4 translate-y-1/4"></div>
+    </div>
 
     <div class="w-full max-w-[500px] relative z-10">
       
@@ -107,32 +109,113 @@
               <UiAnimatedInput v-model="vendor.description" type="textarea" label="Store Description" :rows="2" />
               <UiAnimatedInput v-model="vendor.address" type="text" label="Store Location / Address" :hasError="!!valErrors.address" :errorMessage="valErrors.address" @input="valErrors.address=''" />
 
-              <div class="grid grid-cols-1 gap-2 pt-2">
-                <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100 cursor-pointer hover:border-parentPrimary/30 transition-colors" @click="vendor.isInsideCampus = !vendor.isInsideCampus">
-                  <input type="checkbox" v-model="vendor.isInsideCampus" class="w-4 h-4 rounded text-parentPrimary border-gray-300 focus:ring-parentPrimary/20 pointer-events-none" />
-                  <span class="text-sm font-bold text-gray-700">Located inside campus</span>
+              <div class="grid grid-cols-1 gap-2.5 pt-2">
+                <!-- Inside Campus Toggle -->
+                <div 
+                  @click="vendor.isInsideCampus = !vendor.isInsideCampus"
+                  class="flex items-center gap-3 p-3.5 rounded-2xl border cursor-pointer transition-all duration-300"
+                  :class="vendor.isInsideCampus 
+                    ? 'bg-[#FF5C1A]/5 border-[#FF5C1A]/30' 
+                    : 'bg-gray-50/80 border-gray-100 hover:border-gray-200'"
+                >
+                  <div 
+                    class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
+                    :class="vendor.isInsideCampus ? 'bg-[#FF5C1A]/10 text-[#FF5C1A]' : 'bg-gray-100 text-gray-400'"
+                  >
+                    <MapPin class="w-4 h-4" />
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-bold text-gray-800">Inside campus</p>
+                    <p class="text-[11px] text-gray-400 font-medium">Store is within the school premises</p>
+                  </div>
+                  <div 
+                    class="w-10 h-6 rounded-full p-0.5 transition-all duration-300 shrink-0"
+                    :class="vendor.isInsideCampus ? 'bg-[#FF5C1A]' : 'bg-gray-200'"
+                  >
+                    <div 
+                      class="w-5 h-5 bg-white rounded-full shadow-sm transition-all duration-300"
+                      :class="vendor.isInsideCampus ? 'translate-x-4' : 'translate-x-0'"
+                    ></div>
+                  </div>
                 </div>
-                <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100 cursor-pointer hover:border-parentPrimary/30 transition-colors" @click="vendor.isStudentBusiness = !vendor.isStudentBusiness">
-                  <input type="checkbox" v-model="vendor.isStudentBusiness" class="w-4 h-4 rounded text-parentPrimary border-gray-300 focus:ring-parentPrimary/20 pointer-events-none" />
-                  <span class="text-sm font-bold text-gray-700">Student Entrepreneur</span>
+
+                <!-- Student Entrepreneur Toggle -->
+                <div 
+                  @click="vendor.isStudentBusiness = !vendor.isStudentBusiness"
+                  class="flex items-center gap-3 p-3.5 rounded-2xl border cursor-pointer transition-all duration-300"
+                  :class="vendor.isStudentBusiness 
+                    ? 'bg-[#FF5C1A]/5 border-[#FF5C1A]/30' 
+                    : 'bg-gray-50/80 border-gray-100 hover:border-gray-200'"
+                >
+                  <div 
+                    class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
+                    :class="vendor.isStudentBusiness ? 'bg-[#FF5C1A]/10 text-[#FF5C1A]' : 'bg-gray-100 text-gray-400'"
+                  >
+                    <GraduationCap class="w-4 h-4" />
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-bold text-gray-800">Student entrepreneur</p>
+                    <p class="text-[11px] text-gray-400 font-medium">Run by a current student</p>
+                  </div>
+                  <div 
+                    class="w-10 h-6 rounded-full p-0.5 transition-all duration-300 shrink-0"
+                    :class="vendor.isStudentBusiness ? 'bg-[#FF5C1A]' : 'bg-gray-200'"
+                  >
+                    <div 
+                      class="w-5 h-5 bg-white rounded-full shadow-sm transition-all duration-300"
+                      :class="vendor.isStudentBusiness ? 'translate-x-4' : 'translate-x-0'"
+                    ></div>
+                  </div>
                 </div>
-                <div class="flex flex-col gap-2 p-3 bg-gray-50 rounded-xl border border-gray-100 cursor-pointer hover:border-parentPrimary/30 transition-colors">
-                  <div class="flex items-center justify-between w-full" @click="vendor.preOrderOnly = !vendor.preOrderOnly">
-                    <div class="flex items-center gap-3">
-                      <input type="checkbox" v-model="vendor.preOrderOnly" class="w-4 h-4 rounded text-parentPrimary border-gray-300 focus:ring-parentPrimary/20 pointer-events-none" />
-                      <span class="text-sm font-bold text-gray-700">Operate a preorder business system</span>
+
+                <!-- Pre-Order Toggle -->
+                <div 
+                  class="rounded-2xl border transition-all duration-300"
+                  :class="vendor.preOrderOnly 
+                    ? 'bg-[#FF5C1A]/5 border-[#FF5C1A]/30' 
+                    : 'bg-gray-50/80 border-gray-100 hover:border-gray-200'"
+                >
+                  <div 
+                    @click="vendor.preOrderOnly = !vendor.preOrderOnly"
+                    class="flex items-center gap-3 p-3.5 cursor-pointer"
+                  >
+                    <div 
+                      class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
+                      :class="vendor.preOrderOnly ? 'bg-[#FF5C1A]/10 text-[#FF5C1A]' : 'bg-gray-100 text-gray-400'"
+                    >
+                      <Clock3 class="w-4 h-4" />
                     </div>
-                    <button type="button" @click.stop="showPreOrderInfo = !showPreOrderInfo" class="text-gray-400 hover:text-parentPrimary p-1 rounded-full hover:bg-gray-200/50 transition-colors flex items-center justify-center">
-                      <HelpCircle class="w-4 h-4" />
-                    </button>
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-center gap-1.5">
+                        <p class="text-sm font-bold text-gray-800">Pre-order only</p>
+                        <span 
+                          @click.stop="showPreOrderInfo = !showPreOrderInfo" 
+                          class="text-gray-300 hover:text-[#FF5C1A] transition-colors cursor-pointer"
+                        >
+                          <HelpCircle class="w-3.5 h-3.5" />
+                        </span>
+                      </div>
+                      <p class="text-[11px] text-gray-400 font-medium">Customers order ahead of time</p>
+                    </div>
+                    <div 
+                      class="w-10 h-6 rounded-full p-0.5 transition-all duration-300 shrink-0"
+                      :class="vendor.preOrderOnly ? 'bg-[#FF5C1A]' : 'bg-gray-200'"
+                    >
+                      <div 
+                        class="w-5 h-5 bg-white rounded-full shadow-sm transition-all duration-300"
+                        :class="vendor.preOrderOnly ? 'translate-x-4' : 'translate-x-0'"
+                      ></div>
+                    </div>
                   </div>
                   
-                  <!-- Cute Tooltip Note -->
-                  <div v-if="showPreOrderInfo" class="mt-1 p-3 bg-amber-50/70 border border-amber-100 rounded-xl text-xs text-amber-800 leading-relaxed relative animate-fade-in">
-                    <div class="font-bold flex items-center gap-1.5 mb-1 text-amber-900">
-                      <span>✨</span> How it works:
+                  <!-- Info tooltip -->
+                  <div v-if="showPreOrderInfo" class="px-3.5 pb-3.5">
+                    <div class="p-3 bg-amber-50/70 border border-amber-100 rounded-xl text-xs text-amber-800 leading-relaxed">
+                      <div class="font-bold flex items-center gap-1.5 mb-1 text-amber-900">
+                        <span>✨</span> How it works:
+                      </div>
+                      Perfect for bakers, custom creators, and chefs! 🍰🎨 Customers order in advance (e.g., 24h notice or batch schedules) so you have ample time to prep your magic without instant delivery stress!
                     </div>
-                    Perfect for bakers, custom creators, and chefs! 🍰🎨 Customers order in advance (e.g., 24h notice or batch schedules) so you have ample time to prep your magic without instant delivery stress!
                   </div>
                 </div>
               </div>
@@ -235,7 +318,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, watch, onMounted, onUnmounted, computed } from 'vue'
-import { Loader2, ArrowRight, ArrowLeft, Store, Check, ImageIcon, X, CheckCircle, AlertCircle, Mail, HelpCircle } from 'lucide-vue-next'
+import { Loader2, ArrowRight, ArrowLeft, Store, Check, ImageIcon, X, CheckCircle, AlertCircle, Mail, HelpCircle, MapPin, GraduationCap, Clock3 } from 'lucide-vue-next'
 import { useAuth } from '@/composables/modules/auth'
 import { vendors_api } from '@/api_factory/modules/vendors'
 import { payments_api } from '@/api_factory/modules/payments'
