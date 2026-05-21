@@ -7,6 +7,10 @@
  <p class="text-sm text-gray-400 mt-1 font-medium">Welcome back to your store overview</p>
  </div>
  <div class="flex items-center gap-3">
+ <button @click="shareStore" class="flex items-center gap-2 bg-blue-50/50 px-4 py-2 rounded-xl border border-blue-100 hover:bg-blue-100 transition-colors">
+ <Share2 class="w-4 h-4 text-blue-600" />
+ <span class="text-blue-600 text-sm font-bold">Share Store</span>
+ </button>
  <div class="flex items-center gap-2 bg-emerald-50/50 px-4 py-2 rounded-xl">
  <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
  <span class="text-emerald-600 text-sm font-bold">Store Online</span>
@@ -195,8 +199,9 @@
 import { ref, onMounted } from 'vue';
 import { 
  ShoppingBag, Clock, TrendingUp, Building, Inbox, 
- Settings, ArrowRight, CheckCircle, Banknote, Megaphone, Package, Star, ShieldCheck
+ Settings, ArrowRight, CheckCircle, Banknote, Megaphone, Package, Star, ShieldCheck, Share2
 } from 'lucide-vue-next';
+import { useToast } from '@/composables/core/useToast';
 import { vendors_api } from '@/api_factory/modules/vendors';
 import { useVendorOrders } from '@/composables/modules/vendor/useVendorOrders';
 import UiTable from '@/components/ui/UiTable.vue';
@@ -205,7 +210,9 @@ definePageMeta({ layout: 'vendor' });
 useHead({ title: 'Dashboard - Errander Vendor' });
 
 const { orders, loading: loadingOrders, loadMyVendorOrders } = useVendorOrders();
+const { showToast } = useToast();
 const currentStats = ref<any>({});
+const vendorProfile = ref<any>(null);
 const loadingStats = ref(true);
 
 const orderColumns = [
@@ -222,16 +229,18 @@ const performanceStats = ref([
  { label: 'Rating', value: '5.0', icon: Star, bgClass: 'bg-blue-50 text-blue-600', trend: 0 },
 ]);
 
-const fetchDashboardData = async () => {
+ const fetchDashboardData = async () => {
  loadingStats.value = true;
  try {
- const [statsRes] = await Promise.all([
+ const [statsRes, profileRes] = await Promise.all([
  vendors_api.getMyVendorStats(),
+ vendors_api.getProfile(),
  loadMyVendorOrders()
  ]);
  
  const s = statsRes?.data || {};
  currentStats.value = s;
+ vendorProfile.value = (profileRes as any)?.data || null;
  
  performanceStats.value[0].value = s.todayOrders?.toString() || '0';
  performanceStats.value[1].value = s.activeOrders?.toString() || '0';
@@ -248,6 +257,35 @@ const getStatusBadge = (s: string) => {
  if (['delivered', 'confirmed'].includes(s)) return 'bg-emerald-50 text-emerald-600 border-emerald-100/50';
  if (['pending', 'preparing', 'ready_for_pickup'].includes(s)) return 'bg-amber-50 text-amber-600 border-amber-100/50';
  return 'bg-gray-50 text-gray-400 border-gray-100/50';
+};
+
+const shareStore = () => {
+ if (!vendorProfile.value || !vendorProfile.value.subdomain) {
+ showToast({ title: 'Error', message: 'Store link not available', type: 'error' });
+ return;
+ }
+ const protocol = window.location.protocol;
+ let baseHost = window.location.host;
+ const parts = window.location.hostname.split('.');
+ if (parts.length >= 3 || (parts.length >= 2 && parts[parts.length - 1] === 'localhost')) {
+ if (parts[0] !== 'www' && parts[0] !== 'student' && parts[0] !== 'vendor') {
+ const port = window.location.port ? `:${window.location.port}` : '';
+ baseHost = parts.slice(1).join('.') + port;
+ }
+ }
+ const shareUrl = `${protocol}//${vendorProfile.value.subdomain}.${baseHost}/`;
+ if (navigator.share) {
+ navigator.share({
+ title: vendorProfile.value.storeName,
+ text: `Check out ${vendorProfile.value.storeName} on Errandr!`,
+ url: shareUrl,
+ }).catch(err => {
+ console.error('Error sharing:', err);
+ });
+ } else {
+ navigator.clipboard.writeText(shareUrl);
+ showToast({ title: 'Success', message: 'Store link copied to clipboard!', type: 'success' });
+ }
 };
 
 onMounted(fetchDashboardData);
