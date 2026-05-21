@@ -108,8 +108,146 @@
                 <Store class="w-6 h-6 text-gray-300" />
               </div>
 
-              <UiAnimatedInput v-model="vendor.storeName" type="text" label="Store Name" :hasError="!!valErrors.storeName" :errorMessage="valErrors.storeName" @input="valErrors.storeName=''" />
-              <UiSelectInput v-model="vendor.category" label="Business Category" :options="categoryOptions" />
+              <UiAnimatedInput v-model="vendor.storeName" type="text" label="Store Name" :hasError="!!valErrors.storeName" :errorMessage="valErrors.storeName" @input="valErrors.storeName=''; if (useStoreNameAsUrl) syncSubdomainFromStore()" />
+              
+              <!-- Use Store Name as URL toggle -->
+              <div 
+                @click="useStoreNameAsUrl = !useStoreNameAsUrl; if (useStoreNameAsUrl) syncSubdomainFromStore()"
+                class="flex items-center gap-3 px-4 py-3 rounded-2xl border cursor-pointer transition-all duration-300"
+                :class="useStoreNameAsUrl 
+                  ? 'bg-[#FF5C1A]/5 border-[#FF5C1A]/30' 
+                  : 'bg-gray-50/80 border-gray-100 hover:border-gray-200'"
+              >
+                <div 
+                  class="w-10 h-5 rounded-full relative transition-all duration-300 shrink-0"
+                  :class="useStoreNameAsUrl ? 'bg-[#FF5C1A]' : 'bg-gray-200'"
+                >
+                  <div 
+                    class="w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all duration-300 shadow-sm"
+                    :class="useStoreNameAsUrl ? 'left-[22px]' : 'left-0.5'"
+                  ></div>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-sm font-bold text-gray-900">Use store name as my URL</p>
+                  <p class="text-xs text-gray-400 font-medium">Auto-generate your custom link from store name</p>
+                </div>
+              </div>
+
+              <!-- Subdomain Field -->
+              <div class="space-y-2">
+                <div class="relative">
+                  <div class="flex items-center border rounded-2xl overflow-hidden transition-all duration-300"
+                    :class="valErrors.subdomain ? 'border-red-300 bg-red-50/30' : subdomainAvailable === true ? 'border-emerald-300 bg-emerald-50/30' : subdomainAvailable === false && vendor.subdomain.length >= 3 ? 'border-red-300 bg-red-50/30' : 'border-gray-200 bg-white focus-within:border-[#FF5C1A]/40 focus-within:ring-2 focus-within:ring-[#FF5C1A]/10'"
+                  >
+                    <div class="pl-4 pr-2 py-3 bg-gray-50/80 border-r border-gray-100 shrink-0">
+                      <span class="text-xs font-black text-gray-400 tracking-wide">https://</span>
+                    </div>
+                    <input 
+                      v-model="vendor.subdomain" 
+                      :disabled="useStoreNameAsUrl"
+                      type="text" 
+                      placeholder="your-store-name"
+                      class="flex-1 px-3 py-3 text-sm font-bold text-gray-900 bg-transparent outline-none placeholder:text-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
+                      @input="valErrors.subdomain = ''; vendor.subdomain = vendor.subdomain.toLowerCase().replace(/[^a-z0-9-]/g, ''); debouncedCheckSubdomain()"
+                    />
+                    <div class="pr-4 py-3 bg-gray-50/80 border-l border-gray-100 shrink-0">
+                      <span class="text-xs font-black text-gray-400 tracking-wide">.erranders.org</span>
+                    </div>
+                  </div>
+                  <!-- Availability Status -->
+                  <div class="flex items-center gap-2 mt-2 min-h-[20px]">
+                    <template v-if="checkingSubdomain">
+                      <div class="w-3.5 h-3.5 border-2 border-gray-200 border-t-[#FF5C1A] rounded-full animate-spin"></div>
+                      <span class="text-xs font-bold text-gray-400">Checking availability...</span>
+                    </template>
+                    <template v-else-if="subdomainAvailable === true && vendor.subdomain.length >= 3">
+                      <CheckCircle class="w-3.5 h-3.5 text-emerald-500" />
+                      <span class="text-xs font-bold text-emerald-600">{{ vendor.subdomain }}.erranders.org is available! 🎉</span>
+                    </template>
+                    <template v-else-if="subdomainAvailable === false && vendor.subdomain.length >= 3">
+                      <AlertCircle class="w-3.5 h-3.5 text-red-500" />
+                      <span class="text-xs font-bold text-red-500">This subdomain is taken. Try another one.</span>
+                    </template>
+                    <template v-else-if="vendor.subdomain.length > 0 && vendor.subdomain.length < 3">
+                      <AlertCircle class="w-3.5 h-3.5 text-amber-500" />
+                      <span class="text-xs font-bold text-amber-500">Minimum 3 characters required</span>
+                    </template>
+                    <template v-else-if="valErrors.subdomain">
+                      <AlertCircle class="w-3.5 h-3.5 text-red-500" />
+                      <span class="text-xs font-bold text-red-500">{{ valErrors.subdomain }}</span>
+                    </template>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Business Categories — Searchable Dropdown + Tags -->
+              <div class="space-y-3">
+                <label class="text-sm font-bold text-gray-700">Business Categories</label>
+                <div class="relative" ref="categoryDropdownRef">
+                  <div 
+                    @click="showCategoryDropdown = !showCategoryDropdown"
+                    class="flex items-center flex-wrap gap-2 min-h-[48px] px-4 py-2.5 border rounded-2xl cursor-pointer transition-all duration-200 bg-white"
+                    :class="showCategoryDropdown ? 'border-[#FF5C1A]/40 ring-2 ring-[#FF5C1A]/10' : 'border-gray-200 hover:border-gray-300'"
+                  >
+                    <div v-for="cat in selectedCategories" :key="cat" class="flex items-center gap-1.5 px-2.5 py-1 bg-[#FF5C1A]/10 border border-[#FF5C1A]/20 text-[#FF5C1A] text-xs font-black rounded-lg">
+                      {{ getCategoryLabel(cat) }}
+                      <button type="button" @click.stop="removeCategory(cat)" class="hover:text-red-600 transition-colors"><X class="w-3 h-3" /></button>
+                    </div>
+                    <input 
+                      v-model="categorySearch" 
+                      @focus="showCategoryDropdown = true"
+                      @keydown.enter.prevent="handleCategoryEnter"
+                      type="text" 
+                      :placeholder="selectedCategories.length === 0 ? 'Search or type a custom category...' : 'Add more...'"
+                      class="flex-1 min-w-[120px] text-sm font-medium text-gray-900 bg-transparent outline-none placeholder:text-gray-300"
+                      @click.stop
+                    />
+                    <div class="shrink-0 text-gray-300">
+                      <svg class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': showCategoryDropdown }" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+                    </div>
+                  </div>
+
+                  <!-- Dropdown -->
+                  <transition
+                    enter-active-class="transition ease-out duration-200"
+                    enter-from-class="opacity-0 translate-y-1"
+                    enter-to-class="opacity-100 translate-y-0"
+                    leave-active-class="transition ease-in duration-150"
+                    leave-from-class="opacity-100 translate-y-0"
+                    leave-to-class="opacity-0 translate-y-1"
+                  >
+                    <div v-if="showCategoryDropdown" class="absolute z-50 w-full mt-2 bg-white rounded-2xl border border-gray-100 shadow-xl shadow-gray-200/50 max-h-[220px] overflow-y-auto">
+                      <div v-if="filteredCategoryOptions.length === 0 && categorySearch.trim()" class="p-3">
+                        <button type="button" @click="addCustomCategory" class="w-full flex items-center gap-2 px-4 py-3 rounded-xl bg-gray-50 hover:bg-[#FF5C1A]/5 transition-all text-left">
+                          <div class="w-7 h-7 rounded-lg bg-[#FF5C1A]/10 text-[#FF5C1A] flex items-center justify-center"><span class="text-sm font-black">+</span></div>
+                          <span class="text-sm font-bold text-gray-700">Add "<span class="text-[#FF5C1A]">{{ categorySearch.trim() }}</span>"</span>
+                        </button>
+                      </div>
+                      <div v-for="cat in filteredCategoryOptions" :key="cat.value" 
+                        @click="toggleCategory(cat.value); categorySearch = ''"
+                        class="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-gray-50 transition-all first:rounded-t-2xl last:rounded-b-2xl"
+                      >
+                        <div 
+                          class="w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all"
+                          :class="selectedCategories.includes(cat.value) ? 'bg-[#FF5C1A] border-[#FF5C1A]' : 'border-gray-200'"
+                        >
+                          <Check v-if="selectedCategories.includes(cat.value)" class="w-3 h-3 text-white" />
+                        </div>
+                        <div>
+                          <span class="text-sm font-bold text-gray-900">{{ cat.label }}</span>
+                        </div>
+                      </div>
+                      <div v-if="categorySearch.trim() && filteredCategoryOptions.length > 0" class="border-t border-gray-100 p-3">
+                        <button type="button" @click="addCustomCategory" class="w-full flex items-center gap-2 px-4 py-2.5 rounded-xl hover:bg-[#FF5C1A]/5 transition-all text-left">
+                          <div class="w-6 h-6 rounded-md bg-gray-100 text-gray-400 flex items-center justify-center"><span class="text-xs font-black">+</span></div>
+                          <span class="text-xs font-bold text-gray-500">Add "<span class="text-[#FF5C1A]">{{ categorySearch.trim() }}</span>" as custom</span>
+                        </button>
+                      </div>
+                    </div>
+                  </transition>
+                </div>
+              </div>
+
               <UiAnimatedInput v-model="vendor.description" type="textarea" label="Store Description" :rows="2" />
               <UiAnimatedInput v-model="vendor.address" type="text" label="Store Location / Address" :hasError="!!valErrors.address" :errorMessage="valErrors.address" @input="valErrors.address=''" />
 
@@ -224,10 +362,12 @@
                 </div>
               </div>
 
-              <div class="pt-2 space-y-4">
-                <UiAnimatedInput v-model="vendor.matricNumber" type="text" label="Matric Number" />
-                <UiSelectInput v-model="vendor.university" label="University" :options="universityOptions" searchable />
-              </div>
+              <transition name="slide-up">
+                <div class="pt-2 space-y-4" v-if="vendor.isStudentBusiness">
+                  <UiAnimatedInput v-model="vendor.matricNumber" type="text" label="Matric Number (Optional)" />
+                  <UiSelectInput v-model="vendor.university" label="University (Optional)" :options="universityOptions" searchable />
+                </div>
+              </transition>
 
               <!-- <div v-if="error" class="p-3 bg-red-50 text-red-600 text-smfont-bold rounded-xl flex items-center justify-center gap-2"><AlertCircle class="w-4 h-4 shrink-0" /> {{ error }}</div> -->
 
@@ -389,7 +529,8 @@ const valErrors = reactive({
   password: '',
   phone: '',
   storeName: '',
-  address: ''
+  address: '',
+  subdomain: ''
 })
 
 const validateStep1 = () => {
@@ -415,9 +556,18 @@ const validateStep2 = () => {
   let isValid = true
   valErrors.storeName = ''
   valErrors.address = ''
+  valErrors.subdomain = ''
 
   if (!vendor.storeName) { valErrors.storeName = 'Required'; isValid = false }
+  if (!vendor.subdomain) { valErrors.subdomain = 'Required'; isValid = false }
+  else if (vendor.subdomain.length < 3) { valErrors.subdomain = 'Min 3 characters'; isValid = false }
+  else if (subdomainAvailable.value === false) { valErrors.subdomain = 'Subdomain is not available'; isValid = false }
+
   if (!vendor.address) { valErrors.address = 'Required'; isValid = false }
+  if (selectedCategories.value.length === 0) { 
+    showToast({ title: 'Category Required', message: 'Please select at least one business category.', toastType: 'error' })
+    isValid = false 
+  }
 
   return isValid
 }
@@ -478,19 +628,103 @@ const resendOTP = async () => {
 }
 
 const vendor = reactive({
-  storeName: '', description: '', category: 'restaurant', address: '',
+  storeName: '', description: '', address: '', subdomain: '',
   isInsideCampus: false, isStudentBusiness: false, preOrderOnly: false, matricNumber: '', university: '',
   operatingHours: { open: '08:00 AM', close: '08:00 PM' },
   preparationTime: 15, minimumOrder: 0, deliveryFee: 0,
   bankDetails: { bankCode: '', bankName: '', accountNumber: '', accountName: '' },
 })
 
+// === Subdomain ===
+const useStoreNameAsUrl = ref(true)
+const checkingSubdomain = ref(false)
+const subdomainAvailable = ref<boolean | null>(null)
+let subdomainCheckTimeout: ReturnType<typeof setTimeout> | null = null
+
+const syncSubdomainFromStore = () => {
+  vendor.subdomain = vendor.storeName.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9-]/g, '')
+  subdomainAvailable.value = null
+  debouncedCheckSubdomain()
+}
+
+const debouncedCheckSubdomain = () => {
+  subdomainAvailable.value = null
+  if (subdomainCheckTimeout) clearTimeout(subdomainCheckTimeout)
+  if (vendor.subdomain.length < 3) return
+  subdomainCheckTimeout = setTimeout(() => checkSubdomainAvailability(), 600)
+}
+
+const checkSubdomainAvailability = async () => {
+  if (vendor.subdomain.length < 3) return
+  checkingSubdomain.value = true
+  try {
+    const res = await vendors_api.checkSubdomain(vendor.subdomain)
+    const data = res?.data?.data || res?.data || {}
+    subdomainAvailable.value = data.available === true
+  } catch (e) {
+    subdomainAvailable.value = null
+  } finally {
+    checkingSubdomain.value = false
+  }
+}
+
+// === Categories ===
+const selectedCategories = ref<string[]>([])
+const categorySearch = ref('')
+const showCategoryDropdown = ref(false)
+const categoryDropdownRef = ref<HTMLElement | null>(null)
+
 const categoryOptions = [
   { label: 'Restaurant', value: 'restaurant' }, { label: 'Eatery / Buka', value: 'eatery' },
   { label: 'Snacks & Small Chops', value: 'snacks' }, { label: 'Drinks & Smoothies', value: 'drinks' },
   { label: 'Groceries', value: 'groceries' }, { label: 'Bakery & Pastries', value: 'bakery' },
-  { label: 'Pharmacy', value: 'pharmacy' }, { label: 'Other', value: 'other' },
+  { label: 'Pharmacy', value: 'pharmacy' }, { label: 'Laundry & Cleaning', value: 'laundry' },
+  { label: 'Hair & Beauty', value: 'hair-beauty' }, { label: 'Printing & Stationery', value: 'printing' },
+  { label: 'Electronics & Gadgets', value: 'electronics' }, { label: 'Fashion & Clothing', value: 'fashion' },
+  { label: 'Tutoring & Academic', value: 'tutoring' }, { label: 'Other', value: 'other' },
 ]
+
+const filteredCategoryOptions = computed(() => {
+  if (!categorySearch.value.trim()) return categoryOptions
+  const q = categorySearch.value.toLowerCase()
+  return categoryOptions.filter(c => c.label.toLowerCase().includes(q))
+})
+
+const toggleCategory = (val: string) => {
+  if (selectedCategories.value.includes(val)) selectedCategories.value = selectedCategories.value.filter(c => c !== val)
+  else selectedCategories.value.push(val)
+}
+const addCustomCategory = () => {
+  const val = categorySearch.value.trim()
+  if (val && !selectedCategories.value.includes(val)) {
+    selectedCategories.value.push(val)
+  }
+  categorySearch.value = ''
+}
+const handleCategoryEnter = () => {
+  if (filteredCategoryOptions.value.length === 1) {
+    toggleCategory(filteredCategoryOptions.value[0].value)
+    categorySearch.value = ''
+  } else if (categorySearch.value.trim()) {
+    addCustomCategory()
+  }
+}
+const removeCategory = (val: string) => {
+  selectedCategories.value = selectedCategories.value.filter(c => c !== val)
+}
+const getCategoryLabel = (val: string) => {
+  const opt = categoryOptions.find(o => o.value === val)
+  return opt ? opt.label : val
+}
+
+// Close category dropdown on outside click
+const handleClickOutside = (e: MouseEvent) => {
+  if (categoryDropdownRef.value && !categoryDropdownRef.value.contains(e.target as Node)) {
+    showCategoryDropdown.value = false
+  }
+}
+onMounted(() => document.addEventListener('click', handleClickOutside))
+onUnmounted(() => document.removeEventListener('click', handleClickOutside))
 
 const universityOptions = [
   { label: 'University of Lagos (UNILAG)', value: 'unilag' },
@@ -585,7 +819,11 @@ const handleFinalSubmit = async () => {
   submitting.value = true
   try {
     const payload: any = {
-      storeName: vendor.storeName, description: vendor.description, category: vendor.category, address: vendor.address,
+      storeName: vendor.storeName, description: vendor.description, 
+      category: selectedCategories.value.length > 0 ? selectedCategories.value[0] : 'other',
+      tags: selectedCategories.value,
+      address: vendor.address,
+      subdomain: vendor.subdomain,
       isInsideCampus: vendor.isInsideCampus, isStudentBusiness: vendor.isStudentBusiness, preOrderOnly: vendor.preOrderOnly, operatingHours: vendor.operatingHours,
       preparationTime: vendor.preparationTime, minimumOrder: vendor.minimumOrder, deliveryFee: vendor.deliveryFee,
     }

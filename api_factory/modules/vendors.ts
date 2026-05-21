@@ -5,6 +5,10 @@ export const vendors_api = {
     return GATEWAY_ENDPOINT_WITH_AUTH.post('/vendors', payload);
   },
 
+  checkSubdomain: (subdomain: string) => {
+    return GATEWAY_ENDPOINT.get(`/vendors/check-subdomain/${subdomain}`);
+  },
+
   uploadImage: (file: File) => {
     const formData = new FormData();
     formData.append('file', file);

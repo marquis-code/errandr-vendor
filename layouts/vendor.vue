@@ -236,6 +236,7 @@
   </div>
 </Transition>
 
+    <ChatWidget />
   </div>
 </template>
 
