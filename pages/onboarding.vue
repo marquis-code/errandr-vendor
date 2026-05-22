@@ -32,6 +32,14 @@
  <label class="block text-sm font-bold text-dark-500  mb-2">Store Description</label>
  <textarea v-model="form.description" rows="3" class="glass-input w-full p-4 resize-none" placeholder="What do you sell? Tell your customers..."></textarea>
  </div>
+ <div>
+ <label class="block text-sm font-bold text-dark-500  mb-2">Logo URL (Optional)</label>
+ <input v-model="form.logo" type="text" class="glass-input w-full p-4" placeholder="https://example.com/logo.png" />
+ </div>
+ <div>
+ <label class="block text-sm font-bold text-dark-500  mb-2">Banner URL (Optional)</label>
+ <input v-model="form.banner" type="text" class="glass-input w-full p-4" placeholder="https://example.com/banner.png" />
+ </div>
  </div>
  </div>
 
@@ -56,9 +64,21 @@
  </div>
  </div>
 
- <div v-if="form.preOrderOnly">
+ <div v-if="form.preOrderOnly" class="space-y-4">
+ <div>
  <label class="block text-sm font-bold text-dark-500  mb-2">Preparation Lead Time (Hours)</label>
  <input v-model="form.preOrderLeadTime" type="number" class="glass-input w-full p-4" placeholder="e.g. 24" />
+ </div>
+ <div>
+ <label class="block text-sm font-bold text-dark-500  mb-2">Pre-order Days</label>
+ <input v-model="form.preOrderDaysString" type="text" class="glass-input w-full p-4" placeholder="e.g. friday, saturday" />
+ </div>
+ </div>
+ <div v-else class="space-y-4">
+ <div>
+ <label class="block text-sm font-bold text-dark-500  mb-2">Preparation Time (Minutes)</label>
+ <input v-model="form.preparationTime" type="number" class="glass-input w-full p-4" placeholder="e.g. 20" />
+ </div>
  </div>
  </div>
  </div>
@@ -109,17 +129,27 @@ const step = ref(1);
 const form = ref({
  storeName: '',
  description: '',
+ logo: '',
+ banner: '',
  preOrderOnly: false,
  preOrderLeadTime: 24,
+ preOrderDaysString: '',
+ preparationTime: 20,
  isStudentBusiness: true
 });
 
-const nextStep = async () => {
+ const nextStep = async () => {
  if (step.value < 3) {
  step.value++;
  } else {
  try {
- await api.put('/vendors/profile', form.value);
+ const payload: any = { ...form.value };
+ if (payload.preOrderDaysString) {
+   payload.preOrderDays = payload.preOrderDaysString.split(',').map((d: string) => d.trim().toLowerCase());
+ }
+ delete payload.preOrderDaysString;
+ 
+ await api.put('/vendors/profile', payload);
  router.push('/dashboard');
  } catch (e) {
  console.error(e);
