@@ -201,7 +201,7 @@ import {
  ShoppingBag, Clock, TrendingUp, Building, Inbox, 
  Settings, ArrowRight, CheckCircle, Banknote, Megaphone, Package, Star, ShieldCheck, Share2
 } from 'lucide-vue-next';
-import { useToast } from '@/composables/core/useToast';
+
 import { vendors_api } from '@/api_factory/modules/vendors';
 import { useVendorOrders } from '@/composables/modules/vendor/useVendorOrders';
 import UiTable from '@/components/ui/UiTable.vue';
@@ -210,7 +210,7 @@ definePageMeta({ layout: 'vendor' });
 useHead({ title: 'Dashboard - Errander Vendor' });
 
 const { orders, loading: loadingOrders, loadMyVendorOrders } = useVendorOrders();
-const { showToast } = useToast();
+const { showToast } = useCustomToast();
 const currentStats = ref<any>({});
 const vendorProfile = ref<any>(null);
 const loadingStats = ref(true);

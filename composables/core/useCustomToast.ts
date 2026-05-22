@@ -9,7 +9,8 @@ type ToastType = 'success' | 'error' | 'warning' | 'info'
 interface ToastOptions {
   title: string
   message: string
-  toastType: ToastType
+  toastType?: ToastType
+  type?: ToastType
   duration?: number
 }
 
@@ -37,13 +38,13 @@ export const useCustomToast = () => {
       return
     }
     
-    const { title, message, toastType, duration = 5000 } = options
+    const { title, message, toastType, type, duration = 5000 } = options
     
     // Map toastType to the type expected by the component
-    const type = toastType as ToastType
+    const actualType = (toastType || type || 'info') as ToastType
     
     // Call the exposed method
-    return toastInstance.showToast(title, message, type, duration)
+    return toastInstance.showToast(title, message, actualType, duration)
   }
   
   return {
