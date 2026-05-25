@@ -9,14 +9,14 @@
  <component :is="icon || (variant === 'danger' ? 'AlertTriangle' : 'HelpCircle')" class="w-10 h-10" />
  </div>
  
- <h3 class="text-2xl font-black text-gray-900 tracking-tight leading-none mb-3">{{ title }}</h3>
+ <h3 class="text-2xl font-medium text-gray-900 tracking-tight leading-none mb-3">{{ title }}</h3>
  <p class="text-gray-500 font-medium leading-relaxed px-4">{{ message }}</p>
  </div>
  
  <div class="p-8 bg-gray-50/50 flex flex-col sm:flex-row gap-4 border-t border-gray-100">
  <button 
  type="button" 
- class="flex-1 py-4 px-6 bg-white border border-gray-100 text-gray-400 text-sm font-black  rounded-2xl hover:bg-gray-100 hover:text-gray-900 transition-all active:scale-95 shadow-sm"
+ class="flex-1 py-4 px-6 bg-white border border-gray-100 text-gray-400 text-sm font-medium  rounded-2xl hover:bg-gray-100 hover:text-gray-900 transition-all active:scale-95 shadow-sm"
  @click="$emit('cancel')"
  >
  Go Back
@@ -24,7 +24,7 @@
  <button 
  type="button" 
  :class="confirmBtnClass"
- class="flex-1 py-4 px-6 text-sm font-black  rounded-2xl shadow-lg transition-all active:scale-95"
+ class="flex-1 py-4 px-6 text-sm font-medium  rounded-2xl shadow-lg transition-all active:scale-95"
  @click="$emit('confirm')"
  >
  {{ confirmText || 'Proceed' }}

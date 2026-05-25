@@ -110,6 +110,7 @@ const getEmoji = (type: string) => ({
   NEW_ORDER_AVAILABLE: '🚀',
   ORDER_ACCEPTED: '✅',
   ORDER_STATUS_UPDATE: '📦',
+  NEW_CHAT_MESSAGE: '💬',
 }[type] || '🔔')
 
 const formatTime = (dateStr: string) => {
@@ -131,8 +132,14 @@ const handleNotifClick = (notif: any) => {
   if (!notif.read) {
     markAsRead(notif.id)
   }
+  if (notif.type === 'NEW_CHAT_MESSAGE' && notif.data?.orderId) {
+    navigateTo(`/dashboard/chats?orderId=${notif.data.orderId}`)
+    return
+  }
   // If it's related to an order, navigate to dashboard where they can see it
-  navigateTo(`/dashboard/orders`)
+  if (notif.data?.orderId || notif.type === 'NEW_ORDER_AVAILABLE') {
+    navigateTo(`/dashboard/orders`)
+  }
 }
 
 onMounted(() => {

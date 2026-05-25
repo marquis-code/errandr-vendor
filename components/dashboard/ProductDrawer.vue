@@ -8,7 +8,7 @@
  <div class="space-y-10 py-2">
  <!-- Media Section -->
  <section class="space-y-4">
- <label class="text-sm font-black text-gray-400 tracking-[0.15em] flex items-center gap-2 px-1">
+ <label class="text-sm font-medium text-gray-400 tracking-[0.15em] flex items-center gap-2 px-1">
  <ImageIcon class="w-3.5 h-3.5" /> 
  Photos & Visuals
  </label>
@@ -33,7 +33,7 @@
  <div class="w-10 h-10 bg-white rounded-xl shadow-sm text-[#FF5C1A] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
  <Plus class="w-5 h-5" />
  </div>
- <p class="text-sm font-black text-gray-400 ">Add Photo</p>
+ <p class="text-sm font-medium text-gray-400 ">Add Photo</p>
  <input type="file" ref="imageRef" class="hidden" @change="handleFileUpload" accept="image/*" multiple />
  </button>
  </div>
@@ -122,8 +122,8 @@
 
  <template #footer>
  <div class="flex items-center gap-4 w-full">
- <button @click="$emit('close')" class="flex-1 py-4 bg-white border border-gray-100 text-gray-400 text-sm font-black  rounded-2xl hover:bg-gray-50 hover:text-gray-900 transition-all">Cancel</button>
- <button @click="handleSubmit" :disabled="uploading" class="flex-[2] py-4 bg-gray-900 text-white rounded-2xl font-black text-sm  shadow-xl hover:bg-black transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2">
+ <button @click="$emit('close')" class="flex-1 py-4 bg-white border border-gray-100 text-gray-400 text-sm font-medium  rounded-2xl hover:bg-gray-50 hover:text-gray-900 transition-all">Cancel</button>
+ <button @click="handleSubmit" :disabled="uploading" class="flex-[2] py-4 bg-gray-900 text-white rounded-2xl font-medium text-sm  shadow-xl hover:bg-black transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2">
  {{ product ? 'Update Item' : 'Publish Item' }}
  </button>
  </div>

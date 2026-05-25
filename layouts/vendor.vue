@@ -8,7 +8,7 @@
         <div class="w-10 h-10 bg-parentPrimary rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-sm">
           E
         </div>
-        <span class="text-xl font-black text-parentPrimary tracking-tighter">Errander</span>
+        <span class="text-xl font-medium text-parentPrimary tracking-tighter">Errander</span>
       </div>
       
       <!-- Navigation -->
@@ -46,7 +46,7 @@
           <div class="w-8 h-8 bg-parentPrimary rounded-lg flex items-center justify-center text-white font-bold text-lg">
             E
           </div>
-          <span class="font-black text-parentPrimary tracking-tighter">Errander</span>
+          <span class="font-medium text-parentPrimary tracking-tighter">Errander</span>
         </div>
 
         <div class="flex items-center gap-2">
@@ -84,7 +84,7 @@
             <div class="w-8 h-8 bg-parentPrimary rounded-lg flex items-center justify-center text-white font-bold text-lg">
               E
             </div>
-            <span class="font-black text-parentPrimary tracking-tighter">Errander</span>
+            <span class="font-medium text-parentPrimary tracking-tighter">Errander</span>
           </div>
           <button
             @click="showMobileMenu = false"
@@ -255,7 +255,8 @@ import {
   Bell,
   Megaphone,
   Clock,
-  Menu
+  Menu,
+  MessageSquare
 } from 'lucide-vue-next'
 import { useRealtimeNotifications } from '@/composables/core/useRealtimeNotifications'
 import ChatWidget from '@/components/ChatWidget.vue'
@@ -274,6 +275,7 @@ const navItems = [
   { path: '/dashboard/pre-orders', label: 'Pre-Order Hub', icon: Clock },
   { path: '/dashboard/orders', label: 'Orders', icon: ClipboardList },
   { path: '/dashboard/promotions', label: 'Promotions', icon: Megaphone },
+  { path: '/dashboard/chats', label: 'Chats', icon: MessageSquare },
   { path: '/dashboard/wallet', label: 'Wallet', icon: Wallet },
   { path: '/dashboard/notifications', label: 'Notifications', icon: Bell },
   { path: '/dashboard/settings', label: 'Settings', icon: Settings }

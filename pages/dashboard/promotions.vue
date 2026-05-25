@@ -35,11 +35,11 @@
         <table class="w-full text-left border-collapse">
           <thead>
             <tr class="bg-gray-50/50 border-b border-gray-100/80">
-              <th class="px-6 py-4 text-sm font-black  text-gray-400 uppercase">Banner</th>
-              <th class="px-6 py-4 text-sm font-black  text-gray-400 uppercase">Promotion info</th>
-              <th class="px-6 py-4 text-sm font-black  text-gray-400 uppercase">Target Link</th>
-              <th class="px-6 py-4 text-sm font-black  text-gray-400 uppercase">Status</th>
-              <th class="px-6 py-4 text-sm font-black  text-gray-400 uppercase text-right">Actions</th>
+              <th class="px-6 py-4 text-sm font-medium  text-gray-400 uppercase">Banner</th>
+              <th class="px-6 py-4 text-sm font-medium  text-gray-400 uppercase">Promotion info</th>
+              <th class="px-6 py-4 text-sm font-medium  text-gray-400 uppercase">Target Link</th>
+              <th class="px-6 py-4 text-sm font-medium  text-gray-400 uppercase">Status</th>
+              <th class="px-6 py-4 text-sm font-medium  text-gray-400 uppercase text-right">Actions</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-50">
@@ -59,7 +59,7 @@
                 </div>
               </td>
               <td class="px-6 py-4">
-                <div v-if="banner.productId" class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-purple-50 text-purple-600 rounded-md text-sm font-black  border border-purple-100">
+                <div v-if="banner.productId" class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-purple-50 text-purple-600 rounded-md text-sm font-medium  border border-purple-100">
                   PRODUCT LINKED
                 </div>
                 <div v-else class="flex items-center text-sm font-bold text-parentPrimary  truncate max-w-[150px]">
@@ -68,7 +68,7 @@
                 </div>
               </td>
               <td class="px-6 py-4">
-                <span :class="banner.isActive ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-gray-50 text-gray-500 border border-gray-200'" class="px-2.5 py-1 rounded-md text-sm font-black  shadow-sm inline-block">
+                <span :class="banner.isActive ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-gray-50 text-gray-500 border border-gray-200'" class="px-2.5 py-1 rounded-md text-sm font-medium  shadow-sm inline-block">
                   {{ banner.isActive ? 'LIVE' : 'HIDDEN' }}
                 </span>
               </td>

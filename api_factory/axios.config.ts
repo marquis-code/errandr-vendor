@@ -60,9 +60,9 @@ const instanceArray = [
 
 instanceArray.forEach((instance) => {
   instance.interceptors.request.use((config: any) => {
-    const { token } = useUser();
-    if (token.value) {
-      config.headers.Authorization = `Bearer ${token.value}`;
+    const cookie = useCookie('errandr_vendor_token');
+    if (cookie.value) {
+      config.headers.Authorization = `Bearer ${cookie.value}`;
     }
     return config;
   });

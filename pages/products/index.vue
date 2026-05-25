@@ -192,7 +192,7 @@
  <label class="text-sm font-bold text-gray-400  ml-1">Price (₦)</label>
  <div class="relative">
  <span class="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-gray-400">₦</span>
- <input v-model.number="newProduct.price" type="number" placeholder="0" class="w-full pl-8 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-sm font-black focus:ring-2 focus:ring-parentPrimary/20 focus:bg-white focus:border-parentPrimary/30 outline-none transition-all shadow-inner" required />
+ <input v-model.number="newProduct.price" type="number" placeholder="0" class="w-full pl-8 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-sm font-medium focus:ring-2 focus:ring-parentPrimary/20 focus:bg-white focus:border-parentPrimary/30 outline-none transition-all shadow-inner" required />
  </div>
  </div>
  <div class="space-y-1.5">
@@ -205,7 +205,7 @@
  <div class="pt-4 space-y-4">
  <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100 cursor-pointer hover:bg-gray-100/50 transition-all" @click="newProduct.isPreOrder = !newProduct.isPreOrder">
  <div>
- <p class="text-sm font-black text-gray-900 uppercase ">Pre-order Item</p>
+ <p class="text-sm font-medium text-gray-900 uppercase ">Pre-order Item</p>
  <p class="text-sm text-gray-400 font-bold">This item requires advanced ordering</p>
  </div>
  <div class="w-10 h-5 rounded-full relative transition-colors duration-300" :class="newProduct.isPreOrder ? 'bg-parentPrimary' : 'bg-gray-200'">

@@ -104,7 +104,7 @@
  <p class="text-sm text-gray-500 font-medium mt-1">Complete these steps to start receiving orders</p>
  </div>
  </div>
- <NuxtLink to="/dashboard/settings" class="px-6 py-3 bg-white text-gray-900 rounded-xl text-sm font-black hover:shadow-md transition-all border border-gray-100 whitespace-nowrap text-center">
+ <NuxtLink to="/dashboard/settings" class="px-6 py-3 bg-white text-gray-900 rounded-xl text-sm font-medium hover:shadow-md transition-all border border-gray-100 whitespace-nowrap text-center">
  Setup Store Profile
  </NuxtLink>
  </div>
@@ -130,7 +130,7 @@
  <Star v-for="i in 5" :key="i" class="w-4 h-4 text-amber-400 fill-amber-400" />
  </div>
  <p class="text-sm text-amber-900/40 font-bold mb-1">Store Rating</p>
- <h3 class="text-4xl font-black text-amber-950">{{ Number(currentStats.rating || 5).toFixed(1) }}</h3>
+ <h3 class="text-4xl font-medium text-amber-950">{{ Number(currentStats.rating || 5).toFixed(1) }}</h3>
  <p class="text-sm text-amber-700/60 font-bold mt-4 flex items-center gap-2">
  <CheckCircle class="w-3 h-3" /> {{ currentStats.reviewsCount || 0 }} CUSTOMER REVIEWS
  </p>
@@ -155,7 +155,7 @@
  <div class="space-y-1">
  <p class="text-sm font-bold text-gray-400 ml-1">Current Balance</p>
  <div class="flex items-baseline gap-1">
- <span class="text-lg font-black text-gray-200">₦</span>
+ <span class="text-lg font-medium text-gray-200">₦</span>
  <h4 class="text-4xl font-bold text-gray-900">{{ currentStats.todaySales?.toLocaleString() || '0' }}</h4>
  </div>
  </div>

@@ -110,11 +110,11 @@
  <div class="space-y-4 relative z-10">
  <div v-if="isOnline" class="flex items-center gap-3 text-emerald-400">
  <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_15px_rgba(16,185,129,0.5)]" />
- <span class="text-sm font-black">Active & Visible</span>
+ <span class="text-sm font-medium">Active & Visible</span>
  </div>
  <div v-else class="flex items-center gap-3 text-white/40">
  <div class="w-2 h-2 rounded-full bg-white/20" />
- <span class="text-sm font-black">Hidden / Offline</span>
+ <span class="text-sm font-medium">Hidden / Offline</span>
  </div>
  <p class="text-sm text-white/50 font-medium leading-relaxed">
  When toggled ON, students can browse your menu and place new orders. Toggle OFF during breaks.
@@ -220,7 +220,7 @@
  <span class="text-gray-300">→</span>
  <input type="time" v-model="bh.close" class="text-sm font-bold p-2 rounded-lg border-gray-100 focus:ring-[#FF5C1A]" />
  </div>
- <div v-else class="text-sm font-black text-rose-400 ">Store Closed</div>
+ <div v-else class="text-sm font-medium text-rose-400 ">Store Closed</div>
  </div>
 
  <div class="flex items-center gap-2 ml-4">
@@ -248,11 +248,11 @@
 
  <div v-if="profile.breakPeriod.enabled" class="grid grid-cols-2 gap-4 animate-fade-in">
  <div class="space-y-1.5">
- <label class="text-sm font-black text-amber-600  px-1">Break Start</label>
+ <label class="text-sm font-medium text-amber-600  px-1">Break Start</label>
  <input type="time" v-model="profile.breakPeriod.start" class="w-full p-4 bg-white rounded-2xl border-gray-100 font-bold text-sm focus:ring-amber-500" />
  </div>
  <div class="space-y-1.5">
- <label class="text-sm font-black text-amber-600  px-1">Break End</label>
+ <label class="text-sm font-medium text-amber-600  px-1">Break End</label>
  <input type="time" v-model="profile.breakPeriod.end" class="w-full p-4 bg-white rounded-2xl border-gray-100 font-bold text-sm focus:ring-amber-500" />
  </div>
  </div>
@@ -284,7 +284,7 @@
  <div v-if="payoutAccounts.length === 0" class="py-6 text-center space-y-3">
  <div class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mx-auto border border-gray-100  font-serif text-gray-300">₦</div>
  <p class="text-sm text-gray-400 font-bold ">No bank accounts linked</p>
- <button @click="openAddAccount" class="text-sm font-black text-[#FF5C1A]  hover:underline">Link Account</button>
+ <button @click="openAddAccount" class="text-sm font-medium text-[#FF5C1A]  hover:underline">Link Account</button>
  </div>
 
  <div v-else class="space-y-3">
@@ -297,7 +297,7 @@
  >
  <div class="flex items-center justify-between">
  <div class="space-y-0.5">
- <p class="text-sm font-black text-gray-900">{{ acc.bankName }}</p>
+ <p class="text-sm font-medium text-gray-900">{{ acc.bankName }}</p>
  <p class="text-sm text-gray-500 font-bold">{{ maskAccountNumber(acc.accountNumber) }}</p>
  <p class="text-sm text-gray-400 font-medium  mt-1">{{ acc.accountName }}</p>
  </div>
@@ -323,7 +323,7 @@
  v-for="pref in ['instant', 'weekly', 'monthly']" 
  :key="pref"
  @click="updatePayoutPref(pref)"
- class="py-3 rounded-xl text-sm font-black  transition-all border"
+ class="py-3 rounded-xl text-sm font-medium  transition-all border"
  :class="payoutPreference === pref ? 'bg-gray-900 text-white border-gray-900 shadow-lg' : 'bg-white text-gray-400 border-gray-50 hover:border-gray-200'"
  >
  {{ pref }}
@@ -372,7 +372,7 @@
  <CheckCircle class="w-5 h-5" />
  </div>
  <div>
- <p class="text-sm text-emerald-600 font-black  mb-0.5">Verified Identity</p>
+ <p class="text-sm text-emerald-600 font-medium  mb-0.5">Verified Identity</p>
  <p class="text-sm font-bold text-gray-900">{{ newAccount.accountName }}</p>
  </div>
  </div>
@@ -385,11 +385,11 @@
 
  <template #footer>
  <div class="flex items-center gap-4 w-full">
- <button @click="isAccountDrawerOpen = false" class="flex-1 py-4 bg-white border border-gray-100 text-gray-400 text-sm font-black  rounded-2xl">Cancel</button>
+ <button @click="isAccountDrawerOpen = false" class="flex-1 py-4 bg-white border border-gray-100 text-gray-400 text-sm font-medium  rounded-2xl">Cancel</button>
  <button 
  @click="saveNewAccount" 
  :disabled="!isAccountVerified || savingBank" 
- class="flex-[2] py-4 bg-gray-900 text-white rounded-2xl font-black text-sm  shadow-xl hover:bg-black transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
+ class="flex-[2] py-4 bg-gray-900 text-white rounded-2xl font-medium text-sm  shadow-xl hover:bg-black transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
  >
  <Loader2 v-if="savingBank" class="animate-spin w-3 h-3" />
  Link Account

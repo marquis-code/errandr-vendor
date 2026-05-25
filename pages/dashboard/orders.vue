@@ -107,11 +107,11 @@
 
  <!-- Items List -->
  <div class="space-y-4">
- <h4 class="text-sm font-black text-gray-400  px-1">Order Items</h4>
+ <h4 class="text-sm font-medium text-gray-400  px-1">Order Items</h4>
  <div class="space-y-3">
  <div v-for="item in selectedOrder.items" :key="item._id" class="p-4 bg-white border border-gray-50 rounded-2xl flex items-center justify-between group hover:shadow-md transition-all">
  <div class="flex items-center gap-4">
- <span class="w-8 h-8 bg-gray-50 rounded-lg flex items-center justify-center text-sm font-black text-gray-900">{{ item.quantity }}x</span>
+ <span class="w-8 h-8 bg-gray-50 rounded-lg flex items-center justify-center text-sm font-medium text-gray-900">{{ item.quantity }}x</span>
  <div>
  <p class="text-sm font-bold text-gray-900">{{ item.name }}</p>
  <p class="text-sm text-gray-400 font-medium ">Unit Price: ₦{{ item.price?.toLocaleString() }}</p>
@@ -179,7 +179,7 @@
  v-if="['pending', 'confirmed'].includes(selectedOrder.status)" 
  @click="updateStatus(selectedOrder._id, 'preparing')" 
  :disabled="updatingOrderId === selectedOrder._id"
- class="w-full py-4 bg-gray-900 text-white rounded-2xl text-sm font-black  hover:bg-black active:scale-95 transition-all shadow-xl shadow-black/10 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+ class="w-full py-4 bg-gray-900 text-white rounded-2xl text-sm font-medium  hover:bg-black active:scale-95 transition-all shadow-xl shadow-black/10 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
  >
  <component :is="updatingOrderId === selectedOrder._id ? 'Loader2' : 'Clock'" :class="[updatingOrderId === selectedOrder._id ? 'animate-spin' : '', 'w-4 h-4']" />
  {{ updatingOrderId === selectedOrder._id ? 'UPDATING...' : 'START PREPARING' }}
@@ -188,13 +188,13 @@
  v-if="selectedOrder.status === 'preparing'" 
  @click="updateStatus(selectedOrder._id, 'ready_for_pickup')" 
  :disabled="updatingOrderId === selectedOrder._id"
- class="w-full py-4 bg-[#FF5C1A] text-white rounded-2xl text-sm font-black  hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-[#FF5C1A]/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+ class="w-full py-4 bg-[#FF5C1A] text-white rounded-2xl text-sm font-medium  hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-[#FF5C1A]/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
  >
  <component :is="updatingOrderId === selectedOrder._id ? 'Loader2' : 'Package'" :class="[updatingOrderId === selectedOrder._id ? 'animate-spin' : '', 'w-4 h-4']" />
  {{ updatingOrderId === selectedOrder._id ? 'UPDATING...' : 'READY FOR PICKUP' }}
  </button>
  
- <button @click="selectedOrder = null" class="w-full py-4 bg-white border border-gray-100 text-gray-400 text-sm font-black  rounded-2xl hover:bg-gray-50 transition-all">
+ <button @click="selectedOrder = null" class="w-full py-4 bg-white border border-gray-100 text-gray-400 text-sm font-medium  rounded-2xl hover:bg-gray-50 transition-all">
  Close Details
  </button>
  </div>

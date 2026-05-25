@@ -138,7 +138,7 @@
  <div class="space-y-3">
  <div v-for="item in selectedOrder.items" :key="item._id" class="flex items-center justify-between text-sm">
  <div class="flex items-center gap-3">
- <span class="w-7 h-7 bg-white rounded-lg flex items-center justify-center text-sm font-black text-gray-400 border border-gray-100 shadow-sm">{{ item.quantity }}x</span>
+ <span class="w-7 h-7 bg-white rounded-lg flex items-center justify-center text-sm font-medium text-gray-400 border border-gray-100 shadow-sm">{{ item.quantity }}x</span>
  <span class="text-gray-900 font-bold tracking-tight text-[13px]">{{ item.name }}</span>
  </div>
  <span class="text-gray-500 font-medium text-[13px]">₦{{ item.subtotal?.toLocaleString() }}</span>
@@ -146,7 +146,7 @@
  </div>
  <div class="pt-4 mt-4 border-t border-gray-200/50 flex justify-between items-center">
  <span class="text-sm font-bold text-gray-500 ">Total Value</span>
- <span class="text-xl font-black text-gray-900 tracking-tight">₦{{ selectedOrder.total?.toLocaleString() }}</span>
+ <span class="text-xl font-medium text-gray-900 tracking-tight">₦{{ selectedOrder.total?.toLocaleString() }}</span>
  </div>
  </div>
 

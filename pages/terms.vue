@@ -13,7 +13,7 @@
           <Gavel class="w-3.5 h-3.5 text-[#FF5C1A]" />
           Merchant Agreement
         </div>
-        <h1 class="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] text-slate-900 mb-6 max-w-4xl mx-auto">
+        <h1 class="text-5xl md:text-7xl font-medium tracking-tighter leading-[0.9] text-slate-900 mb-6 max-w-4xl mx-auto">
           Vendor <span class="text-[#FF5C1A]">Framework.</span>
         </h1>
         <p class="text-sm font-medium text-slate-400">Last Updated: January 26, 2026</p>
@@ -26,11 +26,11 @@
         <div class="space-y-16">
           <div v-for="(section, index) in termsSections" :key="index" class="group">
             <div class="flex gap-8">
-              <span class="text-4xl font-black text-parentPrimary/10 group-hover:text-parentPrimary/20 transition-colors tabular-nums">
+              <span class="text-4xl font-medium text-parentPrimary/10 group-hover:text-parentPrimary/20 transition-colors tabular-nums">
                 {{ (index + 1).toString().padStart(2, '0') }}
               </span>
               <div class="space-y-4 text-left">
-                <h2 class="text-2xl font-black text-gray-900 tracking-tight">{{ section.title }}</h2>
+                <h2 class="text-2xl font-medium text-gray-900 tracking-tight">{{ section.title }}</h2>
                 <div class="text-lg text-gray-600 font-medium leading-relaxed tracking-tight" v-html="section.content"></div>
               </div>
             </div>

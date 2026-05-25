@@ -1,16 +1,33 @@
 import { onMounted, onBeforeUnmount } from 'vue'
 import { useCustomToast } from '@/composables/core/useCustomToast'
 import { useRealtimeSocket } from '@/composables/core/useRealtimeSocket'
+import { useNotifications } from '@/composables/modules/notifications/useNotifications'
 
 const LISTENERS_KEY = 'realtime_notification_listeners'
+
+const playNotificationSound = () => {
+  try {
+    const audio = new Audio('/sounds/notification.wav')
+    audio.play().catch(e => console.warn('Audio playback failed', e))
+  } catch (error) {
+    // ignore
+  }
+}
 
 export const useRealtimeNotifications = () => {
   const { showToast } = useCustomToast()
   const { socket, connectSocket } = useRealtimeSocket()
+  const { addNotification } = useNotifications()
   const listenersAttached = useState<boolean>(LISTENERS_KEY, () => false)
 
   const handleNotification = (payload: any) => {
     if (!payload) return
+
+    playNotificationSound()
+    addNotification({
+      id: payload.id || `notif_${Date.now()}`,
+      ...payload
+    })
 
     showToast({
       title: payload.title || 'Notification',
@@ -22,6 +39,9 @@ export const useRealtimeNotifications = () => {
 
   const handleAudit = (payload: any) => {
     if (!payload) return
+
+    playNotificationSound()
+
     showToast({
       title: payload.action ? `Audit: ${payload.action}` : 'Audit Update',
       message: payload.description || 'A new audit log was recorded',
@@ -32,6 +52,15 @@ export const useRealtimeNotifications = () => {
 
   const handleOrderStatusUpdate = (payload: any) => {
     if (!payload) return
+
+    playNotificationSound()
+    addNotification({
+      id: payload.id || `status_${Date.now()}`,
+      title: 'Order Update',
+      body: `Order #${payload.orderNumber} status changed`,
+      ...payload
+    })
+
     showToast({
       title: '📦 Order Update',
       message: `Order #${payload.orderNumber} status changed to ${payload.status?.replace(/_/g, ' ')}`,

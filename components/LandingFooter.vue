@@ -8,7 +8,7 @@
       <!-- Massive CTA Section -->
       <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-10 mb-32">
         <div class="max-w-3xl">
-          <h2 class="text-6xl md:text-[7rem] font-black tracking-tighter leading-[0.85] mb-6 text-slate-950">
+          <h2 class="text-6xl md:text-[7rem] font-medium tracking-tighter leading-[0.85] mb-6 text-slate-950">
             Ready to <br />
             <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF5C1A] to-[#044ec0]">Scale Up?</span>
           </h2>
@@ -33,7 +33,7 @@
         <!-- Brand Column -->
         <div class="md:col-span-5 flex flex-col items-start">
           <NuxtLink to="/" class="flex items-center gap-4 mb-8 group cursor-pointer">
-            <span class="text-2xl font-black tracking-tighter text-slate-950">
+            <span class="text-2xl font-medium tracking-tighter text-slate-950">
               <img src="@/assets/img/logo-light.png" alt="Erranders Logo" class="h-10 w-auto object-contain transition-transform duration-500 group-hover:scale-110" />
             </span>
           </NuxtLink>

@@ -21,7 +21,7 @@
              <img src="@/assets/img/logo-light.png" alt="Erranders Logo" class="h-10 w-auto object-contain transition-transform duration-500 group-hover:scale-110" />
           </div>
 
-          <!-- <span class="text-xl font-black tracking-tight transition-colors" :class="[scrolled ? 'text-gray-900' : 'text-gray-900']">
+          <!-- <span class="text-xl font-medium tracking-tight transition-colors" :class="[scrolled ? 'text-gray-900' : 'text-gray-900']">
             Erranders<span class="text-parentPrimary">.</span>
           </span> -->
         </NuxtLink>
@@ -77,7 +77,7 @@
              :key="link.path" 
              :to="link.path"
              @click="isMobileMenuOpen = false"
-             class="text-4xl font-black text-gray-900 tracking-tighter hover:text-parentPrimary transition-colors"
+             class="text-4xl font-medium text-gray-900 tracking-tighter hover:text-parentPrimary transition-colors"
            >
              {{ link.name }}
            </NuxtLink>

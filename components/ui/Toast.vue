@@ -38,7 +38,7 @@
           <!-- Content Container -->
           <div class="flex-1 min-w-0">
             <!-- Toast Title (if exists, or fall back to capitalized type) -->
-            <h4 class="font-black text-sm text-gray-900 leading-snug tracking-tight">
+            <h4 class="font-medium text-sm text-gray-900 leading-snug tracking-tight">
               {{ toast.title || (toast.type.charAt(0).toUpperCase() + toast.type.slice(1)) }}
             </h4>
             <!-- Toast Message -->

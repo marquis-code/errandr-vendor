@@ -6,7 +6,7 @@
         <h1 class="text-xl font-medium text-gray-900 ">Pre-Order Hub</h1>
         <p class="text-sm text-gray-500 font-bold mt-1 ">Manage your student business batches and scheduled deliveries.</p>
       </div>
-      <button @click="showCampaignModal = true" class="px-8 py-3.5 bg-gray-900 text-white rounded-2xl font-black text-sm   hover:bg-parentPrimary transition-all shadow-xl shadow-black/10 active:scale-95 flex items-center gap-2">
+      <button @click="showCampaignModal = true" class="px-8 py-3.5 bg-gray-900 text-white rounded-2xl font-medium text-sm   hover:bg-parentPrimary transition-all shadow-xl shadow-black/10 active:scale-95 flex items-center gap-2">
         <Plus class="w-4 h-4" /> Start New Batch
       </button>
     </div>
@@ -19,8 +19,8 @@
           <div class="w-12 h-12 rounded-2xl mb-6 flex items-center justify-center border border-gray-100 " :class="stat.bg">
             <component :is="stat.icon" class="w-5 h-5" :class="stat.color" />
           </div>
-          <p class="text-sm font-black text-gray-400   mb-1">{{ stat.label }}</p>
-          <h3 class="text-3xl font-black text-gray-900 ">{{ stat.value }}</h3>
+          <p class="text-sm font-medium text-gray-400   mb-1">{{ stat.label }}</p>
+          <h3 class="text-3xl font-medium text-gray-900 ">{{ stat.value }}</h3>
         </div>
       </div>
     </div>
@@ -31,10 +31,10 @@
         <div class="bg-white rounded-[2.5rem] border border-gray-50 shadow-sm overflow-hidden flex flex-col min-h-[500px]">
           <div class="px-10 py-8 border-b border-gray-50 flex items-center justify-between">
             <div>
-              <h3 class="font-black text-gray-900 text-xl ">Active Batches</h3>
-              <p class="text-sm font-black text-gray-400   mt-0.5">Upcoming delivery windows</p>
+              <h3 class="font-medium text-gray-900 text-xl ">Active Batches</h3>
+              <p class="text-sm font-medium text-gray-400   mt-0.5">Upcoming delivery windows</p>
             </div>
-            <div class="flex items-center gap-2 text-sm font-black ">
+            <div class="flex items-center gap-2 text-sm font-medium ">
               <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
               LIVE
             </div>
@@ -42,7 +42,7 @@
 
           <div v-if="batches.length === 0" class="flex-1 flex flex-col items-center justify-center p-20 text-center">
             <div class="w-20 h-20 bg-gray-50 rounded-3xl flex items-center justify-center text-3xl mb-6 grayscale opacity-50">🎂</div>
-            <h4 class="text-lg font-black text-gray-900 ">No active batches</h4>
+            <h4 class="text-lg font-medium text-gray-900 ">No active batches</h4>
             <p class="text-sm text-gray-400 font-bold   mt-2 max-w-[200px]">Start a new batch to taking pre-orders for your next delivery date.</p>
           </div>
 
@@ -55,8 +55,8 @@
                 </div>
                 <div>
                   <div class="flex items-center gap-3">
-                    <h4 class="font-black text-xl text-gray-900 ">{{ batch.windowName }}</h4>
-                    <span class="px-3 py-1 bg-parentPrimary/10 text-parentPrimary rounded-full text-sm font-black   border border-parentPrimary/5">{{ batch.orderCount }} orders</span>
+                    <h4 class="font-medium text-xl text-gray-900 ">{{ batch.windowName }}</h4>
+                    <span class="px-3 py-1 bg-parentPrimary/10 text-parentPrimary rounded-full text-sm font-medium   border border-parentPrimary/5">{{ batch.orderCount }} orders</span>
                   </div>
                   <p class="text-sm font-bold text-gray-500 mt-1">Delivery on {{ new Date(batch.deliveryDate).toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' }) }}</p>
                 </div>
@@ -64,8 +64,8 @@
               
               <div class="flex items-center gap-8 text-right">
                 <div class="hidden sm:block">
-                  <p class="text-sm font-black text-gray-400   mb-1">Deadline</p>
-                  <p class="text-sm font-black text-rose-500">{{ formatDeadline(batch.deadline) }}</p>
+                  <p class="text-sm font-medium text-gray-400   mb-1">Deadline</p>
+                  <p class="text-sm font-medium text-rose-500">{{ formatDeadline(batch.deadline) }}</p>
                 </div>
                 <button class="p-4 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all group-hover:bg-gray-900 group-hover:text-white group-hover:border-gray-900">
                   <ArrowRight class="w-5 h-5" />
@@ -81,15 +81,15 @@
         <div class="bg-gray-900 rounded-[2.5rem] p-8 text-white shadow-2xl relative overflow-hidden group">
           <div class="absolute -right-4 -top-4 w-32 h-32 bg-parentPrimary/20 rounded-full blur-3xl"></div>
           <div class="relative z-10">
-            <h3 class="text-xl font-black  mb-4 flex items-center gap-3">
+            <h3 class="text-xl font-medium  mb-4 flex items-center gap-3">
               <Calendar class="w-5 h-5 text-parentPrimary" /> Batch Insights
             </h3>
             <p class="text-sm font-bold   mb-8 leading-relaxed">Most student pre-orders occur on Wednesdays for Weekend Deliveries.</p>
             
             <div class="space-y-4">
               <div class="p-5 bg-white/5 rounded-2xl border border-white/5 space-y-2">
-                <p class="text-sm font-black text-white/40  ">Next Hot Window</p>
-                <div class="flex items-center justify-between text-sm font-black">
+                <p class="text-sm font-medium text-white/40  ">Next Hot Window</p>
+                <div class="flex items-center justify-between text-sm font-medium">
                   <span>Saturday Delivery</span>
                   <span class="text-parentPrimary">88% Booked</span>
                 </div>
@@ -107,13 +107,13 @@
               <Zap class="w-5 h-5" />
             </div>
             <div>
-              <h4 class="font-black text-gray-900 ">Automation</h4>
-              <p class="text-sm font-black text-gray-400   mt-0.5">Auto-close pre-orders</p>
+              <h4 class="font-medium text-gray-900 ">Automation</h4>
+              <p class="text-sm font-medium text-gray-400   mt-0.5">Auto-close pre-orders</p>
             </div>
           </div>
           
           <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100 cursor-pointer">
-            <span class="text-sm font-black text-gray-900  ">Auto-Notify Riders</span>
+            <span class="text-sm font-medium text-gray-900  ">Auto-Notify Riders</span>
             <div class="w-10 h-5 bg-emerald-500 rounded-full relative">
               <div class="absolute top-1 right-1 w-3 h-3 bg-white rounded-full"></div>
             </div>
@@ -134,28 +134,28 @@
             <div class="w-20 h-20 bg-parentPrimary/10 text-parentPrimary rounded-3xl flex items-center justify-center mx-auto mb-6">
               <Plus class="w-8 h-8" />
             </div>
-            <h2 class="text-2xl font-black text-gray-900 ">New Pre-Order Batch</h2>
+            <h2 class="text-2xl font-medium text-gray-900 ">New Pre-Order Batch</h2>
             <p class="text-sm text-gray-400 font-bold   mt-2">Setup your next delivery window</p>
           </div>
 
           <div class="space-y-6 pt-4">
             <div class="space-y-1.5">
-              <label class="text-sm font-black text-gray-400   ml-1">Batch Name</label>
-              <input v-model="newBatch.windowName" placeholder="e.g. Next Saturday Cake Batch" class="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-black focus:ring-4 focus:ring-parentPrimary/10 outline-none transition-all shadow-inner" />
+              <label class="text-sm font-medium text-gray-400   ml-1">Batch Name</label>
+              <input v-model="newBatch.windowName" placeholder="e.g. Next Saturday Cake Batch" class="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-medium focus:ring-4 focus:ring-parentPrimary/10 outline-none transition-all shadow-inner" />
             </div>
 
             <div class="grid grid-cols-2 gap-6">
               <div class="space-y-1.5">
-                <label class="text-sm font-black text-gray-400   ml-1">Deadline</label>
-                <input v-model="newBatch.deadline" type="datetime-local" class="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-black focus:ring-4 focus:ring-parentPrimary/10 outline-none transition-all shadow-inner" />
+                <label class="text-sm font-medium text-gray-400   ml-1">Deadline</label>
+                <input v-model="newBatch.deadline" type="datetime-local" class="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-medium focus:ring-4 focus:ring-parentPrimary/10 outline-none transition-all shadow-inner" />
               </div>
               <div class="space-y-1.5">
-                <label class="text-sm font-black text-gray-400   ml-1">Delivery Date</label>
-                <input v-model="newBatch.deliveryDate" type="date" class="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-black focus:ring-4 focus:ring-parentPrimary/10 outline-none transition-all shadow-inner" />
+                <label class="text-sm font-medium text-gray-400   ml-1">Delivery Date</label>
+                <input v-model="newBatch.deliveryDate" type="date" class="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-medium focus:ring-4 focus:ring-parentPrimary/10 outline-none transition-all shadow-inner" />
               </div>
             </div>
 
-            <button @click="handleCreateBatch" class="w-full py-5 bg-gray-900 text-white rounded-2xl font-black text-sm tracking-[0.3em]  hover:bg-parentPrimary transition-all shadow-2xl active:scale-95">
+            <button @click="handleCreateBatch" class="w-full py-5 bg-gray-900 text-white rounded-2xl font-medium text-sm tracking-[0.3em]  hover:bg-parentPrimary transition-all shadow-2xl active:scale-95">
               Launch Pre-Order Window
             </button>
           </div>
