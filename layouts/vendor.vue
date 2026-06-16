@@ -1,11 +1,11 @@
 <template>
   <FullScreenLoader />
-  <div class="min-h-screen bg-gray-50">
+  <div class="min-h-screen bg-white">
     <!-- Desktop Sidebar -->
-    <aside class="hidden lg:block w-64 bg-white border-r border-gray-50/50 min-h-screen fixed left-0 top-0 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
+    <aside class="hidden lg:block w-64 bg-white border-r border-gray-100 min-h-screen fixed left-0 top-0">
       <!-- Logo -->
       <div class="p-4 border-b border-gray-50/50 flex items-center gap-3">
-        <div class="w-10 h-10 bg-parentPrimary rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-sm">
+        <div class="w-10 h-10 bg-parentPrimary rounded-xl flex items-center justify-center text-white font-bold text-xl">
           E
         </div>
         <span class="text-xl font-medium text-parentPrimary tracking-tighter">Errander</span>
@@ -19,7 +19,7 @@
           :to="item.path"
           class="flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all group"
           :class="isActive(item.path) 
-            ? 'bg-parentPrimary text-white shadow-sm' 
+            ? 'bg-parentPrimary text-white' 
             : 'text-gray-700 hover:bg-gray-50 hover:text-parentPrimary'"
         >
           <component :is="item.icon" class="w-5 h-5 mr-3" />
@@ -40,7 +40,7 @@
     </aside>
 
     <!-- Mobile Header -->
-    <header class="lg:hidden bg-white border-b border-gray-50/50 sticky top-0 z-40 shadow-sm">
+    <header class="lg:hidden bg-white border-b border-gray-100 sticky top-0 z-40">
       <div class="flex items-center justify-between px-4 py-3">
         <div class="flex items-center gap-2">
           <div class="w-8 h-8 bg-parentPrimary rounded-lg flex items-center justify-center text-white font-bold text-lg">
@@ -115,7 +115,7 @@
             :to="item.path"
             class="flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all"
             :class="isActive(item.path) 
-              ? 'bg-parentPrimary text-white shadow-sm' 
+              ? 'bg-parentPrimary text-white' 
               : 'text-gray-700 hover:bg-gray-50 hover:text-parentPrimary'"
             @click="showMobileMenu = false"
           >
@@ -140,7 +140,7 @@
     <!-- Main Content -->
     <main class="flex-1 lg:ml-64">
       <!-- Dashboard Header -->
-      <div class="bg-white border-b border-gray-50/50 sticky top-0 z-30 shadow-sm hidden lg:block">
+      <div class="bg-white border-b border-gray-100 sticky top-0 z-30 hidden lg:block">
         <div class="px-6 py-1.5">
           <div class="flex items-center justify-between">
             <div>
@@ -149,7 +149,7 @@
             </div>
             <div class="flex items-center gap-4">
               <!-- Notifications Bell -->
-              <NuxtLink to="/dashboard/notifications" class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-parentPrimary hover:text-white transition-all shadow-sm">
+              <NuxtLink to="/dashboard/notifications" class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-parentPrimary hover:text-white transition-all">
                 <Bell class="w-5 h-5" />
               </NuxtLink>
 
@@ -235,14 +235,13 @@
     </Transition>
   </div>
 </Transition>
-
-    <ChatWidget />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useUser } from '@/composables/modules/auth/user'
+import { useVendorProfile } from '@/composables/modules/vendors'
 import { useRouter, useRoute } from 'vue-router'
 import { 
   LayoutDashboard, 
@@ -260,26 +259,57 @@ import {
 } from 'lucide-vue-next'
 import { useRealtimeNotifications } from '@/composables/core/useRealtimeNotifications'
 import ChatWidget from '@/components/ChatWidget.vue'
+import { useVendorNotifications } from '@/composables/useVendorNotifications'
 
 useRealtimeNotifications() // Initialize listener
 
 const route = useRoute()
 const router = useRouter()
 const { user, logOut } = useUser()
+const { profile, fetchProfile } = useVendorProfile()
+const { requestPermissionAndRegister, listenForOrders } = useVendorNotifications()
 const showMobileMenu = ref(false)
 const logoutModalOpen = ref(false)
 
-const navItems = [
-  { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { path: '/dashboard/inventory', label: 'Inventory', icon: Package },
-  { path: '/dashboard/pre-orders', label: 'Pre-Order Hub', icon: Clock },
-  { path: '/dashboard/orders', label: 'Orders', icon: ClipboardList },
-  { path: '/dashboard/promotions', label: 'Promotions', icon: Megaphone },
-  { path: '/dashboard/chats', label: 'Chats', icon: MessageSquare },
-  { path: '/dashboard/wallet', label: 'Wallet', icon: Wallet },
-  { path: '/dashboard/notifications', label: 'Notifications', icon: Bell },
-  { path: '/dashboard/settings', label: 'Settings', icon: Settings }
-]
+onMounted(() => {
+  if (!profile.value) {
+    fetchProfile()
+  }
+  
+  // Setup push notifications
+  requestPermissionAndRegister()
+  listenForOrders()
+})
+
+const navItems = computed(() => {
+  const isServiceProvider = profile.value?.businessType === 'service_provider';
+  const isHybrid = profile.value?.businessType === 'hybrid';
+
+  const items = [
+    { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  ];
+
+  if (isServiceProvider || isHybrid) {
+    items.push({ path: '/dashboard/services', label: 'Services', icon: ClipboardList }); 
+    items.push({ path: '/dashboard/appointments', label: 'Appointments', icon: Clock }); 
+  }
+
+  if (!isServiceProvider || isHybrid) {
+    items.push({ path: '/dashboard/inventory', label: 'Inventory', icon: Package });
+    items.push({ path: '/dashboard/pre-orders', label: 'Pre-Order Hub', icon: Clock });
+    items.push({ path: '/dashboard/orders', label: 'Orders', icon: ClipboardList });
+  }
+
+  items.push(
+    { path: '/dashboard/promotions', label: 'Promotions', icon: Megaphone },
+    { path: '/dashboard/chats', label: 'Chats', icon: MessageSquare },
+    { path: '/dashboard/wallet', label: 'Wallet', icon: Wallet },
+    { path: '/dashboard/notifications', label: 'Notifications', icon: Bell },
+    { path: '/dashboard/settings', label: 'Settings', icon: Settings }
+  );
+
+  return items;
+})
 
 const pageTitles: Record<string, { title: string; description: string }> = {
   '/dashboard': { title: 'Vendor Dashboard', description: 'Monitor your sales and performance' },

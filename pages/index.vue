@@ -20,11 +20,12 @@
         
         <h1 class="text-4xl sm:text-5xl lg:text-[4.5rem] font-medium tracking-tight leading-[1.05] text-slate-900">
           Feed the <span class="text-[#FF5C1A]">Campus.</span><br />
+          Style the Students.<br />
           Grow Your Business.
         </h1>
         
         <p class="text-base sm:text-lg text-slate-500 font-medium leading-relaxed max-w-xl">
-          Erranders puts your restaurant right in the pocket of thousands of students. Accept orders, manage variations, track payout streams, and deliver directly to lecture halls & hostels.
+          Erranders puts your restaurant, salon, or service right in the pocket of thousands of students. Accept orders, manage service appointments, track payout streams, and deliver directly to lecture halls & hostels.
         </p>
         
         <div class="flex flex-row items-center gap-4 w-full sm:w-auto">
@@ -157,10 +158,10 @@
             <Zap class="w-4 h-4" /> The Vendor Toolkit
           </div>
           <h2 class="text-4xl lg:text-5xl font-medium text-gray-900 tracking-tighter leading-tight mb-6">
-            Everything you need to <br/><span class="text-parentPrimary">dominate campus food delivery.</span>
+            Everything you need to <br/><span class="text-parentPrimary">dominate campus commerce.</span>
           </h2>
           <p class="text-gray-500 font-bold text-lg leading-relaxed">
-            We built Errander strictly for the chaos of a busy kitchen. Accept orders, analyze sales, and manage your menu in seconds.
+            We built Errander strictly for the chaos of a busy campus. Accept orders, manage bookings, analyze sales, and update your offerings in seconds.
           </p>
         </div>
         
@@ -173,6 +174,79 @@
             </div>
             <h3 class="text-lg font-extrabold text-slate-900 tracking-tight mb-2 relative z-10">{{ feature.title }}</h3>
             <p class="text-slate-500 font-medium leading-relaxed text-sm relative z-10">{{ feature.description }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories Map Section -->
+    <section id="categories" class="py-24 bg-white border-y border-slate-100">
+      <div class="max-w-7xl mx-auto px-6 sm:px-10">
+        <div class="text-center mb-16 max-w-2xl mx-auto">
+          <h2 class="text-3xl lg:text-4xl font-medium text-slate-900 tracking-tighter mb-4">
+            Built for your business type
+          </h2>
+          <p class="text-slate-500 font-medium text-lg leading-relaxed">
+            Join the hundreds of top-rated campus businesses across various categories already scaling with Errander.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          <!-- Category Tabs -->
+          <div class="lg:col-span-4 flex flex-col gap-3">
+            <button 
+              v-for="cat in vendorCategories" 
+              :key="cat.key"
+              @click="fetchCategoryVendors(cat.key)"
+              class="flex items-center gap-4 p-5 rounded-2xl border text-left transition-all duration-300 group active:scale-95"
+              :class="activeCategory === cat.key ? 'bg-slate-900 border-slate-900 text-white shadow-lg shadow-slate-900/10' : 'bg-white border-slate-100 text-slate-700 hover:border-[#FF5C1A]/30 hover:bg-slate-50'"
+            >
+              <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0 transition-colors"
+                   :class="activeCategory === cat.key ? 'bg-white/10' : 'bg-slate-100 group-hover:bg-[#FF5C1A]/10'">
+                {{ cat.icon }}
+              </div>
+              <div>
+                <h4 class="font-bold text-base" :class="activeCategory === cat.key ? 'text-white' : 'text-slate-900 group-hover:text-[#FF5C1A]'">{{ cat.label }}</h4>
+                <p class="text-xs font-medium mt-1" :class="activeCategory === cat.key ? 'text-slate-300' : 'text-slate-500'">{{ cat.description }}</p>
+              </div>
+            </button>
+          </div>
+
+          <!-- Vendors Grid Display -->
+          <div class="lg:col-span-8">
+            <div v-if="loadingCategory" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div v-for="i in 4" :key="i" class="animate-pulse bg-slate-50 rounded-[2rem] h-48 border border-slate-100"></div>
+            </div>
+            
+            <div v-else-if="categoryVendors.length > 0" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div v-for="vendor in categoryVendors.slice(0, 4)" :key="vendor._id" 
+                   class="bg-white border border-slate-100 rounded-[2rem] p-5 shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-lg transition-all flex items-start gap-4">
+                <div class="w-20 h-20 rounded-2xl bg-slate-100 border border-slate-200 overflow-hidden shrink-0">
+                  <img :src="vendor.image || vendor.logo || vendor.banner || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=200&q=80'" class="w-full h-full object-cover" />
+                </div>
+                <div>
+                  <h4 class="font-extrabold text-slate-900 text-lg mb-1 tracking-tight truncate">{{ vendor.storeName }}</h4>
+                  <div class="flex items-center gap-1.5 text-xs font-bold text-slate-500 mb-2">
+                    <span class="px-2 py-0.5 rounded-md bg-slate-100 uppercase tracking-wider text-[9px]">{{ vendor.category || activeCategory }}</span>
+                  </div>
+                  <div class="flex items-center gap-1 text-yellow-500">
+                    <Star class="w-3.5 h-3.5 fill-current" />
+                    <span class="text-xs font-bold text-slate-700">{{ vendor.rating?.toFixed(1) || '5.0' }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Empty State for Category -->
+            <div v-else class="h-full flex flex-col items-center justify-center bg-slate-50 border border-dashed border-slate-200 rounded-[2rem] p-10 text-center">
+              <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-3xl shadow-sm mb-4 mb-4">
+                {{ vendorCategories.find(c => c.key === activeCategory)?.icon }}
+              </div>
+              <h4 class="text-lg font-bold text-slate-900">Be the first!</h4>
+              <p class="text-sm text-slate-500 font-medium max-w-sm mt-2">
+                We're expanding into this category. Claim your spot now and dominate the campus market.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -252,6 +326,7 @@ import {
   LogIn, Store, TrendingUp, Zap, Rocket, Activity, ClipboardList, PieChart, Star,
   PlayCircle, Quote, Utensils, Bike, Sparkles
 } from 'lucide-vue-next'
+import { vendors_api } from '@/api_factory/modules/vendors'
 
 const router = useRouter()
 const scrolled = ref(false)
@@ -271,8 +346,34 @@ const handleScroll = () => {
   scrolled.value = window.scrollY > 50
 }
 
+const activeCategory = ref('restaurant')
+const categoryVendors = ref<any[]>([])
+const loadingCategory = ref(false)
+
+const vendorCategories = [
+  { key: 'restaurant', label: 'Restaurants', icon: '🍽️', description: 'Join the top campus kitchens' },
+  { key: 'salon', label: 'Salons & Spas', icon: '💇‍♀️', description: 'Schedule more styling appointments' },
+  { key: 'groceries', label: 'Groceries & Marts', icon: '🛒', description: 'Deliver daily essentials fast' },
+  { key: 'services', label: 'Tutors & Services', icon: '🎓', description: 'Offer your professional skills' },
+]
+
+const fetchCategoryVendors = async (category: string) => {
+  loadingCategory.value = true
+  activeCategory.value = category
+  try {
+    const res = await vendors_api.getAll({ category, limit: 4 })
+    const fetched = res.data?.vendors || res.data?.data?.vendors || res.data || []
+    categoryVendors.value = fetched
+  } catch (e) {
+    console.error('Failed to fetch vendors by category:', e)
+  } finally {
+    loadingCategory.value = false
+  }
+}
+
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
+  fetchCategoryVendors(activeCategory.value)
 })
 
 onUnmounted(() => {
@@ -282,23 +383,23 @@ onUnmounted(() => {
 // Data for Features Grid
 const toolkitFeatures = [
   {
-    title: 'Menu Management',
-    description: 'Upload delicious dishes, manage variations, set prices, and toggle availability instantly when you run out of stock.',
+    title: 'Product & Service Management',
+    description: 'Upload delicious dishes or list your services, manage variations, set prices, and configure your availability calendar instantly.',
     icon: ClipboardList
   },
   {
-    title: 'Live Orders',
-    description: 'Accept, prepare, and dispatch orders in real-time. Hear loud ringtones for new orders so you never miss a sale.',
+    title: 'Live Orders & Appointments',
+    description: 'Accept, prepare, and dispatch orders or manage bookings in real-time. Hear loud ringtones for new requests so you never miss a sale.',
     icon: Activity
   },
   {
     title: 'Analytics Dashboard',
-    description: 'Track daily revenue, identify your top-selling meals, and view order success rates to scale your business smartly.',
+    description: 'Track daily revenue, identify your top-selling items or services, and view success rates to scale your business smartly.',
     icon: PieChart
   },
   {
     title: 'Instant Setup',
-    description: 'Create your vendor profile, add your payout bank account, and start receiving orders from students in under 5 minutes.',
+    description: 'Create your vendor profile, add your payout bank account, and start receiving orders and appointments from students in under 5 minutes.',
     icon: Store
   }
 ]
@@ -307,8 +408,8 @@ const toolkitFeatures = [
 const successStories = [
   { id: 1, quote: 'Joining Errander doubled our daily orders. Reaching students directly in their hostels was a game changer for our weekend sales.', name: 'Chef Tunde', restaurant: 'Campus Grill House', image: 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=150&h=150&fit=crop' },
   { id: 2, quote: 'The instant payout feature is incredible. Cash flow is crucial for our inventory, and Errander makes it seamless.', name: 'Sarah', restaurant: 'Fresh Bites Bakery', image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=150&h=150&fit=crop' },
-  { id: 3, quote: 'The analytics dashboard helps us understand peak hours. We now prep earlier for the dinner rush and zero out waste.', name: 'Mr. John', restaurant: 'Pizza Hub', image: 'https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?w=150&h=150&fit=crop' },
-  { id: 4, quote: 'Menu management is so easy. If we run out of chicken, I just toggle it off on my phone in 2 seconds.', name: 'Mama Nkechi', restaurant: 'Nkechi Foods', image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=150&h=150&fit=crop' },
+  { id: 3, quote: 'The calendar system is a lifesaver. Students now book their hair appointments ahead of time, and my salon is never overcrowded.', name: 'Adeola', restaurant: 'Glow Beauty Studio', image: 'https://images.unsplash.com/photo-1595152772835-219674b2a8a6?w=150&h=150&fit=crop' },
+  { id: 4, quote: 'Managing services and physical products in one place is so easy. If we are fully booked, I just toggle it off on my phone in 2 seconds.', name: 'Mama Nkechi', restaurant: 'Nkechi Foods & Spa', image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=150&h=150&fit=crop' },
 ]
 </script>
 

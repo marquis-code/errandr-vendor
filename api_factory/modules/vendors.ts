@@ -19,6 +19,10 @@ export const vendors_api = {
     return GATEWAY_ENDPOINT.get('/vendors/online');
   },
 
+  getAll: (params?: any) => {
+    return GATEWAY_ENDPOINT.get('/vendors', { params });
+  },
+
   getMyVendorStats: () => {
     return GATEWAY_ENDPOINT_WITH_AUTH.get('/vendors/mine/stats');
   },
@@ -40,5 +44,9 @@ export const vendors_api = {
   },
   updateProfile: (payload: any) => {
     return GATEWAY_ENDPOINT_WITH_AUTH.put('/vendors/profile', payload);
+  },
+
+  updateFcmToken: (payload: { fcmToken: string }) => {
+    return GATEWAY_ENDPOINT_WITH_AUTH.patch('/vendors/fcm-token', payload);
   },
 };

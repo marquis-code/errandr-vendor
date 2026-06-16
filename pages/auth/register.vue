@@ -55,6 +55,7 @@
               <UiAnimatedInput v-model="form.email" type="email" label="Email Address" :hasError="!!valErrors.email" :errorMessage="valErrors.email" @input="valErrors.email=''" />
               <UiAnimatedInput v-model="form.phone" type="tel" label="Phone Number" :hasError="!!valErrors.phone" :errorMessage="valErrors.phone" @input="valErrors.phone=''" />
               <UiAnimatedInput v-model="form.password" type="password" label="Password" :hasError="!!valErrors.password" :errorMessage="valErrors.password" @input="valErrors.password=''" />
+              <UiAnimatedInput v-model="form.referredBy" type="text" label="Referral Code (Optional)" placeholder="Who referred you?" />
 
               <!-- <div v-if="error" class="p-3 bg-red-50 text-red-600 text-smfont-bold rounded-xl flex items-center gap-2"><AlertCircle class="w-4 h-4 shrink-0" /> {{ error }}</div> -->
 
@@ -181,9 +182,72 @@
                 </div>
               </div>
 
+              <UiAnimatedInput v-model="vendor.description" type="textarea" label="Store Description" :rows="2" />
+
+              <div class="flex gap-3 pt-4 mt-auto">
+                <button type="button" @click="currentStep = 'otp'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-2xl font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
+                <button type="submit" class="flex-1 py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-medium text-base transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 active:scale-[0.98]">
+                  Continue <ArrowRight class="w-5 h-5" />
+                </button>
+              </div>
+            </form>
+          </transition>
+
+          <!-- Step: Business Type -->
+          <transition name="slide-up" mode="out-in">
+            <form v-if="currentStep === 'businessType'" @submit.prevent="handleStepType" class="w-full flex flex-col space-y-4">
+              <div class="mb-4">
+                <h2 class="text-xl font-medium text-gray-900 tracking-tight">Business Type</h2>
+                <p class="text-sm text-gray-500 font-medium">What kind of business do you run?</p>
+              </div>
+
+              <div class="grid gap-3">
+                <div @click="vendor.businessType = 'physical_product'" class="flex items-start gap-4 p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.businessType === 'physical_product' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                  <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">📦</div>
+                  <div>
+                    <h3 class="text-sm font-bold text-gray-900 mb-1">Physical Products</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed">I sell physical items that require delivery or pickup (e.g. food, clothing, groceries).</p>
+                  </div>
+                  <div class="ml-auto w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.businessType === 'physical_product' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.businessType === 'physical_product'" class="w-3 h-3 text-white" /></div>
+                </div>
+
+                <div @click="vendor.businessType = 'service_provider'" class="flex items-start gap-4 p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.businessType === 'service_provider' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                  <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">✂️</div>
+                  <div>
+                    <h3 class="text-sm font-bold text-gray-900 mb-1">Service Provider</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed">I provide services that require booking appointments (e.g. salon, spa, tutoring).</p>
+                  </div>
+                  <div class="ml-auto w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.businessType === 'service_provider' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.businessType === 'service_provider'" class="w-3 h-3 text-white" /></div>
+                </div>
+
+                <div @click="vendor.businessType = 'hybrid'" class="flex items-start gap-4 p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.businessType === 'hybrid' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                  <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">🛍️</div>
+                  <div>
+                    <h3 class="text-sm font-bold text-gray-900 mb-1">Hybrid (Products & Services)</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed">I provide services AND sell physical products (e.g. a salon selling hair cream).</p>
+                  </div>
+                  <div class="ml-auto w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.businessType === 'hybrid' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.businessType === 'hybrid'" class="w-3 h-3 text-white" /></div>
+                </div>
+              </div>
+
+              <div class="flex gap-3 pt-4 mt-auto">
+                <button type="button" @click="currentStep = 'business'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-2xl font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
+                <button type="submit" class="flex-1 py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-medium text-base transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 active:scale-[0.98]">Continue <ArrowRight class="w-5 h-5" /></button>
+              </div>
+            </form>
+          </transition>
+
+
+          <!-- Step: Categories -->
+          <transition name="slide-up" mode="out-in">
+            <form v-if="currentStep === 'categories'" @submit.prevent="handleStepCategories" class="w-full flex flex-col space-y-4">
+              <div class="mb-4">
+                <h2 class="text-xl font-medium text-gray-900 tracking-tight">Business Categories</h2>
+                <p class="text-sm text-gray-500 font-medium">What describes your offerings?</p>
+              </div>
+
               <!-- Business Categories — Searchable Dropdown + Tags -->
               <div class="space-y-3">
-                <label class="text-sm font-bold text-gray-700">Business Categories</label>
                 <div class="relative" ref="categoryDropdownRef">
                   <div 
                     @click="showCategoryDropdown = !showCategoryDropdown"
@@ -248,10 +312,7 @@
                   </transition>
                 </div>
               </div>
-
-              <UiAnimatedInput v-model="vendor.description" type="textarea" label="Store Description" :rows="2" />
-              <UiAnimatedInput v-model="vendor.address" type="text" label="Store Location / Address" :hasError="!!valErrors.address" :errorMessage="valErrors.address" @input="valErrors.address=''" />
-
+              
               <div class="grid grid-cols-1 gap-2.5 pt-2">
                 <!-- Inside Campus Toggle -->
                 <div 
@@ -310,8 +371,129 @@
                     ></div>
                   </div>
                 </div>
+              </div>
 
-                <!-- Pre-Order Toggle -->
+              <div class="flex gap-3 pt-4 mt-auto">
+                <button type="button" @click="currentStep = 'businessType'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-2xl font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
+                <button type="submit" class="flex-1 py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-medium text-base transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 active:scale-[0.98]">Continue <ArrowRight class="w-5 h-5" /></button>
+              </div>
+            </form>
+          </transition>
+
+          <!-- Step: Team Size -->
+          <transition name="slide-up" mode="out-in">
+            <form v-if="currentStep === 'teamSize'" @submit.prevent="handleStepTeamSize" class="w-full flex flex-col space-y-4">
+              <div class="mb-4">
+                <h2 class="text-xl font-medium text-gray-900 tracking-tight">Team Size</h2>
+                <p class="text-sm text-gray-500 font-medium">How many people work at your business?</p>
+              </div>
+
+              <div class="grid gap-3">
+                <div @click="vendor.teamSize = 'independent'" class="flex items-center justify-between p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.teamSize === 'independent' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                  <span class="text-sm font-bold text-gray-900">It's just me</span>
+                  <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.teamSize === 'independent' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.teamSize === 'independent'" class="w-3 h-3 text-white" /></div>
+                </div>
+
+                <div @click="vendor.teamSize = '2-5'" class="flex items-center justify-between p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.teamSize === '2-5' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                  <span class="text-sm font-bold text-gray-900">2 - 5 people</span>
+                  <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.teamSize === '2-5' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.teamSize === '2-5'" class="w-3 h-3 text-white" /></div>
+                </div>
+
+                <div @click="vendor.teamSize = '6-10'" class="flex items-center justify-between p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.teamSize === '6-10' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                  <span class="text-sm font-bold text-gray-900">6 - 10 people</span>
+                  <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.teamSize === '6-10' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.teamSize === '6-10'" class="w-3 h-3 text-white" /></div>
+                </div>
+                
+                <div @click="vendor.teamSize = '11-20'" class="flex items-center justify-between p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.teamSize === '11-20' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                  <span class="text-sm font-bold text-gray-900">11 - 20 people</span>
+                  <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.teamSize === '11-20' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.teamSize === '11-20'" class="w-3 h-3 text-white" /></div>
+                </div>
+                
+                <div @click="vendor.teamSize = '20+'" class="flex items-center justify-between p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.teamSize === '20+' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                  <span class="text-sm font-bold text-gray-900">20+ people</span>
+                  <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.teamSize === '20+' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.teamSize === '20+'" class="w-3 h-3 text-white" /></div>
+                </div>
+              </div>
+
+              <div class="flex gap-3 pt-4 mt-auto">
+                <button type="button" @click="currentStep = 'categories'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-2xl font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
+                <button type="submit" class="flex-1 py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-medium text-base transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 active:scale-[0.98]">Continue <ArrowRight class="w-5 h-5" /></button>
+              </div>
+            </form>
+          </transition>
+
+          <!-- Step: Location Type -->
+          <transition name="slide-up" mode="out-in">
+            <form v-if="currentStep === 'locationType'" @submit.prevent="handleStepLocationType" class="w-full flex flex-col space-y-4">
+              <div class="mb-4">
+                <h2 class="text-xl font-medium text-gray-900 tracking-tight">Service Location</h2>
+                <p class="text-sm text-gray-500 font-medium">Where do you provide your services/products?</p>
+              </div>
+
+              <div class="grid gap-3">
+                <div @click="vendor.serviceLocation = 'physical_location'" class="flex items-start gap-4 p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.serviceLocation === 'physical_location' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                  <div class="w-10 h-10 rounded-xl bg-orange-50 text-[#FF5C1A] flex items-center justify-center shrink-0"><MapPin class="w-5 h-5" /></div>
+                  <div>
+                    <h3 class="text-sm font-bold text-gray-900 mb-1">Physical Location</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed">I have a store, salon, or physical space where customers come to me.</p>
+                  </div>
+                  <div class="ml-auto w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.serviceLocation === 'physical_location' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.serviceLocation === 'physical_location'" class="w-3 h-3 text-white" /></div>
+                </div>
+
+                <div @click="vendor.serviceLocation = 'mobile_operator'" class="flex items-start gap-4 p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.serviceLocation === 'mobile_operator' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                  <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">🚙</div>
+                  <div>
+                    <h3 class="text-sm font-bold text-gray-900 mb-1">Mobile Operator</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed">I travel to my clients to provide services or deliver goods.</p>
+                  </div>
+                  <div class="ml-auto w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.serviceLocation === 'mobile_operator' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.serviceLocation === 'mobile_operator'" class="w-3 h-3 text-white" /></div>
+                </div>
+
+                <div @click="vendor.serviceLocation = 'virtual_online'" class="flex items-start gap-4 p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.serviceLocation === 'virtual_online' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                  <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center shrink-0">💻</div>
+                  <div>
+                    <h3 class="text-sm font-bold text-gray-900 mb-1">Virtual / Online</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed">I provide my services entirely online or via social media.</p>
+                  </div>
+                  <div class="ml-auto w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.serviceLocation === 'virtual_online' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.serviceLocation === 'virtual_online'" class="w-3 h-3 text-white" /></div>
+                </div>
+              </div>
+
+              <div class="flex gap-3 pt-4 mt-auto">
+                <button type="button" @click="currentStep = 'teamSize'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-2xl font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
+                <button type="submit" class="flex-1 py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-medium text-base transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 active:scale-[0.98]">Continue <ArrowRight class="w-5 h-5" /></button>
+              </div>
+            </form>
+          </transition>
+
+          <!-- Step: Address / Software -->
+          <transition name="slide-up" mode="out-in">
+            <form v-if="currentStep === 'addressOrSoftware'" @submit.prevent="handleStepAddressOrSoftware" class="w-full flex flex-col space-y-4">
+              
+              <div v-if="vendor.serviceLocation === 'physical_location'">
+                <div class="mb-4">
+                  <h2 class="text-xl font-medium text-gray-900 tracking-tight">Business Address</h2>
+                  <p class="text-sm text-gray-500 font-medium">Where is your business located?</p>
+                </div>
+                <UiAnimatedInput v-model="vendor.address" type="textarea" :rows="3" label="Full Store Location / Address" :hasError="!!valErrors.address" :errorMessage="valErrors.address" @input="valErrors.address=''" />
+              </div>
+
+              <div v-else>
+                <div class="mb-4">
+                  <h2 class="text-xl font-medium text-gray-900 tracking-tight">Software Used</h2>
+                  <p class="text-sm text-gray-500 font-medium">Which software are you currently using to manage your business?</p>
+                </div>
+                <UiAnimatedInput v-model="vendor.softwareUsed" type="text" label="Software Name (e.g. Fresha, Calendly, WhatsApp)" />
+                <p class="text-xs text-gray-500 mt-2 bg-blue-50 text-blue-700 p-3 rounded-xl border border-blue-100">
+                  <span class="font-bold">Looking to switch?</span> We can help speed up your business setup and import your data into your new Erranders account.
+                </p>
+              </div>
+
+              <!-- Pre-Order Toggle for all -->
+              <div class="mt-4 pt-4 border-t border-gray-100">
+                <div class="mb-3">
+                  <h3 class="text-sm font-bold text-gray-900">Additional Options</h3>
+                </div>
                 <div 
                   class="rounded-2xl border transition-all duration-300"
                   :class="vendor.preOrderOnly 
@@ -330,7 +512,7 @@
                     </div>
                     <div class="flex-1 min-w-0">
                       <div class="flex items-center gap-1.5">
-                        <p class="text-sm font-bold text-gray-800">Pre-order only</p>
+                        <p class="text-sm font-bold text-gray-800">Pre-order / Appointments only</p>
                         <span 
                           @click.stop="showPreOrderInfo = !showPreOrderInfo" 
                           class="text-gray-300 hover:text-[#FF5C1A] transition-colors cursor-pointer"
@@ -338,7 +520,7 @@
                           <HelpCircle class="w-3.5 h-3.5" />
                         </span>
                       </div>
-                      <p class="text-[11px] text-gray-400 font-medium">Customers order ahead of time</p>
+                      <p class="text-[11px] text-gray-400 font-medium">Customers must order or book ahead</p>
                     </div>
                     <div 
                       class="w-10 h-6 rounded-full p-0.5 transition-all duration-300 shrink-0"
@@ -357,26 +539,15 @@
                       <div class="font-bold flex items-center gap-1.5 mb-1 text-amber-900">
                         <span>✨</span> How it works:
                       </div>
-                      Perfect for bakers, custom creators, and chefs! 🍰🎨 Customers order in advance (e.g., 24h notice or batch schedules) so you have ample time to prep your magic without instant delivery stress!
+                      Perfect for bakers, salons, or custom creators! Customers order in advance (e.g., 24h notice or booked slots) so you have ample time to prep your magic without instant delivery stress!
                     </div>
                   </div>
                 </div>
               </div>
 
-              <transition name="slide-up">
-                <div class="pt-2 space-y-4" v-if="vendor.isStudentBusiness">
-                  <UiAnimatedInput v-model="vendor.matricNumber" type="text" label="Matric Number (Optional)" />
-                  <UiSelectInput v-model="vendor.university" label="University (Optional)" :options="universityOptions" searchable />
-                </div>
-              </transition>
-
-              <!-- <div v-if="error" class="p-3 bg-red-50 text-red-600 text-smfont-bold rounded-xl flex items-center justify-center gap-2"><AlertCircle class="w-4 h-4 shrink-0" /> {{ error }}</div> -->
-
               <div class="flex gap-3 pt-4 mt-auto">
-                <button type="button" @click="currentStep = 'otp'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-2xl font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
-                <button type="submit" class="flex-1 py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-medium text-base transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 active:scale-[0.98]">
-                  Continue <ArrowRight class="w-5 h-5" />
-                </button>
+                <button type="button" @click="currentStep = 'locationType'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-2xl font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
+                <button type="submit" class="flex-1 py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-medium text-base transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 active:scale-[0.98]">Continue <ArrowRight class="w-5 h-5" /></button>
               </div>
             </form>
           </transition>
@@ -418,10 +589,24 @@
                 <UiTimePicker v-model="vendor.operatingHours.close" label="Closes At" />
               </div>
 
+              <!-- Logistics Information Notice -->
+              <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-3 flex gap-3 items-start">
+                <div class="mt-0.5 w-5 h-5 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                  <Info class="w-3 h-3" />
+                </div>
+                <div class="text-xs text-blue-800 leading-relaxed">
+                  <p class="font-bold mb-1">How this works for your business type:</p>
+                  <ul class="list-disc pl-4 space-y-0.5 text-blue-700/90 font-medium">
+                    <li><strong>Product Sellers:</strong> Set your average prep time, minimum order amount, and base delivery fee for campus dispatchers.</li>
+                    <li><strong>Service Providers:</strong> Set 'Prep Time' as your average service duration. You can leave 'Delivery Fee' at ₦0.</li>
+                  </ul>
+                </div>
+              </div>
+
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <UiAnimatedInput v-model.number="vendor.preparationTime" type="number" label="Prep(m)" />
-                <UiAnimatedInput v-model.number="vendor.minimumOrder" type="number" label="Min(₦)" />
-                <UiAnimatedInput v-model.number="vendor.deliveryFee" type="number" label="Del(₦)" />
+                <UiAnimatedInput v-model.number="vendor.preparationTime" type="number" label="Prep Time (mins)" />
+                <UiAnimatedInput v-model.number="vendor.minimumOrder" type="number" label="Min Order (₦)" />
+                <UiAnimatedInput v-model.number="vendor.deliveryFee" type="number" label="Delivery Fee (₦)" />
               </div>
 
               <!-- Banks -->
@@ -491,7 +676,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, watch, onMounted, onUnmounted, computed, nextTick } from 'vue'
-import { Loader2, ArrowRight, ArrowLeft, Store, Check, ImageIcon, X, CheckCircle, AlertCircle, Mail, HelpCircle, MapPin, GraduationCap, Clock3 } from 'lucide-vue-next'
+import { Loader2, ArrowRight, ArrowLeft, Store, Check, ImageIcon, X, CheckCircle, AlertCircle, Mail, HelpCircle, MapPin, GraduationCap, Clock3, Info } from 'lucide-vue-next'
 import confetti from 'canvas-confetti'
 import { useAuth } from '@/composables/modules/auth'
 import { vendors_api } from '@/api_factory/modules/vendors'
@@ -505,20 +690,26 @@ useHead({ title: 'Open Your Store - Erranders' })
 const { register, loading } = useAuth()
 const { showToast } = useCustomToast()
 const error = ref('')
-const currentStep = ref<'account' | 'otp' | 'business' | 'logistics'>('account')
+const currentStep = ref<'account' | 'otp' | 'business' | 'businessType' | 'teamSize' | 'locationType' | 'addressOrSoftware' | 'logistics' | 'success'>('account')
 const submitting = ref(false)
 const showPreOrderInfo = ref(false)
 
 const displayStep = computed(() => {
-  if (currentStep.value === 'account') return 1
-  if (currentStep.value === 'otp') return 1
-  if (currentStep.value === 'business') return 2
+  if (currentStep.value === 'account' || currentStep.value === 'otp') return 1
+  if (['business', 'businessType', 'teamSize', 'locationType', 'addressOrSoftware'].includes(currentStep.value)) return 2
   return 3
 })
 
 const progressWidth = computed(() => {
   if (displayStep.value === 1) return '0%'
-  if (displayStep.value === 2) return '50%'
+  if (displayStep.value === 2) {
+    if (currentStep.value === 'business') return '25%'
+    if (currentStep.value === 'businessType') return '35%'
+    if (currentStep.value === 'teamSize') return '45%'
+    if (currentStep.value === 'locationType') return '55%'
+    if (currentStep.value === 'addressOrSoftware') return '65%'
+    return '50%'
+  }
   return '100%'
 })
 
@@ -581,6 +772,7 @@ const form = reactive({
   password: '',
   phone: '',
   role: 'vendor',
+  referredBy: '',
 })
 
 const otpDigits = reactive(['', '', '', '', '', ''])
@@ -630,6 +822,10 @@ const resendOTP = async () => {
 
 const vendor = reactive({
   storeName: '', description: '', address: '', subdomain: '',
+  businessType: 'physical_product' as 'physical_product' | 'service_provider' | 'hybrid',
+  teamSize: 'independent' as 'independent' | '2-5' | '6-10' | '11-20' | '20+',
+  serviceLocation: 'physical_location' as 'physical_location' | 'mobile_operator' | 'virtual_online',
+  softwareUsed: '',
   isInsideCampus: false, isStudentBusiness: false, preOrderOnly: false, matricNumber: '', university: '',
   operatingHours: { open: '08:00 AM', close: '08:00 PM' },
   preparationTime: 15, minimumOrder: 0, deliveryFee: 0,
@@ -811,7 +1007,40 @@ const handleStep1 = async () => {
 
 const handleStep2 = () => {
   error.value = ''
-  if (!validateStep2()) return
+  // Basic validation for step 2 (store name, subdomain)
+  if (!vendor.storeName) { valErrors.storeName = 'Required'; return }
+  if (!vendor.subdomain) { valErrors.subdomain = 'Required'; return }
+  else if (vendor.subdomain.length < 3) { valErrors.subdomain = 'Min 3 characters'; return }
+  else if (subdomainAvailable.value === false) { valErrors.subdomain = 'Subdomain is not available'; return }
+  
+  currentStep.value = 'businessType'
+}
+
+const handleStepType = () => {
+  currentStep.value = 'categories'
+}
+
+const handleStepCategories = () => {
+  if (selectedCategories.value.length === 0) { 
+    showToast({ title: 'Category Required', message: 'Please select at least one business category.', toastType: 'error' })
+    return 
+  }
+  currentStep.value = 'teamSize'
+}
+
+const handleStepTeamSize = () => {
+  currentStep.value = 'locationType'
+}
+
+const handleStepLocationType = () => {
+  currentStep.value = 'addressOrSoftware'
+}
+
+const handleStepAddressOrSoftware = () => {
+  if (vendor.serviceLocation === 'physical_location' && !vendor.address) {
+    valErrors.address = 'Required'
+    return
+  }
   currentStep.value = 'logistics'
 }
 
@@ -821,6 +1050,7 @@ const handleFinalSubmit = async () => {
   try {
     const payload: any = {
       storeName: vendor.storeName, description: vendor.description, 
+      businessType: vendor.businessType, teamSize: vendor.teamSize, serviceLocation: vendor.serviceLocation, softwareUsed: vendor.softwareUsed,
       category: selectedCategories.value.length > 0 ? selectedCategories.value[0] : 'other',
       tags: selectedCategories.value,
       address: vendor.address,
@@ -830,10 +1060,26 @@ const handleFinalSubmit = async () => {
     }
     if (logoUrl.value) payload.logo = logoUrl.value
     if (vendor.isStudentBusiness) { payload.matricNumber = vendor.matricNumber; payload.university = vendor.university }
+    
+    // We will save bank details to wallet instead of just vendor profile
     if (vendor.bankDetails.bankName && vendor.bankDetails.accountNumber) payload.bankDetails = { bankName: vendor.bankDetails.bankName, bankCode: vendor.bankDetails.bankCode, accountNumber: vendor.bankDetails.accountNumber, accountName: vendor.bankDetails.accountName }
 
     const res = await vendors_api.createVendor(payload)
     if (res?.type === 'ERROR') throw res;
+
+    // After vendor is successfully created, save bank details to their new wallet
+    if (vendor.bankDetails.bankName && vendor.bankDetails.accountNumber) {
+        try {
+            const { wallets_api } = await import('@/api_factory/modules/wallets')
+            await wallets_api.updatePreferences({
+                preference: 'weekly',
+                bankDetails: payload.bankDetails,
+                metadata: { payoutAccounts: [{...payload.bankDetails, isActive: true}] }
+            })
+        } catch (e) {
+            console.error('Failed to update initial wallet preferences', e)
+        }
+    }
     
     // Show personalized success modal instead of immediate redirect
     currentStep.value = 'success'

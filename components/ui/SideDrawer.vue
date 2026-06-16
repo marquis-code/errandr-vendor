@@ -5,8 +5,15 @@
  <div v-if="isOpen" class="fixed inset-0 bg-gray-900/40 backdrop-blur-[2px] transition-opacity" @click="$emit('close')" aria-hidden="true" />
  </Transition>
 
- <Transition name="drawer">
- <div v-if="isOpen" class="fixed inset-y-0 right-0 w-full max-w-lg h-full bg-white shadow-[-20px_0_50px_-12px_rgba(0,0,0,0.1)] flex flex-col pointer-events-auto z-[101]">
+ <Transition
+      enter-active-class="transition-transform duration-300 ease-out"
+      enter-from-class="translate-y-full md:translate-y-0 md:translate-x-full"
+      enter-to-class="translate-y-0 md:translate-x-0"
+      leave-active-class="transition-transform duration-200 ease-in"
+      leave-from-class="translate-y-0 md:translate-x-0"
+      leave-to-class="translate-y-full md:translate-y-0 md:translate-x-full"
+ >
+ <div v-if="isOpen" class="fixed inset-x-0 bottom-0 md:top-4 md:bottom-4 md:right-4 md:left-auto z-[101] bg-white rounded-t-[2rem] md:rounded-2xl md:w-[600px] shadow-2xl flex flex-col max-h-[90vh] md:max-h-[calc(100vh-2rem)] border border-gray-200 overflow-hidden h-full pointer-events-auto">
  
  <!-- Header -->
  <div class="px-8 py-6 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-20">
@@ -51,19 +58,6 @@ defineEmits(['close']);
 </script>
 
 <style scoped>
-.drawer-enter-active,
-.drawer-leave-active {
- transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.drawer-enter-from {
- transform: translateX(100%);
-}
-
-.drawer-leave-to {
- transform: translateX(100%);
-}
-
 .fade-enter-active,
 .fade-leave-active {
  transition: opacity 0.4s ease;

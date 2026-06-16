@@ -16,7 +16,7 @@
  <StoreIcon class="w-5 h-5" :class="activeTab === 'profile' ? 'text-white' : 'text-[#FF5C1A]'" /> Store Identity
  </button>
  <button @click="activeTab = 'operations'" :class="activeTab === 'operations' ? 'bg-gray-900 text-white shadow-md' : 'bg-white text-gray-500 hover:bg-gray-50 border-gray-100'" class="w-full flex items-center gap-3 px-5 py-4 rounded-2xl font-bold text-sm transition-all text-left border">
- <Clock class="w-5 h-5" :class="activeTab === 'operations' ? 'text-white' : 'text-amber-500'" /> Operations & Status
+ <Clock class="w-5 h-5" :class="activeTab === 'operations' ? 'text-white' : 'text-amber-500'" /> {{ isServiceProvider ? 'Scheduling & Status' : 'Operations & Status' }}
  </button>
  <button @click="activeTab = 'financials'" :class="activeTab === 'financials' ? 'bg-gray-900 text-white shadow-md' : 'bg-white text-gray-500 hover:bg-gray-50 border-gray-100'" class="w-full flex items-center gap-3 px-5 py-4 rounded-2xl font-bold text-sm transition-all text-left border">
  <CreditCard class="w-5 h-5" :class="activeTab === 'financials' ? 'text-white' : 'text-emerald-500'" /> Payout Methods
@@ -66,11 +66,11 @@
  </div>
 
  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
- <AnimatedInput v-model="profile.storeName" label="Business Name" description="e.g. Gourmet Burger Central" required />
- <SelectInput v-model="profile.category" label="Kitchen Type" :options="categoryOptions" required />
+ <AnimatedInput v-model="profile.storeName" label="Business Name" :description="isServiceProvider ? 'e.g. Glam by Sarah' : 'e.g. Gourmet Burger Central'" required />
+ <SelectInput v-model="profile.category" :label="isServiceProvider ? 'Business Category' : 'Kitchen Type'" :options="filteredCategoryOptions" required />
  </div>
  
- <AnimatedInput v-model="profile.description" type="textarea" label="Store Bio" description="Tell students why your food is special..." />
+ <AnimatedInput v-model="profile.description" type="textarea" :label="isServiceProvider ? 'Business Bio' : 'Store Bio'" :description="isServiceProvider ? 'Tell students about your services and expertise...' : 'Tell students why your food is special...'" />
  
  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
  <AnimatedInput v-model="profile.address" label="Street Address" description="Specific location for pickups" />
@@ -147,14 +147,14 @@
  <AnimatedInput v-model="profile.operatingHours.close" label="Closes At" description="e.g. 09:00 PM" />
  </div>
  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
- <AnimatedInput v-model.number="profile.preparationTime" type="number" label="Prep Window (min)" description="Avg. time to cook" />
- <AnimatedInput v-model.number="profile.baseDeliveryFee" type="number" label="Base Delivery Fee (₦)" description="Starting fee on user app" />
- <AnimatedInput v-model.number="profile.minimumOrder" type="number" label="Min. Order (₦)" description="Optional threshold" />
- <AnimatedInput v-model.number="profile.deliveryFee" type="number" label="Surcharge (₦)" description="In-store fee" />
+ <AnimatedInput v-model.number="profile.preparationTime" type="number" :label="isServiceProvider ? 'Buffer Time (min)' : 'Prep Window (min)'" :description="isServiceProvider ? 'Time between appointments' : 'Avg. time to cook'" />
+ <AnimatedInput v-if="!isServiceProvider" v-model.number="profile.baseDeliveryFee" type="number" label="Base Delivery Fee (₦)" description="Starting fee on user app" />
+ <AnimatedInput v-if="!isServiceProvider" v-model.number="profile.minimumOrder" type="number" label="Min. Order (₦)" description="Optional threshold" />
+ <AnimatedInput v-if="!isServiceProvider" v-model.number="profile.deliveryFee" type="number" label="Surcharge (₦)" description="In-store fee" />
  </div>
 
  <!-- Packaging Packs -->
- <div class="space-y-4 pt-4 border-t border-gray-50">
+ <div v-if="!isServiceProvider" class="space-y-4 pt-4 border-t border-gray-50">
  <div class="flex items-center justify-between mb-2">
  <div>
  <h4 class="text-sm font-bold text-gray-900 ">Packaging Options</h4>
@@ -401,7 +401,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch, onMounted } from 'vue';
+import { ref, reactive, watch, onMounted, computed } from 'vue';
 import { 
  Store as StoreIcon, ImageIcon, Upload, Clock, 
  CreditCard, Power, Loader2, CheckCircle, 
@@ -426,6 +426,7 @@ const activeTab = ref('profile');
 const loading = ref(true);
 const vendorId = ref('');
 const isOnline = ref(false);
+const isServiceProvider = computed(() => profile.businessType === 'service_provider');
 const togglingOnline = ref(false);
 const savingProfile = ref(false);
 const savingHours = ref(false);
@@ -434,6 +435,7 @@ const logoUploading = ref(false);
 const logoInput = ref<HTMLInputElement | null>(null);
 
 const profile = reactive({
+ businessType: '',
  storeName: '',
  description: '',
  category: '',
@@ -482,7 +484,7 @@ const resolvingAccount = ref(false);
 const isAccountVerified = ref(false);
 const resolveError = ref('');
 
-const categoryOptions = [
+ const categoryOptions = [
  { label: 'Restaurant', value: 'restaurant' },
  { label: 'Eatery / Buka', value: 'eatery' },
  { label: 'Snacks & Small Chops', value: 'snacks' },
@@ -492,7 +494,21 @@ const categoryOptions = [
  { label: 'Pharmacy', value: 'pharmacy' },
  { label: 'Stationery & Printing', value: 'stationery' },
  { label: 'Other', value: 'other' },
-];
+ ];
+
+ const filteredCategoryOptions = computed(() => {
+   if (isServiceProvider.value) {
+     return [
+       { label: 'Hair Salon', value: 'hair_salon' },
+       { label: 'Nails & Beauty', value: 'nails' },
+       { label: 'Barber', value: 'barber' },
+       { label: 'Tattoo & Piercing', value: 'tattooing_piercing' },
+       { label: 'Fitness & Recovery', value: 'fitness_recovery' },
+       { label: 'Other Services', value: 'other' }
+     ];
+   }
+   return categoryOptions;
+ });
 
 const loadInitialData = async () => {
  loading.value = true;
@@ -504,6 +520,7 @@ const loadInitialData = async () => {
  
  const data = profRes?.data?.data || profRes?.data || {};
  vendorId.value = data._id || data.id || '';
+ profile.businessType = data.businessType || '';
  profile.storeName = data.storeName || '';
  profile.description = data.description || '';
  profile.category = data.category || '';

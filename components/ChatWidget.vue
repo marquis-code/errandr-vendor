@@ -10,7 +10,7 @@
  isMobile() ? 'fixed inset-0 w-screen h-screen max-h-none rounded-none z-[999999]' : ''
  ]"
  >
- <div class="flex items-center justify-between px-4 py-3 bg-gray-900 text-white">
+ <div class="flex items-center justify-between px-5 py-4 bg-[#FF5C1A] text-white shadow-md relative z-10">
  <div>
  <p class="text-sm font-semibold">Chat with us</p>
  <p class="text-sm text-white/70">
@@ -47,7 +47,7 @@
  />
  <button
  @click="startChat"
- class="w-full rounded-xl bg-gray-900 text-white py-2 text-sm font-semibold"
+ class="w-full rounded-xl bg-[#FF5C1A] hover:bg-[#E54D12] text-white py-2 text-sm font-semibold transition-colors"
  >
  Start chat
  </button>
@@ -105,7 +105,7 @@
  v-model="newMessage"
  type="text"
  placeholder="Type your message..."
- class="flex-1 rounded-full border border-gray-200 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900"
+ class="flex-1 rounded-full border border-gray-200 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF5C1A]/20 focus:border-[#FF5C1A]"
  @input="handleTyping"
  @keyup.enter="handleSend"
  :disabled="isGuest && needsGuestInfo"
@@ -113,7 +113,7 @@
  <button
  @click="handleSend"
  :disabled="sending || !newMessage.trim() || (isGuest && needsGuestInfo)"
- class="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center disabled:opacity-50"
+ class="w-10 h-10 rounded-full bg-[#FF5C1A] hover:bg-[#E54D12] text-white flex items-center justify-center disabled:opacity-50 transition-colors"
  >
  <ArrowRight class="w-4 h-4" />
  </button>
@@ -124,7 +124,7 @@
 
  <button
  @click="toggleChat"
- class="w-14 h-14 rounded-full bg-gray-900 text-white shadow-xl flex items-center justify-center hover:scale-105 transition"
+ class="w-14 h-14 rounded-full bg-[#FF5C1A] hover:bg-[#E54D12] text-white shadow-xl shadow-[#FF5C1A]/30 flex items-center justify-center hover:scale-105 transition"
  aria-label="Open chat"
  >
  <MessageSquare class="w-8 h-8" />
@@ -186,7 +186,7 @@ function getBubblePosition(message: ChatMessage) {
 
 function getBubbleStyle(message: ChatMessage) {
  if (message.senderType === 'customer' || message.senderType === 'guest') {
- return 'bg-gray-900 text-white rounded-br-sm ml-auto';
+ return 'bg-[#FF5C1A] text-white rounded-br-sm ml-auto';
  }
  return 'bg-white text-gray-800 rounded-bl-sm border border-gray-100 mr-auto';
 }

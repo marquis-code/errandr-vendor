@@ -32,3 +32,35 @@ export const useVendorStatus = () => {
 
   return { toggleOnline };
 };
+
+export const useVendorProfile = () => {
+  const profile = useCookie<any>('errandr_vendor_profile', {
+    maxAge: 60 * 60 * 24 * 7,
+    path: '/',
+    sameSite: 'lax',
+  });
+  
+  const loading = ref(false);
+
+  const fetchProfile = async () => {
+    loading.value = true;
+    try {
+      const res = await vendors_api.getProfile();
+      profile.value = res.data;
+    } catch (error) {
+      console.error('Failed to fetch vendor profile', error);
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const setProfile = (data: any) => {
+    profile.value = data;
+  };
+
+  const clearProfile = () => {
+    profile.value = null;
+  };
+
+  return { profile, loading, fetchProfile, setProfile, clearProfile };
+};
