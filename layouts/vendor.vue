@@ -5,7 +5,7 @@
     <aside class="hidden lg:block w-64 bg-white border-r border-gray-100 min-h-screen fixed left-0 top-0">
       <!-- Logo -->
       <div class="p-4 border-b border-gray-50/50 flex items-center gap-3">
-        <div class="w-10 h-10 bg-parentPrimary rounded-xl flex items-center justify-center text-white font-bold text-xl">
+        <div class="w-10 h-10 bg-parentPrimary rounded-md flex items-center justify-center text-white font-bold text-xl">
           E
         </div>
         <span class="text-xl font-medium text-parentPrimary tracking-tighter">Errander</span>
@@ -17,10 +17,8 @@
           v-for="item in navItems"
           :key="item.path"
           :to="item.path"
-          class="flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all group"
-          :class="isActive(item.path) 
-            ? 'bg-parentPrimary text-white' 
-            : 'text-gray-700 hover:bg-gray-50 hover:text-parentPrimary'"
+          class="flex items-center px-4 py-3 text-sm font-medium rounded-md transition-all group"
+          :class="isActive(item.path) ? 'bg-parentPrimary text-white' : 'text-gray-700 hover:bg-gray-50 hover:text-parentPrimary'"
         >
           <component :is="item.icon" class="w-5 h-5 mr-3" />
           {{ item.label }}
@@ -31,7 +29,7 @@
       <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-50/50">
         <button
           @click="handleLogoutClick"
-          class="flex items-center w-full px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 rounded-xl transition-all"
+          class="flex items-center w-full px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-md transition-all"
         >
           <LogOut class="w-5 h-5 mr-3" />
           Logout
@@ -76,7 +74,7 @@
     <Transition name="slide">
       <aside
         v-if="showMobileMenu"
-        class="lg:hidden w-72 bg-white min-h-screen fixed left-0 top-0 z-50 shadow-2xl"
+        class="lg:hidden w-72 bg-white min-h-screen fixed left-0 top-0 z-50"
       >
         <!-- Mobile Header -->
         <div class="p-4 border-b border-gray-50/50 flex items-center justify-between">
@@ -97,7 +95,7 @@
         <!-- User Info -->
         <div class="p-4 bg-gradient-to-br from-parentPrimary/5 to-parentPrimary/10 border-b border-gray-50/50">
           <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-full bg-parentPrimary text-white flex items-center justify-center font-semibold text-lg">
+            <div class="w-12 h-12 rounded-md bg-parentPrimary text-white flex items-center justify-center font-semibold text-lg">
               {{ userInitials }}
             </div>
             <div class="flex-1 min-w-0">
@@ -113,10 +111,8 @@
             v-for="item in navItems"
             :key="item.path"
             :to="item.path"
-            class="flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all"
-            :class="isActive(item.path) 
-              ? 'bg-parentPrimary text-white' 
-              : 'text-gray-700 hover:bg-gray-50 hover:text-parentPrimary'"
+            class="flex items-center px-4 py-3 text-sm font-medium rounded-md transition-all"
+            :class="isActive(item.path) ? 'bg-parentPrimary text-white' : 'text-gray-700 hover:bg-gray-50 hover:text-parentPrimary'"
             @click="showMobileMenu = false"
           >
             <component :is="item.icon" class="w-5 h-5 mr-3 flex-shrink-0" />
@@ -128,7 +124,7 @@
         <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-50/50 bg-white">
           <button
             @click="handleLogoutClick"
-            class="flex items-center w-full px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 rounded-xl transition-all"
+            class="flex items-center w-full px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-md transition-all"
           >
             <LogOut class="w-5 h-5 mr-3" />
             Logout
@@ -149,13 +145,13 @@
             </div>
             <div class="flex items-center gap-4">
               <!-- Notifications Bell -->
-              <NuxtLink to="/dashboard/notifications" class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-parentPrimary hover:text-white transition-all">
+              <NuxtLink to="/dashboard/notifications" class="w-10 h-10 rounded-md bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-parentPrimary hover:text-white transition-all">
                 <Bell class="w-5 h-5" />
               </NuxtLink>
 
               <!-- User Profile -->
-              <div class="flex items-center gap-3 px-4 py-2 bg-gray-50 rounded-xl">
-                <div class="w-10 h-10 rounded-full bg-parentPrimary text-white flex items-center justify-center font-semibold">
+              <div class="flex items-center gap-3 px-4 py-2 bg-gray-50 rounded-md">
+                <div class="w-10 h-10 rounded-md bg-parentPrimary text-white flex items-center justify-center font-semibold">
                   {{ userInitials }}
                 </div>
                 <div class="text-left">
@@ -197,10 +193,10 @@
     >
       <div
         v-if="logoutModalOpen"
-        class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 sm:p-7 flex flex-col items-center text-center space-y-5"
+        class="bg-white rounded-md max-w-sm w-full p-6 sm:p-7 flex flex-col items-center text-center space-y-5"
       >
         <!-- Icon -->
-        <div class="w-14 h-14 rounded-full bg-rose-50 flex items-center justify-center">
+        <div class="w-14 h-14 rounded-md bg-rose-50 flex items-center justify-center">
           <LogOut class="w-7 h-7 text-rose-500" />
         </div>
 
@@ -219,14 +215,14 @@
         <div class="flex gap-3 w-full pt-2">
           <button
             @click="logoutModalOpen = false"
-            class="w-full px-4 py-3 rounded-full text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors"
+            class="w-full px-4 py-2 rounded-md text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors"
           >
             Stay logged in
           </button>
 
           <button
             @click="confirmLogout"
-            class="w-full px-4 py-3 rounded-full text-sm font-semibold text-white bg-rose-500 hover:bg-rose-600 transition-colors"
+            class="w-full px-4 py-2 rounded-md text-sm font-semibold text-white bg-rose-500 hover:bg-rose-600 transition-colors"
           >
             Log out
           </button>

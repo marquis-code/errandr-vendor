@@ -3,15 +3,15 @@
  <!-- Header Section -->
  <header class="flex flex-col md:flex-row md:items-end justify-between gap-8 pt-6">
  <div class="space-y-1">
- <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">Financial Hub</h1>
- <p class="text-sm text-gray-400 font-medium ">Monitor your revenue, analyze payouts, and manage settlement accounts.</p>
+ <h1 class="text-xl font-bold text-gray-900 sm:text-2xl">Financial Hub</h1>
+ <p class="text-sm text-gray-400 font-medium">Monitor your revenue, analyze payouts, and manage settlement accounts.</p>
  </div>
  
  <div class="flex items-center gap-4">
  <button 
  v-if="balance > 0" 
  @click="showWithdrawModal = true" 
- class="px-8 py-4 bg-gray-900 text-white rounded-2xl font-medium text-sm  shadow-xl shadow-black/10 hover:bg-black active:scale-95 transition-all flex items-center gap-2"
+ class="px-8 py-4 bg-gray-900 text-white rounded-md font-medium text-sm hover:bg-black active:scale-95 transition-all flex items-center gap-2"
  >
  <CreditCard class="w-3.5 h-3.5" />
  Request Payout
@@ -27,17 +27,17 @@
  <!-- Balance Overview -->
  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
  <!-- Main Wallet Card -->
- <div class="lg:col-span-8 bg-white p-10 rounded-[3rem] shadow-sm border border-gray-100 relative overflow-hidden group">
- <div class="absolute -right-20 -top-20 w-80 h-80 bg-blue-50/50 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-1000"></div>
+ <div class="lg:col-span-8 bg-white p-10 rounded-[3rem] border border-gray-100 relative overflow-hidden group">
+ <div class="absolute -right-20 -top-20 w-80 h-80 bg-blue-50/50 rounded-md blur-3xl group-hover:scale-110 transition-transform duration-1000"></div>
  
  <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-10">
  <div class="space-y-6">
- <div class="flex items-center gap-3 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full w-fit">
- <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
- <span class="text-sm font-medium ">Available for Withdrawal</span>
+ <div class="flex items-center gap-3 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-md w-fit">
+ <div class="w-1.5 h-1.5 rounded-md bg-emerald-500 animate-pulse"></div>
+ <span class="text-sm font-medium">Available for Withdrawal</span>
  </div>
  <div class="flex items-baseline gap-3">
- <span class="text-3xl font-medium text-gray-300">₦</span>
+ <span class="text-2xl font-medium text-gray-300">₦</span>
  <h2 class="text-7xl font-medium text-gray-900">{{ balance?.toLocaleString() || '0' }}</h2>
  </div>
  <p class="text-sm text-gray-400 font-medium max-w-sm leading-relaxed">
@@ -49,11 +49,11 @@
  
  <div class="space-y-8">
  <div class="space-y-1">
- <p class="text-sm font-medium text-gray-400 ">Total Earned</p>
- <p class="text-2xl font-medium text-gray-900">₦{{ wallet?.totalEarned?.toLocaleString() || '0' }}</p>
+ <p class="text-sm font-medium text-gray-400">Total Earned</p>
+ <p class="text-xl font-medium text-gray-900">₦{{ wallet?.totalEarned?.toLocaleString() || '0' }}</p>
  </div>
  <div class="space-y-1">
- <p class="text-sm font-medium text-gray-400 ">Monthly Growth</p>
+ <p class="text-sm font-medium text-gray-400">Monthly Growth</p>
  <div class="flex items-center gap-2 text-emerald-500">
  <TrendingUp class="w-4 h-4" />
  <span class="text-sm font-bold">+12.5%</span>
@@ -64,31 +64,31 @@
  </div>
 
  <!-- Quick Stats / Active Account -->
- <div class="lg:col-span-4 bg-gray-900 p-10 rounded-[3rem] text-white shadow-md relative overflow-hidden flex flex-col justify-between">
- <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-white/5 rounded-full blur-2xl"></div>
+ <div class="lg:col-span-4 bg-gray-900 p-10 rounded-[3rem] text-white relative overflow-hidden flex flex-col justify-between">
+ <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-white/5 rounded-md blur-2xl"></div>
  
  <div class="space-y-6 relative z-10">
  <div class="flex items-center justify-between">
- <p class="text-sm font-medium text-white/40 ">Active Settlement</p>
+ <p class="text-sm font-medium text-white/40">Active Settlement</p>
  <SettingsIcon class="w-4 h-4 text-white/20 hover:text-white cursor-pointer transition-colors" @click="$router.push('/dashboard/settings')" />
  </div>
  
  <div v-if="wallet?.bankDetails?.accountNumber" class="space-y-2">
  <p class="text-sm font-bold text-white">{{ wallet.bankDetails.bankName }}</p>
  <p class="text-xl font-mono text-white/60">{{ maskAccountNumber(wallet.bankDetails.accountNumber) }}</p>
- <p class="text-sm font-bold text-emerald-400  pt-2 flex items-center gap-2">
+ <p class="text-sm font-bold text-emerald-400 pt-2 flex items-center gap-2">
  <ShieldCheck class="w-3 h-3" />
  Verified Identity
  </p>
  </div>
- <div v-else class="py-4 text-center border border-dashed border-white/10 rounded-2xl">
- <p class="text-sm text-white/40 font-bold ">No Bank Linked</p>
- <NuxtLink to="/dashboard/settings" class="text-sm text-blue-400 font-medium  mt-2 block hover:underline">Configure Now</NuxtLink>
+ <div v-else class="py-4 text-center border border-dashed border-white/10 rounded-md">
+ <p class="text-sm text-white/40 font-bold">No Bank Linked</p>
+ <NuxtLink to="/dashboard/settings" class="text-sm text-blue-400 font-medium mt-2 block hover:underline">Configure Now</NuxtLink>
  </div>
  </div>
 
  <div class="mt-10 pt-8 border-t border-white/5 space-y-4 relative z-10">
- <div class="flex justify-between items-center text-sm font-medium  text-white/40">
+ <div class="flex justify-between items-center text-sm font-medium text-white/40">
  <span>Cycle</span>
  <span class="text-white">{{ wallet?.payoutPreference || 'Weekly' }}</span>
  </div>
@@ -101,18 +101,18 @@
  <div class="flex items-center justify-between px-2">
  <div class="space-y-1">
  <h3 class="text-xl font-medium text-gray-900">Financial Timeline</h3>
- <p class="text-sm font-bold text-gray-400 ">Deep dive into your recent credits and debits.</p>
+ <p class="text-sm font-bold text-gray-400">Deep dive into your recent credits and debits.</p>
  </div>
  <div class="flex items-center gap-4">
- <div class="flex bg-gray-50 rounded-xl p-1 shadow-inner">
- <button class="px-4 py-1.5 rounded-lg text-sm font-medium  bg-white text-gray-900 shadow-sm">All</button>
- <button class="px-4 py-1.5 rounded-lg text-sm font-medium  text-gray-400 hover:text-gray-600 transition-colors">Credits</button>
- <button class="px-4 py-1.5 rounded-lg text-sm font-medium  text-gray-400 hover:text-gray-600 transition-colors">Payouts</button>
+ <div class="flex bg-gray-50 rounded-md p-1">
+ <button class="px-4 py-1.5 rounded-lg text-sm font-medium bg-white text-gray-900">All</button>
+ <button class="px-4 py-1.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-600 transition-colors">Credits</button>
+ <button class="px-4 py-1.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-600 transition-colors">Payouts</button>
  </div>
  </div>
  </div>
 
- <div class="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden">
+ <div class="bg-white rounded-[2.5rem] border border-gray-100 overflow-hidden">
  <UiTable
  :columns="[
  { key: 'activity', label: 'Activity' },
@@ -126,7 +126,7 @@
  <template #activity="{ item }">
  <div class="flex items-center gap-4 py-2">
  <div 
- class="w-10 h-10 rounded-xl flex items-center justify-center transition-colors shadow-sm"
+ class="w-10 h-10 rounded-md flex items-center justify-center transition-colors"
  :class="(item as any).type === 'credit' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'"
  >
  <ArrowUpRight v-if="(item as any).type === 'credit'" class="w-5 h-5" />
@@ -134,7 +134,7 @@
  </div>
  <div>
  <p class="text-sm font-bold text-gray-900 leading-none mb-1">{{ (item as any).description }}</p>
- <p v-if="(item as any).order" class="text-sm text-[#FF5C1A] font-medium ">
+ <p v-if="(item as any).order" class="text-sm text-[#FF5C1A] font-medium">
  REF: SEC-{{ (item as any)._id?.slice(-8).toUpperCase() }}
  </p>
  </div>
@@ -143,7 +143,7 @@
 
  <template #type="{ item }">
  <span 
- class="px-3 py-1 rounded-lg text-sm font-medium "
+ class="px-3 py-1 rounded-lg text-sm font-medium"
  :class="(item as any).type === 'credit' ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'"
  >
  {{ (item as any).type }}
@@ -161,7 +161,7 @@
 
  <template #date="{ item }">
  <div class="text-right">
- <p class="text-sm font-bold text-gray-900 ">{{ formatDate((item as any).createdAt) }}</p>
+ <p class="text-sm font-bold text-gray-900">{{ formatDate((item as any).createdAt) }}</p>
  <p class="text-sm text-gray-400 font-bold mt-0.5">{{ formatTime((item as any).createdAt) }}</p>
  </div>
  </template>
@@ -178,13 +178,13 @@
  @close="showWithdrawModal = false"
  >
  <div class="space-y-10 py-6">
- <div class="p-8 bg-white rounded-[2.5rem] shadow-sm border border-gray-100 text-center space-y-6 relative overflow-hidden group border border-gray-50/50">
+ <div class="p-8 bg-white rounded-[2.5rem] border border-gray-100 text-center space-y-6 relative overflow-hidden group border border-gray-50/50">
  <div class="absolute inset-0 bg-blue-50/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
- <div class="w-20 h-20 bg-white rounded-3xl flex items-center justify-center mx-auto shadow-sm border border-gray-100 text-[#FF5C1A] relative z-10">
+ <div class="w-20 h-20 bg-white rounded-md flex items-center justify-center mx-auto border border-gray-100 text-[#FF5C1A] relative z-10">
  <Banknote class="w-10 h-10" />
  </div>
  <div class="relative z-10">
- <p class="text-sm font-medium text-gray-400  mb-1">Current Balance</p>
+ <p class="text-sm font-medium text-gray-400 mb-1">Current Balance</p>
  <p class="text-4xl font-medium text-gray-900">₦{{ balance?.toLocaleString() }}</p>
  </div>
  </div>
@@ -197,7 +197,7 @@
   description="Enter how much you want to transfer."
   />
  
- <div class="p-5 bg-amber-50 rounded-2xl border border-amber-100 flex items-start gap-4">
+ <div class="p-5 bg-amber-50 rounded-md border border-amber-100 flex items-start gap-4">
  <AlertCircle class="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
  <p class="text-sm text-amber-700 font-semibold leading-relaxed">
  Notice: Payouts are made only to your active settlement account. Ensure your bank details are correct to avoid delays.
@@ -208,11 +208,11 @@
 
  <template #footer>
  <div class="flex items-center gap-4 w-full">
- <button @click="showWithdrawModal = false" class="flex-1 py-4 bg-white border border-gray-100 text-gray-400 text-sm font-medium  rounded-2xl">Cancel</button>
+ <button @click="showWithdrawModal = false" class="flex-1 py-2 bg-white border border-gray-100 text-gray-400 text-sm font-medium rounded-md">Cancel</button>
  <button 
  @click="handleWithdraw" 
  :disabled="withdrawAmount <= 0 || withdrawAmount > (balance || 0)" 
- class="flex-[2] py-4 bg-gray-900 text-white rounded-2xl font-medium text-sm  shadow-xl hover:bg-black transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
+ class="flex-[2] py-4 bg-gray-900 text-white rounded-md font-medium text-sm hover:bg-black transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
  >
  Authorize Payout
  </button>

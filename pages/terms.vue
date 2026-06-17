@@ -9,7 +9,7 @@
       <div class="absolute inset-0 bg-[radial-gradient(#e2e8f0_1.5px,transparent_1.5px)] [background-size:24px_24px] opacity-70 z-0 pointer-events-none"></div>
 
       <div class="max-w-7xl mx-auto px-6 sm:px-10 relative z-10 text-center">
-        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-slate-600 text-xs font-bold tracking-wide shadow-sm mb-8">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-slate-50 border border-slate-200 text-slate-600 text-xs font-bold tracking-wide mb-8">
           <Gavel class="w-3.5 h-3.5 text-[#FF5C1A]" />
           Merchant Agreement
         </div>
@@ -30,7 +30,7 @@
                 {{ (index + 1).toString().padStart(2, '0') }}
               </span>
               <div class="space-y-4 text-left">
-                <h2 class="text-2xl font-medium text-gray-900 tracking-tight">{{ section.title }}</h2>
+                <h2 class="text-xl font-medium text-gray-900 tracking-tight">{{ section.title }}</h2>
                 <div class="text-lg text-gray-600 font-medium leading-relaxed tracking-tight" v-html="section.content"></div>
               </div>
             </div>

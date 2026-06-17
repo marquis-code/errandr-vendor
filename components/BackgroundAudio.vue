@@ -4,7 +4,7 @@
     <button
       v-if="!showControls"
       @click="showControls = true"
-      class="group relative w-8 h-8 rounded-full bg-parentPrimary shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center transform hover:scale-110"
+      class="group relative w-8 h-8 rounded-md bg-parentPrimary hover: transition-all duration-300 flex items-center justify-center transform hover:scale-110"
       title="Music controls"
     >
       <!-- Music Note Icon -->
@@ -13,19 +13,19 @@
       <!-- Pulse animation when playing -->
       <span 
         v-if="isPlaying"
-        class="absolute inset-0 rounded-full bg-pink-400 animate-ping opacity-30"
+        class="absolute inset-0 rounded-md bg-pink-400 animate-ping opacity-30"
       ></span>
     </button>
 
     <!-- Expanded Controls Panel -->
     <div
       v-else
-      class="bg-white rounded-2xl shadow-2xl p-4 min-w-[280px] animate-slideIn"
+      class="bg-white rounded-md p-4 min-w-[280px] animate-slideIn"
     >
       <!-- Header with Close Button -->
       <div class="flex items-center justify-between mb-4">
         <div class="flex items-center gap-2">
-          <div class="w-10 h-10 rounded-full bg-parentPrimary flex items-center justify-center">
+          <div class="w-10 h-10 rounded-md bg-parentPrimary flex items-center justify-center">
             <Music class="w-5 h-5 text-white" />
           </div>
           <div>
@@ -37,7 +37,7 @@
         <!-- Minimize Button -->
         <button
           @click="showControls = false"
-          class="w-7 h-7 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors"
+          class="w-7 h-7 rounded-md hover:bg-gray-100 flex items-center justify-center transition-colors"
           title="Minimize"
         >
           <ChevronDown class="w-4 h-4 text-gray-600" />
@@ -48,7 +48,7 @@
       <div class="flex items-center justify-center mb-4">
         <button
           @click="togglePlay"
-          class="w-14 h-14 rounded-full bg-parentPrimary shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center transform hover:scale-105"
+          class="w-14 h-14 rounded-md bg-parentPrimary hover: transition-all duration-300 flex items-center justify-center transform hover:scale-105"
         >
           <!-- Play Icon -->
           <Play v-if="!isPlaying" class="w-6 h-6 text-white ml-0.5 fill-current" />

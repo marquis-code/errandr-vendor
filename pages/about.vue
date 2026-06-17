@@ -9,13 +9,13 @@
       <div class="absolute inset-0 bg-[radial-gradient(#e2e8f0_1.5px,transparent_1.5px)] [background-size:24px_24px] opacity-70 z-0 pointer-events-none"></div>
 
       <div class="max-w-7xl mx-auto px-6 sm:px-10 relative z-10 text-center">
-        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-slate-600 text-xs font-bold tracking-wide shadow-sm mb-8">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-slate-50 border border-slate-200 text-slate-600 text-xs font-bold tracking-wide mb-8">
           <Store class="w-3.5 h-3.5 text-[#FF5C1A]" />
           The Vendor Ecosystem
         </div>
         <h1 class="text-6xl md:text-8xl font-medium tracking-tighter leading-[0.9] text-slate-900 mb-10 max-w-4xl mx-auto">
           Scale your kitchen <br />
-          <span class="text-[#FF5C1A] bg-[#FF5C1A]/5 px-6 rounded-3xl">globally</span> on campus.
+          <span class="text-[#FF5C1A] bg-[#FF5C1A]/5 px-6 rounded-md">globally</span> on campus.
         </h1>
         <p class="text-xl text-slate-500 font-medium max-w-2xl mx-auto leading-relaxed tracking-tight">
           Whether you're a student cooking from the hostel or an established campus restaurant, Erranders gives you the tools to thrive.
@@ -28,11 +28,11 @@
       <div class="max-w-7xl mx-auto px-6 sm:px-10">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <!-- Multi-Module Dash -->
-          <div class="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group">
-            <div class="w-16 h-16 bg-blue-50 rounded-[1.5rem] flex items-center justify-center text-parentPrimary mb-8 group-hover:scale-110 transition-transform">
+          <div class="bg-white p-10 rounded-[3rem] border border-gray-100 hover: hover:-translate-y-2 transition-all duration-500 group">
+            <div class="w-16 h-16 bg-blue-50 rounded-md flex items-center justify-center text-parentPrimary mb-8 group-hover:scale-110 transition-transform">
               <LayoutDashboard class="w-8 h-8" />
             </div>
-            <h3 class="text-2xl font-medium text-gray-900 tracking-tight mb-4">Pro Dashboard</h3>
+            <h3 class="text-xl font-medium text-gray-900 tracking-tight mb-4">Pro Dashboard</h3>
             <p class="text-gray-600 font-medium leading-relaxed mb-6">Manage orders, inventory, and customer insights from a single, beautiful interface designed for speed.</p>
             <div class="flex items-center gap-2 text-sm font-bold text-parentPrimary">
               <div class="h-px flex-1 bg-parentPrimary/10"></div>
@@ -41,11 +41,11 @@
           </div>
 
           <!-- Automated Payouts -->
-          <div class="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group">
-            <div class="w-16 h-16 bg-emerald-50 rounded-[1.5rem] flex items-center justify-center text-emerald-600 mb-8 group-hover:scale-110 transition-transform">
+          <div class="bg-white p-10 rounded-[3rem] border border-gray-100 hover: hover:-translate-y-2 transition-all duration-500 group">
+            <div class="w-16 h-16 bg-emerald-50 rounded-md flex items-center justify-center text-emerald-600 mb-8 group-hover:scale-110 transition-transform">
               <Wallet class="w-8 h-8" />
             </div>
-            <h3 class="text-2xl font-medium text-gray-900 tracking-tight mb-4">Instant Payouts</h3>
+            <h3 class="text-xl font-medium text-gray-900 tracking-tight mb-4">Instant Payouts</h3>
             <p class="text-gray-600 font-medium leading-relaxed mb-6">Get your earnings sent directly to your bank account with transparent settlement reports and real-time wallet tracking.</p>
             <div class="flex items-center gap-2 text-sm font-bold text-emerald-600">
               <div class="h-px flex-1 bg-emerald-500/10"></div>
@@ -54,11 +54,11 @@
           </div>
 
           <!-- Reach -->
-          <div class="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group">
-            <div class="w-16 h-16 bg-indigo-50 rounded-[1.5rem] flex items-center justify-center text-indigo-600 mb-8 group-hover:scale-110 transition-transform">
+          <div class="bg-white p-10 rounded-[3rem] border border-gray-100 hover: hover:-translate-y-2 transition-all duration-500 group">
+            <div class="w-16 h-16 bg-indigo-50 rounded-md flex items-center justify-center text-indigo-600 mb-8 group-hover:scale-110 transition-transform">
               <Zap class="w-8 h-8" />
             </div>
-            <h3 class="text-2xl font-medium text-gray-900 tracking-tight mb-4">Campus Reach</h3>
+            <h3 class="text-xl font-medium text-gray-900 tracking-tight mb-4">Campus Reach</h3>
             <p class="text-gray-600 font-medium leading-relaxed mb-6">Instantly access thousands of students at CMUL and beyond. We handle the logistics so you can focus on the food.</p>
             <div class="flex items-center gap-2 text-sm font-bold text-indigo-600">
               <div class="h-px flex-1 bg-indigo-500/10"></div>
@@ -76,23 +76,23 @@
           <div class="flex-1 space-y-10 text-center lg:text-left">
             <h2 class="text-5xl md:text-6xl font-medium tracking-tighter leading-[0.95] text-gray-900">
               For the students <br />
-              <span class="text-parentPrimary ">building legends.</span>
+              <span class="text-parentPrimary">building legends.</span>
             </h2>
             <p class="text-xl text-gray-600 font-medium leading-relaxed tracking-tight max-w-2xl">
               We empower student entrepreneurs cooking from hostel kitchens or running side-hustles. Erranders provides a professional digital storefront to level the playing field.
             </p>
             <div class="pt-6">
-              <NuxtLink to="/auth/register" class="inline-flex items-center gap-3 px-8 py-4 bg-gray-900 text-white rounded-[2rem] font-medium text-base shadow-2xl hover:bg-parentPrimary transition-all group">
+              <NuxtLink to="/auth/register" class="inline-flex items-center gap-3 px-8 py-4 bg-gray-900 text-white rounded-md font-medium text-base hover:bg-parentPrimary transition-all group">
                 Open Your Storefront
                 <ArrowRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </NuxtLink>
             </div>
           </div>
           <div class="flex-1 bg-gray-50 p-12 rounded-[4rem] relative border border-gray-100">
-            <div class="absolute inset-0 bg-parentPrimary/5 blur-[100px] rounded-full animate-pulse-slow"></div>
+            <div class="absolute inset-0 bg-parentPrimary/5 blur-[100px] rounded-md animate-pulse-slow"></div>
             <div class="relative z-10 space-y-8">
               <div v-for="item in steps" :key="item.t" class="flex gap-6 items-start">
-                <div class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-sm font-medium text-parentPrimary shadow-sm">{{ item.n }}</div>
+                <div class="w-10 h-10 rounded-md bg-white border border-gray-200 flex items-center justify-center text-sm font-medium text-parentPrimary">{{ item.n }}</div>
                 <div>
                    <h4 class="font-medium text-gray-900 mb-2 tracking-tight">{{ item.t }}</h4>
                    <p class="text-gray-600 font-medium text-sm">{{ item.d }}</p>

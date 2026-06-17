@@ -7,16 +7,16 @@
       <div class="flex items-center gap-4">
         <button 
           @click="selectDate(new Date())"
-          class="px-4 py-2 border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors focus:outline-none"
+          class="px-4 py-2 border border-gray-200 rounded-md text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors focus:outline-none"
         >
           Today
         </button>
         
-        <div class="flex items-center gap-1 bg-gray-50 rounded-xl p-1 border border-gray-200">
-          <button @click="addDays(-1)" class="p-1.5 rounded-lg hover:bg-white hover:shadow-sm text-gray-600 transition-all">
+        <div class="flex items-center gap-1 bg-gray-50 rounded-md p-1 border border-gray-200">
+          <button @click="addDays(-1)" class="p-1.5 rounded-lg hover:bg-white hover: text-gray-600 transition-all">
             <ChevronLeft class="w-4 h-4" />
           </button>
-          <button @click="addDays(1)" class="p-1.5 rounded-lg hover:bg-white hover:shadow-sm text-gray-600 transition-all">
+          <button @click="addDays(1)" class="p-1.5 rounded-lg hover:bg-white hover: text-gray-600 transition-all">
             <ChevronRight class="w-4 h-4" />
           </button>
         </div>
@@ -25,7 +25,7 @@
         <DatePickerPopover v-model="currentDate" @update:modelValue="onDateChanged" />
         
         <!-- Filter Mockup -->
-        <button class="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-50 rounded-xl transition-colors ml-2">
+        <button class="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-50 rounded-md transition-colors ml-2">
           <SlidersHorizontal class="w-4 h-4" />
         </button>
       </div>
@@ -34,12 +34,12 @@
       <div class="flex items-center gap-3">
         <button 
           @click="isWaitlistOpen = true"
-          class="px-4 py-2 text-sm font-bold text-gray-700 bg-gray-50 border border-gray-200 hover:bg-gray-100 rounded-xl transition-colors flex items-center gap-2"
+          class="px-4 py-2 text-sm font-bold text-gray-700 bg-gray-50 border border-gray-200 hover:bg-gray-100 rounded-md transition-colors flex items-center gap-2"
         >
           <Users class="w-4 h-4" /> Waitlist
         </button>
 
-        <button class="px-4 py-2 text-sm font-bold text-white bg-gray-900 hover:bg-black rounded-xl shadow-md transition-all flex items-center gap-2">
+        <button class="px-4 py-2 text-sm font-bold text-white bg-gray-900 hover:bg-black rounded-md transition-all flex items-center gap-2">
           Add <ChevronDown class="w-4 h-4 opacity-70" />
         </button>
       </div>
@@ -48,7 +48,7 @@
     <!-- Main Content Area -->
     <main class="flex-1 overflow-hidden relative bg-white">
       <div v-if="loading && !appointmentsList.length" class="absolute inset-0 flex items-center justify-center bg-white/80 z-50">
-        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+        <div class="animate-spin rounded-md h-8 w-8 border-b-2 border-gray-900"></div>
       </div>
       
       <div class="h-full p-4 overflow-y-auto no-scrollbar">

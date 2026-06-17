@@ -3,7 +3,7 @@
     <!-- Header -->
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900 tracking-tight mb-1">Notifications</h1>
+        <h1 class="text-xl font-bold text-gray-900 tracking-tight mb-1">Notifications</h1>
         <p class="text-gray-500 text-sm">Stay updated on your store's orders and activities.</p>
       </div>
       <button
@@ -17,12 +17,12 @@
 
     <!-- Loading -->
     <div v-if="loading" class="space-y-3">
-      <div v-for="i in 5" :key="i" class="h-20 bg-white rounded-2xl border border-gray-100 animate-pulse" />
+      <div v-for="i in 5" :key="i" class="h-20 bg-white rounded-md border border-gray-100 animate-pulse" />
     </div>
 
     <!-- Empty State -->
-    <div v-else-if="notifications.length === 0" class="text-center py-20 bg-white rounded-3xl border border-gray-50 shadow-sm">
-      <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">🔔</div>
+    <div v-else-if="notifications.length === 0" class="text-center py-20 bg-white rounded-md border border-gray-50">
+      <div class="w-16 h-16 bg-gray-50 rounded-md flex items-center justify-center text-2xl mx-auto mb-4">🔔</div>
       <h3 class="text-lg font-bold text-gray-900 mb-1">No notifications yet</h3>
       <p class="text-sm text-gray-400">When new orders arrive or tracking updates occur, they will appear here.</p>
     </div>
@@ -33,19 +33,14 @@
         v-for="notif in notifications"
         :key="notif.id"
         :class="notif.read ? 'bg-white' : 'bg-blue-50/50 border-blue-100'"
-        class="rounded-2xl border border-gray-100 overflow-hidden transition-all hover:shadow-md group cursor-pointer"
+        class="rounded-md border border-gray-100 overflow-hidden transition-all hover: group cursor-pointer"
         @click="handleNotifClick(notif)"
       >
         <div class="p-5 flex items-start gap-4">
           <!-- Icon -->
           <div
-            :class="{
-              'bg-blue-100/50 text-blue-600': notif.type === 'NEW_ORDER_AVAILABLE',
-              'bg-emerald-100/50 text-emerald-600': notif.type === 'ORDER_ACCEPTED',
-              'bg-amber-100/50 text-amber-600': notif.type === 'ORDER_STATUS_UPDATE',
-              'bg-gray-100 text-gray-600': !['NEW_ORDER_AVAILABLE', 'ORDER_ACCEPTED', 'ORDER_STATUS_UPDATE'].includes(notif.type),
-            }"
-            class="w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
+            :class="{ 'bg-blue-100/50 text-blue-600': notif.type === 'NEW_ORDER_AVAILABLE', 'bg-emerald-100/50 text-emerald-600': notif.type === 'ORDER_ACCEPTED', 'bg-amber-100/50 text-amber-600': notif.type === 'ORDER_STATUS_UPDATE', 'bg-gray-100 text-gray-600': !['NEW_ORDER_AVAILABLE', 'ORDER_ACCEPTED', 'ORDER_STATUS_UPDATE'].includes(notif.type), }"
+            class="w-12 h-12 rounded-md flex items-center justify-center text-xl flex-shrink-0"
           >
             {{ getEmoji(notif.type) }}
           </div>
@@ -56,7 +51,7 @@
               <h4 class="text-base font-bold text-gray-900">{{ notif.title }}</h4>
               <div class="flex items-center gap-2 flex-shrink-0 mt-1">
                 <span class="text-sm font-bold text-gray-400 whitespace-nowrap">{{ formatTime(notif.createdAt) }}</span>
-                <div v-if="!notif.read" class="w-2.5 h-2.5 rounded-full bg-parentPrimary flex-shrink-0" />
+                <div v-if="!notif.read" class="w-2.5 h-2.5 rounded-md bg-parentPrimary flex-shrink-0" />
               </div>
             </div>
             <p class="text-sm text-gray-500 mt-1 leading-relaxed">{{ notif.body }}</p>
@@ -65,13 +60,13 @@
             <div v-if="notif.type === 'NEW_ORDER_AVAILABLE' && !notif.data?.accepted" class="flex gap-3 mt-4">
               <button
                 @click.stop="handleNotifClick(notif)"
-                class="px-5 py-2 text-sm font-bold text-white bg-parentPrimary rounded-xl hover:brightness-110 transition-all shadow-sm"
+                class="px-5 py-2 text-sm font-bold text-white bg-parentPrimary rounded-md hover:brightness-110 transition-all"
               >
                 View Order
               </button>
               <button
                 @click.stop="dismissNotification(notif.id)"
-                class="px-5 py-2 text-sm font-semibold text-gray-500 bg-gray-50 rounded-xl hover:bg-gray-100 transition-all border border-gray-100"
+                class="px-5 py-2 text-sm font-semibold text-gray-500 bg-gray-50 rounded-md hover:bg-gray-100 transition-all border border-gray-100"
               >
                 Dismiss
               </button>

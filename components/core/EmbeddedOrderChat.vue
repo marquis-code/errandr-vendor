@@ -3,11 +3,11 @@
  <!-- Chat Panel -->
  <div class="w-full h-full flex flex-col bg-[#E5DDD5]">
  <!-- WhatsApp Green Header -->
- <div class="px-4 py-2.5 bg-[#008069] text-white flex items-center gap-4 sticky top-0 z-20 shadow-sm">
- <button @click="$emit('close')" class="lg:hidden p-2 hover:bg-white/10 rounded-full transition-colors">
+ <div class="px-4 py-2.5 bg-[#008069] text-white flex items-center gap-4 sticky top-0 z-20">
+ <button @click="$emit('close')" class="lg:hidden p-2 hover:bg-white/10 rounded-md transition-colors">
  <ArrowLeft class="w-5 h-5 text-white" />
  </button>
- <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-sm font-bold overflow-hidden cursor-pointer">
+ <div class="w-10 h-10 rounded-md bg-white/20 flex items-center justify-center text-sm font-bold overflow-hidden cursor-pointer">
  <img v-if="receiverAvatar" :src="receiverAvatar" class="w-full h-full object-cover" />
  <User v-else class="w-6 h-6 text-white" />
  </div>
@@ -28,17 +28,17 @@
  
  <!-- Date Marker -->
  <div class="flex justify-center mb-6 sticky top-2 z-10">
- <span class="px-3 py-1 bg-[#D1E9F6] text-[#54656F] text-[11px] font-bold rounded-lg shadow-sm">
+ <span class="px-3 py-1 bg-[#D1E9F6] text-[#54656F] text-[11px] font-bold rounded-lg">
  Order #{{ orderId }}
  </span>
  </div>
 
  <div v-if="loading" class="flex flex-col items-center justify-center h-40 space-y-4">
- <div class="w-8 h-8 border-2 border-[#25D366]/20 border-t-[#25D366] rounded-full animate-spin" />
+ <div class="w-8 h-8 border-2 border-[#25D366]/20 border-t-[#25D366] rounded-md animate-spin" />
  </div>
  
  <div v-else-if="messages.length === 0" class="flex flex-col items-center justify-center p-10 text-center space-y-3 mt-10">
- <div class="p-5 bg-white rounded-3xl shadow-sm">
+ <div class="p-5 bg-white rounded-md">
  <p class="text-[12px] text-gray-500 font-medium leading-relaxed">
  🔒 Messages are end-to-end encrypted. No one outside of this chat, not even Errandr, can read them.
  </p>
@@ -49,20 +49,10 @@
  class="flex flex-col w-full animate-message-in" 
  :class="isMe(msg) ? 'items-end' : 'items-start'">
  
- <div :class="[
- 'relative max-w-[85%] px-3 py-1.5 rounded-lg text-[14.5px] shadow-sm mb-1 group transition-all',
- isMe(msg) 
- ? 'bg-[#DCF8C6] text-[#054740] rounded-tr-none ml-10' 
- : 'bg-white text-[#111B21] rounded-tl-none mr-10'
- ]">
+ <div :class="[ 'relative max-w-[85%] px-3 py-1.5 rounded-lg text-[14.5px] mb-1 group transition-all', isMe(msg) ? 'bg-[#DCF8C6] text-[#054740] rounded-tr-none ml-10' : 'bg-white text-[#111B21] rounded-tl-none mr-10' ]">
  <!-- Speech Bubble Tail -->
  <div v-if="shouldShowTail(msg, idx)" 
- :class="[
- 'absolute top-0 w-3 h-4',
- isMe(msg) 
- ? 'right-[-8px] text-[#DCF8C6]' 
- : 'left-[-8px] text-white'
- ]">
+ :class="[ 'absolute top-0 w-3 h-4', isMe(msg) ? 'right-[-8px] text-[#DCF8C6]' : 'left-[-8px] text-white' ]">
  <svg viewBox="0 0 8 13" width="8" height="13" class="fill-current">
  <path v-if="isMe(msg)" d="M5.188 1H0v11.193l6.467-8.625C7.526 2.156 6.958 1 5.188 1z" />
  <path v-else d="M2.812 1H8v11.193L1.533 3.568C.474 2.156 1.042 1 2.812 1z" />
@@ -79,7 +69,7 @@
  <img :src="msg.attachment" class="rounded-lg max-w-full h-auto cursor-pointer hover:opacity-90 transition-opacity" @click="msg.attachment && openImage(msg.attachment)" />
  </div>
  <div v-if="msg.messageType === 'voice'" class="mb-1 min-w-[200px] flex items-center gap-3 py-2">
- <div class="w-10 h-10 rounded-full bg-[#00A884]/10 flex items-center justify-center shrink-0">
+ <div class="w-10 h-10 rounded-md bg-[#00A884]/10 flex items-center justify-center shrink-0">
  <Mic class="w-5 h-5 text-[#00A884]" />
  </div>
  <audio :src="msg.attachment" controls class="h-8 w-full custom-audio" />
@@ -102,30 +92,30 @@
  </div>
  
  <div v-if="isTyping" class="flex items-center ml-2 transition-all">
- <div class="bg-white px-3 py-2 rounded-lg shadow-sm text-[12px] text-[#075E54] font-bold  animate-pulse">
+ <div class="bg-white px-3 py-2 rounded-lg text-[12px] text-[#075E54] font-bold animate-pulse">
  {{ receiverName || 'User' }} is typing...
  </div>
  </div>
 
  <!-- Media Preview if uploading -->
- <div v-if="uploadingMedia" class="flex flex-col items-center justify-center p-4 bg-white/50 backdrop-blur-sm rounded-2xl mx-10 animate-pulse border border-emerald-100">
- <div class="w-8 h-8 border-2 border-[#00A884]/20 border-t-[#00A884] rounded-full animate-spin mb-2" />
- <p class="text-sm font-bold text-emerald-600 ">Sending media...</p>
+ <div v-if="uploadingMedia" class="flex flex-col items-center justify-center p-4 bg-white/50 backdrop-blur-sm rounded-md mx-10 animate-pulse border border-emerald-100">
+ <div class="w-8 h-8 border-2 border-[#00A884]/20 border-t-[#00A884] rounded-md animate-spin mb-2" />
+ <p class="text-sm font-bold text-emerald-600">Sending media...</p>
  </div>
  </div>
 
  <!-- WhatsApp Input Bar -->
  <div class="px-2 py-3 bg-[#F0F2F5] flex flex-col gap-2">
  <!-- Voice Recording UI -->
- <div v-if="isRecording" class="flex items-center gap-3 px-4 py-2 bg-emerald-50 rounded-xl animate-pulse">
+ <div v-if="isRecording" class="flex items-center gap-3 px-4 py-2 bg-emerald-50 rounded-md animate-pulse">
  <div class="flex items-center gap-2 flex-1">
- <div class="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+ <div class="w-2 h-2 rounded-md bg-red-500 animate-ping" />
  <span class="text-sm font-bold text-emerald-700">{{ recordingDuration }}s</span>
- <div class="flex-1 h-1 bg-emerald-200 rounded-full overflow-hidden">
+ <div class="flex-1 h-1 bg-emerald-200 rounded-md overflow-hidden">
  <div class="h-full bg-emerald-500 animate-progress" />
  </div>
  </div>
- <button @click="cancelRecording" class="text-sm font-bold text-red-500 ">Cancel</button>
+ <button @click="cancelRecording" class="text-sm font-bold text-red-500">Cancel</button>
  </div>
 
  <div class="flex items-center gap-2">
@@ -137,7 +127,7 @@
  </label>
  </div>
  
- <div class="flex-1 bg-white rounded-xl px-4 py-2.5 flex items-center shadow-sm border border-transparent focus-within:border-gray-100 transition-all">
+ <div class="flex-1 bg-white rounded-md px-4 py-2.5 flex items-center border border-transparent focus-within:border-gray-100 transition-all">
  <input 
  v-model="newMsgText" 
  type="text" 
@@ -150,10 +140,7 @@
 
  <button 
  @click="isRecording ? stopRecording() : (newMsgText.trim() ? handleSend() : startRecording())"
- :class="[
- 'w-12 h-12 text-white rounded-full flex items-center justify-center hover:brightness-110 active:scale-95 transition-all shadow-md shrink-0',
- isRecording ? 'bg-red-500' : 'bg-[#00A884]'
- ]"
+ :class="[ 'w-12 h-12 text-white rounded-md flex items-center justify-center hover:brightness-110 active:scale-95 transition-all shrink-0', isRecording ? 'bg-red-500' : 'bg-[#00A884]' ]"
  >
  <Send v-if="newMsgText.trim() && !isRecording" class="w-5 h-5 ml-0.5" />
  <Mic v-else-if="!isRecording" class="w-5 h-5" />
@@ -426,7 +413,7 @@ onMounted(() => {
  width: 6px;
 }
 ::-webkit-scrollbar-thumb {
- background: rgba(0,0,0,0.1);
+ background: ;
  border-radius: 10px;
 }
 </style>

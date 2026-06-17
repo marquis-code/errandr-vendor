@@ -7,7 +7,7 @@
  </label>
  <div v-if="info" class="group relative">
  <Info class="w-3.5 h-3.5 text-gray-300 hover:text-[#FF5C1A] cursor-help transition-colors" />
- <div class="absolute right-0 bottom-full mb-2 w-48 p-2 bg-gray-900 text-white text-sm font-medium rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 shadow-xl">
+ <div class="absolute right-0 bottom-full mb-2 w-48 p-2 bg-gray-900 text-white text-sm font-medium rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">
  {{ info }}
  </div>
  </div>
@@ -16,12 +16,8 @@
  <!-- Select trigger -->
  <div
  @click="toggleDropdown"
- class="w-full h-14 px-4 bg-white border border-gray-100 rounded-2xl flex justify-between items-center cursor-pointer hover:border-[#FF5C1A] transition-all duration-300"
- :class="[
- disabled ? 'opacity-50 cursor-not-allowed bg-gray-50' : '',
- showDropdown ? 'ring-2 ring-[#FF5C1A]/10 border-[#FF5C1A] shadow-sm' : '',
- (hasError || (errorMessage && showError)) ? 'border-red-500 ring-red-500/10' : ''
- ]"
+ class="w-full h-14 px-4 bg-white border border-gray-100 rounded-md flex justify-between items-center cursor-pointer hover:border-[#FF5C1A] transition-all duration-300"
+ :class="[ disabled ? 'opacity-50 cursor-not-allowed bg-gray-50' : '', showDropdown ? 'ring-2 ring-[#FF5C1A]/10 border-[#FF5C1A] ' : '', (hasError || (errorMessage && showError)) ? 'border-red-500 ring-red-500/10' : '' ]"
  >
  <span v-if="selectedLabel" class="text-sm font-medium text-gray-900 truncate">
  <slot v-if="slots['selected-label'] && selectedOption" name="selected-label" :option="selectedOption" />
@@ -39,7 +35,7 @@
  <Transition name="dropdown">
  <div
  v-if="showDropdown"
- class="absolute z-50 mt-2 w-full bg-white shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] rounded-[1.5rem] border border-gray-50 overflow-hidden"
+ class="absolute z-50 mt-2 w-full bg-white rounded-md border border-gray-50 overflow-hidden"
  >
  <!-- Search Input -->
  <div class="p-3 border-b border-gray-50 sticky top-0 bg-white/80 backdrop-blur-md">
@@ -49,7 +45,7 @@
  ref="searchInputRef"
  v-model="searchQuery"
  type="text"
- class="w-full pl-10 pr-4 py-2.5 bg-gray-50/50 border-none rounded-xl outline-none text-sm font-medium text-gray-900 placeholder-gray-300"
+ class="w-full pl-10 pr-4 py-2.5 bg-gray-50/50 border-none rounded-md outline-none text-sm font-medium text-gray-900 placeholder-gray-300"
  placeholder="Search options..."
  @click.stop
  />
@@ -62,12 +58,8 @@
  v-for="(option, index) in filteredOptions"
  :key="index"
  @click="selectOption(option)"
- class="px-4 py-3 rounded-xl cursor-pointer transition-all flex items-center justify-between group"
- :class="[
- getValue(option) === modelValue 
- ? 'bg-[#FF5C1A]/5 text-[#FF5C1A]' 
- : 'text-gray-600 hover:bg-gray-50'
- ]"
+ class="px-4 py-3 rounded-md cursor-pointer transition-all flex items-center justify-between group"
+ :class="[ getValue(option) === modelValue ? 'bg-[#FF5C1A]/5 text-[#FF5C1A]' : 'text-gray-600 hover:bg-gray-50' ]"
  >
  <div class="flex-1 min-w-0">
  <slot v-if="slots.default" :option="option" :index="index" />
@@ -79,10 +71,10 @@
  </div>
  
  <div v-if="filteredOptions.length === 0" class="p-8 text-center">
- <div class="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3">
+ <div class="w-10 h-10 bg-gray-50 rounded-md flex items-center justify-center mx-auto mb-3">
  <Search class="w-5 h-5 text-gray-200" />
  </div>
- <p class="text-sm font-bold text-gray-400 ">No results found</p>
+ <p class="text-sm font-bold text-gray-400">No results found</p>
  </div>
  </div>
  </div>
@@ -90,7 +82,7 @@
 
  <!-- Footer Description -->
  <div class="flex items-start justify-between mt-1.5 px-1">
- <div v-if="description" class="text-sm font-medium text-gray-400 ">
+ <div v-if="description" class="text-sm font-medium text-gray-400">
  e.g. {{ description }}
  </div>
  <Transition name="slide-fade">

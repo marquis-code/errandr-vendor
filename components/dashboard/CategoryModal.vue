@@ -5,7 +5,7 @@
  <div class="flex justify-center">
  <div 
  @click="triggerImageUpload"
- class="w-24 h-24 rounded-full bg-gray-50 border border-dashed border-gray-200 flex flex-col items-center justify-center cursor-pointer hover:border-[#FF5C1A]/30 hover:bg-[#FF5C1A]/5 transition-all overflow-hidden relative group"
+ class="w-24 h-24 rounded-md bg-gray-50 border border-dashed border-gray-200 flex flex-col items-center justify-center cursor-pointer hover:border-[#FF5C1A]/30 hover:bg-[#FF5C1A]/5 transition-all overflow-hidden relative group"
  >
  <img v-if="previewImage" :src="previewImage" class="w-full h-full object-cover" />
  <div v-else class="text-center p-2">
@@ -24,15 +24,15 @@
  <UiAnimatedInput v-model="form.description" type="textarea" label="Quick Description" placeholder="Optional" />
  </div>
 
- <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100">
+ <div class="flex items-center justify-between p-4 bg-gray-50 rounded-md border border-gray-100">
  <span class="text-sm font-bold text-gray-700">Display this category</span>
  <input type="checkbox" v-model="form.isActive" class="w-5 h-5 rounded-md border-gray-300 text-[#FF5C1A] focus:ring-[#FF5C1A]" />
  </div>
  </form>
 
  <template #footer>
- <button @click="$emit('close')" class="px-6 py-2 text-sm font-bold text-gray-400  hover:text-gray-900 transition-colors">Cancel</button>
- <button @click="handleSubmit" :disabled="loading" class="px-6 py-2.5 bg-[#FF5C1A] text-white rounded-xl font-bold text-sm  hover:brightness-110 active:scale-95 transition-all flex items-center gap-2 shadow-lg shadow-[#FF5C1A]/20">
+ <button @click="$emit('close')" class="px-6 py-2 text-sm font-bold text-gray-400 hover:text-gray-900 transition-colors">Cancel</button>
+ <button @click="handleSubmit" :disabled="loading" class="px-6 py-2.5 bg-[#FF5C1A] text-white rounded-md font-bold text-sm hover:brightness-110 active:scale-95 transition-all flex items-center gap-2">
  <Loader2 v-if="loading" class="w-3.5 h-3.5 animate-spin" />
  {{ category ? 'Update' : 'Create' }}
  </button>

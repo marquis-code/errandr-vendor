@@ -1,6 +1,6 @@
 <template>
  <Transition name="modal">
- <div v-if="isOpen" class="fixed inset-0 z-[150] flex items-end sm:items-center justify-center p-0 sm:p-6 drop-shadow-2xl" role="dialog" aria-modal="true">
+ <div v-if="isOpen" class="fixed inset-0 z-[150] flex items-end sm:items-center justify-center p-0 sm:p-6 drop-" role="dialog" aria-modal="true">
  <!-- Backdrop -->
  <div 
  class="fixed inset-0 bg-gray-900/60 backdrop-blur-md transition-opacity" 
@@ -9,22 +9,18 @@
 
  <!-- Modal panel -->
  <div 
- class="relative bg-white w-full h-full sm:h-auto sm:max-h-[90vh] sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col transform transition-all duration-300 ease-out"
- :class="[
- size === 'sm' ? 'sm:max-w-md' : 
- size === 'md' ? 'sm:max-w-2xl' : 
- size === 'lg' ? 'sm:max-w-4xl' : 'sm:max-w-full'
- ]"
+ class="relative bg-white w-full h-full sm:h-auto sm:max-h-[90vh] sm:rounded-md overflow-hidden flex flex-col transform transition-all duration-300 ease-out"
+ :class="[ size === 'sm' ? 'sm:max-w-md' : size === 'md' ? 'sm:max-w-2xl' : size === 'lg' ? 'sm:max-w-4xl' : 'sm:max-w-full' ]"
  >
  <!-- Header -->
  <div class="px-6 py-5 border-b border-gray-100 flex items-center justify-between shrink-0 bg-white/80 backdrop-blur-sm sticky top-0 z-10">
  <div>
  <h3 class="text-xl font-medium text-gray-900 tracking-tight">{{ title }}</h3>
- <p v-if="description" class="text-sm font-bold text-gray-400  mt-1">{{ description }}</p>
+ <p v-if="description" class="text-sm font-bold text-gray-400 mt-1">{{ description }}</p>
  </div>
  <button 
  @click="$emit('close')"
- class="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-50 text-gray-400 hover:text-gray-900 hover:bg-gray-100 transition-all active:scale-95"
+ class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-50 text-gray-400 hover:text-gray-900 hover:bg-gray-100 transition-all active:scale-95"
  >
  <X class="w-5 h-5" />
  </button>

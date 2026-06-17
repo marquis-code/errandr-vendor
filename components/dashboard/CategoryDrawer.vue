@@ -7,17 +7,17 @@
  >
  <div class="space-y-10 py-4">
  <!-- Icon/Image Upload -->
- <div class="flex flex-col items-center gap-4 py-6 bg-gray-50 rounded-[2rem] border border-gray-100 shadow-inner relative overflow-hidden group/upload">
+ <div class="flex flex-col items-center gap-4 py-6 bg-gray-50 rounded-md border border-gray-100 relative overflow-hidden group/upload">
  <div class="absolute inset-0 bg-blue-50/20 opacity-0 group-hover/upload:opacity-100 transition-opacity"></div>
  
  <div 
  @click="triggerImageUpload"
- class="w-24 h-24 rounded-[2rem] bg-white border border-gray-100 shadow-sm flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-all overflow-hidden relative z-10 box-content p-1"
+ class="w-24 h-24 rounded-md bg-white border border-gray-100 flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-all overflow-hidden relative z-10 box-content p-1"
  >
  <img v-if="previewImage" :src="previewImage" class="w-full h-full object-cover rounded-[1.8rem]" />
  <div v-else class="text-center">
  <Plus class="w-6 h-6 text-gray-300 mx-auto" stroke-width="3" />
- <p class="text-sm font-medium text-gray-400 mt-1 ">Icon</p>
+ <p class="text-sm font-medium text-gray-400 mt-1">Icon</p>
  </div>
  <div class="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 flex items-center justify-center transition-opacity" v-if="previewImage">
  <Camera class="w-6 h-6 text-white" />
@@ -27,7 +27,7 @@
  
  <div class="text-center relative z-10">
  <p class="text-sm font-bold text-gray-900">Category Branding</p>
- <p class="text-sm text-gray-400 font-bold  mt-1">PNG or JPG • Max 2MB</p>
+ <p class="text-sm text-gray-400 font-bold mt-1">PNG or JPG • Max 2MB</p>
  </div>
  </div>
 
@@ -50,36 +50,36 @@
  </div>
 
  <!-- Status Toggle -->
- <div class="flex items-center justify-between p-5 bg-white rounded-2xl border border-gray-100 shadow-sm">
+ <div class="flex items-center justify-between p-5 bg-white rounded-md border border-gray-100">
  <div class="space-y-0.5">
  <p class="text-sm font-bold text-gray-900">Visibility Status</p>
  <p class="text-sm text-gray-400 font-medium">Toggle to hide this category from the store.</p>
  </div>
  <button 
  @click="form.isActive = !form.isActive"
- class="relative w-12 h-7 rounded-full transition-all duration-300 shadow-inner"
+ class="relative w-12 h-7 rounded-md transition-all duration-300"
  :class="form.isActive ? 'bg-emerald-500' : 'bg-gray-200'"
  >
  <span 
- class="absolute top-1 w-5 h-5 bg-white rounded-full shadow-md transition-all duration-300"
+ class="absolute top-1 w-5 h-5 bg-white rounded-md transition-all duration-300"
  :class="form.isActive ? 'left-6' : 'left-1'" 
  />
  </button>
  </div>
 
- <div v-if="uploading" class="flex items-center gap-3 p-4 bg-blue-50 rounded-xl border border-blue-100/50">
+ <div v-if="uploading" class="flex items-center gap-3 p-4 bg-blue-50 rounded-md border border-blue-100/50">
  <Loader2 class="w-4 h-4 text-[#FF5C1A] animate-spin" />
- <p class="text-sm font-medium text-[#FF5C1A] ">Processing Image...</p>
+ <p class="text-sm font-medium text-[#FF5C1A]">Processing Image...</p>
  </div>
  </div>
 
  <template #footer>
  <div class="flex items-center gap-4 w-full">
- <button @click="$emit('close')" class="flex-1 py-4 bg-white border border-gray-100 text-gray-400 text-sm font-medium  rounded-2xl">Cancel</button>
+ <button @click="$emit('close')" class="flex-1 py-2 bg-white border border-gray-100 text-gray-400 text-sm font-medium rounded-md">Cancel</button>
  <button 
  @click="handleSubmit" 
  :disabled="loading || uploading || !form.name" 
- class="flex-[2] py-4 bg-gray-900 text-white rounded-2xl font-medium text-sm  shadow-xl hover:bg-black transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
+ class="flex-[2] py-2 bg-gray-900 text-white rounded-md font-medium text-sm hover:bg-black transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
  >
  <Loader2 v-if="loading" class="w-3.5 h-3.5 animate-spin" />
  {{ category ? 'Update Category' : 'Save Category' }}

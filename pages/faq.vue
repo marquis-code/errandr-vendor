@@ -9,7 +9,7 @@
       <div class="absolute inset-0 bg-[radial-gradient(#e2e8f0_1.5px,transparent_1.5px)] [background-size:24px_24px] opacity-70 z-0 pointer-events-none"></div>
 
       <div class="max-w-7xl mx-auto px-6 sm:px-10 relative z-10 text-center">
-        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-slate-600 text-xs font-bold tracking-wide shadow-sm mb-8">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-slate-50 border border-slate-200 text-slate-600 text-xs font-bold tracking-wide mb-8">
           <HelpCircle class="w-3.5 h-3.5 text-[#FF5C1A]" />
           Merchant Knowledge Base
         </div>
@@ -26,10 +26,10 @@
     <section class="py-24 bg-white">
       <div class="max-w-4xl mx-auto px-6 sm:px-10">
         <div class="space-y-4">
-          <div v-for="(faq, i) in faqs" :key="i" class="group border border-gray-100 rounded-[2rem] overflow-hidden transition-all duration-500" :class="{ 'bg-gray-50/50 border-parentPrimary/20 shadow-xl shadow-parentPrimary/5': openIndex === i }">
+          <div v-for="(faq, i) in faqs" :key="i" class="group border border-gray-100 rounded-md overflow-hidden transition-all duration-500" :class="{ 'bg-gray-50/50 border-parentPrimary/20 ': openIndex === i }">
             <button @click="openIndex = openIndex === i ? -1 : i" class="w-full flex items-center justify-between p-8 text-left outline-none">
               <span class="text-xl font-medium text-gray-900 tracking-tight group-hover:text-parentPrimary transition-colors">{{ faq.q }}</span>
-              <div class="w-10 h-10 rounded-full bg-white border border-gray-100 flex items-center justify-center text-gray-400 group-hover:text-parentPrimary transition-all" :class="{ 'rotate-180 bg-parentPrimary text-white border-transparent': openIndex === i }">
+              <div class="w-10 h-10 rounded-md bg-white border border-gray-100 flex items-center justify-center text-gray-400 group-hover:text-parentPrimary transition-all" :class="{ 'rotate-180 bg-parentPrimary text-white border-transparent': openIndex === i }">
                 <ChevronDown class="w-5 h-5" />
               </div>
             </button>

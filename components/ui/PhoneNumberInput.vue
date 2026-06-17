@@ -4,24 +4,14 @@
       <!-- Floating Label -->
       <label 
         :for="inputId"
-        :class="[
-          'absolute transition-all duration-300 ease-in-out pointer-events-none z-10',
-          isFocused || phoneNumber ? 
-            'text-sm text-gray-500 left-3 top-2' : 
-            'text-base text-gray-500 left-3 top-1/2 transform -translate-y-1/2'
-        ]"
+        :class="[ 'absolute transition-all duration-300 ease-in-out pointer-events-none z-10', isFocused || phoneNumber ? 'text-sm text-gray-500 left-3 top-2' : 'text-base text-gray-500 left-3 top-1/2 transform -translate-y-1/2' ]"
       >
         {{ label }}
       </label>
       
       <!-- Main Input Container -->
       <div 
-        :class="[
-          'w-full py-3 px-3 bg-[#1A1A1B09] border-[0.5px] border-transparent focus-within:outline-none focus-within:ring-1 focus-within:ring-[#3BAB22] focus-within:border-[#3BAB22] transition-all duration-300 flex items-center gap-3',
-          roundedClasses,
-          disabled ? 'opacity-50 cursor-not-allowed' : '',
-          (hasError || errorMessage) ? 'border-[0.5px] ring-red-500 border-red-500' : ''
-        ]"
+        :class="[ 'w-full py-3 px-3 bg-[#1A1A1B09] border-[0.5px] border-transparent focus-within:outline-none focus-within:ring-1 focus-within:ring-[#3BAB22] focus-within:border-[#3BAB22] transition-all duration-300 flex items-center gap-3', roundedClasses, disabled ? 'opacity-50 cursor-not-allowed' : '', (hasError || errorMessage) ? 'border-[0.5px] ring-red-500 border-red-500' : '' ]"
       >
         <!-- Country Code Selector -->
         <div class="relative" ref="dropdownRef">
@@ -29,11 +19,11 @@
             type="button"
             @click="toggleDropdown"
             :disabled="disabled"
-            class="flex items-center gap-2  px-2 py-1.5 rounded-lg transition-colors"
+            class="flex items-center gap-2 px-2 py-1.5 rounded-lg transition-colors"
             :class="{ 'cursor-not-allowed': disabled }"
           >
             <!-- Circular Flag -->
-            <div class="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center bg-gray-100 flex-shrink-0">
+            <div class="w-6 h-6 rounded-md overflow-hidden flex items-center justify-center bg-gray-100 flex-shrink-0">
               <span class="text-lg leading-none">{{ selectedCountryFlag }}</span>
             </div>
             <span class="text-base font-medium text-[#1A1A1B]">{{ selectedDialCode }}</span>
@@ -53,7 +43,7 @@
           <Transition name="slide-fade">
             <div
               v-if="showDropdown"
-              class="absolute z-50 mt-2 bg-white shadow-2xl rounded-2xl border-[0.5px] border-gray-100 overflow-hidden left-0"
+              class="absolute z-50 mt-2 bg-white rounded-md border-[0.5px] border-gray-100 overflow-hidden left-0"
             >
               <!-- Search Input -->
               <div class="p-4 border-b-[0.5px] border-gray-100 bg-gray-50">
@@ -86,11 +76,11 @@
                   :key="country.code"
                   type="button"
                   @click="selectCountry(country)"
-                  class="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left group"
+                  class="w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition-colors text-left group"
                   :class="{ 'bg-green-50': selectedCountryCode === country.dialCode }"
                 >
                   <!-- Circular Flag -->
-                  <div class="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center bg-gray-100 flex-shrink-0">
+                  <div class="w-8 h-8 rounded-md overflow-hidden flex items-center justify-center bg-gray-100 flex-shrink-0">
                     <span class="text-xl leading-none">{{ getCountryFlag(country.code) }}</span>
                   </div>
                   <div class="flex-1 flex items-center justify-between min-w-0">
@@ -334,7 +324,7 @@ const roundedClasses = computed(() => {
       return 'rounded-b-xl rounded-t-sm'
     case 'standalone':
     default:
-      return 'rounded-xl'
+      return 'rounded-md'
   }
 })
 

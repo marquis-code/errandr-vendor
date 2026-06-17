@@ -9,15 +9,11 @@
     >
       <nav 
         class="flex items-center justify-between transition-all duration-500 relative"
-        :class="[
-          scrolled 
-            ? 'bg-white/70 backdrop-blur-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/80 rounded-[2rem] px-4 py-3' 
-            : 'bg-transparent'
-        ]"
+        :class="[ scrolled ? 'bg-white/70 backdrop-blur-2xl border border-white/80 rounded-md px-4 py-3' : 'bg-transparent' ]"
       >
         <!-- Logo -->
         <NuxtLink to="/" class="flex items-center gap-3 group relative z-10">
-          <div class="relative overflow-hidden rounded-xl bg-white/10 p-1 backdrop-blur-sm">
+          <div class="relative overflow-hidden rounded-md bg-white/10 p-1 backdrop-blur-sm">
              <img src="@/assets/img/logo-light.png" alt="Erranders Logo" class="h-10 w-auto object-contain transition-transform duration-500 group-hover:scale-110" />
           </div>
 
@@ -33,13 +29,10 @@
              :key="link.path" 
              :to="link.path"
              class="relative px-5 py-2.5 text-[15px] font-bold transition-colors group"
-             :class="[
-               scrolled ? 'text-gray-600 hover:text-gray-900' : 'text-gray-300 hover:text-gray-900',
-               { '!text-gray-900': route.path === link.path }
-             ]"
+             :class="[ scrolled ? 'text-gray-600 hover:text-gray-900' : 'text-gray-300 hover:text-gray-900', { '!text-gray-900': route.path === link.path } ]"
            >
              {{ link.name }}
-             <span class="absolute inset-x-4 bottom-1.5 h-0.5 bg-parentPrimary scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 rounded-full"></span>
+             <span class="absolute inset-x-4 bottom-1.5 h-0.5 bg-parentPrimary scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 rounded-md"></span>
            </NuxtLink>
         </div>
 
@@ -48,7 +41,7 @@
           <NuxtLink to="/auth/login" class="text-sm font-bold transition-colors px-4 py-2" :class="[scrolled ? 'text-gray-600 hover:text-gray-900' : 'text-gray-300 hover:text-gray-900']">
             Log In
           </NuxtLink>
-          <NuxtLink to="/auth/register" class="relative group overflow-hidden px-7 py-2.5 rounded-full bg-gray-900 text-white text-sm font-bold shadow-[0_0_40px_-10px_rgba(0,0,0,0.5)] hover:shadow-[0_0_60px_-15px_rgba(0,0,0,0.7)] transition-all duration-300">
+          <NuxtLink to="/auth/register" class="relative group overflow-hidden px-7 py-2.5 rounded-md bg-gray-900 text-white text-sm font-bold hover: transition-all duration-300">
             <span class="relative z-10 flex items-center gap-2">
               Start Free <ArrowRight class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </span>
@@ -59,7 +52,7 @@
         <!-- Mobile Menu Toggle -->
         <button 
           @click="isMobileMenuOpen = !isMobileMenuOpen" 
-          class="lg:hidden relative z-50 w-12 h-12 flex items-center justify-center rounded-full border focus:outline-none shadow-sm transition-colors"
+          class="lg:hidden relative z-50 w-12 h-12 flex items-center justify-center rounded-md border focus:outline-none transition-colors"
           :class="[scrolled ? 'bg-white border-gray-100 text-gray-900' : 'border-black text-black backdrop-blur-md']"
         >
           <Menu v-if="!isMobileMenuOpen" class="w-5 h-5" />
@@ -87,14 +80,14 @@
           <NuxtLink 
             to="/auth/login" 
             @click="isMobileMenuOpen = false"
-            class="w-full py-3 text-center text-sm font-bold text-gray-600 bg-gray-50 rounded-2xl border border-gray-100"
+            class="w-full py-3 text-center text-sm font-bold text-gray-600 bg-gray-50 rounded-md border border-gray-100"
           >
             Log In to Dashboard
           </NuxtLink>
           <NuxtLink 
             to="/auth/register" 
             @click="isMobileMenuOpen = false"
-            class="w-full py-3 text-center text-sm font-bold text-white bg-parentPrimary rounded-2xl shadow-xl shadow-parentPrimary/20 flex items-center justify-center gap-2"
+            class="w-full py-3 text-center text-sm font-bold text-white bg-parentPrimary rounded-md flex items-center justify-center gap-2"
           >
             Create Store <ArrowRight class="w-5 h-5" />
           </NuxtLink>

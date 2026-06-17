@@ -1,22 +1,22 @@
 <template>
- <div class="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden flex flex-col min-h-[400px]">
+ <div class="bg-white rounded-md border border-gray-200 overflow-hidden flex flex-col min-h-[400px]">
  <!-- Table Body -->
  <div class="overflow-x-auto hide-scrollbar">
  <table class="w-full text-left border-collapse">
  <thead class="bg-gray-50/30 sticky top-0 z-10">
- <tr class="border-b border-gray-50/50">
+ <tr class="border-b border-gray-200">
  <th 
  v-for="col in columns" 
  :key="col.key" 
- class="px-8 py-5 text-sm font-medium text-gray-400  whitespace-nowrap"
+ class="px-8 py-5 text-sm font-medium text-gray-400 whitespace-nowrap"
  :class="col.class"
  >
  {{ col.label }}
  </th>
- <th v-if="hasActions" class="px-8 py-5 text-sm font-medium text-gray-400  text-right">Actions</th>
+ <th v-if="hasActions" class="px-8 py-5 text-sm font-medium text-gray-400 text-right">Actions</th>
  </tr>
  </thead>
- <tbody class="divide-y divide-gray-50">
+ <tbody class="divide-y divide-gray-200">
  <tr v-if="loading" v-for="i in 5" :key="i" class="animate-pulse">
  <td v-for="col in (hasActions ? columns.length + 1 : columns.length)" :key="col" class="px-8 py-6">
  <div class="h-4 bg-gray-50 rounded-lg w-full"></div>
@@ -26,7 +26,7 @@
  <tr v-else-if="items.length === 0">
  <td :colspan="hasActions ? columns.length + 1 : columns.length" class="px-8 py-32 text-center">
  <div class="flex flex-col items-center justify-center max-w-xs mx-auto">
- <div class="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mb-6">
+ <div class="w-16 h-16 bg-gray-50 rounded-md flex items-center justify-center mb-6">
  <component :is="emptyIcon || Inbox" class="w-8 h-8 text-gray-200" />
  </div>
  <h4 class="font-medium text-gray-900 text-lg tracking-tight">{{ emptyTitle || 'No items found' }}</h4>
@@ -39,7 +39,7 @@
  v-else 
  v-for="(item, idx) in items" 
  :key="item._id || idx" 
- class="hover:bg-gray-50/80 transition-all group border-b border-gray-50/30 last:border-0"
+ class="hover:bg-gray-50/80 transition-all group border-b border-gray-200 last:border-0"
  >
  <td 
  v-for="col in columns" 
@@ -60,7 +60,7 @@
  </div>
 
  <!-- Optional Footer / Pagination (Placeholder for now) -->
- <div v-if="showFooter" class="p-8 border-t border-gray-50/50 bg-gray-50/20 flex items-center justify-between">
+ <div v-if="showFooter" class="p-8 border-t border-gray-200 bg-gray-50/20 flex items-center justify-between">
  <slot name="footer"></slot>
  </div>
  </div>

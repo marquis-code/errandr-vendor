@@ -16,10 +16,10 @@
  <div class="grid grid-cols-2 gap-4">
  <div 
  v-for="(img, idx) in allImages" :key="idx"
- class="aspect-square rounded-2xl bg-gray-50 border border-gray-100 flex flex-col items-center justify-center overflow-hidden group relative"
+ class="aspect-square rounded-md bg-gray-50 border border-gray-100 flex flex-col items-center justify-center overflow-hidden group relative"
  >
  <img v-if="img" :src="img" class="w-full h-full object-cover" />
- <button v-if="img" @click.stop="removeImage(idx)" class="absolute top-2 right-2 bg-white/90 backdrop-blur-md p-2 rounded-xl text-red-500 shadow-xl opacity-0 group-hover:opacity-100 transition-all active:scale-90">
+ <button v-if="img" @click.stop="removeImage(idx)" class="absolute top-2 right-2 bg-white/90 backdrop-blur-md p-2 rounded-md text-red-500 opacity-0 group-hover:opacity-100 transition-all active:scale-90">
  <Trash2 class="w-4 h-4" />
  </button>
  </div>
@@ -28,12 +28,12 @@
  v-if="allImages.length < 4"
  type="button"
  @click="triggerImageUpload"
- class="aspect-square rounded-2xl bg-gray-50 border border-dashed border-gray-200 flex flex-col items-center justify-center transition-all hover:bg-[#FF5C1A]/5 hover:border-[#FF5C1A]/30 group"
+ class="aspect-square rounded-md bg-gray-50 border border-dashed border-gray-200 flex flex-col items-center justify-center transition-all hover:bg-[#FF5C1A]/5 hover:border-[#FF5C1A]/30 group"
  >
- <div class="w-10 h-10 bg-white rounded-xl shadow-sm text-[#FF5C1A] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+ <div class="w-10 h-10 bg-white rounded-md text-[#FF5C1A] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
  <Plus class="w-5 h-5" />
  </div>
- <p class="text-sm font-medium text-gray-400 ">Add Photo</p>
+ <p class="text-sm font-medium text-gray-400">Add Photo</p>
  <input type="file" ref="imageRef" class="hidden" @change="handleFileUpload" accept="image/*" multiple />
  </button>
  </div>
@@ -100,7 +100,7 @@
  </div>
 
  <div class="space-y-3 pt-2">
- <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100/50">
+ <div class="flex items-center justify-between p-4 bg-gray-50 rounded-md border border-gray-100/50">
  <div class="flex items-center gap-3">
  <Star class="w-4 h-4 text-parentPrimary" />
  <span class="text-sm font-bold text-gray-700">Feature on menu</span>
@@ -108,7 +108,7 @@
  <input type="checkbox" v-model="form.isFeatured" class="w-5 h-5 rounded-lg border-gray-200 text-[#FF5C1A] focus:ring-[#FF5C1A]" />
  </div>
 
- <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100/50">
+ <div class="flex items-center justify-between p-4 bg-gray-50 rounded-md border border-gray-100/50">
  <div class="flex items-center gap-3">
  <CheckCircle class="w-4 h-4 text-emerald-500" />
  <span class="text-sm font-bold text-gray-700">Available for order</span>
@@ -122,8 +122,8 @@
 
  <template #footer>
  <div class="flex items-center gap-4 w-full">
- <button @click="$emit('close')" class="flex-1 py-4 bg-white border border-gray-100 text-gray-400 text-sm font-medium  rounded-2xl hover:bg-gray-50 hover:text-gray-900 transition-all">Cancel</button>
- <button @click="handleSubmit" :disabled="uploading" class="flex-[2] py-4 bg-gray-900 text-white rounded-2xl font-medium text-sm  shadow-xl hover:bg-black transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2">
+ <button @click="$emit('close')" class="flex-1 py-2 bg-white border border-gray-100 text-gray-400 text-sm font-medium rounded-md hover:bg-gray-50 hover:text-gray-900 transition-all">Cancel</button>
+ <button @click="handleSubmit" :disabled="uploading" class="flex-[2] py-2 bg-gray-900 text-white rounded-md font-medium text-sm hover:bg-black transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2">
  {{ product ? 'Update Item' : 'Publish Item' }}
  </button>
  </div>

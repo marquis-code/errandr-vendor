@@ -12,12 +12,12 @@
             Ready to <br />
             <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF5C1A] to-[#044ec0]">Scale Up?</span>
           </h2>
-          <p class="text-xl md:text-2xl text-slate-500 font-medium tracking-tight">
+          <p class="text-xl md:text-xl text-slate-500 font-medium tracking-tight">
             Join the fastest-growing campus delivery network today.
           </p>
         </div>
         
-        <NuxtLink to="/auth/register" class="group relative px-8 py-3.5 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-full font-bold text-base overflow-hidden flex-shrink-0 transition-all hover:shadow-lg shadow-[#FF5C1A]/10 active:scale-95">
+        <NuxtLink to="/auth/register" class="group relative px-8 py-3.5 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-md font-bold text-base overflow-hidden flex-shrink-0 transition-all hover: active:scale-95">
           <span class="relative z-10 flex items-center gap-3">
             Open Storefront <ArrowUpRight class="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
           </span>
@@ -33,7 +33,7 @@
         <!-- Brand Column -->
         <div class="md:col-span-5 flex flex-col items-start">
           <NuxtLink to="/" class="flex items-center gap-4 mb-8 group cursor-pointer">
-            <span class="text-2xl font-medium tracking-tighter text-slate-950">
+            <span class="text-xl font-medium tracking-tighter text-slate-950">
               <img src="@/assets/img/logo-light.png" alt="Erranders Logo" class="h-10 w-auto object-contain transition-transform duration-500 group-hover:scale-110" />
             </span>
           </NuxtLink>
@@ -41,13 +41,13 @@
             Providing vendors with powerful digital infrastructure to dominate campus food delivery and logistics.
           </p>
           <div class="flex items-center gap-4">
-            <a href="#" class="w-12 h-12 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-400 hover:text-[#FF5C1A] hover:border-[#FF5C1A] hover:bg-[#FF5C1A]/5 hover:shadow-sm transition-all duration-300">
+            <a href="#" class="w-12 h-12 rounded-md bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-400 hover:text-[#FF5C1A] hover:border-[#FF5C1A] hover:bg-[#FF5C1A]/5 hover: transition-all duration-300">
               <Twitter class="w-5 h-5"/>
             </a>
-            <a href="#" class="w-12 h-12 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-400 hover:text-pink-500 hover:border-pink-500 hover:bg-pink-500/5 hover:shadow-sm transition-all duration-300">
+            <a href="#" class="w-12 h-12 rounded-md bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-400 hover:text-pink-500 hover:border-pink-500 hover:bg-pink-500/5 hover: transition-all duration-300">
               <Instagram class="w-5 h-5"/>
             </a>
-            <a href="#" class="w-12 h-12 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-400 hover:text-blue-500 hover:border-blue-500 hover:bg-blue-500/5 hover:shadow-sm transition-all duration-300">
+            <a href="#" class="w-12 h-12 rounded-md bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-400 hover:text-blue-500 hover:border-blue-500 hover:bg-blue-500/5 hover: transition-all duration-300">
               <Facebook class="w-5 h-5"/>
             </a>
           </div>
@@ -76,14 +76,14 @@
             <h4 class="font-bold text-slate-400 mb-8 text-xs uppercase tracking-wider">Ecosystem</h4>
             <ul class="space-y-5 text-base font-bold text-slate-600">
               <li>
-                <a href="https://erranders.org" target="_blank" class="group flex items-center gap-3 hover:text-[#FF5C1A] transition-colors p-3 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 -ml-3">
-                  <div class="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500 group-hover:bg-emerald-500 group-hover:text-white transition-colors"><Utensils class="w-4 h-4" /></div>
+                <a href="https://erranders.org" target="_blank" class="group flex items-center gap-3 hover:text-[#FF5C1A] transition-colors p-3 rounded-md hover:bg-slate-50 border border-transparent hover:border-slate-100 -ml-3">
+                  <div class="w-8 h-8 rounded-md bg-emerald-50 flex items-center justify-center text-emerald-500 group-hover:bg-emerald-500 group-hover:text-white transition-colors"><Utensils class="w-4 h-4" /></div>
                   Order Food
                 </a>
               </li>
               <li>
-                <a href="https://dispatch.erranders.org" target="_blank" class="group flex items-center gap-3 hover:text-[#FF5C1A] transition-colors p-3 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 -ml-3">
-                  <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 group-hover:bg-[#FF5C1A] group-hover:text-white transition-colors"><Bike class="w-4 h-4" /></div>
+                <a href="https://dispatch.erranders.org" target="_blank" class="group flex items-center gap-3 hover:text-[#FF5C1A] transition-colors p-3 rounded-md hover:bg-slate-50 border border-transparent hover:border-slate-100 -ml-3">
+                  <div class="w-8 h-8 rounded-md bg-blue-50 flex items-center justify-center text-blue-500 group-hover:bg-[#FF5C1A] group-hover:text-white transition-colors"><Bike class="w-4 h-4" /></div>
                   Become a Rider
                 </a>
               </li>

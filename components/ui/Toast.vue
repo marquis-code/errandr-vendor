@@ -5,29 +5,13 @@
         <div
           v-for="toast in toasts"
           :key="toast.id"
-          :class="[
-            'toast-base',
-            {
-              'border-l-4 border-l-rose-500': toast.type === 'error',
-              'border-l-4 border-l-emerald-500': toast.type === 'success',
-              'border-l-4 border-l-amber-500': toast.type === 'warning',
-              'border-l-4 border-l-blue-500': toast.type === 'info'
-            }
-          ]"
-          class="w-full rounded-2xl border border-gray-100 bg-white/95 backdrop-blur-xl p-4 flex items-start gap-3.5 cursor-pointer shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:shadow-[0_25px_60px_rgba(0,0,0,0.12)] transition-all duration-300"
+          :class="[ 'toast-base', { 'border-l-4 border-l-rose-500': toast.type === 'error', 'border-l-4 border-l-emerald-500': toast.type === 'success', 'border-l-4 border-l-amber-500': toast.type === 'warning', 'border-l-4 border-l-blue-500': toast.type === 'info' } ]"
+          class="w-full rounded-md border border-gray-100 bg-white/95 backdrop-blur-xl p-4 flex items-start gap-3.5 cursor-pointer hover: transition-all duration-300"
           @click="removeToast(toast.id)"
         >
           <!-- Status Icon container -->
           <div class="flex-shrink-0 mt-0.5">
-            <div :class="[
-              'w-9 h-9 rounded-xl flex items-center justify-center shadow-sm',
-              {
-                'bg-rose-50 text-rose-600': toast.type === 'error',
-                'bg-emerald-50 text-emerald-600': toast.type === 'success', 
-                'bg-amber-50 text-amber-600': toast.type === 'warning',
-                'bg-blue-50 text-blue-600': toast.type === 'info'
-              }
-            ]">
+            <div :class="[ 'w-9 h-9 rounded-md flex items-center justify-center', { 'bg-rose-50 text-rose-600': toast.type === 'error', 'bg-emerald-50 text-emerald-600': toast.type === 'success', 'bg-amber-50 text-amber-600': toast.type === 'warning', 'bg-blue-50 text-blue-600': toast.type === 'info' } ]">
               <CheckCircle v-if="toast.type === 'success'" :size="20" class="stroke-[2.5]" />
               <AlertCircle v-else-if="toast.type === 'error'" :size="20" class="stroke-[2.5]" />
               <AlertTriangle v-else-if="toast.type === 'warning'" :size="20" class="stroke-[2.5]" />

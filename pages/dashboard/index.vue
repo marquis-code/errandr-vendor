@@ -3,19 +3,19 @@
     <!-- Header Section -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pt-6">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">Dashboard</h1>
+        <h1 class="text-xl font-bold text-gray-900 sm:text-2xl">Dashboard</h1>
         <p class="text-sm text-gray-400 mt-1 font-medium">Welcome back to your store overview</p>
       </div>
       <div class="flex items-center gap-3">
-        <button @click="shareStore" class="flex items-center gap-2 bg-blue-50/50 px-4 py-2 rounded-xl border border-blue-100 hover:bg-blue-100 transition-colors">
+        <button @click="shareStore" class="flex items-center gap-2 bg-blue-50/50 px-4 py-2 rounded-md border border-blue-100 hover:bg-blue-100 transition-colors">
           <Share2 class="w-4 h-4 text-blue-600" />
           <span class="text-blue-600 text-sm font-bold">Share Store</span>
         </button>
-        <div class="flex items-center gap-2 bg-emerald-50/50 px-4 py-2 rounded-xl">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+        <div class="flex items-center gap-2 bg-emerald-50/50 px-4 py-2 rounded-md">
+          <span class="w-2 h-2 rounded-md bg-emerald-500 animate-pulse" />
           <span class="text-emerald-600 text-sm font-bold">Store Online</span>
         </div>
-        <NuxtLink to="/dashboard/settings" class="p-3 bg-white border border-gray-100 rounded-xl transition-all active:scale-95 group">
+        <NuxtLink to="/dashboard/settings" class="p-3 bg-white border border-gray-100 rounded-md transition-all active:scale-95 group">
           <Settings class="w-5 h-5 text-gray-400 group-hover:text-[#FF5C1A] transition-colors" />
         </NuxtLink>
       </div>
@@ -23,9 +23,9 @@
 
     <!-- Stats Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div v-for="stat in computedStats" :key="stat.label" class="bg-white border border-gray-100 p-6 rounded-3xl transition-all group relative overflow-hidden">
+      <div v-for="stat in computedStats" :key="stat.label" class="bg-white border border-gray-100 p-6 rounded-md transition-all group relative overflow-hidden">
         <div class="flex items-center justify-between mb-4 relative z-10">
-          <div :class="stat.bgClass" class="w-12 h-12 rounded-2xl flex items-center justify-center border border-white/50">
+          <div :class="stat.bgClass" class="w-12 h-12 rounded-md flex items-center justify-center border border-white/50">
             <component :is="stat.icon" class="w-5 h-5" />
           </div>
           <span v-if="stat.trend" class="text-sm font-bold px-2 py-0.5 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-100">
@@ -34,7 +34,7 @@
         </div>
         <div class="relative z-10">
           <p class="text-sm font-bold text-gray-400 mb-1">{{ stat.label }}</p>
-          <h3 class="text-2xl font-bold text-gray-900">{{ stat.value }}</h3>
+          <h3 class="text-xl font-bold text-gray-900">{{ stat.value }}</h3>
         </div>
       </div>
     </div>
@@ -42,7 +42,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <!-- Recent Orders Table -->
       <div class="lg:col-span-2 space-y-6">
-        <div class="bg-white rounded-[2rem] border border-gray-100 overflow-hidden flex flex-col min-h-[500px]">
+        <div class="bg-white rounded-md border border-gray-100 overflow-hidden flex flex-col min-h-[500px]">
           <div class="px-8 py-6 border-b border-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h3 class="font-bold text-gray-900 text-lg">{{ isServiceProvider ? 'Recent Appointments' : 'Recent Orders' }}</h3>
@@ -51,16 +51,16 @@
             <NuxtLink to="/dashboard/orders" class="text-sm font-bold text-[#FF5C1A] hover:bg-blue-50 px-4 py-2 bg-white rounded-lg border border-gray-100 transition-colors self-start sm:self-auto whitespace-nowrap">See All</NuxtLink>
           </div>
           
-          <UiTable 
+          <UiTable  
             :columns="orderColumns" 
             :items="orders.slice(0, 5)" 
             :loading="loadingOrders"
             empty-title="Welcome to your dashboard!"
             empty-subtitle="You haven't received any requests yet. If you're new, make sure to complete your profile setup."
-          >
+           :has-actions="true">
             <template #customer="{ item }">
               <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center font-bold text-sm text-gray-500 border border-white">
+                <div class="w-8 h-8 rounded-md bg-gray-100 flex items-center justify-center font-bold text-sm text-gray-500 border border-white">
                   {{ item.customer?.firstName?.[0] }}{{ item.customer?.lastName?.[0] }}
                 </div>
                 <div class="truncate">
@@ -96,7 +96,7 @@
           <!-- Onboarding Guide if no orders -->
           <div v-if="orders.length === 0 && !loadingOrders" class="p-8 bg-blue-50/30 border-t border-blue-50/50 flex flex-col md:flex-row items-center justify-between gap-6 mt-auto">
             <div class="flex items-start gap-4">
-              <div class="w-10 h-10 rounded-xl bg-[#FF5C1A] text-white flex items-center justify-center shadow-lg shrink-0">
+              <div class="w-10 h-10 rounded-md bg-[#FF5C1A] text-white flex items-center justify-center shrink-0">
                 <ShieldCheck class="w-5 h-5" />
               </div>
               <div>
@@ -104,7 +104,7 @@
                 <p class="text-sm text-gray-500 font-medium mt-1">Complete these steps to start receiving requests</p>
               </div>
             </div>
-            <NuxtLink to="/dashboard/settings" class="px-6 py-3 bg-white text-gray-900 rounded-xl text-sm font-medium hover:shadow-md transition-all border border-gray-100 whitespace-nowrap text-center">
+            <NuxtLink to="/dashboard/settings" class="px-6 py-3 bg-white text-gray-900 rounded-md text-sm font-medium hover: transition-all border border-gray-100 whitespace-nowrap text-center">
               Setup Store Profile
             </NuxtLink>
           </div>
@@ -114,13 +114,13 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="bg-white rounded-[2.5rem] border border-gray-100 p-8 relative overflow-hidden group">
             <div class="relative z-10">
-              <div class="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center mb-6">
+              <div class="w-10 h-10 bg-orange-50 rounded-md flex items-center justify-center mb-6">
                 <Package v-if="!isServiceProvider" class="w-5 h-5 text-[#FF5C1A]" />
                 <Calendar v-else class="w-5 h-5 text-[#FF5C1A]" />
               </div>
               <h3 class="text-xl font-bold text-gray-900 mb-2">{{ isServiceProvider ? 'Upcoming Bookings' : 'Inventory Health' }}</h3>
               <p class="text-gray-500 text-sm mb-8 font-bold">{{ isServiceProvider ? 'Check your appointment schedule' : 'Some items running low' }}</p>
-              <NuxtLink :to="isServiceProvider ? '/dashboard/appointments' : '/dashboard/inventory'" class="inline-flex px-6 py-3 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-black transition-all">
+              <NuxtLink :to="isServiceProvider ? '/dashboard/appointments' : '/dashboard/inventory'" class="inline-flex px-6 py-3 bg-gray-900 text-white rounded-md text-sm font-bold hover:bg-black transition-all">
                 {{ isServiceProvider ? 'View Schedule' : 'Manage Stock' }}
               </NuxtLink>
             </div>
@@ -145,7 +145,7 @@
       <div class="space-y-8">
         <div class="bg-white rounded-[2.5rem] border border-gray-100 p-8 space-y-8 transition-all">
           <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-xl bg-[#FF5C1A]/5 text-[#FF5C1A] flex items-center justify-center border border-[#FF5C1A]/10 shrink-0">
+            <div class="w-12 h-12 rounded-md bg-[#FF5C1A]/5 text-[#FF5C1A] flex items-center justify-center border border-[#FF5C1A]/10 shrink-0">
               <Banknote class="w-5 h-5" />
             </div>
             <div>
@@ -162,12 +162,12 @@
             </div>
           </div>
 
-          <div class="p-5 bg-gray-50/50 rounded-2xl border border-gray-50/50 space-y-3">
+          <div class="p-5 bg-gray-50/50 rounded-md border border-gray-50/50 space-y-3">
             <div class="flex justify-between items-center text-sm font-bold">
               <span class="text-gray-400">Target</span>
               <span class="text-[#FF5C1A]">₦65,000</span>
             </div>
-            <div class="h-1.5 bg-gray-200 rounded-full overflow-hidden">
+            <div class="h-1.5 bg-gray-200 rounded-md overflow-hidden">
               <div class="h-full bg-[#FF5C1A] transition-all duration-1000" :style="{ width: Math.min(((currentStats.todaySales || 0) / 65000) * 100, 100) + '%' }"></div>
             </div>
             <p class="text-sm text-gray-400 font-bold mt-2 text-center">
@@ -175,7 +175,7 @@
             </p>
           </div>
 
-          <NuxtLink to="/dashboard/wallet" class="flex items-center justify-center w-full py-4 bg-gray-900 text-white rounded-xl font-bold text-sm hover:bg-black transition-all active:scale-95 group">
+          <NuxtLink to="/dashboard/wallet" class="flex items-center justify-center w-full py-4 bg-gray-900 text-white rounded-md font-bold text-sm hover:bg-black transition-all active:scale-95 group">
             Financial Hub <ArrowRight class="w-3.5 h-3.5 ml-2 group-hover:translate-x-1 transition-transform" />
           </NuxtLink>
         </div>
@@ -188,7 +188,7 @@
             Students are searching for <span class="text-[#FF5C1A] underline decoration-[#FF5C1A]/30 decoration-2 underline-offset-4">{{ isServiceProvider ? 'Hair Styling' : 'Shawarma' }}</span> more than usual.
           </p>
           <div class="mt-8 relative z-10">
-            <button class="px-6 py-2.5 bg-gray-50 border border-gray-100 text-gray-900 rounded-xl text-sm font-bold hover:bg-gray-100 transition-all">Quick Promo</button>
+            <button class="px-6 py-2.5 bg-gray-50 border border-gray-100 text-gray-900 rounded-md text-sm font-bold hover:bg-gray-100 transition-all">Quick Promo</button>
           </div>
         </div>
       </div>

@@ -1,8 +1,8 @@
 <template>
   <div class="min-h-screen w-full bg-white sm:bg-gray-50 flex items-center justify-center p-6 relative overflow-hidden">
     <!-- Ambient Background -->
-    <div class="absolute top-0 left-0 w-[600px] h-[600px] bg-parentPrimary/10 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2"></div>
-    <div class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px] translate-x-1/2 translate-y-1/2"></div>
+    <div class="absolute top-0 left-0 w-[600px] h-[600px] bg-parentPrimary/10 rounded-md blur-[120px] -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-indigo-500/10 rounded-md blur-[120px] translate-x-1/2 translate-y-1/2"></div>
 
     <div class="w-full max-w-[420px] relative z-10">
       <!-- Back to Login -->
@@ -14,10 +14,10 @@
       <div class="w-full">
         <!-- Header -->
         <div class="text-center mb-10">
-          <div class="inline-flex items-center justify-center w-16 h-16 rounded-[1.5rem] bg-parentPrimary/10 text-parentPrimary mb-6 shadow-inner">
+          <div class="inline-flex items-center justify-center w-16 h-16 rounded-md bg-parentPrimary/10 text-parentPrimary mb-6">
             <KeyRound class="w-8 h-8" />
           </div>
-          <h1 class="text-3xl font-medium text-gray-900 tracking-tight mb-2">Forgot Password</h1>
+          <h1 class="text-2xl font-medium text-gray-900 tracking-tight mb-2">Forgot Password</h1>
           <p class="text-gray-500 font-medium text-sm">Enter your email to receive a password reset code</p>
         </div>
 
@@ -33,14 +33,14 @@
           />
 
           <transition name="fade">
-            <div v-if="error" class="flex items-center gap-2 p-4 bg-red-50 border border-red-100 rounded-2xl text-[13px] font-bold text-red-600">
+            <div v-if="error" class="flex items-center gap-2 p-4 bg-red-50 border border-red-100 rounded-md text-[13px] font-bold text-red-600">
               <AlertCircle class="w-4 h-4 shrink-0" />
               {{ error }}
             </div>
           </transition>
 
           <button type="submit" :disabled="loading"
-            class="w-full py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-medium text-base transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 group active:scale-[0.98]">
+            class="w-full py-2 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-md font-medium text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group active:scale-[0.98]">
             <Loader2 v-if="loading" class="animate-spin w-5 h-5" />
             <span v-else>Send Code</span>
             <ArrowRight v-if="!loading" class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -58,7 +58,7 @@
       
       <div class="mt-8 text-center flex items-center justify-center gap-4 text-sm font-bold text-gray-400">
         <p>&copy; {{ new Date().getFullYear() }} Erranders</p>
-        <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+        <span class="w-1 h-1 bg-gray-300 rounded-md"></span>
         <NuxtLink to="/terms" class="hover:text-gray-600 transition-colors">Terms & Privacy</NuxtLink>
       </div>
     </div>

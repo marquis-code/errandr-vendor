@@ -3,10 +3,10 @@
  <!-- Header with Search & Stats -->
  <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pt-6">
  <div class="space-y-1">
- <h1 class="text-2xl font-bold text-gray-900 tracking-tight sm:text-3xl">Live Pipeline</h1>
- <p class="text-sm text-gray-400 font-medium  flex items-center gap-2">
+ <h1 class="text-xl font-bold text-gray-900 tracking-tight sm:text-2xl">Live Pipeline</h1>
+ <p class="text-sm text-gray-400 font-medium flex items-center gap-2">
  Monitor and fulfill your active campus orders. 
- <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-sm font-bold bg-amber-50 text-amber-600 ">
+ <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-sm font-bold bg-amber-50 text-amber-600">
  {{ orders.length }} Pending
  </span>
  </p>
@@ -19,7 +19,7 @@
  v-model="searchQuery"
  type="text" 
  placeholder="Find order or customer..." 
- class="w-full pl-11 pr-4 py-3 bg-white border border-gray-50 rounded-xl text-sm font-medium placeholder:text-gray-300 focus:ring-4 focus:ring-[#FF5C1A]/5 focus:border-[#FF5C1A]/30 outline-none transition-all shadow-sm"
+ class="w-full pl-11 pr-4 py-3 bg-white border border-gray-50 rounded-md text-sm font-medium placeholder:text-gray-300 focus:ring-4 focus:ring-[#FF5C1A]/5 focus:border-[#FF5C1A]/30 outline-none transition-all"
  />
  </div>
  </div>
@@ -31,35 +31,35 @@
  v-for="filter in statusFilters"
  :key="filter.key"
  @click="activeFilter = filter.key"
- class="shrink-0 px-4 py-2 rounded-xl text-sm font-bold  transition-all border"
- :class="activeFilter === filter.key ? 'bg-gray-900 text-white shadow-lg' : 'bg-white text-gray-400 hover:text-gray-600 shadow-sm'"
+ class="shrink-0 px-4 py-2 rounded-md text-sm font-bold transition-all border"
+ :class="activeFilter === filter.key ? 'bg-gray-900 text-white ' : 'bg-white text-gray-400 hover:text-gray-600 '"
  >
  {{ filter.label }}
  </button>
  </div>
 
  <!-- Orders Table -->
- <div class="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden min-h-[500px]">
- <UiTable 
+ <div class="bg-white rounded-md overflow-hidden min-h-[500px]">
+ <UiTable  
  :columns="orderColumns" 
  :items="filteredOrders" 
  :loading="loading"
  empty-title="No orders found"
  empty-subtitle="Orders will appear here once students place them."
- >
+  :has-actions="true">
  <template #orderId="{ item }">
  <div class="flex items-center gap-3">
- <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-sm shrink-0 shadow-inner">
+ <div class="w-8 h-8 rounded-md bg-gray-50 flex items-center justify-center text-sm shrink-0">
  {{ (item as any).status === 'pending' ? '🔔' : statusEmoji((item as any).status) }}
  </div>
- <span class="font-bold text-gray-900 text-sm  tracking-tight">#{{ (item as any).orderNumber }}</span>
+ <span class="font-bold text-gray-900 text-sm tracking-tight">#{{ (item as any).orderNumber }}</span>
  </div>
  </template>
 
  <template #customer="{ item }">
  <div>
  <p class="font-bold text-gray-900 text-sm">{{ (item as any).customer?.firstName }} {{ (item as any).customer?.lastName }}</p>
- <p class="text-sm text-gray-400 font-bold ">{{ (item as any).items?.length || 0 }} Items</p>
+ <p class="text-sm text-gray-400 font-bold">{{ (item as any).items?.length || 0 }} Items</p>
  </div>
  </template>
 
@@ -74,7 +74,7 @@
  </template>
 
  <template #time="{ item }">
- <span class="text-sm font-bold text-gray-400 ">{{ timeAgo((item as any).createdAt) }}</span>
+ <span class="text-sm font-bold text-gray-400">{{ timeAgo((item as any).createdAt) }}</span>
  </template>
 
  <template #actions="{ item }">
@@ -95,26 +95,26 @@
  <template v-if="selectedOrder">
  <div class="space-y-10 py-2">
  <!-- Status Overview -->
- <div class="flex flex-col items-center py-8 bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-gray-50/50">
- <div class="w-16 h-16 bg-white rounded-[1.5rem] flex items-center justify-center text-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-4">
+ <div class="flex flex-col items-center py-8 bg-white rounded-md border border-gray-50/50">
+ <div class="w-16 h-16 bg-white rounded-md flex items-center justify-center text-2xl mb-4">
  {{ statusEmoji(selectedOrder.status) }}
  </div>
- <p class="text-sm text-gray-400 font-bold  mb-1">Current Status</p>
- <span :class="getStatusBadge(selectedOrder.status)" class="text-sm font-bold px-4 py-1.5 rounded-xl border bg-white shadow-sm">
+ <p class="text-sm text-gray-400 font-bold mb-1">Current Status</p>
+ <span :class="getStatusBadge(selectedOrder.status)" class="text-sm font-bold px-4 py-1.5 rounded-md border bg-white">
  {{ formatStatus(selectedOrder.status) }}
  </span>
  </div>
 
  <!-- Items List -->
  <div class="space-y-4">
- <h4 class="text-sm font-medium text-gray-400  px-1">Order Items</h4>
+ <h4 class="text-sm font-medium text-gray-400 px-1">Order Items</h4>
  <div class="space-y-3">
- <div v-for="item in selectedOrder.items" :key="item._id" class="p-4 bg-white border border-gray-50 rounded-2xl flex items-center justify-between group hover:shadow-md transition-all">
+ <div v-for="item in selectedOrder.items" :key="item._id" class="p-4 bg-white border border-gray-50 rounded-md flex items-center justify-between group hover: transition-all">
  <div class="flex items-center gap-4">
  <span class="w-8 h-8 bg-gray-50 rounded-lg flex items-center justify-center text-sm font-medium text-gray-900">{{ item.quantity }}x</span>
  <div>
  <p class="text-sm font-bold text-gray-900">{{ item.name }}</p>
- <p class="text-sm text-gray-400 font-medium ">Unit Price: ₦{{ item.price?.toLocaleString() }}</p>
+ <p class="text-sm text-gray-400 font-medium">Unit Price: ₦{{ item.price?.toLocaleString() }}</p>
  </div>
  </div>
  <span class="text-sm font-bold text-gray-900">₦{{ item.subtotal?.toLocaleString() }}</span>
@@ -123,44 +123,44 @@
  </div>
 
  <!-- Total Summary -->
- <div class="p-6 bg-gray-900 rounded-3xl text-white shadow-2xl relative overflow-hidden group">
- <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-[#FF5C1A]/20 rounded-full blur-3xl" />
+ <div class="p-6 bg-gray-900 rounded-md text-white relative overflow-hidden group">
+ <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-[#FF5C1A]/20 rounded-md blur-3xl" />
  <div class="relative z-10 flex justify-between items-end">
  <div>
- <p class="text-sm font-bold text-white/40  mb-1">Total Payout</p>
- <h3 class="text-3xl font-bold tracking-tight">₦{{ selectedOrder.total?.toLocaleString() }}</h3>
+ <p class="text-sm font-bold text-white/40 mb-1">Total Payout</p>
+ <h3 class="text-2xl font-bold tracking-tight">₦{{ selectedOrder.total?.toLocaleString() }}</h3>
  </div>
  <div class="text-right">
- <p class="text-sm font-bold text-white/40  mb-1">Earnings</p>
+ <p class="text-sm font-bold text-white/40 mb-1">Earnings</p>
  <p class="text-lg font-bold">₦{{ (selectedOrder.total * 0.9).toLocaleString() }}</p>
  </div>
  </div>
  </div>
 
- <div class="p-6 bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-gray-50/50 flex flex-col gap-4">
+ <div class="p-6 bg-white rounded-md border border-gray-50/50 flex flex-col gap-4">
  <div class="flex items-center gap-4">
- <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center font-bold text-[#FF5C1A] shadow-inner">
+ <div class="w-12 h-12 rounded-md bg-white flex items-center justify-center font-bold text-[#FF5C1A]">
  {{ selectedOrder.customer?.firstName?.[0] }}{{ selectedOrder.customer?.lastName?.[0] }}
  </div>
  <div class="flex-1">
  <p class="text-sm font-bold text-gray-900">{{ selectedOrder.customer?.firstName }} {{ selectedOrder.customer?.lastName }}</p>
- <p class="text-sm text-gray-500 font-medium ">Ordered {{ timeAgo(selectedOrder.createdAt) }}</p>
+ <p class="text-sm text-gray-500 font-medium">Ordered {{ timeAgo(selectedOrder.createdAt) }}</p>
  </div>
  <button 
  @click="openChat(selectedOrder.customer?._id, selectedOrder.customer?.firstName + ' ' + selectedOrder.customer?.lastName, selectedOrder.customer?.avatar)"
- class="p-3 bg-[#FF5C1A]/5 text-[#FF5C1A] rounded-xl hover:bg-[#FF5C1A] hover:text-white transition-all shadow-sm border border-[#FF5C1A]/10"
+ class="p-3 bg-[#FF5C1A]/5 text-[#FF5C1A] rounded-md hover:bg-[#FF5C1A] hover:text-white transition-all border border-[#FF5C1A]/10"
  >
  <MessageSquare class="w-4 h-4" />
  </button>
  </div>
 
  <div v-if="selectedOrder.errander" class="pt-4 border-t border-gray-50 flex items-center gap-4">
- <div class="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-sm font-bold text-indigo-600">
+ <div class="w-10 h-10 rounded-md bg-indigo-50 flex items-center justify-center text-sm font-bold text-indigo-600">
  {{ selectedOrder.errander?.firstName?.[0] }}
  </div>
  <div class="flex-1">
  <p class="text-sm font-bold text-gray-900">{{ selectedOrder.errander?.firstName }} (Rider)</p>
- <p class="text-sm text-gray-400 font-medium ">Assigned Delivery Agent</p>
+ <p class="text-sm text-gray-400 font-medium">Assigned Delivery Agent</p>
  </div>
  <button 
  @click="openChat(selectedOrder.errander?._id, selectedOrder.errander?.firstName + ' (Rider)', selectedOrder.errander?.avatar)"
@@ -179,7 +179,7 @@
  v-if="['pending', 'confirmed'].includes(selectedOrder.status)" 
  @click="updateStatus(selectedOrder._id, 'preparing')" 
  :disabled="updatingOrderId === selectedOrder._id"
- class="w-full py-4 bg-gray-900 text-white rounded-2xl text-sm font-medium  hover:bg-black active:scale-95 transition-all shadow-xl shadow-black/10 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+ class="w-full py-2 bg-gray-900 text-white rounded-md text-sm font-medium hover:bg-black active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
  >
  <component :is="updatingOrderId === selectedOrder._id ? 'Loader2' : 'Clock'" :class="[updatingOrderId === selectedOrder._id ? 'animate-spin' : '', 'w-4 h-4']" />
  {{ updatingOrderId === selectedOrder._id ? 'UPDATING...' : 'START PREPARING' }}
@@ -188,13 +188,13 @@
  v-if="selectedOrder.status === 'preparing'" 
  @click="updateStatus(selectedOrder._id, 'ready_for_pickup')" 
  :disabled="updatingOrderId === selectedOrder._id"
- class="w-full py-4 bg-[#FF5C1A] text-white rounded-2xl text-sm font-medium  hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-[#FF5C1A]/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+ class="w-full py-2 bg-[#FF5C1A] text-white rounded-md text-sm font-medium hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
  >
  <component :is="updatingOrderId === selectedOrder._id ? 'Loader2' : 'Package'" :class="[updatingOrderId === selectedOrder._id ? 'animate-spin' : '', 'w-4 h-4']" />
  {{ updatingOrderId === selectedOrder._id ? 'UPDATING...' : 'READY FOR PICKUP' }}
  </button>
  
- <button @click="selectedOrder = null" class="w-full py-4 bg-white border border-gray-100 text-gray-400 text-sm font-medium  rounded-2xl hover:bg-gray-50 transition-all">
+ <button @click="selectedOrder = null" class="w-full py-2 bg-white border border-gray-100 text-gray-400 text-sm font-medium rounded-md hover:bg-gray-50 transition-all">
  Close Details
  </button>
  </div>

@@ -3,20 +3,20 @@
  <div v-if="isOpen" class="fixed inset-0 z-[200] flex items-center justify-center p-4">
  <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-md transition-opacity" @click="$emit('cancel')"></div>
  
- <div class="relative bg-white rounded-[2.5rem] shadow-2xl max-w-md w-full overflow-hidden transform transition-all group border border-white">
+ <div class="relative bg-white rounded-[2.5rem] max-w-md w-full overflow-hidden transform transition-all group border border-white">
  <div class="p-10 text-center">
- <div :class="variantClass" class="w-20 h-20 rounded-[2rem] flex items-center justify-center mx-auto mb-8 shadow-inner border border-white transition-transform group-hover:scale-110">
+ <div :class="variantClass" class="w-20 h-20 rounded-md flex items-center justify-center mx-auto mb-8 border border-white transition-transform group-hover:scale-110">
  <component :is="icon || (variant === 'danger' ? 'AlertTriangle' : 'HelpCircle')" class="w-10 h-10" />
  </div>
  
- <h3 class="text-2xl font-medium text-gray-900 tracking-tight leading-none mb-3">{{ title }}</h3>
+ <h3 class="text-xl font-medium text-gray-900 tracking-tight leading-none mb-3">{{ title }}</h3>
  <p class="text-gray-500 font-medium leading-relaxed px-4">{{ message }}</p>
  </div>
  
  <div class="p-8 bg-gray-50/50 flex flex-col sm:flex-row gap-4 border-t border-gray-100">
  <button 
  type="button" 
- class="flex-1 py-4 px-6 bg-white border border-gray-100 text-gray-400 text-sm font-medium  rounded-2xl hover:bg-gray-100 hover:text-gray-900 transition-all active:scale-95 shadow-sm"
+ class="flex-1 py-2 px-6 bg-white border border-gray-100 text-gray-400 text-sm font-medium rounded-md hover:bg-gray-100 hover:text-gray-900 transition-all active:scale-95"
  @click="$emit('cancel')"
  >
  Go Back
@@ -24,7 +24,7 @@
  <button 
  type="button" 
  :class="confirmBtnClass"
- class="flex-1 py-4 px-6 text-sm font-medium  rounded-2xl shadow-lg transition-all active:scale-95"
+ class="flex-1 py-2 px-6 text-sm font-medium rounded-md transition-all active:scale-95"
  @click="$emit('confirm')"
  >
  {{ confirmText || 'Proceed' }}
@@ -61,10 +61,10 @@ const variantClass = computed(() => {
 
 const confirmBtnClass = computed(() => {
  switch (props.variant) {
- case 'danger': return 'bg-red-500 text-white hover:bg-red-600 shadow-red-200';
- case 'warning': return 'bg-parentPrimary text-white hover:opacity-90 shadow-secondary';
- case 'success': return 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-emerald-200';
- default: return 'bg-parentPrimary text-white hover:bg-accent shadow-blue-100';
+ case 'danger': return 'bg-red-500 text-white hover:bg-red-600 ';
+ case 'warning': return 'bg-parentPrimary text-white hover:opacity-90 ';
+ case 'success': return 'bg-emerald-600 text-white hover:bg-emerald-700 ';
+ default: return 'bg-parentPrimary text-white hover:bg-accent ';
  }
 });
 </script>

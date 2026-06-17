@@ -10,7 +10,7 @@
       type="text"
       :placeholder="placeholder"
     />
-    <ul v-if="showDropdown && suggestions.length" class="absolute bg-white border w-full z-50 max-h-60 overflow-y-auto mt-1 rounded shadow">
+    <ul v-if="showDropdown && suggestions.length" class="absolute bg-white border w-full z-50 max-h-60 overflow-y-auto mt-1 rounded">
       <li
         v-for="suggestion in suggestions"
         :key="suggestion.place_id"

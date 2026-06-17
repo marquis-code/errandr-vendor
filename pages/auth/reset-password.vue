@@ -1,8 +1,8 @@
 <template>
   <div class="min-h-screen w-full bg-white sm:bg-gray-50 flex items-center justify-center p-6 relative overflow-hidden">
     <!-- Ambient Background -->
-    <div class="absolute top-0 left-0 w-[600px] h-[600px] bg-parentPrimary/10 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2"></div>
-    <div class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px] translate-x-1/2 translate-y-1/2"></div>
+    <div class="absolute top-0 left-0 w-[600px] h-[600px] bg-parentPrimary/10 rounded-md blur-[120px] -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-indigo-500/10 rounded-md blur-[120px] translate-x-1/2 translate-y-1/2"></div>
 
     <div class="w-full max-w-[420px] relative z-10">
       <!-- Back Link -->
@@ -18,10 +18,10 @@
         <!-- STEP 1: OTP Verification Screen -->
         <div v-if="currentStep === 'otp'" class="space-y-6">
           <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-[1.5rem] bg-parentPrimary/10 text-parentPrimary mb-6 shadow-inner">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-md bg-parentPrimary/10 text-parentPrimary mb-6">
               <MailCheck class="w-8 h-8" />
             </div>
-            <h1 class="text-3xl font-medium text-gray-900 tracking-tight mb-2">Verify Identity</h1>
+            <h1 class="text-2xl font-medium text-gray-900 tracking-tight mb-2">Verify Identity</h1>
             <p class="text-gray-500 font-medium text-sm leading-relaxed">
               We sent a 6-digit security code to <br />
               <span class="text-gray-900 font-bold">{{ email }}</span>
@@ -41,12 +41,12 @@
               type="text" 
               maxlength="1" 
               inputmode="numeric" 
-              class="w-12 h-14 text-center text-2xl font-medium bg-gray-50 border border-gray-200 rounded-xl focus:border-[#FF5C1A] focus:ring-4 focus:ring-[#FF5C1A]/10 outline-none transition-all" 
+              class="w-12 h-14 text-center text-xl font-medium bg-gray-50 border border-gray-200 rounded-md focus:border-[#FF5C1A] focus:ring-4 focus:ring-[#FF5C1A]/10 outline-none transition-all" 
             />
           </div>
 
           <transition name="fade">
-            <div v-if="error" class="flex items-center gap-2 p-4 bg-red-50 border border-red-100 rounded-2xl text-[13px] font-bold text-red-600">
+            <div v-if="error" class="flex items-center gap-2 p-4 bg-red-50 border border-red-100 rounded-md text-[13px] font-bold text-red-600">
               <AlertCircle class="w-4 h-4 shrink-0" />
               {{ error }}
             </div>
@@ -55,7 +55,7 @@
           <button 
             @click="handleVerifyOTP" 
             :disabled="loading || otpDigits.join('').length < 6"
-            class="w-full py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-medium text-base transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 group active:scale-[0.98]"
+            class="w-full py-2 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-md font-medium text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group active:scale-[0.98]"
           >
             <Loader2 v-if="loading" class="animate-spin w-5 h-5" />
             <span v-else>Verify Reset Code</span>
@@ -81,10 +81,10 @@
         <!-- STEP 2: Password Reset Screen -->
         <div v-else-if="currentStep === 'password'" class="space-y-6 animate-fade-in">
           <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-[1.5rem] bg-emerald-50 text-emerald-600 mb-6 shadow-inner">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-md bg-emerald-50 text-emerald-600 mb-6">
               <LockKeyhole class="w-8 h-8" />
             </div>
-            <h1 class="text-3xl font-medium text-gray-900 tracking-tight mb-2">New Password</h1>
+            <h1 class="text-2xl font-medium text-gray-900 tracking-tight mb-2">New Password</h1>
             <p class="text-gray-500 font-medium text-sm">Create a strong password to secure your account</p>
           </div>
 
@@ -108,7 +108,7 @@
             />
 
             <transition name="fade">
-              <div v-if="error" class="flex items-center gap-2 p-4 bg-red-50 border border-red-100 rounded-2xl text-[13px] font-bold text-red-600">
+              <div v-if="error" class="flex items-center gap-2 p-4 bg-red-50 border border-red-100 rounded-md text-[13px] font-bold text-red-600">
                 <AlertCircle class="w-4 h-4 shrink-0" />
                 {{ error }}
               </div>
@@ -117,7 +117,7 @@
             <button 
               type="submit" 
               :disabled="loading"
-              class="w-full py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-medium text-base transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 group active:scale-[0.98]"
+              class="w-full py-2 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-md font-medium text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group active:scale-[0.98]"
             >
               <Loader2 v-if="loading" class="animate-spin w-5 h-5" />
               <span v-else>Set New Password</span>
@@ -130,7 +130,7 @@
       <!-- Copy info -->
       <div class="mt-8 text-center flex items-center justify-center gap-4 text-sm font-bold text-gray-400">
         <p>&copy; {{ new Date().getFullYear() }} Erranders</p>
-        <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+        <span class="w-1 h-1 bg-gray-300 rounded-md"></span>
         <NuxtLink to="/terms" class="hover:text-gray-600 transition-colors">Terms & Privacy</NuxtLink>
       </div>
     </div>

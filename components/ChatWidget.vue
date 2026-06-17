@@ -4,13 +4,9 @@
  <Transition name="fade">
  <div
  v-if="isOpen"
- :class="[
- 'max-h-[75vh] bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden flex flex-col',
- 'w-[520px] sm:w-[600px] md:w-[700px]',
- isMobile() ? 'fixed inset-0 w-screen h-screen max-h-none rounded-none z-[999999]' : ''
- ]"
+ :class="[ 'max-h-[75vh] bg-white rounded-md border border-gray-100 overflow-hidden flex flex-col', 'w-[520px] sm:w-[600px] md:w-[700px]', isMobile ? 'fixed inset-0 w-screen h-screen max-h-none rounded-none z-[999999]' : '' ]"
  >
- <div class="flex items-center justify-between px-5 py-4 bg-[#FF5C1A] text-white shadow-md relative z-10">
+ <div class="flex items-center justify-between px-5 py-4 bg-[#FF5C1A] text-white relative z-10">
  <div>
  <p class="text-sm font-semibold">Chat with us</p>
  <p class="text-sm text-white/70">
@@ -19,7 +15,7 @@
  </div>
  <button
  @click="isOpen = false"
- class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 transition"
+ class="w-8 h-8 rounded-md flex items-center justify-center hover:bg-white/10 transition"
  >
  <X class="w-4 h-4" />
  </button>
@@ -47,7 +43,7 @@
  />
  <button
  @click="startChat"
- class="w-full rounded-xl bg-[#FF5C1A] hover:bg-[#E54D12] text-white py-2 text-sm font-semibold transition-colors"
+ class="w-full rounded-md bg-[#FF5C1A] hover:bg-[#E54D12] text-white py-2 text-sm font-semibold transition-colors"
  >
  Start chat
  </button>
@@ -56,13 +52,13 @@
  <div ref="messageContainer" class="flex-1 overflow-y-auto px-4 py-4 space-y-4 bg-gray-50">
  <!-- FAQs Section -->
  <div v-if="faqs.length > 0 && messages.length === 0" class="space-y-2">
- <p class="text-sm font-medium text-gray-500 ">Frequently Asked Questions</p>
+ <p class="text-sm font-medium text-gray-500">Frequently Asked Questions</p>
  <div class="space-y-2">
  <button
  v-for="faq in faqs.slice(0, 5)"
  :key="faq._id"
  @click="handleFaqClick(faq)"
- class="w-full text-left px-3 py-2.5 bg-white border border-gray-200 rounded-xl text-sm text-gray-700 hover:bg-gray-100 hover:border-gray-300 transition-all"
+ class="w-full text-left px-3 py-2.5 bg-white border border-gray-200 rounded-md text-sm text-gray-700 hover:bg-gray-100 hover:border-gray-300 transition-all"
  >
  {{ faq.question }}
  </button>
@@ -84,7 +80,7 @@
  }"
  >
  <div
- class="max-w-[85%] rounded-2xl px-5 py-3 text-sm shadow-sm"
+ class="max-w-[85%] rounded-md px-5 py-3 text-sm"
  :class="getBubbleStyle(message)"
  >
  <p class="text-[12px] font-semibold mb-1" :class="getBubbleLabelStyle(message)" v-if="showSenderLabel(message)">
@@ -96,7 +92,7 @@
  </p>
  </div>
  </div>
- <div v-if="isTyping" class="text-sm text-gray-500 ">Someone is typing...</div>
+ <div v-if="isTyping" class="text-sm text-gray-500">Someone is typing...</div>
  </div>
 
  <div class="border-t border-gray-100 px-3 py-3 bg-white">
@@ -105,7 +101,7 @@
  v-model="newMessage"
  type="text"
  placeholder="Type your message..."
- class="flex-1 rounded-full border border-gray-200 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF5C1A]/20 focus:border-[#FF5C1A]"
+ class="flex-1 rounded-md border border-gray-200 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF5C1A]/20 focus:border-[#FF5C1A]"
  @input="handleTyping"
  @keyup.enter="handleSend"
  :disabled="isGuest && needsGuestInfo"
@@ -113,7 +109,7 @@
  <button
  @click="handleSend"
  :disabled="sending || !newMessage.trim() || (isGuest && needsGuestInfo)"
- class="w-10 h-10 rounded-full bg-[#FF5C1A] hover:bg-[#E54D12] text-white flex items-center justify-center disabled:opacity-50 transition-colors"
+ class="w-10 h-10 rounded-md bg-[#FF5C1A] hover:bg-[#E54D12] text-white flex items-center justify-center disabled:opacity-50 transition-colors"
  >
  <ArrowRight class="w-4 h-4" />
  </button>
@@ -124,7 +120,7 @@
 
  <button
  @click="toggleChat"
- class="w-14 h-14 rounded-full bg-[#FF5C1A] hover:bg-[#E54D12] text-white shadow-xl shadow-[#FF5C1A]/30 flex items-center justify-center hover:scale-105 transition"
+ class="w-14 h-14 rounded-md bg-[#FF5C1A] hover:bg-[#E54D12] text-white flex items-center justify-center hover:scale-105 transition"
  aria-label="Open chat"
  >
  <MessageSquare class="w-8 h-8" />

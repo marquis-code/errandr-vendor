@@ -3,12 +3,12 @@
     <!-- Header -->
     <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pt-6">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900 tracking-tight mb-1">Promotional Banners</h1>
+        <h1 class="text-xl font-bold text-gray-900 tracking-tight mb-1">Promotional Banners</h1>
         <p class="text-gray-500 text-sm">Upload banners to advertise special offers and discounts to students.</p>
       </div>
       <button
         @click="showAddModal = true"
-        class="px-5 py-2.5 bg-gray-900 text-white rounded-xl text-sm font-bold shadow-md hover:bg-parentPrimary transition-colors flex items-center gap-2"
+        class="px-5 py-2.5 bg-gray-900 text-white rounded-md text-sm font-bold hover:bg-parentPrimary transition-colors flex items-center gap-2"
       >
         <Plus class="w-4 h-4" /> Create Banner
       </button>
@@ -16,36 +16,36 @@
 
     <!-- Active Banners Grid -->
     <div v-if="loading" class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-      <div v-for="i in 2" :key="i" class="h-48 bg-white rounded-3xl border border-gray-100 animate-pulse" />
+      <div v-for="i in 2" :key="i" class="h-48 bg-white rounded-md border border-gray-100 animate-pulse" />
     </div>
 
-    <div v-else-if="banners.length === 0" class="text-center py-20 bg-white rounded-3xl border border-gray-50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mt-8">
-      <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center text-4xl mx-auto mb-4 border border-gray-100">
+    <div v-else-if="banners.length === 0" class="text-center py-20 bg-white rounded-md border border-gray-50 mt-8">
+      <div class="w-20 h-20 bg-gray-50 rounded-md flex items-center justify-center text-4xl mx-auto mb-4 border border-gray-100">
         <Megaphone class="w-8 h-8 text-gray-400" />
       </div>
       <h3 class="text-lg font-bold text-gray-900 mb-2">No active promotions</h3>
       <p class="text-sm text-gray-400 max-w-sm mx-auto mb-6">Create eye-catching banners to notify students about deals, new items, and discounts.</p>
-      <button @click="showAddModal = true" class="px-6 py-3 bg-gray-900 text-white rounded-xl text-sm font-bold shadow-md hover:bg-parentPrimary transition-colors">
+      <button @click="showAddModal = true" class="px-6 py-2 bg-gray-900 text-white rounded-md text-sm font-bold hover:bg-parentPrimary transition-colors">
         Create Your First Banner
       </button>
     </div>
 
-    <div v-else class="mt-8 bg-white rounded-2xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden">
+    <div v-else class="mt-8 bg-white rounded-md border border-gray-100 overflow-hidden">
       <div class="overflow-x-auto min-h-[300px]">
         <table class="w-full text-left border-collapse">
           <thead>
             <tr class="bg-gray-50/50 border-b border-gray-100/80">
-              <th class="px-6 py-4 text-sm font-medium  text-gray-400 uppercase">Banner</th>
-              <th class="px-6 py-4 text-sm font-medium  text-gray-400 uppercase">Promotion info</th>
-              <th class="px-6 py-4 text-sm font-medium  text-gray-400 uppercase">Target Link</th>
-              <th class="px-6 py-4 text-sm font-medium  text-gray-400 uppercase">Status</th>
-              <th class="px-6 py-4 text-sm font-medium  text-gray-400 uppercase text-right">Actions</th>
+              <th class="px-6 py-4 text-sm font-medium text-gray-400 uppercase">Banner</th>
+              <th class="px-6 py-4 text-sm font-medium text-gray-400 uppercase">Promotion info</th>
+              <th class="px-6 py-4 text-sm font-medium text-gray-400 uppercase">Target Link</th>
+              <th class="px-6 py-4 text-sm font-medium text-gray-400 uppercase">Status</th>
+              <th class="px-6 py-4 text-sm font-medium text-gray-400 uppercase text-right">Actions</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-50">
             <tr v-for="(banner, index) in banners" :key="index" class="hover:bg-gray-50/50 transition-colors group">
               <td class="px-6 py-4 w-48">
-                <div class="h-16 w-32 rounded-lg bg-gray-100 relative overflow-hidden shadow-sm border border-gray-100">
+                <div class="h-16 w-32 rounded-lg bg-gray-100 relative overflow-hidden border border-gray-100">
                   <img v-if="banner.image" :src="banner.image" class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                   <div v-else class="w-full h-full flex items-center justify-center text-gray-400">
                     <ImageIcon class="w-4 h-4 opacity-50" />
@@ -59,26 +59,26 @@
                 </div>
               </td>
               <td class="px-6 py-4">
-                <div v-if="banner.productId" class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-purple-50 text-purple-600 rounded-md text-sm font-medium  border border-purple-100">
+                <div v-if="banner.productId" class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-purple-50 text-purple-600 rounded-md text-sm font-medium border border-purple-100">
                   PRODUCT LINKED
                 </div>
-                <div v-else class="flex items-center text-sm font-bold text-parentPrimary  truncate max-w-[150px]">
+                <div v-else class="flex items-center text-sm font-bold text-parentPrimary truncate max-w-[150px]">
                   <LinkIcon class="w-3 h-3 mr-1.5 shrink-0" />
                   {{ banner.link || 'Internal Promotion' }}
                 </div>
               </td>
               <td class="px-6 py-4">
-                <span :class="banner.isActive ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-gray-50 text-gray-500 border border-gray-200'" class="px-2.5 py-1 rounded-md text-sm font-medium  shadow-sm inline-block">
+                <span :class="banner.isActive ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-gray-50 text-gray-500 border border-gray-200'" class="px-2.5 py-1 rounded-md text-sm font-medium inline-block">
                   {{ banner.isActive ? 'LIVE' : 'HIDDEN' }}
                 </span>
               </td>
               <td class="px-6 py-4 text-right">
                 <div class="flex items-center justify-end gap-2">
-                  <button @click="toggleBannerStatus(index)" :class="banner.isActive ? 'text-gray-400 hover:text-gray-900 border-transparent hover:border-gray-200 bg-white' : 'text-parentPrimary border-parentPrimary/20 bg-parentPrimary/5 hover:bg-parentPrimary hover:text-white'" class="w-8 h-8 rounded-lg flex items-center justify-center transition-all border shadow-sm">
+                  <button @click="toggleBannerStatus(index)" :class="banner.isActive ? 'text-gray-400 hover:text-gray-900 border-transparent hover:border-gray-200 bg-white' : 'text-parentPrimary border-parentPrimary/20 bg-parentPrimary/5 hover:bg-parentPrimary hover:text-white'" class="w-8 h-8 rounded-lg flex items-center justify-center transition-all border">
                     <EyeOff v-if="banner.isActive" class="w-4 h-4" />
                     <Eye v-else class="w-4 h-4" />
                   </button>
-                  <button @click="removeBanner(index)" class="w-8 h-8 rounded-lg text-rose-400 hover:text-white hover:bg-rose-500 hover:border-rose-500 border border-transparent flex items-center justify-center transition-all bg-rose-50/50 hover:shadow-md">
+                  <button @click="removeBanner(index)" class="w-8 h-8 rounded-lg text-rose-400 hover:text-white hover:bg-rose-500 hover:border-rose-500 border border-transparent flex items-center justify-center transition-all bg-rose-50/50 hover:">
                     <Trash2 class="w-4 h-4" />
                   </button>
                 </div>
@@ -94,8 +94,8 @@
       <div class="space-y-6">
         <!-- Image Upload Area -->
         <div>
-          <label class="block text-sm font-bold text-gray-700  mb-2">Banner Image</label>
-          <div class="relative w-full h-40 rounded-2xl border border-dashed border-gray-200 hover:border-parentPrimary bg-gray-50 flex items-center justify-center cursor-pointer overflow-hidden transition-colors group">
+          <label class="block text-sm font-bold text-gray-700 mb-2">Banner Image</label>
+          <div class="relative w-full h-40 rounded-md border border-dashed border-gray-200 hover:border-parentPrimary bg-gray-50 flex items-center justify-center cursor-pointer overflow-hidden transition-colors group">
             <template v-if="form.image">
               <img :src="form.image" class="w-full h-full object-cover" />
               <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -104,7 +104,7 @@
             </template>
             <template v-else>
               <div class="text-center p-6">
-                <div class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center mx-auto mb-3 text-gray-400 group-hover:text-parentPrimary transition-colors">
+                <div class="w-12 h-12 rounded-md bg-white flex items-center justify-center mx-auto mb-3 text-gray-400 group-hover:text-parentPrimary transition-colors">
                   <Upload class="w-5 h-5" />
                 </div>
                 <p class="text-sm font-bold text-gray-600">Click to upload banner</p>
@@ -114,7 +114,7 @@
             <input type="file" required accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" @change="handleFileUpload" />
             <div v-if="uploading" class="absolute inset-0 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center gap-3">
               <Loader2 class="w-6 h-6 animate-spin text-parentPrimary" />
-              <span class="text-sm font-bold  text-gray-900">UPLOADING...</span>
+              <span class="text-sm font-bold text-gray-900">UPLOADING...</span>
             </div>
           </div>
         </div>
@@ -124,8 +124,8 @@
         
         <!-- Product Link -->
         <div>
-          <label class="block text-sm font-bold text-gray-700  mb-2">Related Product (Optional)</label>
-          <select v-model="form.productId" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium focus:outline-none focus:border-parentPrimary focus:ring-1 focus:ring-parentPrimary transition-colors appearance-none">
+          <label class="block text-sm font-bold text-gray-700 mb-2">Related Product (Optional)</label>
+          <select v-model="form.productId" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-md text-sm font-medium focus:outline-none focus:border-parentPrimary focus:ring-1 focus:ring-parentPrimary transition-colors appearance-none">
             <option value="">No specific product (General Store Promo)</option>
             <option v-for="p in products" :key="p._id" :value="p._id">
               {{ p.name }} - ₦{{ p.price }}
@@ -138,7 +138,7 @@
         <button 
           @click="addBanner" 
           :disabled="!form.image || !form.title || saving"
-          class="w-full py-4 bg-gray-900 text-white rounded-xl text-sm font-bold  disabled:opacity-50 disabled:cursor-not-allowed hover:bg-parentPrimary transition-colors shadow-lg flex items-center justify-center gap-2"
+          class="w-full py-2 bg-gray-900 text-white rounded-md text-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-parentPrimary transition-colors flex items-center justify-center gap-2"
         >
           <Loader2 v-if="saving" class="w-4 h-4 animate-spin shrink-0" />
           <span v-else>PUBLISH BANNER</span>

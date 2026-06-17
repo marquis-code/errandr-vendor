@@ -2,8 +2,8 @@
   <div class="min-h-screen w-full bg-white flex items-center justify-center px-4 py-12 relative">
     <!-- Ambient Background -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
-      <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-parentPrimary/10 rounded-full blur-[120px] translate-x-1/4 -translate-y-1/4"></div>
-      <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px] -translate-x-1/4 translate-y-1/4"></div>
+      <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-parentPrimary/10 rounded-md blur-[120px] translate-x-1/4 -translate-y-1/4"></div>
+      <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-500/10 rounded-md blur-[120px] -translate-x-1/4 translate-y-1/4"></div>
     </div>
 
     <div class="w-full max-w-[500px] relative z-10">
@@ -12,10 +12,10 @@
       <transition name="fade" mode="out-in">
         <div v-if="currentStep !== 'success'" class="text-center mb-8">
           <!-- <img src="@/assets/img/logo-light.png" alt="" class="w-[200px] mx-auto" /> -->
-          <span class="text-2xl font-medium text-black tracking-tight hidden sm:block transition-colors">
+          <span class="text-xl font-medium text-black tracking-tight hidden sm:block transition-colors">
             Erranders<span class="text-parentPrimary">.</span>
           </span>
-          <h1 class="text-3xl font-medium text-gray-900 tracking-tight mb-2">Open Your Store</h1>
+          <h1 class="text-2xl font-medium text-gray-900 tracking-tight mb-2">Open Your Store</h1>
           <p class="text-gray-500 font-medium text-sm">Join the campus delivery network</p>
         </div>
       </transition>
@@ -23,11 +23,11 @@
       <!-- Step Indicator -->
       <transition name="fade" mode="out-in">
         <div v-if="currentStep !== 'success'" class="mb-8 flex items-center justify-between relative px-6">
-        <div class="absolute left-10 right-10 top-1/2 -translate-y-1/2 h-1 bg-gray-200 rounded-full z-0"></div>
-        <div class="absolute left-10 top-1/2 -translate-y-1/2 h-1 bg-parentPrimary rounded-full z-0 transition-all duration-500" :style="{ width: progressWidth }"></div>
+        <div class="absolute left-10 right-10 top-1/2 -translate-y-1/2 h-1 bg-gray-200 rounded-md z-0"></div>
+        <div class="absolute left-10 top-1/2 -translate-y-1/2 h-1 bg-parentPrimary rounded-md z-0 transition-all duration-500" :style="{ width: progressWidth }"></div>
 
         <div v-for="s in 3" :key="s" class="relative z-10 flex flex-col items-center gap-2 bg-gray-50 p-1">
-          <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-500 shadow-sm"
+          <div class="w-8 h-8 rounded-md flex items-center justify-center text-sm font-medium transition-all duration-500"
                :class="[displayStep > s ? 'bg-parentPrimary text-white ring-4 ring-parentPrimary/20' : displayStep === s ? 'bg-white border-2 border-parentPrimary text-parentPrimary scale-110' : 'bg-white border border-gray-200 text-gray-400']">
             <Check v-if="displayStep > s" class="w-4 h-4" />
             <span v-else>{{ s }}</span>
@@ -57,10 +57,10 @@
               <UiAnimatedInput v-model="form.password" type="password" label="Password" :hasError="!!valErrors.password" :errorMessage="valErrors.password" @input="valErrors.password=''" />
               <UiAnimatedInput v-model="form.referredBy" type="text" label="Referral Code (Optional)" placeholder="Who referred you?" />
 
-              <!-- <div v-if="error" class="p-3 bg-red-50 text-red-600 text-smfont-bold rounded-xl flex items-center gap-2"><AlertCircle class="w-4 h-4 shrink-0" /> {{ error }}</div> -->
+              <!-- <div v-if="error" class="p-3 bg-red-50 text-red-600 text-smfont-bold rounded-md flex items-center gap-2"><AlertCircle class="w-4 h-4 shrink-0" /> {{ error }}</div> -->
 
               <div class="mt-auto pt-4">
-                <button type="submit" :disabled="loading" class="w-full py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-medium text-base transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 active:scale-[0.98]">
+                <button type="submit" :disabled="loading" class="w-full py-2 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-md font-medium text-sm transition-all disabled:opacity-50 flex items-center justify-center gap-2 active:scale-[0.98]">
                   <Loader2 v-if="loading" class="animate-spin w-5 h-5" />
                   <span>Continue</span>
                   <ArrowRight v-if="!loading" class="w-5 h-5" />
@@ -75,20 +75,20 @@
           <!-- OTP Step -->
           <transition name="slide-up" mode="out-in">
             <div v-if="currentStep === 'otp'" class="w-full flex flex-col items-center justify-center text-center space-y-6">
-              <div class="w-16 h-16 bg-blue-50 rounded-[1.5rem] flex items-center justify-center mx-auto mb-2 text-[#FF5C1A] shadow-inner">
+              <div class="w-16 h-16 bg-blue-50 rounded-md flex items-center justify-center mx-auto mb-2 text-[#FF5C1A]">
                 <Mail class="w-8 h-8" />
               </div>
-              <h2 class="text-2xl font-medium text-gray-900 tracking-tight">Check your inbox</h2>
+              <h2 class="text-xl font-medium text-gray-900 tracking-tight">Check your inbox</h2>
               <p class="text-gray-500 text-smfont-medium leading-relaxed">We sent a 6-digit code to <br><strong class="text-gray-900">{{ form.email }}</strong></p>
 
               <div class="flex justify-center gap-2 py-4">
-                <input v-for="(_, i) in 6" :key="i" :ref="el => { if (el) otpRefs[i] = el as HTMLInputElement }" v-model="otpDigits[i]" @input="handleOTPInput(i)" @keydown.backspace="handleOTPBackspace(i, $event)" @paste.prevent="handleOTPPaste" type="text" maxlength="1" inputmode="numeric" class="w-12 h-14 text-center text-2xl font-medium bg-gray-50 border border-gray-200 rounded-xl focus:border-[#FF5C1A] focus:ring-4 focus:ring-[#FF5C1A]/10 outline-none transition-all" />
+                <input v-for="(_, i) in 6" :key="i" :ref="el => { if (el) otpRefs[i] = el as HTMLInputElement }" v-model="otpDigits[i]" @input="handleOTPInput(i)" @keydown.backspace="handleOTPBackspace(i, $event)" @paste.prevent="handleOTPPaste" type="text" maxlength="1" inputmode="numeric" class="w-12 h-14 text-center text-xl font-medium bg-gray-50 border border-gray-200 rounded-md focus:border-[#FF5C1A] focus:ring-4 focus:ring-[#FF5C1A]/10 outline-none transition-all" />
               </div>
 
-              <!-- <div v-if="error" class="p-3 bg-red-50 text-red-600 text-smfont-bold rounded-xl flex items-center justify-center gap-2 w-full"><AlertCircle class="w-4 h-4 shrink-0" /> {{ error }}</div> -->
+              <!-- <div v-if="error" class="p-3 bg-red-50 text-red-600 text-smfont-bold rounded-md flex items-center justify-center gap-2 w-full"><AlertCircle class="w-4 h-4 shrink-0" /> {{ error }}</div> -->
 
               <div class="w-full mt-auto pt-4">
-                <button @click="verifyOTP" :disabled="verifyingOTP || otpDigits.join('').length < 6" class="w-full py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-medium text-base transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 disabled:opacity-50 active:scale-[0.98]">
+                <button @click="verifyOTP" :disabled="verifyingOTP || otpDigits.join('').length < 6" class="w-full py-2 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-md font-medium text-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50 active:scale-[0.98]">
                   <Loader2 v-if="verifyingOTP" class="animate-spin w-5 h-5" />
                   <span v-else>Verify Email</span>
                 </button>
@@ -115,17 +115,15 @@
               <!-- Use Store Name as URL toggle -->
               <div 
                 @click="useStoreNameAsUrl = !useStoreNameAsUrl; if (useStoreNameAsUrl) syncSubdomainFromStore()"
-                class="flex items-center gap-3 px-4 py-3 rounded-2xl border cursor-pointer transition-all duration-300"
-                :class="useStoreNameAsUrl 
-                  ? 'bg-[#FF5C1A]/5 border-[#FF5C1A]/30' 
-                  : 'bg-gray-50/80 border-gray-100 hover:border-gray-200'"
+                class="flex items-center gap-3 px-4 py-3 rounded-md border cursor-pointer transition-all duration-300"
+                :class="useStoreNameAsUrl ? 'bg-[#FF5C1A]/5 border-[#FF5C1A]/30' : 'bg-gray-50/80 border-gray-100 hover:border-gray-200'"
               >
                 <div 
-                  class="w-10 h-5 rounded-full relative transition-all duration-300 shrink-0"
+                  class="w-10 h-5 rounded-md relative transition-all duration-300 shrink-0"
                   :class="useStoreNameAsUrl ? 'bg-[#FF5C1A]' : 'bg-gray-200'"
                 >
                   <div 
-                    class="w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all duration-300 shadow-sm"
+                    class="w-4 h-4 bg-white rounded-md absolute top-0.5 transition-all duration-300"
                     :class="useStoreNameAsUrl ? 'left-[22px]' : 'left-0.5'"
                   ></div>
                 </div>
@@ -138,7 +136,7 @@
               <!-- Subdomain Field -->
               <div class="space-y-2">
                 <div class="relative">
-                  <div class="flex items-center border rounded-2xl overflow-hidden transition-all duration-300"
+                  <div class="flex items-center border rounded-md overflow-hidden transition-all duration-300"
                     :class="valErrors.subdomain ? 'border-red-300 bg-red-50/30' : subdomainAvailable === true ? 'border-emerald-300 bg-emerald-50/30' : subdomainAvailable === false && vendor.subdomain.length >= 3 ? 'border-red-300 bg-red-50/30' : 'border-gray-200 bg-white focus-within:border-[#FF5C1A]/40 focus-within:ring-2 focus-within:ring-[#FF5C1A]/10'"
                   >
                     <div class="pl-4 pr-2 py-3 bg-gray-50/80 border-r border-gray-100 shrink-0">
@@ -159,7 +157,7 @@
                   <!-- Availability Status -->
                   <div class="flex items-center gap-2 mt-2 min-h-[20px]">
                     <template v-if="checkingSubdomain">
-                      <div class="w-3.5 h-3.5 border-2 border-gray-200 border-t-[#FF5C1A] rounded-full animate-spin"></div>
+                      <div class="w-3.5 h-3.5 border-2 border-gray-200 border-t-[#FF5C1A] rounded-md animate-spin"></div>
                       <span class="text-xs font-bold text-gray-400">Checking availability...</span>
                     </template>
                     <template v-else-if="subdomainAvailable === true && vendor.subdomain.length >= 3">
@@ -185,8 +183,8 @@
               <UiAnimatedInput v-model="vendor.description" type="textarea" label="Store Description" :rows="2" />
 
               <div class="flex gap-3 pt-4 mt-auto">
-                <button type="button" @click="currentStep = 'otp'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-2xl font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
-                <button type="submit" class="flex-1 py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-medium text-base transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 active:scale-[0.98]">
+                <button type="button" @click="currentStep = 'otp'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-md font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
+                <button type="submit" class="flex-1 py-2 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-md font-medium text-sm transition-all flex items-center justify-center gap-2 active:scale-[0.98]">
                   Continue <ArrowRight class="w-5 h-5" />
                 </button>
               </div>
@@ -202,37 +200,37 @@
               </div>
 
               <div class="grid gap-3">
-                <div @click="vendor.businessType = 'physical_product'" class="flex items-start gap-4 p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.businessType === 'physical_product' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
-                  <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">📦</div>
+                <div @click="vendor.businessType = 'physical_product'" class="flex items-start gap-4 p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.businessType === 'physical_product' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                  <div class="w-10 h-10 rounded-md bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">📦</div>
                   <div>
                     <h3 class="text-sm font-bold text-gray-900 mb-1">Physical Products</h3>
                     <p class="text-xs text-gray-500 leading-relaxed">I sell physical items that require delivery or pickup (e.g. food, clothing, groceries).</p>
                   </div>
-                  <div class="ml-auto w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.businessType === 'physical_product' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.businessType === 'physical_product'" class="w-3 h-3 text-white" /></div>
+                  <div class="ml-auto w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.businessType === 'physical_product' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.businessType === 'physical_product'" class="w-3 h-3 text-white" /></div>
                 </div>
 
-                <div @click="vendor.businessType = 'service_provider'" class="flex items-start gap-4 p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.businessType === 'service_provider' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
-                  <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">✂️</div>
+                <div @click="vendor.businessType = 'service_provider'" class="flex items-start gap-4 p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.businessType === 'service_provider' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                  <div class="w-10 h-10 rounded-md bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">✂️</div>
                   <div>
                     <h3 class="text-sm font-bold text-gray-900 mb-1">Service Provider</h3>
                     <p class="text-xs text-gray-500 leading-relaxed">I provide services that require booking appointments (e.g. salon, spa, tutoring).</p>
                   </div>
-                  <div class="ml-auto w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.businessType === 'service_provider' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.businessType === 'service_provider'" class="w-3 h-3 text-white" /></div>
+                  <div class="ml-auto w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.businessType === 'service_provider' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.businessType === 'service_provider'" class="w-3 h-3 text-white" /></div>
                 </div>
 
-                <div @click="vendor.businessType = 'hybrid'" class="flex items-start gap-4 p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.businessType === 'hybrid' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
-                  <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">🛍️</div>
+                <div @click="vendor.businessType = 'hybrid'" class="flex items-start gap-4 p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.businessType === 'hybrid' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                  <div class="w-10 h-10 rounded-md bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">🛍️</div>
                   <div>
                     <h3 class="text-sm font-bold text-gray-900 mb-1">Hybrid (Products & Services)</h3>
                     <p class="text-xs text-gray-500 leading-relaxed">I provide services AND sell physical products (e.g. a salon selling hair cream).</p>
                   </div>
-                  <div class="ml-auto w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.businessType === 'hybrid' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.businessType === 'hybrid'" class="w-3 h-3 text-white" /></div>
+                  <div class="ml-auto w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.businessType === 'hybrid' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.businessType === 'hybrid'" class="w-3 h-3 text-white" /></div>
                 </div>
               </div>
 
               <div class="flex gap-3 pt-4 mt-auto">
-                <button type="button" @click="currentStep = 'business'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-2xl font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
-                <button type="submit" class="flex-1 py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-medium text-base transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 active:scale-[0.98]">Continue <ArrowRight class="w-5 h-5" /></button>
+                <button type="button" @click="currentStep = 'business'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-md font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
+                <button type="submit" class="flex-1 py-2 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-md font-medium text-sm transition-all flex items-center justify-center gap-2 active:scale-[0.98]">Continue <ArrowRight class="w-5 h-5" /></button>
               </div>
             </form>
           </transition>
@@ -251,7 +249,7 @@
                 <div class="relative" ref="categoryDropdownRef">
                   <div 
                     @click="showCategoryDropdown = !showCategoryDropdown"
-                    class="flex items-center flex-wrap gap-2 min-h-[48px] px-4 py-2.5 border rounded-2xl cursor-pointer transition-all duration-200 bg-white"
+                    class="flex items-center flex-wrap gap-2 min-h-[48px] px-4 py-2.5 border rounded-md cursor-pointer transition-all duration-200 bg-white"
                     :class="showCategoryDropdown ? 'border-[#FF5C1A]/40 ring-2 ring-[#FF5C1A]/10' : 'border-gray-200 hover:border-gray-300'"
                   >
                     <div v-for="cat in selectedCategories" :key="cat" class="flex items-center gap-1.5 px-2.5 py-1 bg-[#FF5C1A]/10 border border-[#FF5C1A]/20 text-[#FF5C1A] text-xs font-medium rounded-lg">
@@ -281,9 +279,9 @@
                     leave-from-class="opacity-100 translate-y-0"
                     leave-to-class="opacity-0 translate-y-1"
                   >
-                    <div v-if="showCategoryDropdown" class="absolute z-50 w-full mt-2 bg-white rounded-2xl border border-gray-100 shadow-xl shadow-gray-200/50 max-h-[220px] overflow-y-auto">
+                    <div v-if="showCategoryDropdown" class="absolute z-50 w-full mt-2 bg-white rounded-md border border-gray-100 max-h-[220px] overflow-y-auto">
                       <div v-if="filteredCategoryOptions.length === 0 && categorySearch.trim()" class="p-3">
-                        <button type="button" @click="addCustomCategory" class="w-full flex items-center gap-2 px-4 py-3 rounded-xl bg-gray-50 hover:bg-[#FF5C1A]/5 transition-all text-left">
+                        <button type="button" @click="addCustomCategory" class="w-full flex items-center gap-2 px-4 py-2 rounded-md bg-gray-50 hover:bg-[#FF5C1A]/5 transition-all text-left">
                           <div class="w-7 h-7 rounded-lg bg-[#FF5C1A]/10 text-[#FF5C1A] flex items-center justify-center"><span class="text-sm font-medium">+</span></div>
                           <span class="text-sm font-bold text-gray-700">Add "<span class="text-[#FF5C1A]">{{ categorySearch.trim() }}</span>"</span>
                         </button>
@@ -303,7 +301,7 @@
                         </div>
                       </div>
                       <div v-if="categorySearch.trim() && filteredCategoryOptions.length > 0" class="border-t border-gray-100 p-3">
-                        <button type="button" @click="addCustomCategory" class="w-full flex items-center gap-2 px-4 py-2.5 rounded-xl hover:bg-[#FF5C1A]/5 transition-all text-left">
+                        <button type="button" @click="addCustomCategory" class="w-full flex items-center gap-2 px-4 py-2.5 rounded-md hover:bg-[#FF5C1A]/5 transition-all text-left">
                           <div class="w-6 h-6 rounded-md bg-gray-100 text-gray-400 flex items-center justify-center"><span class="text-xs font-medium">+</span></div>
                           <span class="text-xs font-bold text-gray-500">Add "<span class="text-[#FF5C1A]">{{ categorySearch.trim() }}</span>" as custom</span>
                         </button>
@@ -317,13 +315,11 @@
                 <!-- Inside Campus Toggle -->
                 <div 
                   @click="vendor.isInsideCampus = !vendor.isInsideCampus"
-                  class="flex items-center gap-3 p-3.5 rounded-2xl border cursor-pointer transition-all duration-300"
-                  :class="vendor.isInsideCampus 
-                    ? 'bg-[#FF5C1A]/5 border-[#FF5C1A]/30' 
-                    : 'bg-gray-50/80 border-gray-100 hover:border-gray-200'"
+                  class="flex items-center gap-3 p-3.5 rounded-md border cursor-pointer transition-all duration-300"
+                  :class="vendor.isInsideCampus ? 'bg-[#FF5C1A]/5 border-[#FF5C1A]/30' : 'bg-gray-50/80 border-gray-100 hover:border-gray-200'"
                 >
                   <div 
-                    class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
+                    class="w-9 h-9 rounded-md flex items-center justify-center shrink-0 transition-all duration-300"
                     :class="vendor.isInsideCampus ? 'bg-[#FF5C1A]/10 text-[#FF5C1A]' : 'bg-gray-100 text-gray-400'"
                   >
                     <MapPin class="w-4 h-4" />
@@ -333,11 +329,11 @@
                     <p class="text-[11px] text-gray-400 font-medium">Store is within the school premises</p>
                   </div>
                   <div 
-                    class="w-10 h-6 rounded-full p-0.5 transition-all duration-300 shrink-0"
+                    class="w-10 h-6 rounded-md p-0.5 transition-all duration-300 shrink-0"
                     :class="vendor.isInsideCampus ? 'bg-[#FF5C1A]' : 'bg-gray-200'"
                   >
                     <div 
-                      class="w-5 h-5 bg-white rounded-full shadow-sm transition-all duration-300"
+                      class="w-5 h-5 bg-white rounded-md transition-all duration-300"
                       :class="vendor.isInsideCampus ? 'translate-x-4' : 'translate-x-0'"
                     ></div>
                   </div>
@@ -346,13 +342,11 @@
                 <!-- Student Entrepreneur Toggle -->
                 <div 
                   @click="vendor.isStudentBusiness = !vendor.isStudentBusiness"
-                  class="flex items-center gap-3 p-3.5 rounded-2xl border cursor-pointer transition-all duration-300"
-                  :class="vendor.isStudentBusiness 
-                    ? 'bg-[#FF5C1A]/5 border-[#FF5C1A]/30' 
-                    : 'bg-gray-50/80 border-gray-100 hover:border-gray-200'"
+                  class="flex items-center gap-3 p-3.5 rounded-md border cursor-pointer transition-all duration-300"
+                  :class="vendor.isStudentBusiness ? 'bg-[#FF5C1A]/5 border-[#FF5C1A]/30' : 'bg-gray-50/80 border-gray-100 hover:border-gray-200'"
                 >
                   <div 
-                    class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
+                    class="w-9 h-9 rounded-md flex items-center justify-center shrink-0 transition-all duration-300"
                     :class="vendor.isStudentBusiness ? 'bg-[#FF5C1A]/10 text-[#FF5C1A]' : 'bg-gray-100 text-gray-400'"
                   >
                     <GraduationCap class="w-4 h-4" />
@@ -362,11 +356,11 @@
                     <p class="text-[11px] text-gray-400 font-medium">Run by a current student</p>
                   </div>
                   <div 
-                    class="w-10 h-6 rounded-full p-0.5 transition-all duration-300 shrink-0"
+                    class="w-10 h-6 rounded-md p-0.5 transition-all duration-300 shrink-0"
                     :class="vendor.isStudentBusiness ? 'bg-[#FF5C1A]' : 'bg-gray-200'"
                   >
                     <div 
-                      class="w-5 h-5 bg-white rounded-full shadow-sm transition-all duration-300"
+                      class="w-5 h-5 bg-white rounded-md transition-all duration-300"
                       :class="vendor.isStudentBusiness ? 'translate-x-4' : 'translate-x-0'"
                     ></div>
                   </div>
@@ -374,8 +368,8 @@
               </div>
 
               <div class="flex gap-3 pt-4 mt-auto">
-                <button type="button" @click="currentStep = 'businessType'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-2xl font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
-                <button type="submit" class="flex-1 py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-medium text-base transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 active:scale-[0.98]">Continue <ArrowRight class="w-5 h-5" /></button>
+                <button type="button" @click="currentStep = 'businessType'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-md font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
+                <button type="submit" class="flex-1 py-2 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-md font-medium text-sm transition-all flex items-center justify-center gap-2 active:scale-[0.98]">Continue <ArrowRight class="w-5 h-5" /></button>
               </div>
             </form>
           </transition>
@@ -389,35 +383,35 @@
               </div>
 
               <div class="grid gap-3">
-                <div @click="vendor.teamSize = 'independent'" class="flex items-center justify-between p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.teamSize === 'independent' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                <div @click="vendor.teamSize = 'independent'" class="flex items-center justify-between p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.teamSize === 'independent' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
                   <span class="text-sm font-bold text-gray-900">It's just me</span>
-                  <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.teamSize === 'independent' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.teamSize === 'independent'" class="w-3 h-3 text-white" /></div>
+                  <div class="w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.teamSize === 'independent' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.teamSize === 'independent'" class="w-3 h-3 text-white" /></div>
                 </div>
 
-                <div @click="vendor.teamSize = '2-5'" class="flex items-center justify-between p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.teamSize === '2-5' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                <div @click="vendor.teamSize = '2-5'" class="flex items-center justify-between p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.teamSize === '2-5' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
                   <span class="text-sm font-bold text-gray-900">2 - 5 people</span>
-                  <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.teamSize === '2-5' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.teamSize === '2-5'" class="w-3 h-3 text-white" /></div>
+                  <div class="w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.teamSize === '2-5' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.teamSize === '2-5'" class="w-3 h-3 text-white" /></div>
                 </div>
 
-                <div @click="vendor.teamSize = '6-10'" class="flex items-center justify-between p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.teamSize === '6-10' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                <div @click="vendor.teamSize = '6-10'" class="flex items-center justify-between p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.teamSize === '6-10' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
                   <span class="text-sm font-bold text-gray-900">6 - 10 people</span>
-                  <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.teamSize === '6-10' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.teamSize === '6-10'" class="w-3 h-3 text-white" /></div>
+                  <div class="w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.teamSize === '6-10' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.teamSize === '6-10'" class="w-3 h-3 text-white" /></div>
                 </div>
                 
-                <div @click="vendor.teamSize = '11-20'" class="flex items-center justify-between p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.teamSize === '11-20' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                <div @click="vendor.teamSize = '11-20'" class="flex items-center justify-between p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.teamSize === '11-20' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
                   <span class="text-sm font-bold text-gray-900">11 - 20 people</span>
-                  <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.teamSize === '11-20' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.teamSize === '11-20'" class="w-3 h-3 text-white" /></div>
+                  <div class="w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.teamSize === '11-20' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.teamSize === '11-20'" class="w-3 h-3 text-white" /></div>
                 </div>
                 
-                <div @click="vendor.teamSize = '20+'" class="flex items-center justify-between p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.teamSize === '20+' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                <div @click="vendor.teamSize = '20+'" class="flex items-center justify-between p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.teamSize === '20+' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
                   <span class="text-sm font-bold text-gray-900">20+ people</span>
-                  <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.teamSize === '20+' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.teamSize === '20+'" class="w-3 h-3 text-white" /></div>
+                  <div class="w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.teamSize === '20+' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.teamSize === '20+'" class="w-3 h-3 text-white" /></div>
                 </div>
               </div>
 
               <div class="flex gap-3 pt-4 mt-auto">
-                <button type="button" @click="currentStep = 'categories'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-2xl font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
-                <button type="submit" class="flex-1 py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-medium text-base transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 active:scale-[0.98]">Continue <ArrowRight class="w-5 h-5" /></button>
+                <button type="button" @click="currentStep = 'categories'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-md font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
+                <button type="submit" class="flex-1 py-2 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-md font-medium text-sm transition-all flex items-center justify-center gap-2 active:scale-[0.98]">Continue <ArrowRight class="w-5 h-5" /></button>
               </div>
             </form>
           </transition>
@@ -431,37 +425,37 @@
               </div>
 
               <div class="grid gap-3">
-                <div @click="vendor.serviceLocation = 'physical_location'" class="flex items-start gap-4 p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.serviceLocation === 'physical_location' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
-                  <div class="w-10 h-10 rounded-xl bg-orange-50 text-[#FF5C1A] flex items-center justify-center shrink-0"><MapPin class="w-5 h-5" /></div>
+                <div @click="vendor.serviceLocation = 'physical_location'" class="flex items-start gap-4 p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.serviceLocation === 'physical_location' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                  <div class="w-10 h-10 rounded-md bg-orange-50 text-[#FF5C1A] flex items-center justify-center shrink-0"><MapPin class="w-5 h-5" /></div>
                   <div>
                     <h3 class="text-sm font-bold text-gray-900 mb-1">Physical Location</h3>
                     <p class="text-xs text-gray-500 leading-relaxed">I have a store, salon, or physical space where customers come to me.</p>
                   </div>
-                  <div class="ml-auto w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.serviceLocation === 'physical_location' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.serviceLocation === 'physical_location'" class="w-3 h-3 text-white" /></div>
+                  <div class="ml-auto w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.serviceLocation === 'physical_location' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.serviceLocation === 'physical_location'" class="w-3 h-3 text-white" /></div>
                 </div>
 
-                <div @click="vendor.serviceLocation = 'mobile_operator'" class="flex items-start gap-4 p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.serviceLocation === 'mobile_operator' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
-                  <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">🚙</div>
+                <div @click="vendor.serviceLocation = 'mobile_operator'" class="flex items-start gap-4 p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.serviceLocation === 'mobile_operator' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                  <div class="w-10 h-10 rounded-md bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">🚙</div>
                   <div>
                     <h3 class="text-sm font-bold text-gray-900 mb-1">Mobile Operator</h3>
                     <p class="text-xs text-gray-500 leading-relaxed">I travel to my clients to provide services or deliver goods.</p>
                   </div>
-                  <div class="ml-auto w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.serviceLocation === 'mobile_operator' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.serviceLocation === 'mobile_operator'" class="w-3 h-3 text-white" /></div>
+                  <div class="ml-auto w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.serviceLocation === 'mobile_operator' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.serviceLocation === 'mobile_operator'" class="w-3 h-3 text-white" /></div>
                 </div>
 
-                <div @click="vendor.serviceLocation = 'virtual_online'" class="flex items-start gap-4 p-4 border rounded-2xl cursor-pointer transition-all duration-300" :class="vendor.serviceLocation === 'virtual_online' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
-                  <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center shrink-0">💻</div>
+                <div @click="vendor.serviceLocation = 'virtual_online'" class="flex items-start gap-4 p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.serviceLocation === 'virtual_online' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                  <div class="w-10 h-10 rounded-md bg-emerald-50 text-emerald-500 flex items-center justify-center shrink-0">💻</div>
                   <div>
                     <h3 class="text-sm font-bold text-gray-900 mb-1">Virtual / Online</h3>
                     <p class="text-xs text-gray-500 leading-relaxed">I provide my services entirely online or via social media.</p>
                   </div>
-                  <div class="ml-auto w-5 h-5 rounded-full border-2 flex items-center justify-center" :class="vendor.serviceLocation === 'virtual_online' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.serviceLocation === 'virtual_online'" class="w-3 h-3 text-white" /></div>
+                  <div class="ml-auto w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.serviceLocation === 'virtual_online' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.serviceLocation === 'virtual_online'" class="w-3 h-3 text-white" /></div>
                 </div>
               </div>
 
               <div class="flex gap-3 pt-4 mt-auto">
-                <button type="button" @click="currentStep = 'teamSize'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-2xl font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
-                <button type="submit" class="flex-1 py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-medium text-base transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 active:scale-[0.98]">Continue <ArrowRight class="w-5 h-5" /></button>
+                <button type="button" @click="currentStep = 'teamSize'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-md font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
+                <button type="submit" class="flex-1 py-2 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-md font-medium text-sm transition-all flex items-center justify-center gap-2 active:scale-[0.98]">Continue <ArrowRight class="w-5 h-5" /></button>
               </div>
             </form>
           </transition>
@@ -484,7 +478,7 @@
                   <p class="text-sm text-gray-500 font-medium">Which software are you currently using to manage your business?</p>
                 </div>
                 <UiAnimatedInput v-model="vendor.softwareUsed" type="text" label="Software Name (e.g. Fresha, Calendly, WhatsApp)" />
-                <p class="text-xs text-gray-500 mt-2 bg-blue-50 text-blue-700 p-3 rounded-xl border border-blue-100">
+                <p class="text-xs text-gray-500 mt-2 bg-blue-50 text-blue-700 p-3 rounded-md border border-blue-100">
                   <span class="font-bold">Looking to switch?</span> We can help speed up your business setup and import your data into your new Erranders account.
                 </p>
               </div>
@@ -495,17 +489,15 @@
                   <h3 class="text-sm font-bold text-gray-900">Additional Options</h3>
                 </div>
                 <div 
-                  class="rounded-2xl border transition-all duration-300"
-                  :class="vendor.preOrderOnly 
-                    ? 'bg-[#FF5C1A]/5 border-[#FF5C1A]/30' 
-                    : 'bg-gray-50/80 border-gray-100 hover:border-gray-200'"
+                  class="rounded-md border transition-all duration-300"
+                  :class="vendor.preOrderOnly ? 'bg-[#FF5C1A]/5 border-[#FF5C1A]/30' : 'bg-gray-50/80 border-gray-100 hover:border-gray-200'"
                 >
                   <div 
                     @click="vendor.preOrderOnly = !vendor.preOrderOnly"
                     class="flex items-center gap-3 p-3.5 cursor-pointer"
                   >
                     <div 
-                      class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
+                      class="w-9 h-9 rounded-md flex items-center justify-center shrink-0 transition-all duration-300"
                       :class="vendor.preOrderOnly ? 'bg-[#FF5C1A]/10 text-[#FF5C1A]' : 'bg-gray-100 text-gray-400'"
                     >
                       <Clock3 class="w-4 h-4" />
@@ -523,11 +515,11 @@
                       <p class="text-[11px] text-gray-400 font-medium">Customers must order or book ahead</p>
                     </div>
                     <div 
-                      class="w-10 h-6 rounded-full p-0.5 transition-all duration-300 shrink-0"
+                      class="w-10 h-6 rounded-md p-0.5 transition-all duration-300 shrink-0"
                       :class="vendor.preOrderOnly ? 'bg-[#FF5C1A]' : 'bg-gray-200'"
                     >
                       <div 
-                        class="w-5 h-5 bg-white rounded-full shadow-sm transition-all duration-300"
+                        class="w-5 h-5 bg-white rounded-md transition-all duration-300"
                         :class="vendor.preOrderOnly ? 'translate-x-4' : 'translate-x-0'"
                       ></div>
                     </div>
@@ -535,7 +527,7 @@
                   
                   <!-- Info tooltip -->
                   <div v-if="showPreOrderInfo" class="px-3.5 pb-3.5">
-                    <div class="p-3 bg-amber-50/70 border border-amber-100 rounded-xl text-xs text-amber-800 leading-relaxed">
+                    <div class="p-3 bg-amber-50/70 border border-amber-100 rounded-md text-xs text-amber-800 leading-relaxed">
                       <div class="font-bold flex items-center gap-1.5 mb-1 text-amber-900">
                         <span>✨</span> How it works:
                       </div>
@@ -546,8 +538,8 @@
               </div>
 
               <div class="flex gap-3 pt-4 mt-auto">
-                <button type="button" @click="currentStep = 'locationType'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-2xl font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
-                <button type="submit" class="flex-1 py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-medium text-base transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 active:scale-[0.98]">Continue <ArrowRight class="w-5 h-5" /></button>
+                <button type="button" @click="currentStep = 'locationType'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-md font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
+                <button type="submit" class="flex-1 py-2 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-md font-medium text-sm transition-all flex items-center justify-center gap-2 active:scale-[0.98]">Continue <ArrowRight class="w-5 h-5" /></button>
               </div>
             </form>
           </transition>
@@ -564,17 +556,17 @@
               </div>
 
               <!-- Logo -->
-              <div class="relative border-2 border-dashed border-gray-200 rounded-[1.5rem] p-5 text-center hover:border-parentPrimary hover:bg-parentPrimary/5 transition-colors cursor-pointer group" @click="triggerLogoUpload">
+              <div class="relative border-2 border-dashed border-gray-200 rounded-md p-5 text-center hover:border-parentPrimary hover:bg-parentPrimary/5 transition-colors cursor-pointer group" @click="triggerLogoUpload">
                 <input type="file" ref="logoInput" accept="image/*" class="hidden" @change="handleLogoSelect" />
                 <div v-if="!logoPreview" class="flex flex-col items-center">
-                  <div class="w-10 h-10 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center mb-2 group-hover:scale-110 group-hover:text-parentPrimary transition-transform">
+                  <div class="w-10 h-10 bg-white rounded-md border border-gray-100 flex items-center justify-center mb-2 group-hover:scale-110 group-hover:text-parentPrimary transition-transform">
                     <ImageIcon class="w-5 h-5" />
                   </div>
                   <p class="text-smfont-bold text-gray-700">Upload Store Logo</p>
                   <p class="text-[11px] text-gray-400 font-medium">PNG or JPG, up to 5MB</p>
                 </div>
                 <div v-else class="flex items-center gap-4">
-                  <img :src="logoPreview" class="w-14 h-14 rounded-xl object-cover shadow-sm border border-gray-100" />
+                  <img :src="logoPreview" class="w-14 h-14 rounded-md object-cover border border-gray-100" />
                   <div class="text-left flex-1 min-w-0">
                     <p class="text-sm font-medium text-gray-900 truncate">{{ logoFile?.name }}</p>
                     <p v-if="logoUploading" class="text-sm font-bold text-parentPrimary flex items-center gap-1 mt-1"><Loader2 class="w-3 h-3 animate-spin" /> Uploading...</p>
@@ -590,8 +582,8 @@
               </div>
 
               <!-- Logistics Information Notice -->
-              <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-3 flex gap-3 items-start">
-                <div class="mt-0.5 w-5 h-5 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+              <div class="bg-blue-50/50 border border-blue-100 rounded-md p-3 flex gap-3 items-start">
+                <div class="mt-0.5 w-5 h-5 rounded-md bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
                   <Info class="w-3 h-3" />
                 </div>
                 <div class="text-xs text-blue-800 leading-relaxed">
@@ -610,22 +602,22 @@
               </div>
 
               <!-- Banks -->
-              <div class="bg-gray-50 rounded-2xl p-4 space-y-3 border border-gray-100">
-                <p class="text-sm font-medium text-gray-400 ">PAYOUT DETAILS (OPTIONAL)</p>
+              <div class="bg-gray-50 rounded-md p-4 space-y-3 border border-gray-100">
+                <p class="text-sm font-medium text-gray-400">PAYOUT DETAILS (OPTIONAL)</p>
                 <UiSelectInput v-model="vendor.bankDetails.bankCode" label="Bank Name" :options="bankOptions" :disabled="banksLoading" searchable />
                 <div class="relative">
                   <UiAnimatedInput v-model="vendor.bankDetails.accountNumber" type="text" label="Account Number" />
                   <Loader2 v-if="resolvingAccount" class="absolute right-3 top-1/2 -translate-y-1/2 animate-spin w-4 h-4 text-parentPrimary" />
                 </div>
-                <div v-if="vendor.bankDetails.accountName" class="flex items-center gap-2 p-2 bg-emerald-50 text-emerald-700 text-sm font-bold rounded-xl border border-emerald-100"><CheckCircle class="w-4 h-4 shrink-0" /> {{ vendor.bankDetails.accountName }}</div>
-                <div v-if="resolveError" class="flex items-center gap-2 p-2 bg-red-50 text-red-600 text-sm font-bold rounded-xl border border-red-100"><AlertCircle class="w-4 h-4 shrink-0" /> {{ resolveError }}</div>
+                <div v-if="vendor.bankDetails.accountName" class="flex items-center gap-2 p-2 bg-emerald-50 text-emerald-700 text-sm font-bold rounded-md border border-emerald-100"><CheckCircle class="w-4 h-4 shrink-0" /> {{ vendor.bankDetails.accountName }}</div>
+                <div v-if="resolveError" class="flex items-center gap-2 p-2 bg-red-50 text-red-600 text-sm font-bold rounded-md border border-red-100"><AlertCircle class="w-4 h-4 shrink-0" /> {{ resolveError }}</div>
               </div>
 
-              <!-- <div v-if="error" class="p-3 bg-red-50 text-red-600 text-smfont-bold rounded-xl flex items-center justify-center gap-2"><AlertCircle class="w-4 h-4 shrink-0" /> {{ error }}</div> -->
+              <!-- <div v-if="error" class="p-3 bg-red-50 text-red-600 text-smfont-bold rounded-md flex items-center justify-center gap-2"><AlertCircle class="w-4 h-4 shrink-0" /> {{ error }}</div> -->
 
               <div class="flex gap-3 pt-4 mt-auto">
-                <button type="button" @click="currentStep = 'business'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-2xl font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
-                <button type="submit" :disabled="submitting || logoUploading" class="flex-1 py-4 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-medium text-base transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/20 disabled:opacity-50 active:scale-[0.98]">
+                <button type="button" @click="currentStep = 'business'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-md font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
+                <button type="submit" :disabled="submitting || logoUploading" class="flex-1 py-2 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-md font-medium text-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50 active:scale-[0.98]">
                   <Loader2 v-if="submitting" class="animate-spin w-5 h-5" />
                   <span>{{ submitting ? 'Launching...' : 'Launch Store 🚀' }}</span>
                 </button>
@@ -635,17 +627,17 @@
 
           <!-- Success Step -->
           <transition name="success-zoom" mode="out-in">
-            <div v-if="currentStep === 'success'" class="w-full flex flex-col items-center justify-center text-center space-y-6 min-h-[400px] bg-white rounded-[2rem] relative z-20 border border-gray-100 shadow-[0_20px_60px_-15px_rgba(255,92,26,0.1)] p-8">
+            <div v-if="currentStep === 'success'" class="w-full flex flex-col items-center justify-center text-center space-y-6 min-h-[400px] bg-white rounded-md relative z-20 border border-gray-100 (255,92,26,0.1)] p-8">
               <div class="relative w-28 h-28 flex items-center justify-center mb-4">
-                <div class="absolute inset-0 bg-[#FF5C1A]/10 rounded-full animate-ping" style="animation-duration: 2s;"></div>
-                <div class="absolute inset-2 bg-[#FF5C1A]/20 rounded-full animate-ping" style="animation-duration: 2s; animation-delay: 0.5s;"></div>
-                <div class="w-24 h-24 bg-gradient-to-br from-[#FF5C1A] to-[#FFA785] rounded-full flex items-center justify-center text-white shadow-2xl shadow-[#FF5C1A]/40 relative z-10 animate-bounce">
+                <div class="absolute inset-0 bg-[#FF5C1A]/10 rounded-md animate-ping" style="animation-duration: 2s;"></div>
+                <div class="absolute inset-2 bg-[#FF5C1A]/20 rounded-md animate-ping" style="animation-duration: 2s; animation-delay: 0.5s;"></div>
+                <div class="w-24 h-24 bg-gradient-to-br from-[#FF5C1A] to-[#FFA785] rounded-md flex items-center justify-center text-white relative z-10 animate-bounce">
                   <Check class="w-12 h-12" stroke-width="3" />
                 </div>
               </div>
               
               <div class="space-y-3">
-                <h2 class="text-3xl font-medium text-gray-900 tracking-tight">Welcome aboard! 🎉</h2>
+                <h2 class="text-2xl font-medium text-gray-900 tracking-tight">Welcome aboard! 🎉</h2>
                 <div class="relative">
                   <p class="text-gray-500 font-medium leading-relaxed max-w-[300px] mx-auto text-[15px]">
                     We're incredibly excited to have you as a vendor. Get ready to share your magic with the campus! 💖
@@ -654,7 +646,7 @@
               </div>
 
               <div class="w-full pt-8 mt-auto">
-                <button @click="proceedToDashboard" class="w-full py-3.5 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-2xl font-medium text-[17px] transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#FF5C1A]/25 active:scale-[0.98] group">
+                <button @click="proceedToDashboard" class="w-full py-2.5 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-md font-medium text-[17px] transition-all flex items-center justify-center gap-2 active:scale-[0.98] group">
                   Proceed to Dashboard <ArrowRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
@@ -666,7 +658,7 @@
       <!-- Footer Info -->
       <div class="mt-8 text-center flex items-center justify-center gap-4 text-sm font-bold text-gray-400">
         <p>&copy; {{ new Date().getFullYear() }} Erranders</p>
-        <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+        <span class="w-1 h-1 bg-gray-300 rounded-md"></span>
         <NuxtLink to="/terms" class="hover:text-gray-600 transition-colors">Terms & Privacy</NuxtLink>
       </div>
 

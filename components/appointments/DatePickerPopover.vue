@@ -2,7 +2,7 @@
   <div class="relative" ref="popoverRef">
     <button 
       @click="toggle"
-      class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all focus:outline-none focus:ring-2 focus:ring-parentPrimary/20"
+      class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-md hover:bg-gray-50 hover:border-gray-300 transition-all focus:outline-none focus:ring-2 focus:ring-parentPrimary/20"
     >
       <span class="text-sm font-bold text-gray-900">{{ formattedDate }}</span>
       <ChevronDown class="w-4 h-4 text-gray-500" :class="{'rotate-180': isOpen}" />
@@ -16,7 +16,7 @@
       leave-from-class="transform scale-100 opacity-100"
       leave-to-class="transform scale-95 opacity-0"
     >
-      <div v-if="isOpen" class="absolute top-full left-0 mt-2 w-[340px] bg-white rounded-2xl shadow-xl border border-gray-100 z-50 p-4">
+      <div v-if="isOpen" class="absolute top-full left-0 mt-2 w-[340px] bg-white rounded-md border border-gray-100 z-50 p-4">
         
         <!-- Header -->
         <div class="flex justify-between items-center mb-4">
@@ -42,15 +42,11 @@
             v-for="{ date, isCurrentMonth, isSelected, isToday } in calendarDays"
             :key="date.toISOString()"
             @click="selectDate(date)"
-            class="h-9 w-9 mx-auto rounded-full flex items-center justify-center text-sm font-semibold transition-all relative"
-            :class="[
-              !isCurrentMonth ? 'text-gray-300 hover:text-gray-500' : 'text-gray-700 hover:bg-gray-100',
-              isSelected ? 'bg-parentPrimary text-white hover:bg-parentPrimary shadow-md' : '',
-              isToday && !isSelected ? 'text-parentPrimary' : ''
-            ]"
+            class="h-9 w-9 mx-auto rounded-md flex items-center justify-center text-sm font-semibold transition-all relative"
+            :class="[ !isCurrentMonth ? 'text-gray-300 hover:text-gray-500' : 'text-gray-700 hover:bg-gray-100', isSelected ? 'bg-parentPrimary text-white hover:bg-parentPrimary' : '', isToday && !isSelected ? 'text-parentPrimary' : '' ]"
           >
             {{ date.getDate() }}
-            <div v-if="isToday && !isSelected" class="absolute bottom-1 w-1 h-1 rounded-full bg-parentPrimary"></div>
+            <div v-if="isToday && !isSelected" class="absolute bottom-1 w-1 h-1 rounded-md bg-parentPrimary"></div>
           </button>
         </div>
 

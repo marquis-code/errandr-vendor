@@ -1,12 +1,12 @@
 <template>
-  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-[70vh] min-h-[600px]">
+  <div class="bg-white rounded-md border border-gray-100 overflow-hidden flex flex-col h-[70vh] min-h-[600px]">
     
     <!-- Top Headers (Staff / Vendor Name) -->
     <div class="flex border-b border-gray-100 bg-white z-10 sticky top-0">
       <div class="w-16 shrink-0 border-r border-gray-100 bg-white"></div>
       <div class="flex-1 py-4 text-center">
         <div class="inline-flex flex-col items-center justify-center">
-          <div class="w-10 h-10 rounded-full bg-parentPrimary text-white flex items-center justify-center font-bold mb-1 shadow-sm">
+          <div class="w-10 h-10 rounded-md bg-parentPrimary text-white flex items-center justify-center font-bold mb-1">
             ME
           </div>
           <span class="text-xs font-bold text-gray-900">My Schedule</span>
@@ -49,7 +49,7 @@
           <div 
             v-for="app in appointments" 
             :key="app._id"
-            class="absolute left-2 right-2 rounded-xl p-3 cursor-pointer transition-all hover:brightness-95 border overflow-hidden group shadow-sm"
+            class="absolute left-2 right-2 rounded-md p-3 cursor-pointer transition-all hover:brightness-95 border overflow-hidden group"
             :class="getEventColor(app.status)"
             :style="getEventStyle(app)"
             @click="$emit('select', app)"

@@ -2,18 +2,15 @@
   <div class="h-screen w-screen flex bg-[#F0F2F5] overflow-hidden fixed inset-0 z-50">
     <!-- Left Sidebar (WhatsApp Web style) -->
     <div 
-      :class="[
-        'w-full md:w-[35%] lg:w-[30%] max-w-[420px] min-w-[320px] flex-col bg-white border-r border-gray-200 flex-shrink-0 transition-all',
-        activeChat ? 'hidden md:flex' : 'flex'
-      ]"
+      :class="[ 'w-full md:w-[35%] lg:w-[30%] max-w-[420px] min-w-[320px] flex-col bg-white border-r border-gray-200 flex-shrink-0 transition-all', activeChat ? 'hidden md:flex' : 'flex' ]"
     >
       <!-- Header -->
       <div class="h-[60px] px-4 bg-[#008069] flex items-center justify-between flex-shrink-0">
         <div class="flex items-center gap-3">
-          <button @click="navigateTo('/dashboard')" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white" title="Back to Dashboard">
+          <button @click="navigateTo('/dashboard')" class="p-2 hover:bg-white/10 rounded-md transition-colors text-white" title="Back to Dashboard">
             <ArrowLeft class="w-5 h-5" />
           </button>
-          <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white font-bold overflow-hidden cursor-pointer">
+          <div class="w-10 h-10 rounded-md bg-white/20 flex items-center justify-center text-white font-bold overflow-hidden cursor-pointer">
             {{ user ? (user.firstName?.[0] || user.email?.[0] || 'V').toUpperCase() : 'V' }}
           </div>
           <span class="font-semibold text-white text-base truncate">{{ user?.firstName || 'Vendor' }}</span>
@@ -51,11 +48,11 @@
             v-for="chat in filteredChats"
             :key="chat.id"
             @click="selectChat(chat)"
-            class="w-full text-left flex items-center px-3 py-3 hover:bg-[#F5F6F6] transition-colors group"
+            class="w-full text-left flex items-center px-3 py-2 hover:bg-[#F5F6F6] transition-colors group"
             :class="{ 'bg-[#F0F2F5]': activeChat?.id === chat.id }"
           >
             <!-- Avatar -->
-            <div class="w-12 h-12 rounded-full bg-[#E8F8F5] flex items-center justify-center text-[#008069] font-bold text-lg flex-shrink-0 mr-3">
+            <div class="w-12 h-12 rounded-md bg-[#E8F8F5] flex items-center justify-center text-[#008069] font-bold text-lg flex-shrink-0 mr-3">
               {{ getInitials(chat.receiverName) }}
             </div>
             
@@ -74,7 +71,7 @@
                   <CheckCheck class="w-4 h-4 text-[#34B7F1]" />
                   {{ chat.receiverType }} • Order #{{ chat.order.orderNumber }}
                 </p>
-                <div v-if="unreadCounts[chat.order._id] > 0" class="w-5 h-5 rounded-full bg-[#25D366] text-white flex items-center justify-center text-[11px] font-bold">
+                <div v-if="unreadCounts[chat.order._id] > 0" class="w-5 h-5 rounded-md bg-[#25D366] text-white flex items-center justify-center text-[11px] font-bold">
                   {{ unreadCounts[chat.order._id] }}
                 </div>
               </div>
@@ -86,10 +83,7 @@
 
     <!-- Right Area (Chat View) -->
     <div 
-      :class="[
-        'flex-1 flex-col bg-[#F0F2F5] border-l border-[#E1E1E1]',
-        !activeChat ? 'hidden md:flex' : 'flex'
-      ]"
+      :class="[ 'flex-1 flex-col bg-[#F0F2F5] border-l border-[#E1E1E1]', !activeChat ? 'hidden md:flex' : 'flex' ]"
     >
       <div v-if="!activeChat" class="flex-1 flex flex-col items-center justify-center text-center p-8 bg-[#F0F2F5]">
         <div class="w-80 h-80 mb-8 opacity-20 mx-auto">

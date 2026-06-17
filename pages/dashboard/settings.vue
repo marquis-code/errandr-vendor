@@ -1,24 +1,24 @@
 <template>
  <div class="max-w-[1400px] mx-auto space-y-10 pb-20 animate-fade-in px-4 sm:px-8">
  <header class="pt-6">
- <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">Merchant Settings</h1>
- <p class="text-sm text-gray-400 font-medium  mt-1">Fine-tune your store profile, operations, and financial preferences.</p>
+ <h1 class="text-xl font-bold text-gray-900 sm:text-2xl">Merchant Settings</h1>
+ <p class="text-sm text-gray-400 font-medium mt-1">Fine-tune your store profile, operations, and financial preferences.</p>
  </header>
 
  <div v-if="loading" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
- <div v-for="i in 3" :key="i" class="bg-gray-50 rounded-[2rem] border border-gray-100 animate-pulse h-[400px]" />
+ <div v-for="i in 3" :key="i" class="bg-gray-50 rounded-md border border-gray-100 animate-pulse h-[400px]" />
  </div>
 
  <div v-else class="flex flex-col lg:flex-row gap-8">
  <!-- Sidebar Tabs -->
  <div class="w-full lg:w-64 shrink-0 space-y-2">
- <button @click="activeTab = 'profile'" :class="activeTab === 'profile' ? 'bg-gray-900 text-white shadow-md' : 'bg-white text-gray-500 hover:bg-gray-50 border-gray-100'" class="w-full flex items-center gap-3 px-5 py-4 rounded-2xl font-bold text-sm transition-all text-left border">
+ <button @click="activeTab = 'profile'" :class="activeTab === 'profile' ? 'bg-gray-900 text-white ' : 'bg-white text-gray-500 hover:bg-gray-50 border-gray-100'" class="w-full flex items-center gap-3 px-5 py-2 rounded-md font-bold text-sm transition-all text-left border">
  <StoreIcon class="w-5 h-5" :class="activeTab === 'profile' ? 'text-white' : 'text-[#FF5C1A]'" /> Store Identity
  </button>
- <button @click="activeTab = 'operations'" :class="activeTab === 'operations' ? 'bg-gray-900 text-white shadow-md' : 'bg-white text-gray-500 hover:bg-gray-50 border-gray-100'" class="w-full flex items-center gap-3 px-5 py-4 rounded-2xl font-bold text-sm transition-all text-left border">
+ <button @click="activeTab = 'operations'" :class="activeTab === 'operations' ? 'bg-gray-900 text-white ' : 'bg-white text-gray-500 hover:bg-gray-50 border-gray-100'" class="w-full flex items-center gap-3 px-5 py-2 rounded-md font-bold text-sm transition-all text-left border">
  <Clock class="w-5 h-5" :class="activeTab === 'operations' ? 'text-white' : 'text-amber-500'" /> {{ isServiceProvider ? 'Scheduling & Status' : 'Operations & Status' }}
  </button>
- <button @click="activeTab = 'financials'" :class="activeTab === 'financials' ? 'bg-gray-900 text-white shadow-md' : 'bg-white text-gray-500 hover:bg-gray-50 border-gray-100'" class="w-full flex items-center gap-3 px-5 py-4 rounded-2xl font-bold text-sm transition-all text-left border">
+ <button @click="activeTab = 'financials'" :class="activeTab === 'financials' ? 'bg-gray-900 text-white ' : 'bg-white text-gray-500 hover:bg-gray-50 border-gray-100'" class="w-full flex items-center gap-3 px-5 py-2 rounded-md font-bold text-sm transition-all text-left border">
  <CreditCard class="w-5 h-5" :class="activeTab === 'financials' ? 'text-white' : 'text-emerald-500'" /> Payout Methods
  </button>
  </div>
@@ -27,10 +27,10 @@
  <div class="flex-1 space-y-8 min-w-0">
  <div v-show="activeTab === 'profile'">
  <!-- Store Identity -->
- <section class="bg-white rounded-[2.5rem] border border-gray-100 shadow-sm overflow-hidden group">
+ <section class="bg-white rounded-[2.5rem] border border-gray-100 overflow-hidden group">
  <div class="p-8 border-b border-gray-50 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
  <div class="flex items-center gap-4">
- <div class="p-3 bg-blue-50 text-[#FF5C1A] rounded-2xl group-hover:scale-110 transition-transform">
+ <div class="p-3 bg-blue-50 text-[#FF5C1A] rounded-md group-hover:scale-110 transition-transform">
  <StoreIcon class="w-5 h-5" />
  </div>
  <h3 class="text-lg font-bold text-gray-900">Store Identity</h3>
@@ -38,7 +38,7 @@
  <button 
  @click="saveProfile" 
  :disabled="savingProfile" 
- class="px-6 py-3 bg-gray-900 text-white rounded-xl font-bold text-sm  hover:bg-black transition-all disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-black/5"
+ class="px-6 py-2 bg-gray-900 text-white rounded-md font-bold text-sm hover:bg-black transition-all disabled:opacity-50 flex items-center gap-2"
  >
  <Loader2 v-if="savingProfile" class="animate-spin w-3 h-3" />
  {{ savingProfile ? 'Saving...' : 'Sync Profile' }}
@@ -48,7 +48,7 @@
  <div class="p-8 space-y-8">
  <!-- Branding -->
  <div class="flex items-center gap-8">
- <div class="w-24 h-24 rounded-[2rem] bg-gray-50 overflow-hidden border border-gray-100 flex items-center justify-center shrink-0 shadow-inner group/logo relative">
+ <div class="w-24 h-24 rounded-md bg-gray-50 overflow-hidden border border-gray-100 flex items-center justify-center shrink-0 group/logo relative">
  <img v-if="profile.logo" :src="profile.logo" class="w-full h-full object-cover" />
  <ImageIcon v-else class="w-8 h-8 text-gray-200" />
  <div class="absolute inset-0 bg-black/20 opacity-0 group-hover/logo:opacity-100 transition-opacity flex items-center justify-center">
@@ -58,7 +58,7 @@
  </div>
  <div>
  <h4 class="text-sm font-bold text-gray-900 mb-1">Store Logo</h4>
- <p class="text-sm text-gray-400 font-medium  leading-relaxed">
+ <p class="text-sm text-gray-400 font-medium leading-relaxed">
  Recommended: Square PNG/JPG<br/>Max size: 5MB
  </p>
  <p v-if="logoUploading" class="text-sm text-[#FF5C1A] font-bold mt-2 animate-pulse">UPLOADING...</p>
@@ -74,9 +74,9 @@
  
  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
  <AnimatedInput v-model="profile.address" label="Street Address" description="Specific location for pickups" />
- <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100/50">
+ <div class="flex items-center justify-between p-4 bg-gray-50 rounded-md border border-gray-100/50">
  <div class="flex items-center gap-3">
- <div class="p-2 bg-white rounded-lg shadow-sm text-[#FF5C1A]">
+ <div class="p-2 bg-white rounded-lg text-[#FF5C1A]">
  <Building class="w-4 h-4" />
  </div>
  <span class="text-sm font-bold text-gray-700">Inside Campus</span>
@@ -90,18 +90,18 @@
 
  <div v-show="activeTab === 'operations'" class="space-y-8">
  <!-- Store Availability / Live Status -->
- <section class="bg-gray-900 rounded-[2.5rem] p-8 text-white shadow-lg relative overflow-hidden group">
- <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-3xl" />
+ <section class="bg-gray-900 rounded-[2.5rem] p-8 text-white relative overflow-hidden group">
+ <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-md blur-3xl" />
  <div class="flex items-center justify-between mb-8">
  <h3 class="text-lg font-bold">Live Status</h3>
  <button 
  @click="toggleOnline" 
  :disabled="togglingOnline"
- class="relative w-14 h-8 rounded-full transition-all duration-500 shadow-inner"
+ class="relative w-14 h-8 rounded-md transition-all duration-500"
  :class="isOnline ? 'bg-emerald-500' : 'bg-white/10'"
  >
  <span 
- class="absolute top-1 w-6 h-6 bg-white rounded-full shadow-md transition-all duration-500"
+ class="absolute top-1 w-6 h-6 bg-white rounded-md transition-all duration-500"
  :class="isOnline ? 'left-7' : 'left-1'" 
  />
  </button>
@@ -109,11 +109,11 @@
  
  <div class="space-y-4 relative z-10">
  <div v-if="isOnline" class="flex items-center gap-3 text-emerald-400">
- <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_15px_rgba(16,185,129,0.5)]" />
+ <div class="w-2 h-2 rounded-md bg-emerald-500 animate-pulse (16,185,129,0.5)]" />
  <span class="text-sm font-medium">Active & Visible</span>
  </div>
  <div v-else class="flex items-center gap-3 text-white/40">
- <div class="w-2 h-2 rounded-full bg-white/20" />
+ <div class="w-2 h-2 rounded-md bg-white/20" />
  <span class="text-sm font-medium">Hidden / Offline</span>
  </div>
  <p class="text-sm text-white/50 font-medium leading-relaxed">
@@ -123,10 +123,10 @@
  </section>
 
  <!-- Service Window -->
- <section class="bg-white rounded-[2.5rem] border border-gray-100 shadow-sm overflow-hidden group">
+ <section class="bg-white rounded-[2.5rem] border border-gray-100 overflow-hidden group">
  <div class="p-8 border-b border-gray-50 flex items-center justify-between">
  <div class="flex items-center gap-4">
- <div class="p-3 bg-amber-50 text-amber-600 rounded-2xl group-hover:scale-110 transition-transform">
+ <div class="p-3 bg-amber-50 text-amber-600 rounded-md group-hover:scale-110 transition-transform">
  <Clock class="w-5 h-5" />
  </div>
  <h3 class="text-lg font-bold text-gray-900">Service Window</h3>
@@ -134,7 +134,7 @@
  <button 
  @click="saveHours" 
  :disabled="savingHours" 
- class="px-6 py-3 bg-white border border-gray-100 text-gray-500 rounded-xl font-bold text-sm  hover:bg-gray-50 transition-all disabled:opacity-50 flex items-center gap-2"
+ class="px-6 py-2 bg-white border border-gray-100 text-gray-500 rounded-md font-bold text-sm hover:bg-gray-50 transition-all disabled:opacity-50 flex items-center gap-2"
  >
  <Loader2 v-if="savingHours" class="animate-spin w-3 h-3" />
  {{ savingHours ? 'Syncing...' : 'Update Schedule' }}
@@ -157,8 +157,8 @@
  <div v-if="!isServiceProvider" class="space-y-4 pt-4 border-t border-gray-50">
  <div class="flex items-center justify-between mb-2">
  <div>
- <h4 class="text-sm font-bold text-gray-900 ">Packaging Options</h4>
- <p class="text-sm text-gray-400 font-medium ">Create different packs for different food types</p>
+ <h4 class="text-sm font-bold text-gray-900">Packaging Options</h4>
+ <p class="text-sm text-gray-400 font-medium">Create different packs for different food types</p>
  </div>
  <button 
  @click="addPack" 
@@ -170,7 +170,7 @@
 
  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
  <div v-for="(pack, index) in profile.packs" :key="index" 
- class="p-4 rounded-2xl border border-gray-100 bg-white space-y-3 relative group/pack hover:border-blue-200 transition-all shadow-sm">
+ class="p-4 rounded-md border border-gray-100 bg-white space-y-3 relative group/pack hover:border-blue-200 transition-all">
  <button 
  v-if="profile.packs.length > 1"
  @click="removePack(index)" 
@@ -186,7 +186,7 @@
  <AnimatedInput v-model.number="pack.price" type="number" label="Price (₦)" />
  </div>
  <div class="flex items-center gap-2 pt-5">
- <span class="text-sm font-bold text-gray-400 ">Active</span>
+ <span class="text-sm font-bold text-gray-400">Active</span>
  <input type="checkbox" v-model="pack.isActive" class="w-4 h-4 rounded border-gray-200 text-[#FF5C1A]" />
  </div>
  </div>
@@ -198,16 +198,16 @@
  <!-- Business Hours (Day-by-Day) -->
  <div class="space-y-4 pt-4">
  <div class="flex items-center justify-between mb-2">
- <h4 class="text-sm font-bold text-gray-900 ">Weekly Schedule</h4>
- <p class="text-sm text-gray-400 font-medium ">Configure opening hours for each day</p>
+ <h4 class="text-sm font-bold text-gray-900">Weekly Schedule</h4>
+ <p class="text-sm text-gray-400 font-medium">Configure opening hours for each day</p>
  </div>
  
  <div class="grid grid-cols-1 gap-3">
  <div v-for="bh in profile.businessHours" :key="bh.day" 
- class="p-4 rounded-2xl border border-gray-100 flex flex-wrap items-center justify-between gap-4 transition-all hover:border-gray-200"
+ class="p-4 rounded-md border border-gray-100 flex flex-wrap items-center justify-between gap-4 transition-all hover:border-gray-200"
  :class="bh.isClosed ? 'bg-gray-50/50 opacity-60' : 'bg-white'">
  <div class="flex items-center gap-4 min-w-[120px]">
- <div class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm shadow-sm"
+ <div class="w-10 h-10 rounded-md flex items-center justify-center font-bold text-sm"
  :class="bh.isClosed ? 'bg-gray-200 text-gray-400' : 'bg-blue-50 text-[#FF5C1A]'">
  {{ bh.day.slice(0, 3) }}
  </div>
@@ -220,11 +220,11 @@
  <span class="text-gray-300">→</span>
  <input type="time" v-model="bh.close" class="text-sm font-bold p-2 rounded-lg border-gray-100 focus:ring-[#FF5C1A]" />
  </div>
- <div v-else class="text-sm font-medium text-rose-400 ">Store Closed</div>
+ <div v-else class="text-sm font-medium text-rose-400">Store Closed</div>
  </div>
 
  <div class="flex items-center gap-2 ml-4">
- <span class="text-sm font-bold text-gray-400 ">{{ bh.isClosed ? 'Offline' : 'Online' }}</span>
+ <span class="text-sm font-bold text-gray-400">{{ bh.isClosed ? 'Offline' : 'Online' }}</span>
  <input type="checkbox" :checked="!bh.isClosed" @change="bh.isClosed = !($event.target as HTMLInputElement).checked" class="w-5 h-5 rounded-lg border-gray-200 text-[#FF5C1A]" />
  </div>
  </div>
@@ -232,10 +232,10 @@
  </div>
 
  <!-- Break Periods -->
- <div class="p-6 bg-amber-50/30 rounded-3xl border border-amber-100/50 space-y-6">
+ <div class="p-6 bg-amber-50/30 rounded-md border border-amber-100/50 space-y-6">
  <div class="flex items-center justify-between">
  <div class="flex items-center gap-3">
- <div class="p-2 bg-white rounded-xl shadow-sm text-amber-600">
+ <div class="p-2 bg-white rounded-md text-amber-600">
  <Power class="w-4 h-4" />
  </div>
  <div>
@@ -248,12 +248,12 @@
 
  <div v-if="profile.breakPeriod.enabled" class="grid grid-cols-2 gap-4 animate-fade-in">
  <div class="space-y-1.5">
- <label class="text-sm font-medium text-amber-600  px-1">Break Start</label>
- <input type="time" v-model="profile.breakPeriod.start" class="w-full p-4 bg-white rounded-2xl border-gray-100 font-bold text-sm focus:ring-amber-500" />
+ <label class="text-sm font-medium text-amber-600 px-1">Break Start</label>
+ <input type="time" v-model="profile.breakPeriod.start" class="w-full p-4 bg-white rounded-md border-gray-100 font-bold text-sm focus:ring-amber-500" />
  </div>
  <div class="space-y-1.5">
- <label class="text-sm font-medium text-amber-600  px-1">Break End</label>
- <input type="time" v-model="profile.breakPeriod.end" class="w-full p-4 bg-white rounded-2xl border-gray-100 font-bold text-sm focus:ring-amber-500" />
+ <label class="text-sm font-medium text-amber-600 px-1">Break End</label>
+ <input type="time" v-model="profile.breakPeriod.end" class="w-full p-4 bg-white rounded-md border-gray-100 font-bold text-sm focus:ring-amber-500" />
  </div>
  </div>
  </div>
@@ -263,11 +263,11 @@
 
  <div v-show="activeTab === 'financials'">
  <!-- Payment Hub -->
- <section class="bg-white rounded-[2.5rem] border border-gray-100 shadow-sm overflow-hidden group">
+ <section class="bg-white rounded-[2.5rem] border border-gray-100 overflow-hidden group">
  <div class="p-8 border-b border-gray-50">
  <div class="flex items-center justify-between mb-2">
  <div class="flex items-center gap-3">
- <div class="p-3 bg-emerald-50 text-emerald-600 rounded-2xl group-hover:scale-110 transition-transform">
+ <div class="p-3 bg-emerald-50 text-emerald-600 rounded-md group-hover:scale-110 transition-transform">
  <CreditCard class="w-5 h-5" />
  </div>
  <h3 class="text-lg font-bold text-gray-900">Payout Methods</h3>
@@ -276,22 +276,22 @@
  <Plus class="w-5 h-5" />
  </button>
  </div>
- <p class="text-sm text-gray-400 font-bold  px-1">Active Payout Account</p>
+ <p class="text-sm text-gray-400 font-bold px-1">Active Payout Account</p>
  </div>
 
  <div class="p-8 space-y-4">
  <!-- Account List -->
  <div v-if="payoutAccounts.length === 0" class="py-6 text-center space-y-3">
- <div class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mx-auto border border-gray-100  font-serif text-gray-300">₦</div>
- <p class="text-sm text-gray-400 font-bold ">No bank accounts linked</p>
- <button @click="openAddAccount" class="text-sm font-medium text-[#FF5C1A]  hover:underline">Link Account</button>
+ <div class="w-12 h-12 bg-gray-50 rounded-md flex items-center justify-center mx-auto border border-gray-100 font-serif text-gray-300">₦</div>
+ <p class="text-sm text-gray-400 font-bold">No bank accounts linked</p>
+ <button @click="openAddAccount" class="text-sm font-medium text-[#FF5C1A] hover:underline">Link Account</button>
  </div>
 
  <div v-else class="space-y-3">
  <div 
  v-for="acc in payoutAccounts" 
  :key="acc.accountNumber"
- class="p-4 rounded-2xl border transition-all cursor-pointer relative group/acc"
+ class="p-4 rounded-md border transition-all cursor-pointer relative group/acc"
  :class="acc.isActive ? 'border-[#FF5C1A] bg-blue-50/30' : 'border-gray-50 bg-white hover:border-gray-200'"
  @click="setActiveAccount(acc)"
  >
@@ -299,9 +299,9 @@
  <div class="space-y-0.5">
  <p class="text-sm font-medium text-gray-900">{{ acc.bankName }}</p>
  <p class="text-sm text-gray-500 font-bold">{{ maskAccountNumber(acc.accountNumber) }}</p>
- <p class="text-sm text-gray-400 font-medium  mt-1">{{ acc.accountName }}</p>
+ <p class="text-sm text-gray-400 font-medium mt-1">{{ acc.accountName }}</p>
  </div>
- <div v-if="acc.isActive" class="w-6 h-6 bg-[#FF5C1A] rounded-lg flex items-center justify-center text-white shadow-lg shadow-[#FF5C1A]/20">
+ <div v-if="acc.isActive" class="w-6 h-6 bg-[#FF5C1A] rounded-lg flex items-center justify-center text-white">
  <CheckCircle class="w-3.5 h-3.5" />
  </div>
  <button 
@@ -317,14 +317,14 @@
 
  <div class="pt-4 mt-6 border-t border-gray-50 space-y-4">
  <div>
- <p class="text-sm text-gray-400 font-bold  px-1 mb-3">Withdrawal Cycle</p>
+ <p class="text-sm text-gray-400 font-bold px-1 mb-3">Withdrawal Cycle</p>
  <div class="grid grid-cols-3 gap-2">
  <button 
  v-for="pref in ['instant', 'weekly', 'monthly']" 
  :key="pref"
  @click="updatePayoutPref(pref)"
- class="py-3 rounded-xl text-sm font-medium  transition-all border"
- :class="payoutPreference === pref ? 'bg-gray-900 text-white border-gray-900 shadow-lg' : 'bg-white text-gray-400 border-gray-50 hover:border-gray-200'"
+ class="py-2 rounded-md text-sm font-medium transition-all border"
+ :class="payoutPreference === pref ? 'bg-gray-900 text-white border-gray-900 ' : 'bg-white text-gray-400 border-gray-50 hover:border-gray-200'"
  >
  {{ pref }}
  </button>
@@ -367,17 +367,17 @@
  </div>
  </div>
 
- <div v-if="newAccount.accountName" class="p-5 bg-emerald-50 rounded-2xl border border-emerald-100 flex items-center gap-4 animate-fade-in">
- <div class="p-3 bg-white rounded-xl shadow-sm text-emerald-600">
+ <div v-if="newAccount.accountName" class="p-5 bg-emerald-50 rounded-md border border-emerald-100 flex items-center gap-4 animate-fade-in">
+ <div class="p-3 bg-white rounded-md text-emerald-600">
  <CheckCircle class="w-5 h-5" />
  </div>
  <div>
- <p class="text-sm text-emerald-600 font-medium  mb-0.5">Verified Identity</p>
+ <p class="text-sm text-emerald-600 font-medium mb-0.5">Verified Identity</p>
  <p class="text-sm font-bold text-gray-900">{{ newAccount.accountName }}</p>
  </div>
  </div>
 
- <div v-if="resolveError" class="p-4 bg-red-50 rounded-xl border border-red-100/50 flex items-center gap-3">
+ <div v-if="resolveError" class="p-4 bg-red-50 rounded-md border border-red-100/50 flex items-center gap-3">
  <AlertCircle class="w-4 h-4 text-red-500 shrink-0" />
  <p class="text-sm font-medium text-red-600">{{ resolveError }}</p>
  </div>
@@ -385,11 +385,11 @@
 
  <template #footer>
  <div class="flex items-center gap-4 w-full">
- <button @click="isAccountDrawerOpen = false" class="flex-1 py-4 bg-white border border-gray-100 text-gray-400 text-sm font-medium  rounded-2xl">Cancel</button>
+ <button @click="isAccountDrawerOpen = false" class="flex-1 py-2 bg-white border border-gray-100 text-gray-400 text-sm font-medium rounded-md">Cancel</button>
  <button 
  @click="saveNewAccount" 
  :disabled="!isAccountVerified || savingBank" 
- class="flex-[2] py-4 bg-gray-900 text-white rounded-2xl font-medium text-sm  shadow-xl hover:bg-black transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
+ class="flex-[2] py-2 bg-gray-900 text-white rounded-md font-medium text-sm hover:bg-black transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
  >
  <Loader2 v-if="savingBank" class="animate-spin w-3 h-3" />
  Link Account

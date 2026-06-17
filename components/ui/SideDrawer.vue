@@ -13,17 +13,17 @@
       leave-from-class="translate-y-0 md:translate-x-0"
       leave-to-class="translate-y-full md:translate-y-0 md:translate-x-full"
  >
- <div v-if="isOpen" class="fixed inset-x-0 bottom-0 md:top-4 md:bottom-4 md:right-4 md:left-auto z-[101] bg-white rounded-t-[2rem] md:rounded-2xl md:w-[600px] shadow-2xl flex flex-col max-h-[90vh] md:max-h-[calc(100vh-2rem)] border border-gray-200 overflow-hidden h-full pointer-events-auto">
+ <div v-if="isOpen" class="fixed inset-x-0 bottom-0 md:top-4 md:bottom-4 md:right-4 md:left-auto z-[101] bg-white rounded-t-[2rem] md:rounded-md md:w-[600px] flex flex-col max-h-[90vh] md:max-h-[calc(100vh-2rem)] border border-gray-200 overflow-hidden h-full pointer-events-auto">
  
  <!-- Header -->
  <div class="px-8 py-6 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-20">
  <div>
  <h2 v-if="title" class="text-xl font-medium text-gray-900 tracking-tight">{{ title }}</h2>
- <p v-if="subtitle" class="text-sm font-bold text-gray-400  mt-1">{{ subtitle }}</p>
+ <p v-if="subtitle" class="text-sm font-bold text-gray-400 mt-1">{{ subtitle }}</p>
  </div>
  <button 
  type="button" 
- class="w-10 h-10 rounded-xl flex items-center justify-center bg-gray-50 text-gray-400 hover:text-gray-900 hover:bg-gray-100 transition-all active:scale-95" 
+ class="w-10 h-10 rounded-md flex items-center justify-center bg-gray-50 text-gray-400 hover:text-gray-900 hover:bg-gray-100 transition-all active:scale-95" 
  @click="$emit('close')"
  >
  <X class="w-5 h-5" />

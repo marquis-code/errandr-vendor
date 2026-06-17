@@ -7,12 +7,9 @@
           <button
             type="button"
             @click="toggleDropdown"
-            :class="[
-              'flex items-center gap-2 px-3 py-2 bg-white border-[0.5px] rounded-lg',
-              error ? 'border-red-300' : 'border-gray-100'
-            ]"
+            :class="[ 'flex items-center gap-2 px-3 py-2 bg-white border-[0.5px] rounded-lg', error ? 'border-red-300' : 'border-gray-100' ]"
           >
-            <span class="text-2xl">{{ selectedCountry.flag }}</span>
+            <span class="text-xl">{{ selectedCountry.flag }}</span>
             <span class="text-sm font-medium text-gray-700">
               {{ selectedCountry.dialCode }}
             </span>
@@ -34,7 +31,7 @@
               <div 
                 v-if="isOpen" 
                 :style="dropdownStyle"
-                class="fixed w-80 bg-white border-[0.5px] border-gray-25 rounded-lg shadow-2xl max-h-96 flex flex-col"
+                class="fixed w-80 bg-white border-[0.5px] border-gray-25 rounded-lg max-h-96 flex flex-col"
                 style="z-index: 9999;"
               >
               <!-- Search -->
@@ -58,12 +55,9 @@
                     :key="country.code"
                     type="button"
                     @click="handleCountrySelect(country)"
-                    :class="[
-                      'w-full flex items-center gap-3 px-4 py-3 hover:bg-blue-50 transition-colors text-left',
-                      selectedCountry.code === country.code ? 'bg-blue-50' : ''
-                    ]"
+                    :class="[ 'w-full flex items-center gap-3 px-4 py-2 hover:bg-blue-50 transition-colors text-left', selectedCountry.code === country.code ? 'bg-blue-50' : '' ]"
                   >
-                    <span class="text-2xl">{{ country.flag }}</span>
+                    <span class="text-xl">{{ country.flag }}</span>
                     <div class="flex-1 min-w-0">
                       <div class="font-medium text-gray-900 text-sm truncate">
                         {{ country.name }}
@@ -94,10 +88,7 @@
             @keydown="handleKeyDown"
             :placeholder="selectedCountry.format.replace(/#/g, '0')"
             :maxlength="selectedCountry.format.length"
-            :class="[
-              'custom-input',
-              error ? 'border-red-300' : 'border-gray-100'
-            ]"
+            :class="[ 'custom-input', error ? 'border-red-300' : 'border-gray-100' ]"
           />
         </div>
       </div>

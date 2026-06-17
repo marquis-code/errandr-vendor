@@ -9,7 +9,7 @@
       <div class="flex items-center justify-between pb-6 mb-6 border-b border-gray-100">
         <div class="flex items-center gap-3">
           <div 
-            class="w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold text-white shadow-md"
+            class="w-12 h-12 rounded-md flex items-center justify-center text-xl font-bold text-white"
             :class="getStatusColor(appointment.status).bg"
           >
             {{ clientInitials }}
@@ -23,10 +23,10 @@
 
       <!-- Quick Action Buttons -->
       <div class="flex gap-2 mb-8">
-        <button class="flex-1 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-100 transition-colors flex justify-center items-center gap-2">
+        <button class="flex-1 py-2.5 bg-gray-50 border border-gray-200 rounded-md text-sm font-semibold text-gray-700 hover:bg-gray-100 transition-colors flex justify-center items-center gap-2">
           <MessageCircle class="w-4 h-4" /> Message
         </button>
-        <button class="flex-1 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-100 transition-colors flex justify-center items-center gap-2">
+        <button class="flex-1 py-2.5 bg-gray-50 border border-gray-200 rounded-md text-sm font-semibold text-gray-700 hover:bg-gray-100 transition-colors flex justify-center items-center gap-2">
           <User class="w-4 h-4" /> Profile
         </button>
       </div>
@@ -39,7 +39,7 @@
             {{ formattedDate }}
           </h4>
           
-          <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100 relative overflow-hidden group">
+          <div class="p-4 bg-gray-50 rounded-md border border-gray-100 relative overflow-hidden group">
             <div class="absolute left-0 top-0 bottom-0 w-1" :class="getStatusColor(appointment.status).border"></div>
             
             <div class="pl-2">
@@ -54,7 +54,7 @@
               </div>
               
               <div class="flex items-center gap-2 mt-3">
-                <div class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center shrink-0">
+                <div class="w-6 h-6 rounded-md bg-gray-200 flex items-center justify-center shrink-0">
                   <User class="w-3 h-3 text-gray-500" />
                 </div>
                 <span class="text-xs font-semibold text-gray-600">With Store Owner</span>
@@ -68,7 +68,7 @@
             <Info class="w-4 h-4 text-gray-400" /> 
             Booking Info
           </h4>
-          <div class="bg-white border border-gray-100 rounded-2xl p-4 space-y-3">
+          <div class="bg-white border border-gray-100 rounded-md p-4 space-y-3">
             <div class="flex justify-between text-sm">
               <span class="text-gray-500">Status</span>
               <span 
@@ -94,7 +94,7 @@
       <div class="pt-6 mt-6 border-t border-gray-100 space-y-3">
         <div class="flex justify-between items-center mb-4">
           <span class="text-sm font-bold text-gray-500">Total to pay</span>
-          <span class="text-2xl font-black text-gray-900">₦{{ appointment.price?.toLocaleString() || 0 }}</span>
+          <span class="text-xl font-black text-gray-900">₦{{ appointment.price?.toLocaleString() || 0 }}</span>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
@@ -102,7 +102,7 @@
             v-if="appointment.status !== 'cancelled'"
             @click="handleUpdateStatus('cancelled')"
             :disabled="loading"
-            class="w-full py-3.5 bg-red-50 text-red-600 border border-red-100 rounded-xl text-sm font-bold hover:bg-red-100 transition-colors disabled:opacity-50"
+            class="w-full py-2.5 bg-red-50 text-red-600 border border-red-100 rounded-md text-sm font-bold hover:bg-red-100 transition-colors disabled:opacity-50"
           >
             Cancel Booking
           </button>
@@ -111,7 +111,7 @@
             v-if="appointment.status === 'pending'"
             @click="handleUpdateStatus('confirmed')"
             :disabled="loading"
-            class="w-full py-3.5 bg-blue-50 text-blue-600 border border-blue-100 rounded-xl text-sm font-bold hover:bg-blue-100 transition-colors disabled:opacity-50 col-span-2 sm:col-span-1"
+            class="w-full py-2.5 bg-blue-50 text-blue-600 border border-blue-100 rounded-md text-sm font-bold hover:bg-blue-100 transition-colors disabled:opacity-50 col-span-2 sm:col-span-1"
           >
             Confirm Booking
           </button>
@@ -120,7 +120,7 @@
             v-if="appointment.status === 'confirmed' || appointment.status === 'pending'"
             @click="handleUpdateStatus('completed')"
             :disabled="loading"
-            class="w-full py-3.5 bg-gray-900 text-white rounded-xl text-sm font-bold shadow-md hover:bg-black transition-colors disabled:opacity-50 col-span-2"
+            class="w-full py-2.5 bg-gray-900 text-white rounded-md text-sm font-bold hover:bg-black transition-colors disabled:opacity-50 col-span-2"
           >
             Checkout (Complete)
           </button>

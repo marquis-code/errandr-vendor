@@ -19,12 +19,12 @@
       leave-from-class="translate-y-0 md:translate-x-0"
       leave-to-class="translate-y-full md:translate-y-0 md:translate-x-full"
     >
-      <div v-if="isOpen" class="fixed inset-x-0 bottom-0 md:top-4 md:bottom-4 md:right-4 md:left-auto z-[101] bg-white rounded-t-[2rem] md:rounded-2xl md:w-[600px] shadow-2xl flex flex-col max-h-[90vh] md:max-h-[calc(100vh-2rem)] border border-gray-200 overflow-hidden h-full">
+      <div v-if="isOpen" class="fixed inset-x-0 bottom-0 md:top-4 md:bottom-4 md:right-4 md:left-auto z-[101] bg-white rounded-t-[2rem] md:rounded-md md:w-[600px] flex flex-col max-h-[90vh] md:max-h-[calc(100vh-2rem)] border border-gray-200 overflow-hidden h-full">
         
         <!-- Header -->
         <div class="px-6 py-5 border-b border-gray-100 flex items-center justify-between shrink-0 bg-white">
           <h2 class="text-lg font-bold text-gray-900">{{ isEditing ? 'Edit Service' : 'Add New Service' }}</h2>
-          <button @click="$emit('close')" class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 hover:bg-gray-100 transition-colors">
+          <button @click="$emit('close')" class="w-8 h-8 rounded-md bg-gray-50 flex items-center justify-center text-gray-500 hover:bg-gray-100 transition-colors">
             <X class="w-4 h-4" />
           </button>
         </div>
@@ -39,25 +39,25 @@
             <div class="grid gap-4">
               <div>
                 <label class="block text-xs font-bold text-gray-700 mb-1.5">Service Name</label>
-                <input v-model="form.name" type="text" placeholder="e.g. Classic European Massage" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all" />
+                <input v-model="form.name" type="text" placeholder="e.g. Classic European Massage" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-md focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all" />
               </div>
               <div>
                 <label class="block text-xs font-bold text-gray-700 mb-1.5">Category</label>
-                <input v-model="form.category" type="text" placeholder="e.g. Massage" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all" />
+                <input v-model="form.category" type="text" placeholder="e.g. Massage" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-md focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all" />
               </div>
               <div>
                 <label class="block text-xs font-bold text-gray-700 mb-1.5">Description</label>
-                <textarea v-model="form.description" rows="3" placeholder="Briefly describe what this service includes..." class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all"></textarea>
+                <textarea v-model="form.description" rows="3" placeholder="Briefly describe what this service includes..." class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-md focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all"></textarea>
               </div>
               
               <div class="grid grid-cols-2 gap-4">
                 <div>
                   <label class="block text-xs font-bold text-gray-700 mb-1.5">Base Price (₦)</label>
-                  <input v-model.number="form.price" type="number" placeholder="30000" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all" />
+                  <input v-model.number="form.price" type="number" placeholder="30000" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-md focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all" />
                 </div>
                 <div>
                   <label class="block text-xs font-bold text-gray-700 mb-1.5">Base Duration (Mins)</label>
-                  <input v-model.number="form.durationInMinutes" type="number" placeholder="60" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all" />
+                  <input v-model.number="form.durationInMinutes" type="number" placeholder="60" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-md focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all" />
                 </div>
               </div>
             </div>
@@ -73,8 +73,8 @@
             </div>
             <p class="text-xs text-gray-500">Provide different duration/price options (e.g. "Pick me up - 30mins", "Classic - 1hr"). If left empty, the base price/duration is used.</p>
             
-            <div v-for="(v, idx) in form.variants" :key="idx" class="p-4 bg-gray-50 border border-gray-100 rounded-xl space-y-3 relative group">
-              <button @click="removeVariant(idx)" class="absolute top-2 right-2 p-1.5 bg-white text-gray-400 hover:text-red-500 rounded-md opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"><Trash2 class="w-3.5 h-3.5"/></button>
+            <div v-for="(v, idx) in form.variants" :key="idx" class="p-4 bg-gray-50 border border-gray-100 rounded-md space-y-3 relative group">
+              <button @click="removeVariant(idx)" class="absolute top-2 right-2 p-1.5 bg-white text-gray-400 hover:text-red-500 rounded-md opacity-0 group-hover:opacity-100 transition-opacity"><Trash2 class="w-3.5 h-3.5"/></button>
               
               <div>
                 <label class="block text-xs font-bold text-gray-700 mb-1">Variant Name</label>
@@ -103,8 +103,8 @@
             </div>
             <p class="text-xs text-gray-500">Suggest optional upsells clients can add to this service (e.g. "TNC Signature Pedicure").</p>
             
-            <div v-for="(ext, idx) in form.extras" :key="idx" class="p-4 bg-amber-50/50 border border-amber-100 rounded-xl space-y-3 relative group">
-              <button @click="removeExtra(idx)" class="absolute top-2 right-2 p-1.5 bg-white text-gray-400 hover:text-red-500 rounded-md opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"><Trash2 class="w-3.5 h-3.5"/></button>
+            <div v-for="(ext, idx) in form.extras" :key="idx" class="p-4 bg-amber-50/50 border border-amber-100 rounded-md space-y-3 relative group">
+              <button @click="removeExtra(idx)" class="absolute top-2 right-2 p-1.5 bg-white text-gray-400 hover:text-red-500 rounded-md opacity-0 group-hover:opacity-100 transition-opacity"><Trash2 class="w-3.5 h-3.5"/></button>
               
               <div>
                 <label class="block text-xs font-bold text-gray-700 mb-1">Extra Name</label>
@@ -130,7 +130,7 @@
           <button 
             @click="handleSubmit" 
             :disabled="loading"
-            class="w-full py-3.5 bg-parentPrimary text-white rounded-xl text-sm font-bold shadow-md hover:brightness-110 hover:shadow-lg transition-all flex items-center justify-center disabled:opacity-50"
+            class="w-full py-2.5 bg-parentPrimary text-white rounded-md text-sm font-bold hover:brightness-110 hover: transition-all flex items-center justify-center disabled:opacity-50"
           >
             <Loader2 v-if="loading" class="w-4 h-4 animate-spin" />
             <span v-else>{{ isEditing ? 'Save Changes' : 'Publish Service' }}</span>

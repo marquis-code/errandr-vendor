@@ -3,7 +3,7 @@
     <!-- Header with Stats & Actions -->
     <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pt-6">
       <div class="space-y-1">
-        <h1 class="text-2xl font-bold text-gray-900 tracking-tight sm:text-3xl">Services Management</h1>
+        <h1 class="text-xl font-bold text-gray-900 tracking-tight sm:text-2xl">Services Management</h1>
         <p class="text-sm text-gray-400 font-medium flex items-center gap-2">
           Organize your service offerings and appointments. 
           <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-sm font-bold bg-blue-50 text-parentPrimary">
@@ -15,7 +15,7 @@
       <div class="flex flex-wrap items-center gap-3">
         <button 
           @click="openAddService"
-          class="px-6 py-3 bg-gray-900 text-white rounded-xl font-bold text-sm shadow-lg hover:bg-black active:scale-95 transition-all flex items-center gap-2"
+          class="px-6 py-2 bg-gray-900 text-white rounded-md font-bold text-sm hover:bg-black active:scale-95 transition-all flex items-center gap-2"
         >
           <Plus class="w-4 h-4" /> Add New Service
         </button>
@@ -23,17 +23,17 @@
     </div>
 
     <!-- Services Table -->
-    <div class="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden min-h-[500px]">
-      <UiTable 
+    <div class="bg-white rounded-md overflow-hidden min-h-[500px]">
+      <UiTable  
         :columns="serviceColumns" 
         :items="servicesList" 
         :loading="loading"
         empty-title="No services found"
         empty-subtitle="You haven't added any services yet."
-      >
+       :has-actions="true">
         <template #name="{ item }">
           <div class="flex items-center gap-4">
-            <div class="w-10 h-10 rounded-xl bg-gray-50 overflow-hidden shrink-0 shadow-sm">
+            <div class="w-10 h-10 rounded-md bg-gray-50 overflow-hidden shrink-0">
               <img :src="(item as any).image || '/placeholder-service.jpg'" class="w-full h-full object-cover" />
             </div>
             <div class="truncate">
