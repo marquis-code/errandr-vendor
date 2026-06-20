@@ -112,7 +112,7 @@
 
         <!-- Marketing / Insight Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="bg-white rounded-[2.5rem] border border-gray-100 p-8 relative overflow-hidden group">
+          <div class="bg-white rounded-2xl border border-gray-100 p-8 relative overflow-hidden group">
             <div class="relative z-10">
               <div class="w-10 h-10 bg-orange-50 rounded-md flex items-center justify-center mb-6">
                 <Package v-if="!isServiceProvider" class="w-5 h-5 text-[#FF5C1A]" />
@@ -126,7 +126,7 @@
             </div>
           </div>
           
-          <div class="bg-white rounded-[2.5rem] p-8 border border-gray-100 relative overflow-hidden group">
+          <div class="bg-white rounded-2xl p-8 border border-gray-100 relative overflow-hidden group">
             <div class="relative z-10">
               <div class="flex items-center gap-0.5 mb-6">
                 <Star v-for="i in 5" :key="i" class="w-4 h-4 text-amber-400 fill-amber-400" />
@@ -143,7 +143,7 @@
 
       <!-- Financial Sidebar -->
       <div class="space-y-8">
-        <div class="bg-white rounded-[2.5rem] border border-gray-100 p-8 space-y-8 transition-all">
+        <div class="bg-white rounded-2xl border border-gray-100 p-8 space-y-8 transition-all">
           <div class="flex items-center gap-4">
             <div class="w-12 h-12 rounded-md bg-[#FF5C1A]/5 text-[#FF5C1A] flex items-center justify-center border border-[#FF5C1A]/10 shrink-0">
               <Banknote class="w-5 h-5" />
@@ -180,7 +180,7 @@
           </NuxtLink>
         </div>
 
-        <div class="bg-white border border-gray-100 rounded-[2.5rem] p-8 relative overflow-hidden group">
+        <div class="bg-white border border-gray-100 rounded-2xl p-8 relative overflow-hidden group">
           <h3 class="text-lg font-bold text-gray-900 flex items-center gap-3 relative z-10">
             <Megaphone class="w-5 h-5 text-[#FF5C1A]" /> Campus Insight
           </h3>

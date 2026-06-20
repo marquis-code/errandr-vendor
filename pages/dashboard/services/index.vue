@@ -76,7 +76,8 @@
     <!-- Modals & Drawers -->
     <ServiceDrawer 
       :isOpen="isDrawerOpen" 
-      :service="serviceToEdit" 
+      :service="serviceToEdit"
+      :categories="categories"
       @close="isDrawerOpen = false; serviceToEdit = null" 
       @save="handleSaveService" 
     />
@@ -97,6 +98,7 @@
 import { ref, onMounted } from 'vue';
 import { Plus, Edit2, Trash2 } from 'lucide-vue-next';
 import { useVendorServices } from '@/composables/modules/services';
+import { useVendorCategories } from '@/composables/modules/products';
 import ConfirmModal from '@/components/ui/ConfirmModal.vue';
 import UiTable from '@/components/ui/UiTable.vue';
 import ServiceDrawer from '@/components/services/ServiceDrawer.vue';
@@ -105,6 +107,7 @@ definePageMeta({ layout: 'vendor' });
 useHead({ title: 'Services - Errander Vendor' });
 
 const { servicesList, loading, fetchServices, deleteService, toggleAvailability, createService, updateService } = useVendorServices();
+const { categories, fetchCategories } = useVendorCategories();
 
 const isDeleteModalOpen = ref(false);
 const serviceToDelete = ref(null);
@@ -115,8 +118,7 @@ const serviceToEdit = ref<any>(null);
 const serviceColumns = [
   { key: 'name', label: 'Service Details' },
   { key: 'price', label: 'Price & Duration' },
-  { key: 'status', label: 'Status' },
-  { key: 'actions', label: '' }
+  { key: 'status', label: 'Status' }
 ];
 
 const openAddService = () => {
@@ -158,6 +160,7 @@ const quickToggleAvailability = async (service: any) => {
 
 onMounted(() => {
   fetchServices();
+  fetchCategories();
 });
 </script>
 

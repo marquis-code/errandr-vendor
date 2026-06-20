@@ -42,8 +42,13 @@
                 <input v-model="form.name" type="text" placeholder="e.g. Classic European Massage" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-md focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all" />
               </div>
               <div>
-                <label class="block text-xs font-bold text-gray-700 mb-1.5">Category</label>
-                <input v-model="form.category" type="text" placeholder="e.g. Massage" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-md focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all" />
+                <SelectInput 
+                  v-model="form.category" 
+                  label="Category" 
+                  :options="categories" 
+                  description="Select a category"
+                  required 
+                />
               </div>
               <div>
                 <label class="block text-xs font-bold text-gray-700 mb-1.5">Description</label>
@@ -144,10 +149,12 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { X, Info, Layers, Sparkles, Trash2, Loader2 } from 'lucide-vue-next';
+import SelectInput from '@/components/ui/SelectInput.vue';
 
 const props = defineProps<{
   isOpen: boolean;
   service?: any;
+  categories?: any[];
 }>();
 
 const emit = defineEmits(['close', 'save']);
@@ -165,8 +172,8 @@ const form = ref({
   extras: [] as any[]
 });
 
-watch(() => props.isOpen, (newVal) => {
-  if (newVal) {
+watch(() => props.isOpen, (isOpen) => {
+  if (isOpen) {
     if (props.service) {
       isEditing.value = true;
       form.value = { 

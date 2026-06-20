@@ -90,7 +90,7 @@
  <td class="py-4 px-2 min-w-[250px]">
  <div class="flex items-center gap-3">
  <div class="w-10 h-10 rounded-md bg-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0 border border-gray-200">
- <img :src="product.image || '/placeholder-food.jpg'" class="w-full h-full object-cover" />
+ <img :src="product.image || '/placeholder-store.jpg'" class="w-full h-full object-cover" />
  </div>
  <div class="min-w-0">
  <h3 class="font-bold text-gray-900 text-[13px] tracking-tight truncate">{{ product.name }}</h3>
@@ -123,7 +123,7 @@
  <template v-if="selectedProduct">
  <div class="flex flex-col items-center justify-center py-6 border-b border-gray-100">
  <div class="w-24 h-24 rounded-md bg-gray-100 overflow-hidden mb-4 border border-gray-200">
- <img :src="selectedProduct.image || '/placeholder-food.jpg'" class="w-full h-full object-cover" />
+ <img :src="selectedProduct.image || '/placeholder-store.jpg'" class="w-full h-full object-cover" />
  </div>
  
  <h3 class="text-xl font-bold text-gray-900 tracking-tight text-center">{{ selectedProduct.name }}</h3>

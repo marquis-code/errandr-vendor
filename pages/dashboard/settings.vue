@@ -27,7 +27,7 @@
  <div class="flex-1 space-y-8 min-w-0">
  <div v-show="activeTab === 'profile'">
  <!-- Store Identity -->
- <section class="bg-white rounded-[2.5rem] border border-gray-100 overflow-hidden group">
+ <section class="bg-white rounded-2xl border border-gray-100 overflow-hidden group">
  <div class="p-8 border-b border-gray-50 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
  <div class="flex items-center gap-4">
  <div class="p-3 bg-blue-50 text-[#FF5C1A] rounded-md group-hover:scale-110 transition-transform">
@@ -67,7 +67,7 @@
 
  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
  <AnimatedInput v-model="profile.storeName" label="Business Name" :description="isServiceProvider ? 'e.g. Glam by Sarah' : 'e.g. Gourmet Burger Central'" required />
- <SelectInput v-model="profile.category" :label="isServiceProvider ? 'Business Category' : 'Kitchen Type'" :options="filteredCategoryOptions" required />
+ <SelectInput v-model="profile.category" :label="isServiceProvider ? 'Business Category' : 'Kitchen Type'" :options="filteredCategoryOptions" :allowCustom="true" required />
  </div>
  
  <AnimatedInput v-model="profile.description" type="textarea" :label="isServiceProvider ? 'Business Bio' : 'Store Bio'" :description="isServiceProvider ? 'Tell students about your services and expertise...' : 'Tell students why your food is special...'" />
@@ -90,7 +90,7 @@
 
  <div v-show="activeTab === 'operations'" class="space-y-8">
  <!-- Store Availability / Live Status -->
- <section class="bg-gray-900 rounded-[2.5rem] p-8 text-white relative overflow-hidden group">
+ <section class="bg-gray-900 rounded-2xl p-8 text-white relative overflow-hidden group">
  <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-md blur-3xl" />
  <div class="flex items-center justify-between mb-8">
  <h3 class="text-lg font-bold">Live Status</h3>
@@ -123,7 +123,7 @@
  </section>
 
  <!-- Service Window -->
- <section class="bg-white rounded-[2.5rem] border border-gray-100 overflow-hidden group">
+ <section class="bg-white rounded-2xl border border-gray-100 overflow-hidden group">
  <div class="p-8 border-b border-gray-50 flex items-center justify-between">
  <div class="flex items-center gap-4">
  <div class="p-3 bg-amber-50 text-amber-600 rounded-md group-hover:scale-110 transition-transform">
@@ -263,7 +263,7 @@
 
  <div v-show="activeTab === 'financials'">
  <!-- Payment Hub -->
- <section class="bg-white rounded-[2.5rem] border border-gray-100 overflow-hidden group">
+ <section class="bg-white rounded-2xl border border-gray-100 overflow-hidden group">
  <div class="p-8 border-b border-gray-50">
  <div class="flex items-center justify-between mb-2">
  <div class="flex items-center gap-3">

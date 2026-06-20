@@ -367,6 +367,39 @@
                 </div>
               </div>
 
+              <!-- Student Details Fields -->
+              <transition
+                enter-active-class="transition ease-out duration-300"
+                enter-from-class="opacity-0 -translate-y-2"
+                enter-to-class="opacity-100 translate-y-0"
+                leave-active-class="transition ease-in duration-200"
+                leave-from-class="opacity-100 translate-y-0"
+                leave-to-class="opacity-0 -translate-y-2"
+              >
+                <div v-if="vendor.isStudentBusiness" class="space-y-4 pt-4 border-t border-gray-100">
+                  <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-gray-700 tracking-wide uppercase">Select Institution <span class="text-[#FF5C1A]">*</span></label>
+                    <select 
+                      v-model="vendor.university" 
+                      class="w-full px-3 py-3 bg-gray-50 border border-gray-200 rounded-md text-sm outline-none focus:border-[#FF5C1A] focus:bg-white transition-all text-gray-900"
+                      required
+                    >
+                      <option value="" disabled selected>Select your institution</option>
+                      <option v-for="opt in universityOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+                    </select>
+                  </div>
+                  <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-gray-700 tracking-wide uppercase">Matriculation Number (Optional)</label>
+                    <input 
+                      v-model="vendor.matricNumber" 
+                      type="text" 
+                      placeholder="e.g. 1902040..."
+                      class="w-full px-3 py-3 bg-gray-50 border border-gray-200 rounded-md text-sm outline-none focus:border-[#FF5C1A] focus:bg-white transition-all text-gray-900"
+                    />
+                  </div>
+                </div>
+              </transition>
+
               <div class="flex gap-3 pt-4 mt-auto">
                 <button type="button" @click="currentStep = 'businessType'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-md font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
                 <button type="submit" class="flex-1 py-2 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-md font-medium text-sm transition-all flex items-center justify-center gap-2 active:scale-[0.98]">Continue <ArrowRight class="w-5 h-5" /></button>
@@ -596,9 +629,21 @@
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <UiAnimatedInput v-model.number="vendor.preparationTime" type="number" label="Prep Time (mins)" />
-                <UiAnimatedInput v-model.number="vendor.minimumOrder" type="number" label="Min Order (₦)" />
-                <UiAnimatedInput v-model.number="vendor.deliveryFee" type="number" label="Delivery Fee (₦)" />
+                <UiAnimatedInput v-model.number="vendor.preparationTime" type="number" label="Average Prep / Service Time (mins)">
+                  <template #right>
+                    <button type="button" @click.stop="activeInfoModal = 'prepTime'" class="text-gray-400 hover:text-[#FF5C1A] transition-colors p-1"><Info class="w-4 h-4" /></button>
+                  </template>
+                </UiAnimatedInput>
+                <UiAnimatedInput v-model.number="vendor.minimumOrder" type="number" label="Lowest Acceptable Cart Value (₦)">
+                  <template #right>
+                    <button type="button" @click.stop="activeInfoModal = 'minOrder'" class="text-gray-400 hover:text-[#FF5C1A] transition-colors p-1"><Info class="w-4 h-4" /></button>
+                  </template>
+                </UiAnimatedInput>
+                <UiAnimatedInput v-model.number="vendor.deliveryFee" type="number" label="Campus Runner Charge (₦)">
+                  <template #right>
+                    <button type="button" @click.stop="activeInfoModal = 'deliveryFee'" class="text-gray-400 hover:text-[#FF5C1A] transition-colors p-1"><Info class="w-4 h-4" /></button>
+                  </template>
+                </UiAnimatedInput>
               </div>
 
               <!-- Banks -->
@@ -655,6 +700,36 @@
         </div>
       </div>
       
+      <!-- Info Modal -->
+      <transition
+        enter-active-class="transition duration-200 ease-out"
+        enter-from-class="opacity-0 scale-95"
+        enter-to-class="opacity-100 scale-100"
+        leave-active-class="transition duration-150 ease-in"
+        leave-from-class="opacity-100 scale-100"
+        leave-to-class="opacity-0 scale-95"
+      >
+        <div v-if="activeInfoModal && infoModalContent" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" @click="activeInfoModal = null"></div>
+          <div class="relative bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl flex flex-col items-center text-center">
+            <div class="w-12 h-12 bg-[#FF5C1A]/10 rounded-full flex items-center justify-center text-[#FF5C1A] mb-4">
+              <Info class="w-6 h-6" />
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">{{ infoModalContent.title }}</h3>
+            <p class="text-sm text-gray-500 font-medium leading-relaxed mb-6">{{ infoModalContent.description }}</p>
+            
+            <div class="w-full bg-gray-50 rounded-xl p-4 mb-6">
+              <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Why it's important</p>
+              <p class="text-sm text-gray-700 font-medium">{{ infoModalContent.importance }}</p>
+            </div>
+            
+            <button type="button" @click="activeInfoModal = null" class="w-full py-3 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-xl font-bold text-sm transition-all active:scale-95">
+              Got it!
+            </button>
+          </div>
+        </div>
+      </transition>
+
       <!-- Footer Info -->
       <div class="mt-8 text-center flex items-center justify-center gap-4 text-sm font-bold text-gray-400">
         <p>&copy; {{ new Date().getFullYear() }} Erranders</p>
@@ -685,6 +760,26 @@ const error = ref('')
 const currentStep = ref<'account' | 'otp' | 'business' | 'businessType' | 'teamSize' | 'locationType' | 'addressOrSoftware' | 'logistics' | 'success'>('account')
 const submitting = ref(false)
 const showPreOrderInfo = ref(false)
+
+const activeInfoModal = ref<string | null>(null);
+const infoModalData = {
+  prepTime: {
+    title: 'Average Prep / Service Time',
+    description: 'If you sell physical products (like food or merch), this is how long it usually takes you to prepare, package, or cook an order. If you offer a service (like haircuts or makeup), this is how long an average session lasts.',
+    importance: 'It sets proper customer expectations and helps dispatchers know exactly when to arrive so nobody is kept waiting!'
+  },
+  minOrder: {
+    title: 'Lowest Acceptable Cart Value',
+    description: 'This is the absolute minimum amount a customer must spend in your store before they are allowed to place an order.',
+    importance: 'It ensures you stay profitable and don\'t lose money packing or processing extremely small orders.'
+  },
+  deliveryFee: {
+    title: 'Campus Runner Charge',
+    description: 'This is the base fee charged to the customer to transport the goods to them on campus. If you offer a service where you don\'t physically deliver anything, you can comfortably leave this as ₦0.',
+    importance: 'It covers the logistics cost. Keeping it relatively low (or at ₦0 for services) increases your sales volume significantly!'
+  }
+};
+const infoModalContent = computed(() => activeInfoModal.value ? infoModalData[activeInfoModal.value as keyof typeof infoModalData] : null);
 
 const displayStep = computed(() => {
   if (currentStep.value === 'account' || currentStep.value === 'otp') return 1
@@ -1016,6 +1111,10 @@ const handleStepCategories = () => {
   if (selectedCategories.value.length === 0) { 
     showToast({ title: 'Category Required', message: 'Please select at least one business category.', toastType: 'error' })
     return 
+  }
+  if (vendor.isStudentBusiness && !vendor.university) {
+    showToast({ title: 'Institution Required', message: 'Please select your institution since you are a student entrepreneur.', toastType: 'error' })
+    return
   }
   currentStep.value = 'teamSize'
 }

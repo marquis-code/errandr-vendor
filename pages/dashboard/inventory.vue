@@ -183,8 +183,7 @@ const productColumns = [
  { key: 'name', label: 'Item Details' },
  { key: 'price', label: 'Price' },
  { key: 'stock', label: 'Inventory' },
- { key: 'status', label: 'Status' },
- { key: 'actions', label: '' }
+ { key: 'status', label: 'Status' }
 ];
 
 const filteredProducts = computed(() => {

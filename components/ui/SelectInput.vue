@@ -70,11 +70,18 @@
  <Check v-if="getValue(option) === modelValue" class="w-4 h-4 shrink-0" />
  </div>
  
- <div v-if="filteredOptions.length === 0" class="p-8 text-center">
+ <div v-if="filteredOptions.length === 0" class="p-4 text-center">
  <div class="w-10 h-10 bg-gray-50 rounded-md flex items-center justify-center mx-auto mb-3">
  <Search class="w-5 h-5 text-gray-200" />
  </div>
- <p class="text-sm font-bold text-gray-400">No results found</p>
+ <p class="text-sm font-bold text-gray-400 mb-2">No results found</p>
+ <button 
+ v-if="allowCustom && searchQuery.trim()" 
+ @click="selectCustomOption()"
+ class="w-full py-2 px-4 bg-[#FF5C1A]/10 text-[#FF5C1A] text-sm font-bold rounded-md hover:bg-[#FF5C1A]/20 transition-colors"
+ >
+ Add "{{ searchQuery }}"
+ </button>
  </div>
  </div>
  </div>
@@ -108,6 +115,7 @@ interface Props {
  errorMessage?: string
  showError?: boolean
  hasError?: boolean
+ allowCustom?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -116,7 +124,8 @@ const props = withDefaults(defineProps<Props>(), {
  disabled: false,
  errorMessage: '',
  showError: true,
- hasError: false
+ hasError: false,
+ allowCustom: false
 })
 
 const slots = defineSlots<{
@@ -152,6 +161,15 @@ const selectOption = (option: any) => {
  searchQuery.value = ''
 }
 
+const selectCustomOption = () => {
+  const customVal = searchQuery.value.trim()
+  if (customVal) {
+    emit('update:modelValue', customVal)
+    showDropdown.value = false
+    searchQuery.value = ''
+  }
+}
+
 const getLabel = (option: any): string => {
  if (typeof option === 'string') return option
  return option.label || option.name || option.value || option.code || String(option)
@@ -163,8 +181,10 @@ const getValue = (option: any): string | number => {
 }
 
 const selectedLabel = computed(() => {
- const found = props.options.find((opt) => getValue(opt) === props.modelValue)
- return found ? getLabel(found) : ''
+  const found = props.options.find((opt) => getValue(opt) === props.modelValue)
+  if (found) return getLabel(found)
+  if (props.allowCustom && props.modelValue) return String(props.modelValue)
+  return ''
 })
 
 const selectedOption = computed(() => {

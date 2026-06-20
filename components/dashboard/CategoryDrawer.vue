@@ -114,15 +114,17 @@ const form = reactive({
  isActive: true
 });
 
-watch(() => props.category, (c) => {
- if (c) {
- Object.assign(form, { ...c });
- previewImage.value = c.image || '';
- } else {
- Object.assign(form, { name: '', description: '', image: '', isActive: true });
- previewImage.value = '';
- }
-}, { immediate: true });
+watch(() => props.isOpen, (isOpen) => {
+  if (isOpen) {
+    if (props.category) {
+      Object.assign(form, { ...props.category });
+      previewImage.value = props.category.image || '';
+    } else {
+      Object.assign(form, { name: '', description: '', image: '', isActive: true });
+      previewImage.value = '';
+    }
+  }
+});
 
 const triggerImageUpload = () => imageRef.value?.click();
 

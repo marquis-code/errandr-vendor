@@ -20,14 +20,14 @@
  </header>
 
  <div v-if="loadingWallet" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
- <div v-for="i in 3" :key="i" class="bg-gray-50 rounded-[2.5rem] p-10 h-64 animate-pulse border border-gray-100" />
+ <div v-for="i in 3" :key="i" class="bg-gray-50 rounded-2xl p-10 h-64 animate-pulse border border-gray-100" />
  </div>
 
  <div v-else class="space-y-12">
  <!-- Balance Overview -->
  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
  <!-- Main Wallet Card -->
- <div class="lg:col-span-8 bg-white p-10 rounded-[3rem] border border-gray-100 relative overflow-hidden group">
+ <div class="lg:col-span-8 bg-white p-10 rounded-2xl border border-gray-100 relative overflow-hidden group">
  <div class="absolute -right-20 -top-20 w-80 h-80 bg-blue-50/50 rounded-md blur-3xl group-hover:scale-110 transition-transform duration-1000"></div>
  
  <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-10">
@@ -64,7 +64,7 @@
  </div>
 
  <!-- Quick Stats / Active Account -->
- <div class="lg:col-span-4 bg-gray-900 p-10 rounded-[3rem] text-white relative overflow-hidden flex flex-col justify-between">
+ <div class="lg:col-span-4 bg-gray-900 p-10 rounded-2xl text-white relative overflow-hidden flex flex-col justify-between">
  <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-white/5 rounded-md blur-2xl"></div>
  
  <div class="space-y-6 relative z-10">
@@ -112,7 +112,7 @@
  </div>
  </div>
 
- <div class="bg-white rounded-[2.5rem] border border-gray-100 overflow-hidden">
+ <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
  <UiTable
  :columns="[
  { key: 'activity', label: 'Activity' },
@@ -178,7 +178,7 @@
  @close="showWithdrawModal = false"
  >
  <div class="space-y-10 py-6">
- <div class="p-8 bg-white rounded-[2.5rem] border border-gray-100 text-center space-y-6 relative overflow-hidden group border border-gray-50/50">
+ <div class="p-8 bg-white rounded-2xl border border-gray-100 text-center space-y-6 relative overflow-hidden group border border-gray-50/50">
  <div class="absolute inset-0 bg-blue-50/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
  <div class="w-20 h-20 bg-white rounded-md flex items-center justify-center mx-auto border border-gray-100 text-[#FF5C1A] relative z-10">
  <Banknote class="w-10 h-10" />

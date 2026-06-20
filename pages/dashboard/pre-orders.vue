@@ -28,7 +28,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <!-- Active Batches -->
       <div class="lg:col-span-2 space-y-6">
-        <div class="bg-white rounded-[2.5rem] border border-gray-50 overflow-hidden flex flex-col min-h-[500px]">
+        <div class="bg-white rounded-2xl border border-gray-50 overflow-hidden flex flex-col min-h-[500px]">
           <div class="px-10 py-8 border-b border-gray-50 flex items-center justify-between">
             <div>
               <h3 class="font-medium text-gray-900 text-xl">Active Batches</h3>
@@ -78,7 +78,7 @@
 
       <!-- Schedule Widget -->
       <div class="space-y-6">
-        <div class="bg-gray-900 rounded-[2.5rem] p-8 text-white relative overflow-hidden group">
+        <div class="bg-gray-900 rounded-2xl p-8 text-white relative overflow-hidden group">
           <div class="absolute -right-4 -top-4 w-32 h-32 bg-parentPrimary/20 rounded-md blur-3xl"></div>
           <div class="relative z-10">
             <h3 class="text-xl font-medium mb-4 flex items-center gap-3">
@@ -101,7 +101,7 @@
           </div>
         </div>
 
-        <div class="bg-white rounded-[2.5rem] border border-gray-50 p-8 space-y-6">
+        <div class="bg-white rounded-2xl border border-gray-50 p-8 space-y-6">
           <div class="flex items-center gap-4 border-b border-gray-50 pb-6">
             <div class="w-12 h-12 bg-amber-50 rounded-md flex items-center justify-center text-amber-500 border border-amber-100">
               <Zap class="w-5 h-5" />
@@ -125,7 +125,7 @@
     <!-- Campaign Modal (Simplified) -->
     <Transition name="fade-up">
       <div v-if="showCampaignModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-        <div class="bg-white rounded-[2.5rem] max-w-lg w-full p-10 space-y-8 animate-scale-in relative">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-10 space-y-8 animate-scale-in relative">
           <button @click="showCampaignModal = false" class="absolute top-8 right-8 p-3 hover:bg-gray-50 rounded-md transition-colors">
             <X class="w-5 h-5 text-gray-400" />
           </button>

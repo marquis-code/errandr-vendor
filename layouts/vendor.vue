@@ -5,10 +5,11 @@
     <aside class="hidden lg:block w-64 bg-white border-r border-gray-100 min-h-screen fixed left-0 top-0">
       <!-- Logo -->
       <div class="p-4 border-b border-gray-50/50 flex items-center gap-3">
-        <div class="w-10 h-10 bg-parentPrimary rounded-md flex items-center justify-center text-white font-bold text-xl">
-          E
+        <img v-if="profile?.logo" :src="profile.logo" alt="Store Logo" class="w-10 h-10 rounded-md object-cover" />
+        <div v-else class="w-10 h-10 bg-parentPrimary rounded-md flex items-center justify-center text-white font-bold text-xl uppercase">
+          {{ profile?.storeName ? profile.storeName.charAt(0) : 'E' }}
         </div>
-        <span class="text-xl font-medium text-parentPrimary tracking-tighter">Errander</span>
+        <span class="text-xl font-medium text-parentPrimary tracking-tighter truncate">{{ profile?.storeName || 'Errander' }}</span>
       </div>
       
       <!-- Navigation -->
@@ -40,11 +41,12 @@
     <!-- Mobile Header -->
     <header class="lg:hidden bg-white border-b border-gray-100 sticky top-0 z-40">
       <div class="flex items-center justify-between px-4 py-3">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 bg-parentPrimary rounded-lg flex items-center justify-center text-white font-bold text-lg">
-            E
+        <div class="flex items-center gap-2 overflow-hidden">
+          <img v-if="profile?.logo" :src="profile.logo" alt="Store Logo" class="w-8 h-8 rounded-lg object-cover flex-shrink-0" />
+          <div v-else class="w-8 h-8 bg-parentPrimary rounded-lg flex items-center justify-center text-white font-bold text-lg flex-shrink-0 uppercase">
+            {{ profile?.storeName ? profile.storeName.charAt(0) : 'E' }}
           </div>
-          <span class="font-medium text-parentPrimary tracking-tighter">Errander</span>
+          <span class="font-medium text-parentPrimary tracking-tighter truncate">{{ profile?.storeName || 'Errander' }}</span>
         </div>
 
         <div class="flex items-center gap-2">
@@ -78,11 +80,12 @@
       >
         <!-- Mobile Header -->
         <div class="p-4 border-b border-gray-50/50 flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-parentPrimary rounded-lg flex items-center justify-center text-white font-bold text-lg">
-              E
+          <div class="flex items-center gap-2 overflow-hidden">
+            <img v-if="profile?.logo" :src="profile.logo" alt="Store Logo" class="w-8 h-8 rounded-lg object-cover flex-shrink-0" />
+            <div v-else class="w-8 h-8 bg-parentPrimary rounded-lg flex items-center justify-center text-white font-bold text-lg flex-shrink-0 uppercase">
+              {{ profile?.storeName ? profile.storeName.charAt(0) : 'E' }}
             </div>
-            <span class="font-medium text-parentPrimary tracking-tighter">Errander</span>
+            <span class="font-medium text-parentPrimary tracking-tighter truncate">{{ profile?.storeName || 'Errander' }}</span>
           </div>
           <button
             @click="showMobileMenu = false"
@@ -295,6 +298,8 @@ const navItems = computed(() => {
     items.push({ path: '/dashboard/pre-orders', label: 'Pre-Order Hub', icon: Clock });
     items.push({ path: '/dashboard/orders', label: 'Orders', icon: ClipboardList });
   }
+
+  items.push({ path: '/dashboard/categories', label: 'Store Categories', icon: ClipboardList });
 
   items.push(
     { path: '/dashboard/promotions', label: 'Promotions', icon: Megaphone },

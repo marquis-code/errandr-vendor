@@ -257,8 +257,7 @@ const orderColumns = [
  { key: 'customer', label: 'Customer' },
  { key: 'total', label: 'Total' },
  { key: 'status', label: 'Status' },
- { key: 'time', label: 'Ordered' },
- { key: 'actions', label: '' }
+ { key: 'time', label: 'Ordered' }
 ];
 
 const statusFilters = [
