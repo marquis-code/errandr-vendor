@@ -55,7 +55,7 @@
               <UiAnimatedInput v-model="form.email" type="email" label="Email Address" :hasError="!!valErrors.email" :errorMessage="valErrors.email" @input="valErrors.email=''" />
               <UiAnimatedInput v-model="form.phone" type="tel" label="Phone Number" :hasError="!!valErrors.phone" :errorMessage="valErrors.phone" @input="valErrors.phone=''" />
               <UiAnimatedInput v-model="form.password" type="password" label="Password" :hasError="!!valErrors.password" :errorMessage="valErrors.password" @input="valErrors.password=''" />
-              <UiAnimatedInput v-model="form.referredBy" type="text" label="Referral Code (Optional)" placeholder="Who referred you?" />
+              <UiAnimatedInput v-model="form.referredBy" type="text" label="Referral Code (Optional)" placeholder="" />
 
               <!-- <div v-if="error" class="p-3 bg-red-50 text-red-600 text-smfont-bold rounded-md flex items-center gap-2"><AlertCircle class="w-4 h-4 shrink-0" /> {{ error }}</div> -->
 
