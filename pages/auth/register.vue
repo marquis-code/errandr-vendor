@@ -55,15 +55,15 @@
               <UiAnimatedInput v-model="form.email" type="email" label="Email Address" :hasError="!!valErrors.email" :errorMessage="valErrors.email" @input="valErrors.email=''" />
               <UiAnimatedInput v-model="form.phone" type="tel" label="Phone Number" :hasError="!!valErrors.phone" :errorMessage="valErrors.phone" @input="valErrors.phone=''" />
               <UiAnimatedInput v-model="form.password" type="password" label="Password" :hasError="!!valErrors.password" :errorMessage="valErrors.password" @input="valErrors.password=''" />
-              <UiAnimatedInput v-model="form.referredBy" type="text" label="Referral Code (Optional)" placeholder="" />
+              <UiAnimatedInput v-model="form.referredBy" type="text" label="Referral Code (Optional)" placeholder="" @input="formatReferralCode" />
 
               <!-- <div v-if="error" class="p-3 bg-red-50 text-red-600 text-smfont-bold rounded-md flex items-center gap-2"><AlertCircle class="w-4 h-4 shrink-0" /> {{ error }}</div> -->
 
               <div class="mt-auto pt-4">
-                <button type="submit" :disabled="loading" class="w-full py-2 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-md font-medium text-sm transition-all disabled:opacity-50 flex items-center justify-center gap-2 active:scale-[0.98]">
-                  <Loader2 v-if="loading" class="animate-spin w-5 h-5" />
+                <button type="submit" :disabled="loading || validatingReferral" class="w-full py-2 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-md font-medium text-sm transition-all disabled:opacity-50 flex items-center justify-center gap-2 active:scale-[0.98]">
+                  <Loader2 v-if="loading || validatingReferral" class="animate-spin w-5 h-5" />
                   <span>Continue</span>
-                  <ArrowRight v-if="!loading" class="w-5 h-5" />
+                  <ArrowRight v-if="!loading && !validatingReferral" class="w-5 h-5" />
                 </button>
                 <p class="text-center text-gray-500 text-sm font-medium pt-4">
                   Already have an account? <NuxtLink to="/auth/login" class="text-parentPrimary font-bold hover:underline">Sign in</NuxtLink>
@@ -200,7 +200,7 @@
               </div>
 
               <div class="grid gap-3">
-                <div @click="vendor.businessType = 'physical_product'" class="flex items-start gap-4 p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.businessType === 'physical_product' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                <div @click="vendor.businessType = 'physical_product'" class="flex items-start gap-4 p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.businessType === 'physical_product' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-1 ring-[#FF5C1A]/10' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
                   <div class="w-10 h-10 rounded-md bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">📦</div>
                   <div>
                     <h3 class="text-sm font-bold text-gray-900 mb-1">Physical Products</h3>
@@ -209,7 +209,7 @@
                   <div class="ml-auto w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.businessType === 'physical_product' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.businessType === 'physical_product'" class="w-3 h-3 text-white" /></div>
                 </div>
 
-                <div @click="vendor.businessType = 'service_provider'" class="flex items-start gap-4 p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.businessType === 'service_provider' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                <div @click="vendor.businessType = 'service_provider'" class="flex items-start gap-4 p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.businessType === 'service_provider' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-1 ring-[#FF5C1A]/10' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
                   <div class="w-10 h-10 rounded-md bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">✂️</div>
                   <div>
                     <h3 class="text-sm font-bold text-gray-900 mb-1">Service Provider</h3>
@@ -218,7 +218,7 @@
                   <div class="ml-auto w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.businessType === 'service_provider' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.businessType === 'service_provider'" class="w-3 h-3 text-white" /></div>
                 </div>
 
-                <div @click="vendor.businessType = 'hybrid'" class="flex items-start gap-4 p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.businessType === 'hybrid' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                <div @click="vendor.businessType = 'hybrid'" class="flex items-start gap-4 p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.businessType === 'hybrid' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-1 ring-[#FF5C1A]/10' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
                   <div class="w-10 h-10 rounded-md bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">🛍️</div>
                   <div>
                     <h3 class="text-sm font-bold text-gray-900 mb-1">Hybrid (Products & Services)</h3>
@@ -250,7 +250,7 @@
                   <div 
                     @click="showCategoryDropdown = !showCategoryDropdown"
                     class="flex items-center flex-wrap gap-2 min-h-[48px] px-4 py-2.5 border rounded-md cursor-pointer transition-all duration-200 bg-white"
-                    :class="showCategoryDropdown ? 'border-[#FF5C1A]/40 ring-2 ring-[#FF5C1A]/10' : 'border-gray-200 hover:border-gray-300'"
+                    :class="showCategoryDropdown ? 'border-[#FF5C1A]/40 ring-1 ring-[#FF5C1A]/5' : 'border-gray-200 hover:border-gray-300'"
                   >
                     <div v-for="cat in selectedCategories" :key="cat" class="flex items-center gap-1.5 px-2.5 py-1 bg-[#FF5C1A]/10 border border-[#FF5C1A]/20 text-[#FF5C1A] text-xs font-medium rounded-lg">
                       {{ getCategoryLabel(cat) }}
@@ -279,7 +279,7 @@
                     leave-from-class="opacity-100 translate-y-0"
                     leave-to-class="opacity-0 translate-y-1"
                   >
-                    <div v-if="showCategoryDropdown" class="absolute z-50 w-full mt-2 bg-white rounded-md border border-gray-100 max-h-[220px] overflow-y-auto">
+                    <div v-if="showCategoryDropdown" class="absolute z-50 w-full mt-2 bg-white rounded-md border border-gray-200 max-h-[220px] overflow-y-auto">
                       <div v-if="filteredCategoryOptions.length === 0 && categorySearch.trim()" class="p-3">
                         <button type="button" @click="addCustomCategory" class="w-full flex items-center gap-2 px-4 py-2 rounded-md bg-gray-50 hover:bg-[#FF5C1A]/5 transition-all text-left">
                           <div class="w-7 h-7 rounded-lg bg-[#FF5C1A]/10 text-[#FF5C1A] flex items-center justify-center"><span class="text-sm font-medium">+</span></div>
@@ -291,8 +291,8 @@
                         class="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-gray-50 transition-all first:rounded-t-2xl last:rounded-b-2xl"
                       >
                         <div 
-                          class="w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all"
-                          :class="selectedCategories.includes(cat.value) ? 'bg-[#FF5C1A] border-[#FF5C1A]' : 'border-gray-200'"
+                          class="w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all duration-200"
+                          :class="selectedCategories.includes(cat.value) ? 'bg-[#FF5C1A] border-[#FF5C1A] scale-105' : 'border-gray-300'"
                         >
                           <Check v-if="selectedCategories.includes(cat.value)" class="w-3 h-3 text-white" />
                         </div>
@@ -309,6 +309,12 @@
                     </div>
                   </transition>
                 </div>
+
+                <!-- Custom category note -->
+                <p class="text-xs text-gray-400 font-medium mt-2 flex items-start gap-1.5 leading-relaxed">
+                  <span class="text-amber-500 shrink-0 mt-px">💡</span>
+                  If your business isn't among the list, simply type in the category of your business and it will be custom-added for you.
+                </p>
               </div>
               
               <div class="grid grid-cols-1 gap-2.5 pt-2">
@@ -416,27 +422,27 @@
               </div>
 
               <div class="grid gap-3">
-                <div @click="vendor.teamSize = 'independent'" class="flex items-center justify-between p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.teamSize === 'independent' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                <div @click="vendor.teamSize = 'independent'" class="flex items-center justify-between p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.teamSize === 'independent' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-1 ring-[#FF5C1A]/10' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
                   <span class="text-sm font-bold text-gray-900">It's just me</span>
                   <div class="w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.teamSize === 'independent' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.teamSize === 'independent'" class="w-3 h-3 text-white" /></div>
                 </div>
 
-                <div @click="vendor.teamSize = '2-5'" class="flex items-center justify-between p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.teamSize === '2-5' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                <div @click="vendor.teamSize = '2-5'" class="flex items-center justify-between p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.teamSize === '2-5' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-1 ring-[#FF5C1A]/10' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
                   <span class="text-sm font-bold text-gray-900">2 - 5 people</span>
                   <div class="w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.teamSize === '2-5' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.teamSize === '2-5'" class="w-3 h-3 text-white" /></div>
                 </div>
 
-                <div @click="vendor.teamSize = '6-10'" class="flex items-center justify-between p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.teamSize === '6-10' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                <div @click="vendor.teamSize = '6-10'" class="flex items-center justify-between p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.teamSize === '6-10' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-1 ring-[#FF5C1A]/10' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
                   <span class="text-sm font-bold text-gray-900">6 - 10 people</span>
                   <div class="w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.teamSize === '6-10' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.teamSize === '6-10'" class="w-3 h-3 text-white" /></div>
                 </div>
                 
-                <div @click="vendor.teamSize = '11-20'" class="flex items-center justify-between p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.teamSize === '11-20' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                <div @click="vendor.teamSize = '11-20'" class="flex items-center justify-between p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.teamSize === '11-20' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-1 ring-[#FF5C1A]/10' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
                   <span class="text-sm font-bold text-gray-900">11 - 20 people</span>
                   <div class="w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.teamSize === '11-20' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.teamSize === '11-20'" class="w-3 h-3 text-white" /></div>
                 </div>
                 
-                <div @click="vendor.teamSize = '20+'" class="flex items-center justify-between p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.teamSize === '20+' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                <div @click="vendor.teamSize = '20+'" class="flex items-center justify-between p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.teamSize === '20+' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-1 ring-[#FF5C1A]/10' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
                   <span class="text-sm font-bold text-gray-900">20+ people</span>
                   <div class="w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.teamSize === '20+' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.teamSize === '20+'" class="w-3 h-3 text-white" /></div>
                 </div>
@@ -458,7 +464,7 @@
               </div>
 
               <div class="grid gap-3">
-                <div @click="vendor.serviceLocation = 'physical_location'" class="flex items-start gap-4 p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.serviceLocation === 'physical_location' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                <div @click="vendor.serviceLocation = 'physical_location'" class="flex items-start gap-4 p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.serviceLocation === 'physical_location' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-1 ring-[#FF5C1A]/10' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
                   <div class="w-10 h-10 rounded-md bg-orange-50 text-[#FF5C1A] flex items-center justify-center shrink-0"><MapPin class="w-5 h-5" /></div>
                   <div>
                     <h3 class="text-sm font-bold text-gray-900 mb-1">Physical Location</h3>
@@ -467,7 +473,7 @@
                   <div class="ml-auto w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.serviceLocation === 'physical_location' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.serviceLocation === 'physical_location'" class="w-3 h-3 text-white" /></div>
                 </div>
 
-                <div @click="vendor.serviceLocation = 'mobile_operator'" class="flex items-start gap-4 p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.serviceLocation === 'mobile_operator' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                <div @click="vendor.serviceLocation = 'mobile_operator'" class="flex items-start gap-4 p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.serviceLocation === 'mobile_operator' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-1 ring-[#FF5C1A]/10' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
                   <div class="w-10 h-10 rounded-md bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">🚙</div>
                   <div>
                     <h3 class="text-sm font-bold text-gray-900 mb-1">Mobile Operator</h3>
@@ -476,7 +482,7 @@
                   <div class="ml-auto w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.serviceLocation === 'mobile_operator' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.serviceLocation === 'mobile_operator'" class="w-3 h-3 text-white" /></div>
                 </div>
 
-                <div @click="vendor.serviceLocation = 'virtual_online'" class="flex items-start gap-4 p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.serviceLocation === 'virtual_online' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-2 ring-[#FF5C1A]/20' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                <div @click="vendor.serviceLocation = 'virtual_online'" class="flex items-start gap-4 p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.serviceLocation === 'virtual_online' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-1 ring-[#FF5C1A]/10' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
                   <div class="w-10 h-10 rounded-md bg-emerald-50 text-emerald-500 flex items-center justify-center shrink-0">💻</div>
                   <div>
                     <h3 class="text-sm font-bold text-gray-900 mb-1">Virtual / Online</h3>
@@ -738,6 +744,36 @@
       </div>
 
     </div>
+
+      <!-- Resume Modal -->
+      <transition
+        enter-active-class="transition duration-200 ease-out"
+        enter-from-class="opacity-0 scale-95"
+        enter-to-class="opacity-100 scale-100"
+        leave-active-class="transition duration-150 ease-in"
+        leave-from-class="opacity-100 scale-100"
+        leave-to-class="opacity-0 scale-95"
+      >
+        <div v-if="showResumeModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" @click="ignoreResume"></div>
+          <div class="relative bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl flex flex-col items-center text-center">
+            <div class="w-12 h-12 bg-[#FF5C1A]/10 rounded-full flex items-center justify-center text-[#FF5C1A] mb-4">
+              <Store class="w-6 h-6" />
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Welcome Back!</h3>
+            <p class="text-sm text-gray-500 font-medium leading-relaxed mb-6">We noticed that you did not complete your onboarding process. Please proceed to complete your onboarding here.</p>
+            
+            <div class="flex gap-3 w-full">
+              <button type="button" @click="ignoreResume" class="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-bold text-sm transition-all active:scale-95">
+                Start Over
+              </button>
+              <button type="button" @click="resumeSession" class="flex-[2] py-3 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-xl font-bold text-sm transition-all active:scale-95">
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      </transition>
   </div>
 </template>
 
@@ -746,6 +782,7 @@ import { ref, reactive, watch, onMounted, onUnmounted, computed, nextTick } from
 import { Loader2, ArrowRight, ArrowLeft, Store, Check, ImageIcon, X, CheckCircle, AlertCircle, Mail, HelpCircle, MapPin, GraduationCap, Clock3, Info } from 'lucide-vue-next'
 import confetti from 'canvas-confetti'
 import { useAuth } from '@/composables/modules/auth'
+import { useUser } from '@/composables/modules/auth/user'
 import { vendors_api } from '@/api_factory/modules/vendors'
 import { payments_api } from '@/api_factory/modules/payments'
 import { useCustomToast } from '@/composables/core/useCustomToast'
@@ -755,6 +792,7 @@ definePageMeta({ layout: false })
 useHead({ title: 'Open Your Store - Erranders' })
 
 const { register, loading } = useAuth()
+const { isLoggedIn } = useUser()
 const { showToast } = useCustomToast()
 const error = ref('')
 const currentStep = ref<'account' | 'otp' | 'business' | 'businessType' | 'teamSize' | 'locationType' | 'addressOrSoftware' | 'logistics' | 'success'>('account')
@@ -862,6 +900,31 @@ const form = reactive({
   referredBy: '',
 })
 
+
+const validatingReferral = ref(false)
+
+const formatReferralCode = () => {
+  if (!form.referredBy) return;
+  let val = form.referredBy;
+  let formatted = val.toUpperCase().replace(/[^A-Z0-9-]/g, '');
+  if (formatted.startsWith('ERR-')) {
+    formatted = formatted.substring(4);
+  } else if (formatted.startsWith('ERR')) {
+    formatted = formatted.substring(3);
+  } else if (formatted.startsWith('ER')) {
+    formatted = formatted.substring(2);
+  } else if (formatted.startsWith('E')) {
+    formatted = formatted.substring(1);
+  }
+  
+  if (formatted.length > 0) {
+    form.referredBy = 'ERR-' + formatted.replace(/-/g, '');
+  } else if (val.length > 0 && !['ERR', 'ER', 'E'].includes(val.toUpperCase())) {
+     form.referredBy = 'ERR-';
+  } else {
+    form.referredBy = val.toUpperCase();
+  }
+}
 const otpDigits = reactive(['', '', '', '', '', ''])
 const otpRefs = reactive<HTMLInputElement[]>([])
 const verifyingOTP = ref(false)
@@ -996,6 +1059,25 @@ const handleCategoryEnter = () => {
 const removeCategory = (val: string) => {
   selectedCategories.value = selectedCategories.value.filter(c => c !== val)
 }
+
+// Session sync
+let syncTimeout: ReturnType<typeof setTimeout> | null = null
+watch([currentStep, vendor, selectedCategories], () => {
+  if (isLoggedIn.value && currentStep.value !== 'success' && currentStep.value !== 'account' && currentStep.value !== 'otp') {
+    if (syncTimeout) clearTimeout(syncTimeout)
+    syncTimeout = setTimeout(async () => {
+      try {
+        await GATEWAY_ENDPOINT.put('/users/me', {
+          vendorOnboardingSession: {
+            currentStep: currentStep.value,
+            vendor,
+            selectedCategories: selectedCategories.value
+          }
+        })
+      } catch (e) { console.error('Failed to sync session', e) }
+    }, 1000)
+  }
+}, { deep: true })
 const getCategoryLabel = (val: string) => {
   const opt = categoryOptions.find(o => o.value === val)
   return opt ? opt.label : val
@@ -1086,6 +1168,20 @@ const removeLogo = () => { logoFile.value = null; logoPreview.value = ''; logoUr
 const handleStep1 = async () => {
   error.value = ''
   if (!validateStep1()) return
+
+  if (form.referredBy) {
+    validatingReferral.value = true
+    try {
+      const res = await GATEWAY_ENDPOINT.get(`/referrals/validate-code/${form.referredBy}`)
+      if (res?.data?.type === 'ERROR' || res?.type === 'ERROR') throw res;
+    } catch (e: any) {
+      error.value = e?.response?.data?.message || e?.data?.message || 'Invalid referral code.'
+      return
+    } finally {
+      validatingReferral.value = false
+    }
+  }
+
   try {
     await register({ ...form }, { skipRedirect: true })
     startCooldown(); currentStep.value = 'otp'; setTimeout(() => otpRefs[0]?.focus(), 200)
@@ -1171,6 +1267,10 @@ const handleFinalSubmit = async () => {
             console.error('Failed to update initial wallet preferences', e)
         }
     }
+
+    try {
+      await GATEWAY_ENDPOINT.put('/users/me', { vendorOnboardingSession: null })
+    } catch (e) {}
     
     // Show personalized success modal instead of immediate redirect
     currentStep.value = 'success'
@@ -1212,7 +1312,39 @@ const proceedToDashboard = () => {
   navigateTo('/dashboard')
 }
 
-onMounted(() => fetchBanks())
+const showResumeModal = ref(false)
+const savedSession = ref<any>(null)
+
+const resumeSession = () => {
+  if (savedSession.value) {
+    Object.assign(vendor, savedSession.value.vendor)
+    selectedCategories.value = savedSession.value.selectedCategories || []
+    currentStep.value = savedSession.value.currentStep
+  }
+  showResumeModal.value = false
+}
+
+const ignoreResume = async () => {
+  showResumeModal.value = false
+  try {
+    await GATEWAY_ENDPOINT.put('/users/me', { vendorOnboardingSession: null })
+  } catch (e) {}
+}
+
+onMounted(async () => {
+  fetchBanks()
+  if (isLoggedIn.value) {
+    try {
+      const res = await GATEWAY_ENDPOINT.get('/users/me')
+      const profile = res?.data?.data || res?.data
+      if (profile && profile.vendorOnboardingSession && profile.vendorOnboardingSession.currentStep) {
+        savedSession.value = profile.vendorOnboardingSession
+        showResumeModal.value = true
+      }
+    } catch (e) { console.error('Failed to fetch profile', e) }
+  }
+})
+
 onUnmounted(() => { if (cooldownInterval) clearInterval(cooldownInterval) })
 </script>
 

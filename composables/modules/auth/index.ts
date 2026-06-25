@@ -35,7 +35,11 @@ export const useAuth = () => {
       
       // Navigate to dashboard after setting credentials
       try {
-        await navigateTo('/dashboard/orders');
+        if (userData?.vendorOnboardingSession) {
+          await navigateTo('/auth/register');
+        } else {
+          await navigateTo('/dashboard/orders');
+        }
       } catch (navError) {
         // Navigation aborts are expected in Nuxt — ignore them
       }
