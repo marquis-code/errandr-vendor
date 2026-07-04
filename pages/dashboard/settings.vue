@@ -367,6 +367,13 @@
  </div>
  </div>
 
+ <SelectInput 
+ v-model="newAccount.purpose" 
+ label="Account Purpose (Optional)" 
+ :options="[{label: 'Default / General', value: 'default'}, {label: 'Customization / Pre-orders', value: 'customization'}, {label: 'Perfumes', value: 'perfumes'}, {label: 'Jewelries', value: 'jewelries'}]" 
+ info="Categorize this account to split your funds correctly."
+ />
+
  <div v-if="newAccount.accountName" class="p-5 bg-emerald-50 rounded-md border border-emerald-100 flex items-center gap-4 animate-fade-in">
  <div class="p-3 bg-white rounded-md text-emerald-600">
  <CheckCircle class="w-5 h-5" />
@@ -473,11 +480,12 @@ interface PayoutAccount {
  accountNumber: string;
  accountName: string;
  isActive: boolean;
+ purpose?: string;
 }
 const payoutAccounts = ref<PayoutAccount[]>([]);
 
 const isAccountDrawerOpen = ref(false);
-const newAccount = reactive({ bankCode: '', bankName: '', accountNumber: '', accountName: '' });
+const newAccount = reactive({ bankCode: '', bankName: '', accountNumber: '', accountName: '', purpose: 'default' });
 const bankOptions = ref<{ label: string; value: string }[]>([]);
 const banksLoading = ref(false);
 const resolvingAccount = ref(false);
@@ -548,8 +556,10 @@ const loadInitialData = async () => {
  const wData = walletRes?.data?.data || walletRes?.data || {};
  payoutPreference.value = wData.payoutPreference || 'weekly';
  
- // Support multi-account from metadata or use existing single one as primary
- if (wData.metadata?.payoutAccounts) {
+ // Support multi-account from bankAccounts or metadata or fallback to single one
+ if (wData.bankAccounts && wData.bankAccounts.length > 0) {
+ payoutAccounts.value = wData.bankAccounts;
+ } else if (wData.metadata?.payoutAccounts) {
  payoutAccounts.value = wData.metadata.payoutAccounts;
  } else if (wData.bankDetails?.accountNumber) {
  payoutAccounts.value = [{ ...wData.bankDetails, isActive: true }];
@@ -599,7 +609,7 @@ const resolveAccount = async () => {
 const maskAccountNumber = (num: string) => `•••• •••• ${num.slice(-2)}`;
 
 const openAddAccount = () => {
- Object.assign(newAccount, { bankCode: '', bankName: '', accountNumber: '', accountName: '' });
+ Object.assign(newAccount, { bankCode: '', bankName: '', accountNumber: '', accountName: '', purpose: 'default' });
  isAccountVerified.value = false;
  isAccountDrawerOpen.value = true;
 };
@@ -620,6 +630,7 @@ const saveNewAccount = async () => {
  // Just sync metadata
  await updatePreferences({ 
  preference: payoutPreference.value,
+ bankAccounts: payoutAccounts.value,
  metadata: { payoutAccounts: payoutAccounts.value }
  });
  }
@@ -638,6 +649,7 @@ const deletePayoutAccount = async (acc: PayoutAccount) => {
  payoutAccounts.value = payoutAccounts.value.filter(a => a.accountNumber !== acc.accountNumber);
  await updatePreferences({ 
  preference: payoutPreference.value,
+ bankAccounts: payoutAccounts.value,
  metadata: { payoutAccounts: payoutAccounts.value }
  });
 };
@@ -647,6 +659,7 @@ const syncPayoutPreferences = async () => {
  await updatePreferences({
  preference: payoutPreference.value,
  bankDetails: active ? { bankCode: active.bankCode, bankName: active.bankName, accountNumber: active.accountNumber, accountName: active.accountName } : null,
+ bankAccounts: payoutAccounts.value,
  metadata: { payoutAccounts: payoutAccounts.value }
  });
 };

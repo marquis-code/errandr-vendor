@@ -196,11 +196,20 @@
   label="Withdrawal Amount (₦)" 
   description="Enter how much you want to transfer."
   />
+  <div class="mt-4">
+    <label class="block text-sm font-medium text-gray-700 mb-1">Select Bank Account</label>
+    <select v-model="selectedBankAccount" class="w-full bg-gray-50 border border-gray-200 rounded-md py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+      <option value="" disabled>Select an account</option>
+      <option v-for="(acc, idx) in availableBankAccounts" :key="idx" :value="acc">
+        {{ acc.bankName }} - {{ maskAccountNumber(acc.accountNumber) }} ({{ acc.purpose || 'Default' }})
+      </option>
+    </select>
+  </div>
  
  <div class="p-5 bg-amber-50 rounded-md border border-amber-100 flex items-start gap-4">
  <AlertCircle class="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
  <p class="text-sm text-amber-700 font-semibold leading-relaxed">
- Notice: Payouts are made only to your active settlement account. Ensure your bank details are correct to avoid delays.
+ Notice: Ensure your bank details are correct to avoid delays in payout processing.
  </p>
  </div>
  </div>
@@ -223,7 +232,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { 
  CreditCard, TrendingUp, Settings as SettingsIcon, Store, 
  ShieldCheck, ArrowUpRight, ArrowDownLeft, Banknote, 
@@ -244,6 +253,22 @@ const { showToast } = useCustomToast();
 const loadingTransactions = ref(true);
 const showWithdrawModal = ref(false);
 const withdrawAmount = ref(0);
+const selectedBankAccount = ref<any>('');
+
+const availableBankAccounts = computed(() => {
+  if (wallet.value?.bankAccounts?.length > 0) return wallet.value.bankAccounts;
+  if (wallet.value?.metadata?.payoutAccounts?.length > 0) return wallet.value.metadata.payoutAccounts;
+  if (wallet.value?.bankDetails?.accountNumber) return [wallet.value.bankDetails];
+  return [];
+});
+
+watch(showWithdrawModal, (val) => {
+  if (val && availableBankAccounts.value.length > 0 && !selectedBankAccount.value) {
+    // pre-select the primary or first one
+    const primary = availableBankAccounts.value.find((a: any) => a.isActive || a.isPrimary);
+    selectedBankAccount.value = primary || availableBankAccounts.value[0];
+  }
+});
 const formattedWithdrawAmount = computed({
   get() {
     if (withdrawAmount.value === 0 || withdrawAmount.value === null || withdrawAmount.value === undefined) return '';
@@ -270,9 +295,13 @@ const handleWithdraw = async () => {
  showToast({ title: 'Invalid Amount', message: 'Please enter a valid amount within your balance.', toastType: 'error' });
  return;
  }
- 
- try {
- await withdrawFunds(withdrawAmount.value);
+  if (!selectedBankAccount.value) {
+    showToast({ title: 'Select Account', message: 'Please select a bank account to withdraw to.', toastType: 'error' });
+    return;
+  }
+  
+  try {
+  await withdrawFunds(withdrawAmount.value, selectedBankAccount.value);
  showWithdrawModal.value = false;
  showToast({ title: 'Payout Requested', message: `₦${withdrawAmount.value} is being processed.`, toastType: 'success' });
  } catch (err) {
