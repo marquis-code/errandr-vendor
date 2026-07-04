@@ -26,7 +26,6 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: process.env.VERCEL ? 'vercel' : undefined,
     prerender: {
       routes: ['/', '/404.html', '/200.html'],
       ignore: ['/dynamic-routes', '/api'],
