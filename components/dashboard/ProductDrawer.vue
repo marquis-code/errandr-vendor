@@ -25,7 +25,6 @@
  </div>
 
  <button 
- v-if="allImages.length < 4"
  type="button"
  @click="triggerImageUpload"
  class="aspect-square rounded-md bg-gray-50 border border-dashed border-gray-200 flex flex-col items-center justify-center transition-all hover:bg-[#FF5C1A]/5 hover:border-[#FF5C1A]/30 group"
@@ -251,8 +250,6 @@ const handleFileUpload = async (e: Event) => {
  if (!files) return;
 
   for (const file of Array.from(files)) {
-    if (allImages.value.length >= 4) break;
-    
     uploadingImage.value = true;
     try {
       const res = await vendors_api.uploadImage(file);
