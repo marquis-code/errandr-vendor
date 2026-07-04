@@ -655,13 +655,35 @@
               <!-- Banks -->
               <div class="bg-gray-50 rounded-md p-4 space-y-3 border border-gray-100">
                 <p class="text-sm font-medium text-gray-400">PAYOUT DETAILS (OPTIONAL)</p>
-                <UiSelectInput v-model="vendor.bankDetails.bankCode" label="Bank Name" :options="bankOptions" :disabled="banksLoading" searchable />
-                <div class="relative">
-                  <UiAnimatedInput v-model="vendor.bankDetails.accountNumber" type="text" label="Account Number" />
-                  <Loader2 v-if="resolvingAccount" class="absolute right-3 top-1/2 -translate-y-1/2 animate-spin w-4 h-4 text-parentPrimary" />
+                
+                <!-- Added Accounts List -->
+                <div v-if="payoutAccounts.length > 0" class="space-y-2 mb-4">
+                  <div v-for="acc in payoutAccounts" :key="acc.accountNumber" class="p-3 bg-white border border-gray-200 rounded-md flex items-center justify-between">
+                    <div>
+                      <p class="text-sm font-bold text-gray-900">{{ acc.bankName }}</p>
+                      <p class="text-xs text-gray-500">{{ acc.accountNumber }} • {{ acc.accountName }}</p>
+                    </div>
+                    <button type="button" @click="payoutAccounts = payoutAccounts.filter(a => a.accountNumber !== acc.accountNumber)" class="p-2 text-gray-400 hover:text-red-500 transition-colors">
+                      <X class="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
-                <div v-if="vendor.bankDetails.accountName" class="flex items-center gap-2 p-2 bg-emerald-50 text-emerald-700 text-sm font-bold rounded-md border border-emerald-100"><CheckCircle class="w-4 h-4 shrink-0" /> {{ vendor.bankDetails.accountName }}</div>
-                <div v-if="resolveError" class="flex items-center gap-2 p-2 bg-red-50 text-red-600 text-sm font-bold rounded-md border border-red-100"><AlertCircle class="w-4 h-4 shrink-0" /> {{ resolveError }}</div>
+
+                <!-- Add New Account Form -->
+                <div class="space-y-3 border-t border-gray-200 pt-3">
+                  <p class="text-xs font-bold text-gray-700">Add Account</p>
+                  <UiSelectInput v-model="newAccount.bankCode" label="Bank Name" :options="bankOptions" :disabled="banksLoading" searchable />
+                  <div class="relative">
+                    <UiAnimatedInput v-model="newAccount.accountNumber" type="text" label="Account Number" />
+                    <Loader2 v-if="resolvingAccount" class="absolute right-3 top-1/2 -translate-y-1/2 animate-spin w-4 h-4 text-parentPrimary" />
+                  </div>
+                  <div v-if="newAccount.accountName" class="flex items-center gap-2 p-2 bg-emerald-50 text-emerald-700 text-sm font-bold rounded-md border border-emerald-100"><CheckCircle class="w-4 h-4 shrink-0" /> {{ newAccount.accountName }}</div>
+                  <div v-if="resolveError" class="flex items-center gap-2 p-2 bg-red-50 text-red-600 text-sm font-bold rounded-md border border-red-100"><AlertCircle class="w-4 h-4 shrink-0" /> {{ resolveError }}</div>
+                  
+                  <button type="button" @click="addPayoutAccount" :disabled="!newAccount.accountName || resolvingAccount" class="w-full py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-md font-medium text-sm transition-all disabled:opacity-50">
+                    Add Account
+                  </button>
+                </div>
               </div>
 
               <!-- <div v-if="error" class="p-3 bg-red-50 text-red-600 text-smfont-bold rounded-md flex items-center justify-center gap-2"><AlertCircle class="w-4 h-4 shrink-0" /> {{ error }}</div> -->
@@ -1116,31 +1138,43 @@ const accountResolved = ref(false)
 const resolveError = ref('')
 let resolveTimeout: ReturnType<typeof setTimeout> | null = null
 
-watch(() => vendor.bankDetails.accountNumber, (newVal) => {
-  vendor.bankDetails.accountName = ''; accountResolved.value = false; resolveError.value = ''
+const payoutAccounts = ref<any[]>([])
+const newAccount = reactive({ bankCode: '', bankName: '', accountNumber: '', accountName: '', purpose: 'default' })
+
+watch(() => newAccount.accountNumber, (newVal) => {
+  newAccount.accountName = ''; accountResolved.value = false; resolveError.value = ''
   if (resolveTimeout) clearTimeout(resolveTimeout)
   const cleaned = newVal.replace(/\D/g, '')
-  if (cleaned.length === 10 && vendor.bankDetails.bankCode) resolveTimeout = setTimeout(() => resolveAccount(cleaned), 500)
+  if (cleaned.length === 10 && newAccount.bankCode) resolveTimeout = setTimeout(() => resolveAccount(cleaned), 500)
 })
 
-watch(() => vendor.bankDetails.bankCode, (newVal) => {
+watch(() => newAccount.bankCode, (newVal) => {
   const selected = bankOptions.value.find(b => b.value === newVal)
-  if (selected) vendor.bankDetails.bankName = selected.label
-  const cleaned = vendor.bankDetails.accountNumber.replace(/\D/g, '')
+  if (selected) newAccount.bankName = selected.label
+  const cleaned = newAccount.accountNumber.replace(/\D/g, '')
   if (cleaned.length === 10 && newVal) resolveAccount(cleaned)
 })
 
 const resolveAccount = async (accountNumber: string) => {
   resolvingAccount.value = true; resolveError.value = ''
   try {
-    const res = await payments_api.resolveAccount(accountNumber, vendor.bankDetails.bankCode)
+    const res = await payments_api.resolveAccount(accountNumber, newAccount.bankCode)
     const data = res?.data?.data || res?.data || {}
-    vendor.bankDetails.accountName = data.account_name || data.accountName || ''
-    accountResolved.value = !!vendor.bankDetails.accountName
+    newAccount.accountName = data.account_name || data.accountName || ''
+    accountResolved.value = !!newAccount.accountName
   } catch (e: any) {
     resolveError.value = e?.response?.data?.message || 'Failed to verify account.'
-    vendor.bankDetails.accountName = ''
+    newAccount.accountName = ''
   } finally { resolvingAccount.value = false }
+}
+
+const addPayoutAccount = () => {
+  if (!newAccount.accountName) return;
+  payoutAccounts.value.push({ ...newAccount, isActive: payoutAccounts.value.length === 0 });
+  newAccount.bankCode = '';
+  newAccount.bankName = '';
+  newAccount.accountNumber = '';
+  newAccount.accountName = '';
 }
 
 const logoInput = ref<HTMLInputElement | null>(null)
@@ -1249,19 +1283,23 @@ const handleFinalSubmit = async () => {
     if (vendor.isStudentBusiness) { payload.matricNumber = vendor.matricNumber; payload.university = vendor.university }
     
     // We will save bank details to wallet instead of just vendor profile
-    if (vendor.bankDetails.bankName && vendor.bankDetails.accountNumber) payload.bankDetails = { bankName: vendor.bankDetails.bankName, bankCode: vendor.bankDetails.bankCode, accountNumber: vendor.bankDetails.accountNumber, accountName: vendor.bankDetails.accountName }
+    if (payoutAccounts.value.length > 0) {
+      const active = payoutAccounts.value.find(a => a.isActive) || payoutAccounts.value[0];
+      payload.bankDetails = { bankName: active.bankName, bankCode: active.bankCode, accountNumber: active.accountNumber, accountName: active.accountName }
+    }
 
     const res = await vendors_api.createVendor(payload)
     if (res?.type === 'ERROR') throw res;
 
     // After vendor is successfully created, save bank details to their new wallet
-    if (vendor.bankDetails.bankName && vendor.bankDetails.accountNumber) {
+    if (payoutAccounts.value.length > 0) {
         try {
             const { wallets_api } = await import('@/api_factory/modules/wallets')
             await wallets_api.updatePreferences({
                 preference: 'weekly',
                 bankDetails: payload.bankDetails,
-                metadata: { payoutAccounts: [{...payload.bankDetails, isActive: true}] }
+                bankAccounts: payoutAccounts.value,
+                metadata: { payoutAccounts: payoutAccounts.value }
             })
         } catch (e) {
             console.error('Failed to update initial wallet preferences', e)
