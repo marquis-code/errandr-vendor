@@ -1,7 +1,25 @@
+<IfModule mod_headers.c>
+    # NEVER cache index.html
+    <FilesMatch "\.(html|htm)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
+    
+    # Cache JS/CSS aggressively since they have hashes
+    <FilesMatch "\.(js|css)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+</IfModule>
+
 Options -MultiViews
 RewriteEngine On
 RewriteBase /
 
+# Explicitly do NOT rewrite requests for assets/JS/CSS to index.html if missing
+# This ensures a real 404 is returned instead of text/html index.html,
+# which triggers the MIME type error.
+RewriteCond %{REQUEST_URI} !\.(js|css|map|woff|woff2|ttf|svg|png|jpg|jpeg|gif|ico|webp)$ [NC]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.html [L]
