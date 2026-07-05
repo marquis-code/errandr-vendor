@@ -179,75 +179,128 @@
       </div>
     </section>
 
-    <!-- Categories Map Section -->
-    <section id="categories" class="py-24 bg-white border-y border-slate-100">
-      <div class="max-w-7xl mx-auto px-6 sm:px-10">
-        <div class="text-center mb-16 max-w-2xl mx-auto">
-          <h2 class="text-2xl lg:text-4xl font-medium text-slate-900 tracking-tighter mb-4">
-            Built for your business type
+    <!-- Vendor Showcase Directory -->
+    <section id="directory" class="py-24 bg-white border-y border-slate-100 relative overflow-hidden">
+      <!-- Subtle Background Pattern -->
+      <div class="absolute inset-0 bg-[radial-gradient(#f1f5f9_1.5px,transparent_1.5px)] [background-size:28px_28px] opacity-50 pointer-events-none"></div>
+
+      <div class="max-w-7xl mx-auto px-6 sm:px-10 relative z-10">
+        <!-- Section Header -->
+        <div class="text-center mb-12 max-w-2xl mx-auto">
+          <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#FF5C1A]/10 border border-[#FF5C1A]/20 text-[#FF5C1A] text-sm font-bold mb-5 tracking-wide uppercase">
+            <Store class="w-4 h-4" /> Trusted by Campus Businesses
+          </div>
+          <h2 class="text-3xl lg:text-4xl font-medium text-slate-900 tracking-tighter mb-4">
+            Meet the vendors already thriving on Errander
           </h2>
           <p class="text-slate-500 font-medium text-lg leading-relaxed">
-            Join the hundreds of top-rated campus businesses across various categories already scaling with Errander.
+            From delicious meals to premium accessories — these campus businesses chose Errander to grow. You should too.
           </p>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          <!-- Category Tabs -->
-          <div class="lg:col-span-4 flex flex-col gap-3">
-            <button 
-              v-for="cat in vendorCategories" 
-              :key="cat.key"
-              @click="fetchCategoryVendors(cat.key)"
-              class="flex items-center gap-4 p-5 rounded-md border text-left transition-all duration-300 group active:scale-95"
-              :class="activeCategory === cat.key ? 'bg-slate-900 border-slate-900 text-white ' : 'bg-white border-slate-100 text-slate-700 hover:border-[#FF5C1A]/30 hover:bg-slate-50'"
-            >
-              <div class="w-12 h-12 rounded-md flex items-center justify-center text-xl shrink-0 transition-colors"
-                   :class="activeCategory === cat.key ? 'bg-white/10' : 'bg-slate-100 group-hover:bg-[#FF5C1A]/10'">
-                {{ cat.icon }}
-              </div>
-              <div>
-                <h4 class="font-bold text-base" :class="activeCategory === cat.key ? 'text-white' : 'text-slate-900 group-hover:text-[#FF5C1A]'">{{ cat.label }}</h4>
-                <p class="text-xs font-medium mt-1" :class="activeCategory === cat.key ? 'text-slate-300' : 'text-slate-500'">{{ cat.description }}</p>
-              </div>
-            </button>
-          </div>
+        <!-- Category Filter Pills -->
+        <div class="flex items-center justify-center gap-2 flex-wrap mb-12">
+          <button 
+            @click="mapCategory = 'all'"
+            class="px-5 py-2.5 rounded-full text-sm font-extrabold transition-all border flex items-center gap-2"
+            :class="mapCategory === 'all' ? 'bg-slate-900 text-white border-slate-900 shadow-lg shadow-slate-900/20' : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50 hover:shadow-sm'"
+          >
+            All 
+            <span class="text-[10px] py-0.5 px-2 rounded-full font-bold" :class="mapCategory === 'all' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'">{{ allVendors.length }}</span>
+          </button>
+          
+          <button 
+            v-for="cat in dynamicCategories" :key="'pill-'+cat.key"
+            @click="mapCategory = cat.key"
+            class="px-5 py-2.5 rounded-full text-sm font-extrabold transition-all border flex items-center gap-2"
+            :class="mapCategory === cat.key ? 'bg-slate-900 text-white border-slate-900 shadow-lg shadow-slate-900/20' : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50 hover:shadow-sm'"
+          >
+            <span>{{ cat.icon }}</span> {{ cat.label }}
+            <span class="text-[10px] py-0.5 px-2 rounded-full font-bold" :class="mapCategory === cat.key ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'">{{ cat.count }}</span>
+          </button>
+        </div>
 
-          <!-- Vendors Grid Display -->
-          <div class="lg:col-span-8">
-            <div v-if="loadingCategory" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div v-for="i in 4" :key="i" class="animate-pulse bg-slate-50 rounded-md h-48 border border-slate-100"></div>
+        <!-- Vendor Cards Grid -->
+        <div v-if="loadingAllVendors" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div v-for="i in 6" :key="i" class="animate-pulse bg-slate-50 rounded-2xl h-80 border border-slate-100"></div>
+        </div>
+
+        <div v-else-if="filteredMapVendors.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div 
+            v-for="(vendor, idx) in filteredMapVendors" :key="vendor._id"
+            class="group bg-white border border-slate-200 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-slate-200/60 hover:border-slate-300 hover:-translate-y-1 cursor-pointer"
+            :style="{ animationDelay: `${idx * 80}ms` }"
+          >
+            <!-- Card Banner / Image -->
+            <div class="relative h-44 bg-gradient-to-br from-slate-100 to-slate-50 overflow-hidden">
+              <img 
+                :src="vendor.banner || vendor.logo || vendor.image || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80'" 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" 
+              />
+              <!-- Gradient Overlay -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+              
+              <!-- Status Badge -->
+              <div v-if="vendor.isOnline" class="absolute top-3 left-3 bg-emerald-500 text-white text-[9px] font-extrabold px-2.5 py-1 rounded-full shadow-lg shadow-emerald-500/30 flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                OPEN
+              </div>
+
+              <!-- Category Chip on Image -->
+              <div class="absolute bottom-3 left-3">
+                <span class="px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider text-slate-700 shadow-sm">
+                  {{ getCategoryIcon(vendor.category) }} {{ vendor.category?.replace(/_/g, ' ') || 'Store' }}
+                </span>
+              </div>
+
+              <!-- Logo Avatar -->
+              <div v-if="vendor.logo" class="absolute bottom-3 right-3 w-11 h-11 rounded-xl border-2 border-white shadow-lg overflow-hidden bg-white">
+                <img :src="vendor.logo" class="w-full h-full object-cover" />
+              </div>
             </div>
             
-            <div v-else-if="categoryVendors.length > 0" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div v-for="vendor in categoryVendors.slice(0, 4)" :key="vendor._id" 
-                   class="bg-white border border-slate-100 rounded-md p-5 hover: transition-all flex items-start gap-4">
-                <div class="w-20 h-20 rounded-md bg-slate-100 border border-slate-200 overflow-hidden shrink-0">
-                  <img :src="vendor.image || vendor.logo || vendor.banner || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=200&q=80'" class="w-full h-full object-cover" />
-                </div>
-                <div>
-                  <h4 class="font-extrabold text-slate-900 text-lg mb-1 tracking-tight truncate">{{ vendor.storeName }}</h4>
-                  <div class="flex items-center gap-1.5 text-xs font-bold text-slate-500 mb-2">
-                    <span class="px-2 py-0.5 rounded-md bg-slate-100 uppercase tracking-wider text-[9px]">{{ vendor.category || activeCategory }}</span>
-                  </div>
-                  <div class="flex items-center gap-1 text-yellow-500">
-                    <Star class="w-3.5 h-3.5 fill-current" />
-                    <span class="text-xs font-bold text-slate-700">{{ vendor.rating?.toFixed(1) || '5.0' }}</span>
-                  </div>
+            <!-- Card Body -->
+            <div class="p-5">
+              <div class="flex justify-between items-start mb-2">
+                <h4 class="font-extrabold text-slate-900 text-lg tracking-tight leading-tight line-clamp-1 flex-1 mr-2">{{ vendor.storeName }}</h4>
+                <div class="flex items-center gap-1 shrink-0 bg-amber-50 px-2 py-0.5 rounded-lg border border-amber-100">
+                  <Star class="w-3 h-3 text-amber-500 fill-amber-500" />
+                  <span class="text-xs font-bold text-amber-700">{{ vendor.rating?.toFixed(1) || '5.0' }}</span>
                 </div>
               </div>
-            </div>
-
-            <!-- Empty State for Category -->
-            <div v-else class="h-full flex flex-col items-center justify-center bg-slate-50 border border-dashed border-slate-200 rounded-md p-10 text-center">
-              <div class="w-16 h-16 bg-white rounded-md flex items-center justify-center text-2xl mb-4 mb-4">
-                {{ vendorCategories.find(c => c.key === activeCategory)?.icon }}
-              </div>
-              <h4 class="text-lg font-bold text-slate-900">Be the first!</h4>
-              <p class="text-sm text-slate-500 font-medium max-w-sm mt-2">
-                We're expanding into this category. Claim your spot now and dominate the campus market.
+              
+              <p class="text-sm text-slate-500 line-clamp-2 font-medium mb-4 leading-relaxed">
+                {{ vendor.description || 'Premium campus business available on Errander.' }}
               </p>
+              
+              <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+                <div class="flex items-center gap-1.5 text-xs font-semibold text-slate-400">
+                  <MapPin class="w-3.5 h-3.5" />
+                  <span class="truncate max-w-[180px]">{{ vendor.address || 'Campus Location' }}</span>
+                </div>
+                <ArrowRight class="w-4 h-4 text-slate-300 group-hover:text-[#FF5C1A] group-hover:translate-x-1 transition-all" />
+              </div>
             </div>
           </div>
+        </div>
+
+        <!-- Empty State -->
+        <div v-else class="flex flex-col items-center justify-center py-20 text-center">
+          <div class="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center text-3xl mb-6 border border-slate-200">
+            🏪
+          </div>
+          <h4 class="text-xl font-bold text-slate-900 mb-2">No vendors in this category yet</h4>
+          <p class="text-sm text-slate-500 font-medium max-w-sm">
+            We're growing fast! This category will fill up soon as more campus businesses join Errander.
+          </p>
+        </div>
+
+        <!-- Bottom CTA -->
+        <div class="text-center mt-16">
+          <p class="text-slate-500 text-sm font-medium mb-4">Ready to join these successful vendors?</p>
+          <NuxtLink to="/auth/register" class="inline-flex items-center gap-2 px-8 py-3.5 bg-[#FF5C1A] text-white rounded-xl font-bold text-base hover:bg-[#e54d12] transition-all shadow-lg shadow-[#FF5C1A]/20 hover:shadow-xl hover:shadow-[#FF5C1A]/30 active:scale-95">
+            <Rocket class="w-4.5 h-4.5" /> Start Selling Today
+          </NuxtLink>
         </div>
       </div>
     </section>
@@ -320,11 +373,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { 
   ArrowRight, Twitter, Instagram, Facebook,
   LogIn, Store, TrendingUp, Zap, Rocket, Activity, ClipboardList, PieChart, Star,
-  PlayCircle, Quote, Utensils, Bike, Sparkles
+  PlayCircle, Quote, Utensils, Bike, Sparkles, MapPin
 } from 'lucide-vue-next'
 import { vendors_api } from '@/api_factory/modules/vendors'
 
@@ -346,34 +399,58 @@ const handleScroll = () => {
   scrolled.value = window.scrollY > 50
 }
 
-const activeCategory = ref('restaurant')
-const categoryVendors = ref<any[]>([])
-const loadingCategory = ref(false)
+const allVendors = ref<any[]>([])
+const loadingAllVendors = ref(false)
+const mapCategory = ref('all')
 
-const vendorCategories = [
-  { key: 'restaurant', label: 'Restaurants', icon: '🍽️', description: 'Join the top campus kitchens' },
-  { key: 'salon', label: 'Salons & Spas', icon: '💇‍♀️', description: 'Schedule more styling appointments' },
-  { key: 'groceries', label: 'Groceries & Marts', icon: '🛒', description: 'Deliver daily essentials fast' },
-  { key: 'services', label: 'Tutors & Services', icon: '🎓', description: 'Offer your professional skills' },
-]
+// Dynamic Category Generator
+const getCategoryIcon = (category: string) => {
+  const icons: Record<string, string> = {
+    restaurant: '🍽️', eatery: '🍽️', snacks: '🍪', drinks: '🥤', groceries: '🛒',
+    bakery: '🥐', pharmacy: '💊', stationery: '📚', hair_salon: '💇‍♀️',
+    nails: '💅', beauty_salon: '✨', barber: '💈', massage: '💆‍♀️', 
+    pet_grooming: '🐾', services: '🎓'
+  }
+  return icons[category?.toLowerCase()] || '🏪'
+}
 
-const fetchCategoryVendors = async (category: string) => {
-  loadingCategory.value = true
-  activeCategory.value = category
+const dynamicCategories = computed(() => {
+  if (!allVendors.value) return [];
+  const counts: Record<string, number> = {};
+  allVendors.value.forEach(v => {
+    const cat = v.category?.toLowerCase() || 'other';
+    counts[cat] = (counts[cat] || 0) + 1;
+  });
+  
+  return Object.keys(counts).map(cat => ({
+    key: cat,
+    label: cat.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+    icon: getCategoryIcon(cat),
+    count: counts[cat]
+  })).sort((a, b) => b.count - a.count);
+})
+
+const filteredMapVendors = computed(() => {
+  if (mapCategory.value === 'all') return allVendors.value
+  return allVendors.value.filter(v => v.category?.toLowerCase() === mapCategory.value)
+})
+
+const fetchAllVendorsForMap = async () => {
+  loadingAllVendors.value = true
   try {
-    const res = await vendors_api.getAll({ category, limit: 4 })
+    const res = await vendors_api.getAll({ limit: 100 })
     const fetched = res.data?.vendors || res.data?.data?.vendors || res.data || []
-    categoryVendors.value = fetched
+    allVendors.value = fetched
   } catch (e) {
-    console.error('Failed to fetch vendors by category:', e)
+    console.error('Failed to fetch vendors for map:', e)
   } finally {
-    loadingCategory.value = false
+    loadingAllVendors.value = false
   }
 }
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
-  fetchCategoryVendors(activeCategory.value)
+  fetchAllVendorsForMap()
 })
 
 onUnmounted(() => {
