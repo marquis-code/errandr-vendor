@@ -1218,7 +1218,8 @@ const handleStep1 = async () => {
 
   try {
     await register({ ...form }, { skipRedirect: true })
-    startCooldown(); currentStep.value = 'otp'; setTimeout(() => otpRefs[0]?.focus(), 200)
+    // startCooldown(); currentStep.value = 'otp'; setTimeout(() => otpRefs[0]?.focus(), 200)
+    currentStep.value = 'business'
   } catch (e: any) { error.value = e?.data?.message || e?.response?.data?.message || 'Registration failed.' }
 }
 
