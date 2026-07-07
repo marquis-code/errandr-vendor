@@ -421,6 +421,7 @@ import { useCustomToast } from '@/composables/core/useCustomToast';
 import AnimatedInput from '@/components/ui/AnimatedInput.vue';
 import SelectInput from '@/components/ui/SelectInput.vue';
 import SideDrawer from '@/components/ui/SideDrawer.vue';
+import { useVendorProfile } from '@/composables/modules/vendors';
 
 definePageMeta({ layout: 'vendor' });
 useHead({ title: 'Settings - Errander Vendor' });
@@ -674,6 +675,10 @@ const saveProfile = async () => {
  try {
  const { GATEWAY_ENDPOINT_WITH_AUTH: api } = await import('@/api_factory/axios.config');
  await api.put(`/vendors/${vendorId.value}`, { ...profile });
+ 
+ const { fetchProfile } = useVendorProfile();
+ await fetchProfile();
+
  showToast({ title: 'Profile Synced', message: 'Your store data has been updated.', toastType: 'success' });
  } finally { savingProfile.value = false; }
 };
@@ -702,6 +707,7 @@ const handleLogoUpload = async (e: Event) => {
  try {
  const res = await vendors_api.uploadImage(file);
  profile.logo = res?.data?.url || res?.data?.imageUrl || res?.data?.data?.url || '';
+ await saveProfile();
  } finally { logoUploading.value = false; }
 };
 
