@@ -5,7 +5,8 @@
     <aside class="hidden lg:block w-64 bg-white border-r border-gray-100 min-h-screen fixed left-0 top-0">
       <!-- Logo -->
       <div class="p-4 border-b border-gray-50/50 flex items-center gap-3">
-        <img v-if="profile?.logo" :src="profile.logo" alt="Store Logo" class="w-10 h-10 rounded-md object-cover" />
+        <video v-if="profile?.logo && profile.logo.match(/\\.(mp4|webm|ogg|mov)$/i)" :src="profile.logo" class="w-10 h-10 rounded-md object-cover" autoplay loop muted playsinline></video>
+        <img v-else-if="profile?.logo" :src="profile.logo" alt="Store Logo" class="w-10 h-10 rounded-md object-cover" />
         <div v-else class="w-10 h-10 bg-parentPrimary rounded-md flex items-center justify-center text-white font-bold text-xl uppercase">
           {{ profile?.storeName ? profile.storeName.charAt(0) : 'E' }}
         </div>
@@ -42,7 +43,8 @@
     <header class="lg:hidden bg-white border-b border-gray-100 sticky top-0 z-40">
       <div class="flex items-center justify-between px-4 py-3">
         <div class="flex items-center gap-2 overflow-hidden">
-          <img v-if="profile?.logo" :src="profile.logo" alt="Store Logo" class="w-8 h-8 rounded-lg object-cover flex-shrink-0" />
+          <video v-if="profile?.logo && profile.logo.match(/\\.(mp4|webm|ogg|mov)$/i)" :src="profile.logo" class="w-8 h-8 rounded-lg object-cover flex-shrink-0" autoplay loop muted playsinline></video>
+          <img v-else-if="profile?.logo" :src="profile.logo" alt="Store Logo" class="w-8 h-8 rounded-lg object-cover flex-shrink-0" />
           <div v-else class="w-8 h-8 bg-parentPrimary rounded-lg flex items-center justify-center text-white font-bold text-lg flex-shrink-0 uppercase">
             {{ profile?.storeName ? profile.storeName.charAt(0) : 'E' }}
           </div>
@@ -81,7 +83,8 @@
         <!-- Mobile Header -->
         <div class="p-4 border-b border-gray-50/50 flex items-center justify-between">
           <div class="flex items-center gap-2 overflow-hidden">
-            <img v-if="profile?.logo" :src="profile.logo" alt="Store Logo" class="w-8 h-8 rounded-lg object-cover flex-shrink-0" />
+            <video v-if="profile?.logo && profile.logo.match(/\\.(mp4|webm|ogg|mov)$/i)" :src="profile.logo" class="w-8 h-8 rounded-lg object-cover flex-shrink-0" autoplay loop muted playsinline></video>
+            <img v-else-if="profile?.logo" :src="profile.logo" alt="Store Logo" class="w-8 h-8 rounded-lg object-cover flex-shrink-0" />
             <div v-else class="w-8 h-8 bg-parentPrimary rounded-lg flex items-center justify-center text-white font-bold text-lg flex-shrink-0 uppercase">
               {{ profile?.storeName ? profile.storeName.charAt(0) : 'E' }}
             </div>

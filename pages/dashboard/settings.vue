@@ -47,14 +47,16 @@
  
  <div class="p-8 space-y-8">
  <!-- Branding -->
- <div class="flex items-center gap-8">
+ <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+ <div class="flex items-center gap-6">
  <div class="w-24 h-24 rounded-md bg-gray-50 overflow-hidden border border-gray-100 flex items-center justify-center shrink-0 group/logo relative">
- <img v-if="profile.logo" :src="profile.logo" class="w-full h-full object-cover" />
+ <video v-if="profile.logo && profile.logo.match(/\\.(mp4|webm|ogg|mov)$/i)" :src="profile.logo" class="w-full h-full object-cover" autoplay loop muted playsinline></video>
+ <img v-else-if="profile.logo" :src="profile.logo" class="w-full h-full object-cover" />
  <ImageIcon v-else class="w-8 h-8 text-gray-200" />
  <div class="absolute inset-0 bg-black/20 opacity-0 group-hover/logo:opacity-100 transition-opacity flex items-center justify-center">
  <Upload class="w-6 h-6 text-white" />
  </div>
- <input type="file" ref="logoInput" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" @change="handleLogoUpload" />
+ <input type="file" ref="logoInput" accept="image/*,video/*" class="absolute inset-0 opacity-0 cursor-pointer" @change="handleLogoUpload" />
  </div>
  <div>
  <h4 class="text-sm font-bold text-gray-900 mb-1">Store Logo</h4>
@@ -62,6 +64,26 @@
  Recommended: Square PNG/JPG<br/>Max size: 5MB
  </p>
  <p v-if="logoUploading" class="text-sm text-[#FF5C1A] font-bold mt-2 animate-pulse">UPLOADING...</p>
+ </div>
+ </div>
+
+ <div class="flex items-center gap-6">
+ <div class="w-32 h-24 rounded-md bg-gray-50 overflow-hidden border border-gray-100 flex items-center justify-center shrink-0 group/banner relative">
+ <video v-if="profile.banner && profile.banner.match(/\\.(mp4|webm|ogg|mov)$/i)" :src="profile.banner" class="w-full h-full object-cover" autoplay loop muted playsinline></video>
+ <img v-else-if="profile.banner" :src="profile.banner" class="w-full h-full object-cover" />
+ <ImageIcon v-else class="w-8 h-8 text-gray-200" />
+ <div class="absolute inset-0 bg-black/20 opacity-0 group-hover/banner:opacity-100 transition-opacity flex items-center justify-center">
+ <Upload class="w-6 h-6 text-white" />
+ </div>
+ <input type="file" ref="bannerInput" accept="image/*,video/*" class="absolute inset-0 opacity-0 cursor-pointer" @change="handleBannerUpload" />
+ </div>
+ <div>
+ <h4 class="text-sm font-bold text-gray-900 mb-1">Store Cover</h4>
+ <p class="text-sm text-gray-400 font-medium leading-relaxed">
+ Recommended: Landscape<br/>Max size: 10MB
+ </p>
+ <p v-if="bannerUploading" class="text-sm text-[#FF5C1A] font-bold mt-2 animate-pulse">UPLOADING...</p>
+ </div>
  </div>
  </div>
 
@@ -441,6 +463,8 @@ const savingHours = ref(false);
 const savingBank = ref(false);
 const logoUploading = ref(false);
 const logoInput = ref<HTMLInputElement | null>(null);
+const bannerUploading = ref(false);
+const bannerInput = ref<HTMLInputElement | null>(null);
 
 const profile = reactive({
  businessType: '',
@@ -449,6 +473,7 @@ const profile = reactive({
  category: '',
  address: '',
  logo: '',
+ banner: '',
  isInsideCampus: false,
  operatingHours: { open: '08:00 AM', close: '08:00 PM' },
  preparationTime: 15,
@@ -535,6 +560,7 @@ const loadInitialData = async () => {
  profile.category = data.category || '';
  profile.address = data.address || '';
  profile.logo = data.logo || '';
+ profile.banner = data.banner || '';
  profile.isInsideCampus = !!data.isInsideCampus;
  profile.operatingHours = data.operatingHours || { open: '08:00 AM', close: '08:00 PM' };
  profile.preparationTime = data.preparationTime || 15;
@@ -705,10 +731,27 @@ const handleLogoUpload = async (e: Event) => {
  if (!file) return;
  logoUploading.value = true;
  try {
- const res = await vendors_api.uploadImage(file);
+ const isVideo = file.type.startsWith('video/');
+ const res = isVideo ? await vendors_api.uploadVideo(file) : await vendors_api.uploadImage(file);
  profile.logo = res?.data?.url || res?.data?.imageUrl || res?.data?.data?.url || '';
  await saveProfile();
+ } catch (err: any) {
+ showToast({ title: 'Upload Failed', message: err.response?.data?.message || err.message || 'Failed to upload logo', toastType: 'error' });
  } finally { logoUploading.value = false; }
+};
+
+const handleBannerUpload = async (e: Event) => {
+ const file = (e.target as HTMLInputElement).files?.[0];
+ if (!file) return;
+ bannerUploading.value = true;
+ try {
+ const isVideo = file.type.startsWith('video/');
+ const res = isVideo ? await vendors_api.uploadVideo(file) : await vendors_api.uploadImage(file);
+ profile.banner = res?.data?.url || res?.data?.imageUrl || res?.data?.data?.url || '';
+ await saveProfile();
+ } catch (err: any) {
+ showToast({ title: 'Upload Failed', message: err.response?.data?.message || err.message || 'Failed to upload banner', toastType: 'error' });
+ } finally { bannerUploading.value = false; }
 };
 
 const addPack = () => {
