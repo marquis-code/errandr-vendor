@@ -508,7 +508,14 @@
                   <h2 class="text-xl font-medium text-gray-900 tracking-tight">Business Address</h2>
                   <p class="text-sm text-gray-500 font-medium">Where is your business located?</p>
                 </div>
-                <UiAnimatedInput v-model="vendor.address" type="textarea" :rows="3" label="Full Store Location / Address" :hasError="!!valErrors.address" :errorMessage="valErrors.address" @input="valErrors.address=''" />
+                <div class="relative mt-2">
+                  <UiMapboxAutocomplete 
+                    v-model="vendor.address" 
+                    @select="handleAddressSelect" 
+                    placeholder="Search for your address..." 
+                  />
+                  <p v-if="valErrors.address" class="text-[11px] font-bold text-rose-500 mt-1 pl-2">{{ valErrors.address }}</p>
+                </div>
               </div>
 
               <div v-else>
@@ -999,10 +1006,17 @@ const vendor = reactive({
   serviceLocation: 'physical_location' as 'physical_location' | 'mobile_operator' | 'virtual_online',
   softwareUsed: '',
   isInsideCampus: false, isStudentBusiness: false, preOrderOnly: false, matricNumber: '', university: '',
+  location: { type: 'Point', coordinates: [0, 0] } as { type: string, coordinates: number[] },
   operatingHours: { open: '08:00 AM', close: '08:00 PM' },
   preparationTime: 15, minimumOrder: 0, deliveryFee: 0,
   bankDetails: { bankCode: '', bankName: '', accountNumber: '', accountName: '' },
 })
+
+const handleAddressSelect = (data: { address: string, coordinates: [number, number] }) => {
+  vendor.address = data.address;
+  vendor.location = { type: 'Point', coordinates: data.coordinates };
+  valErrors.address = '';
+};
 
 // === Subdomain ===
 const useStoreNameAsUrl = ref(true)
@@ -1276,6 +1290,7 @@ const handleFinalSubmit = async () => {
       category: selectedCategories.value.length > 0 ? selectedCategories.value[0] : 'other',
       tags: selectedCategories.value,
       address: vendor.address,
+      location: vendor.location,
       subdomain: vendor.subdomain,
       isInsideCampus: vendor.isInsideCampus, isStudentBusiness: vendor.isStudentBusiness, preOrderOnly: vendor.preOrderOnly, operatingHours: vendor.operatingHours,
       preparationTime: vendor.preparationTime, minimumOrder: vendor.minimumOrder, deliveryFee: vendor.deliveryFee,

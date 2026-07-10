@@ -20,11 +20,13 @@ export const useSocket = (namespace: string) => {
 
     const connectionId = user.value?._id;
 
-    const s = io(`${config.public.wsBase}/${namespace}`, {
+    const wsBaseUrl = config.public.wsBase || import.meta.env.VITE_WS_URL || import.meta.env.VITE_API_BASE_URL || "http://localhost:3005";
+
+    const s = io(`${wsBaseUrl}/${namespace}`, {
       query: {
         userId: connectionId,
       },
-      transports: ['websocket', 'polling'],
+      transports: ['websocket'],
       reconnection: true,
       reconnectionAttempts: Infinity,
       reconnectionDelay: 1000,

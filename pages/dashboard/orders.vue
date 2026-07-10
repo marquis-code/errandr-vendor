@@ -1,5 +1,5 @@
 <template>
- <div class="space-y-6 animate-fade-in max-w-[1400px] px-4 mx-auto pb-20 sm:px-8">
+ <div class="space-y-6 animate-fade-in w-full px-4 pb-20 sm:px-8">
  <!-- Header with Search & Stats -->
  <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pt-6">
  <div class="space-y-1">
@@ -115,9 +115,25 @@
  <div>
  <p class="text-sm font-bold text-gray-900">{{ item.name }}</p>
  <p class="text-sm text-gray-400 font-medium">Unit Price: ₦{{ item.price?.toLocaleString() }}</p>
+ <div v-if="item.customizations?.length" class="mt-1 space-y-0.5">
+ <p v-for="(custom, idx) in item.customizations" :key="idx" class="text-xs text-gray-500 flex items-center gap-1">
+ <span class="text-gray-300">+</span> {{ custom.name }} <span v-if="custom.price > 0">(₦{{ custom.price?.toLocaleString() }})</span>
+ </p>
+ </div>
  </div>
  </div>
  <span class="text-sm font-bold text-gray-900">₦{{ item.subtotal?.toLocaleString() }}</span>
+ </div>
+ </div>
+ </div>
+
+ <!-- Vendor Note -->
+ <div v-if="selectedOrder.vendorNote" class="p-4 bg-amber-50/50 border border-amber-100 rounded-md">
+ <div class="flex gap-2">
+ <MessageSquare class="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
+ <div>
+ <p class="text-xs font-bold text-amber-800 uppercase tracking-wider mb-1">Customer Instruction</p>
+ <p class="text-sm font-medium text-amber-900 leading-relaxed">{{ selectedOrder.vendorNote }}</p>
  </div>
  </div>
  </div>
@@ -200,19 +216,6 @@
  </div>
  </template>
  </SideDrawer>
-
- <!-- Order Chat Component -->
- <OrderChat
- v-if="selectedOrder"
- :key="'chat-' + selectedOrder._id"
- :is-open="isChatOpen"
- :order-id="selectedOrder._id"
- :current-user-id="(cachedBusiness as any)?._id || user?._id || ''"
- :receiver-id="chatReceiverId"
- :receiver-name="chatReceiverName"
- :receiver-avatar="chatReceiverAvatar"
- @close="isChatOpen = false"
- />
  </div>
 </template>
 
@@ -226,9 +229,11 @@ import OrderChat from '@/components/core/OrderChat.vue';
 import { useUser } from '@/composables/modules/auth/user';
 import { useSocket } from "@/composables/useSocket";
 import { useGetBusiness } from '@/composables/modules/business/useGetBusiness';
+import { useRouter } from 'vue-router';
 
 const { user } = useUser();
 const { cachedBusiness } = useGetBusiness();
+const router = useRouter();
 
 definePageMeta({ layout: 'vendor' });
 useHead({ title: 'Orders - Errander Vendor' });
@@ -245,11 +250,15 @@ const chatReceiverAvatar = ref('');
 const updatingOrderId = ref<string | null>(null);
 
 const openChat = (receiverId: string | undefined, name: string, avatar?: string) => {
- if (!receiverId) return;
- chatReceiverId.value = receiverId;
- chatReceiverName.value = name;
- chatReceiverAvatar.value = avatar || '';
- isChatOpen.value = true;
+ if (!receiverId || !selectedOrder.value) return;
+ router.push({
+   path: '/dashboard/chats',
+   query: {
+     orderId: selectedOrder.value._id,
+     receiverId: receiverId,
+     autoMessage: `Hello ${name.split(' ')[0]}! Thanks for your order #${selectedOrder.value.orderNumber}. We're currently processing it. Let us know if you need any adjustments!`
+   }
+ });
 };
 
 const orderColumns = [

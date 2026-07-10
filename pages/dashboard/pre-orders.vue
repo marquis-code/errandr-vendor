@@ -25,9 +25,9 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
       <!-- Active Batches -->
-      <div class="lg:col-span-2 space-y-6">
+      <div class="xl:col-span-2 space-y-6">
         <div class="bg-white rounded-2xl border border-gray-50 overflow-hidden flex flex-col min-h-[500px]">
           <div class="px-10 py-8 border-b border-gray-50 flex items-center justify-between">
             <div>

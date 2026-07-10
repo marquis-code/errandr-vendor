@@ -184,6 +184,7 @@ const props = defineProps<{
  receiverName?: string;
  receiverAvatar?: string;
  isOnline?: boolean;
+ initialMessage?: string;
 }>();
 
 const emit = defineEmits(['close']);
@@ -375,6 +376,15 @@ watch(() => props.isOpen, (val) => {
 watch(messages, () => {
  scrollToBottom();
 }, { deep: true });
+
+let initialMessageSent = false;
+watch(loading, (isLoading) => {
+ if (!isLoading && props.initialMessage && messages.value.length === 0 && !initialMessageSent) {
+   initialMessageSent = true;
+   newMsgText.value = props.initialMessage;
+   handleSend();
+ }
+});
 
 onMounted(() => {
  if (props.isOpen) {

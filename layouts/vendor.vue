@@ -2,39 +2,51 @@
   <FullScreenLoader />
   <div class="min-h-screen bg-white">
     <!-- Desktop Sidebar -->
-    <aside class="hidden lg:block w-64 bg-white border-r border-gray-100 min-h-screen fixed left-0 top-0">
+    <aside class="hidden lg:flex flex-col bg-white border-r border-gray-100 min-h-screen fixed left-0 top-0 transition-all duration-300 z-50" :class="isSidebarMinimized ? 'w-20' : 'w-64'">
       <!-- Logo -->
-      <div class="p-4 border-b border-gray-50/50 flex items-center gap-3">
-        <video v-if="profile?.logo && profile.logo.match(/\\.(mp4|webm|ogg|mov)$/i)" :src="profile.logo" class="w-10 h-10 rounded-md object-cover" autoplay loop muted playsinline></video>
-        <img v-else-if="profile?.logo" :src="profile.logo" alt="Store Logo" class="w-10 h-10 rounded-md object-cover" />
-        <div v-else class="w-10 h-10 bg-parentPrimary rounded-md flex items-center justify-center text-white font-bold text-xl uppercase">
+      <div class="p-4 border-b border-gray-50/50 flex items-center gap-3 relative h-[73px]">
+        <video v-if="profile?.logo && profile.logo.match(/\.(mp4|webm|ogg|mov)$/i)" :src="profile.logo" class="w-10 h-10 rounded-md object-cover flex-shrink-0" autoplay loop muted playsinline></video>
+        <img v-else-if="profile?.logo" :src="profile.logo" alt="Store Logo" class="w-10 h-10 rounded-md object-cover flex-shrink-0" />
+        <div v-else class="w-10 h-10 bg-parentPrimary rounded-md flex items-center justify-center text-white font-bold text-xl uppercase flex-shrink-0">
           {{ profile?.storeName ? profile.storeName.charAt(0) : 'E' }}
         </div>
-        <span class="text-xl font-medium text-parentPrimary tracking-tighter truncate">{{ profile?.storeName || 'Errander' }}</span>
+        <span v-if="!isSidebarMinimized" class="text-xl font-medium text-parentPrimary tracking-tighter truncate">{{ profile?.storeName || 'Errander' }}</span>
+        
+        <!-- Toggle Button -->
+        <button 
+          @click="isSidebarMinimized = !isSidebarMinimized"
+          class="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm text-gray-500 hover:text-parentPrimary hover:border-parentPrimary z-50 transition-colors"
+        >
+          <ChevronLeft v-if="!isSidebarMinimized" class="w-4 h-4" />
+          <ChevronRight v-else class="w-4 h-4" />
+        </button>
       </div>
       
       <!-- Navigation -->
-      <nav class="p-4 space-y-1">
+      <nav class="p-4 space-y-1 flex-1 overflow-y-auto hide-scrollbar">
         <NuxtLink
           v-for="item in navItems"
           :key="item.path"
           :to="item.path"
-          class="flex items-center px-4 py-3 text-sm font-medium rounded-md transition-all group"
+          class="flex items-center px-4 py-3 text-sm font-medium rounded-md transition-all group relative"
           :class="isActive(item.path) ? 'bg-parentPrimary text-white' : 'text-gray-700 hover:bg-gray-50 hover:text-parentPrimary'"
+          :title="isSidebarMinimized ? item.label : ''"
         >
-          <component :is="item.icon" class="w-5 h-5 mr-3" />
-          {{ item.label }}
+          <component :is="item.icon" class="w-5 h-5 flex-shrink-0" :class="isSidebarMinimized ? 'mx-auto' : 'mr-3'" />
+          <span v-if="!isSidebarMinimized" class="truncate">{{ item.label }}</span>
         </NuxtLink>
       </nav>
 
       <!-- Logout Button -->
-      <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-50/50">
+      <div class="p-4 border-t border-gray-50/50 mt-auto">
         <button
           @click="handleLogoutClick"
-          class="flex items-center w-full px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-md transition-all"
+          class="flex items-center px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-md transition-all"
+          :class="isSidebarMinimized ? 'w-full justify-center' : 'w-full'"
+          :title="isSidebarMinimized ? 'Logout' : ''"
         >
-          <LogOut class="w-5 h-5 mr-3" />
-          Logout
+          <LogOut class="w-5 h-5 flex-shrink-0" :class="isSidebarMinimized ? '' : 'mr-3'" />
+          <span v-if="!isSidebarMinimized">Logout</span>
         </button>
       </div>
     </aside>
@@ -140,7 +152,7 @@
     </Transition>
 
     <!-- Main Content -->
-    <main class="flex-1 lg:ml-64">
+    <main class="flex-1 transition-all duration-300" :class="isSidebarMinimized ? 'lg:ml-20' : 'lg:ml-64'">
       <!-- Dashboard Header -->
       <div class="bg-white border-b border-gray-100 sticky top-0 z-30 hidden lg:block">
         <div class="px-6 py-1.5">
@@ -257,10 +269,12 @@ import {
   Megaphone,
   Clock,
   Menu,
-  MessageSquare
+  MessageSquare,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-vue-next'
 import { useRealtimeNotifications } from '@/composables/core/useRealtimeNotifications'
-import ChatWidget from '@/components/ChatWidget.vue'
+
 import { useVendorNotifications } from '@/composables/useVendorNotifications'
 
 useRealtimeNotifications() // Initialize listener
@@ -272,6 +286,7 @@ const { profile, fetchProfile } = useVendorProfile()
 const { requestPermissionAndRegister, listenForOrders } = useVendorNotifications()
 const showMobileMenu = ref(false)
 const logoutModalOpen = ref(false)
+const isSidebarMinimized = ref(false)
 
 onMounted(() => {
   if (!profile.value) {

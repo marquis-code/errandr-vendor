@@ -1,432 +1,468 @@
 <template>
- <div class="max-w-[1400px] mx-auto space-y-10 pb-20 animate-fade-in px-4 sm:px-8">
- <header class="pt-6">
- <h1 class="text-xl font-bold text-gray-900 sm:text-2xl">Merchant Settings</h1>
- <p class="text-sm text-gray-400 font-medium mt-1">Fine-tune your store profile, operations, and financial preferences.</p>
- </header>
+  <div class="w-full pb-20 animate-fade-in px-0 lg:px-8">
+    <header class="pt-6 pb-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sticky top-0 bg-white/95 backdrop-blur-xl z-40 px-4 lg:px-0">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Merchant Settings</h1>
+        <p class="text-sm text-gray-500 font-medium mt-1">Fine-tune your store profile, operations, and financial preferences.</p>
+      </div>
+      <div class="flex items-center gap-4 w-full sm:w-auto">
+        <button 
+          @click="saveProfile" 
+          :disabled="savingProfile" 
+          class="w-full sm:w-auto px-6 py-3 sm:py-2.5 bg-gray-900 text-white rounded-xl sm:rounded-full font-bold text-sm hover:bg-black transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-lg shadow-gray-900/20"
+        >
+          <Loader2 v-if="savingProfile" class="animate-spin w-4 h-4" />
+          {{ savingProfile ? 'Saving...' : 'Save All Changes' }}
+        </button>
+      </div>
+    </header>
 
- <div v-if="loading" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
- <div v-for="i in 3" :key="i" class="bg-gray-50 rounded-md border border-gray-100 animate-pulse h-[400px]" />
- </div>
+    <!-- Horizontal Navigation Tabs -->
+    <div class="sticky top-[76px] bg-white/95 backdrop-blur-xl z-30 py-4 border-b border-gray-100 px-4 lg:px-0 overflow-x-auto hide-scrollbar mb-8">
+      <div class="flex gap-2 p-1.5 bg-gray-50/80 rounded-2xl w-max border border-gray-100">
+        <button 
+          @click="activeTab = 'profile'" 
+          :class="activeTab === 'profile' ? 'bg-white text-gray-900 shadow-sm border border-gray-200/50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100/50 border border-transparent'" 
+          class="px-6 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center gap-2"
+        >
+          <StoreIcon class="w-4 h-4" :class="activeTab === 'profile' ? 'text-[#FF5C1A]' : 'text-gray-400'" />
+          Store Identity
+        </button>
+        <button 
+          @click="activeTab = 'operations'" 
+          :class="activeTab === 'operations' ? 'bg-white text-gray-900 shadow-sm border border-gray-200/50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100/50 border border-transparent'" 
+          class="px-6 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center gap-2"
+        >
+          <Clock class="w-4 h-4" :class="activeTab === 'operations' ? 'text-amber-500' : 'text-gray-400'" />
+          {{ isServiceProvider ? 'Scheduling & Status' : 'Operations & Status' }}
+        </button>
+        <button 
+          @click="activeTab = 'financials'" 
+          :class="activeTab === 'financials' ? 'bg-white text-gray-900 shadow-sm border border-gray-200/50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100/50 border border-transparent'" 
+          class="px-6 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center gap-2"
+        >
+          <CreditCard class="w-4 h-4" :class="activeTab === 'financials' ? 'text-emerald-500' : 'text-gray-400'" />
+          Payout Methods
+        </button>
+      </div>
+    </div>
 
- <div v-else class="flex flex-col lg:flex-row gap-8">
- <!-- Sidebar Tabs -->
- <div class="w-full lg:w-64 shrink-0 space-y-2">
- <button @click="activeTab = 'profile'" :class="activeTab === 'profile' ? 'bg-gray-900 text-white ' : 'bg-white text-gray-500 hover:bg-gray-50 border-gray-100'" class="w-full flex items-center gap-3 px-5 py-2 rounded-md font-bold text-sm transition-all text-left border">
- <StoreIcon class="w-5 h-5" :class="activeTab === 'profile' ? 'text-white' : 'text-[#FF5C1A]'" /> Store Identity
- </button>
- <button @click="activeTab = 'operations'" :class="activeTab === 'operations' ? 'bg-gray-900 text-white ' : 'bg-white text-gray-500 hover:bg-gray-50 border-gray-100'" class="w-full flex items-center gap-3 px-5 py-2 rounded-md font-bold text-sm transition-all text-left border">
- <Clock class="w-5 h-5" :class="activeTab === 'operations' ? 'text-white' : 'text-amber-500'" /> {{ isServiceProvider ? 'Scheduling & Status' : 'Operations & Status' }}
- </button>
- <button @click="activeTab = 'financials'" :class="activeTab === 'financials' ? 'bg-gray-900 text-white ' : 'bg-white text-gray-500 hover:bg-gray-50 border-gray-100'" class="w-full flex items-center gap-3 px-5 py-2 rounded-md font-bold text-sm transition-all text-left border">
- <CreditCard class="w-5 h-5" :class="activeTab === 'financials' ? 'text-white' : 'text-emerald-500'" /> Payout Methods
- </button>
- </div>
- 
- <!-- Tab Content -->
- <div class="flex-1 space-y-8 min-w-0">
- <div v-show="activeTab === 'profile'">
- <!-- Store Identity -->
- <section class="bg-white rounded-2xl border border-gray-100 overflow-hidden group">
- <div class="p-8 border-b border-gray-50 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
- <div class="flex items-center gap-4">
- <div class="p-3 bg-blue-50 text-[#FF5C1A] rounded-md group-hover:scale-110 transition-transform">
- <StoreIcon class="w-5 h-5" />
- </div>
- <h3 class="text-lg font-bold text-gray-900">Store Identity</h3>
- </div>
- <button 
- @click="saveProfile" 
- :disabled="savingProfile" 
- class="px-6 py-2 bg-gray-900 text-white rounded-md font-bold text-sm hover:bg-black transition-all disabled:opacity-50 flex items-center gap-2"
- >
- <Loader2 v-if="savingProfile" class="animate-spin w-3 h-3" />
- {{ savingProfile ? 'Saving...' : 'Sync Profile' }}
- </button>
- </div>
- 
- <div class="p-8 space-y-8">
- <!-- Branding -->
- <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
- <div class="flex items-center gap-6">
- <div class="w-24 h-24 rounded-md bg-gray-50 overflow-hidden border border-gray-100 flex items-center justify-center shrink-0 group/logo relative">
- <video v-if="profile.logo && profile.logo.match(/\\.(mp4|webm|ogg|mov)$/i)" :src="profile.logo" class="w-full h-full object-cover" autoplay loop muted playsinline></video>
- <img v-else-if="profile.logo" :src="profile.logo" class="w-full h-full object-cover" />
- <ImageIcon v-else class="w-8 h-8 text-gray-200" />
- <div class="absolute inset-0 bg-black/20 opacity-0 group-hover/logo:opacity-100 transition-opacity flex items-center justify-center">
- <Upload class="w-6 h-6 text-white" />
- </div>
- <input type="file" ref="logoInput" accept="image/*,video/*" class="absolute inset-0 opacity-0 cursor-pointer" @change="handleLogoUpload" />
- </div>
- <div>
- <h4 class="text-sm font-bold text-gray-900 mb-1">Store Logo</h4>
- <p class="text-sm text-gray-400 font-medium leading-relaxed">
- Recommended: Square PNG/JPG<br/>Max size: 5MB
- </p>
- <p v-if="logoUploading" class="text-sm text-[#FF5C1A] font-bold mt-2 animate-pulse">UPLOADING...</p>
- </div>
- </div>
+    <div v-if="loading" class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <div class="hidden lg:block lg:col-span-1 space-y-4">
+        <div v-for="i in 3" :key="i" class="bg-gray-50 h-10 rounded-lg animate-pulse" />
+      </div>
+      <div class="col-span-1 lg:col-span-3 space-y-8">
+        <div v-for="i in 3" :key="i" class="bg-gray-50 rounded-2xl animate-pulse h-[400px]" />
+      </div>
+    </div>
 
- <div class="flex items-center gap-6">
- <div class="w-32 h-24 rounded-md bg-gray-50 overflow-hidden border border-gray-100 flex items-center justify-center shrink-0 group/banner relative">
- <video v-if="profile.banner && profile.banner.match(/\\.(mp4|webm|ogg|mov)$/i)" :src="profile.banner" class="w-full h-full object-cover" autoplay loop muted playsinline></video>
- <img v-else-if="profile.banner" :src="profile.banner" class="w-full h-full object-cover" />
- <ImageIcon v-else class="w-8 h-8 text-gray-200" />
- <div class="absolute inset-0 bg-black/20 opacity-0 group-hover/banner:opacity-100 transition-opacity flex items-center justify-center">
- <Upload class="w-6 h-6 text-white" />
- </div>
- <input type="file" ref="bannerInput" accept="image/*,video/*" class="absolute inset-0 opacity-0 cursor-pointer" @change="handleBannerUpload" />
- </div>
- <div>
- <h4 class="text-sm font-bold text-gray-900 mb-1">Store Cover</h4>
- <p class="text-sm text-gray-400 font-medium leading-relaxed">
- Recommended: Landscape<br/>Max size: 10MB
- </p>
- <p v-if="bannerUploading" class="text-sm text-[#FF5C1A] font-bold mt-2 animate-pulse">UPLOADING...</p>
- </div>
- </div>
- </div>
+    <div v-else class="w-full relative items-start mt-4 sm:mt-0">
+      
+      <!-- Content Container -->
+      <div class="w-full min-w-0 pb-32">
+        
+        <!-- SECTION: STORE IDENTITY -->
+        <section v-if="activeTab === 'profile'" id="store-identity" class="animate-fade-in space-y-8 relative">
+          
+          <div class="space-y-1 px-4 lg:px-0 pt-6 lg:pt-0">
+            <h3 class="text-xl font-bold text-gray-900 flex items-center gap-3">
+              Store Identity
+            </h3>
+            <p class="text-sm text-gray-500">Manage how your brand appears on the student app.</p>
+          </div>
+          
+          <div class="bg-white lg:rounded-3xl lg:border lg:border-gray-100/50 lg:shadow-sm relative px-4 py-8 lg:p-8 space-y-8 sm:space-y-10 border-b lg:border-b-0 border-gray-100">
+            <!-- Branding -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+                <div class="w-24 h-24 rounded-2xl bg-gray-50 overflow-hidden border border-gray-100 flex items-center justify-center shrink-0 group/logo relative shadow-inner">
+                  <video v-if="profile.logo && profile.logo.match(/\.(mp4|webm|ogg|mov)$/i)" :src="profile.logo" class="w-full h-full object-cover" autoplay loop muted playsinline></video>
+                  <img v-else-if="profile.logo" :src="profile.logo" class="w-full h-full object-cover" />
+                  <ImageIcon v-else class="w-8 h-8 text-gray-300" />
+                  <div class="absolute inset-0 bg-black/40 opacity-0 group-hover/logo:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm cursor-pointer">
+                    <Upload class="w-6 h-6 text-white" />
+                  </div>
+                  <input type="file" ref="logoInput" accept="image/*,video/*" class="absolute inset-0 opacity-0 cursor-pointer" @change="handleLogoUpload" />
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-gray-900 mb-1">Store Logo</h4>
+                  <p class="text-xs text-gray-500 font-medium leading-relaxed">Square PNG/JPG<br/>Max 5MB</p>
+                  <p v-if="logoUploading" class="text-xs text-[#FF5C1A] font-bold mt-2 animate-pulse">UPLOADING...</p>
+                </div>
+              </div>
 
- <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
- <AnimatedInput v-model="profile.storeName" label="Business Name" :description="isServiceProvider ? 'e.g. Glam by Sarah' : 'e.g. Gourmet Burger Central'" required />
- <SelectInput v-model="profile.category" :label="isServiceProvider ? 'Business Category' : 'Kitchen Type'" :options="filteredCategoryOptions" :allowCustom="true" required />
- </div>
- 
- <AnimatedInput v-model="profile.description" type="textarea" :label="isServiceProvider ? 'Business Bio' : 'Store Bio'" :description="isServiceProvider ? 'Tell students about your services and expertise...' : 'Tell students why your food is special...'" />
- 
- <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
- <AnimatedInput v-model="profile.address" label="Street Address" description="Specific location for pickups" />
- <div class="flex items-center justify-between p-4 bg-gray-50 rounded-md border border-gray-100/50">
- <div class="flex items-center gap-3">
- <div class="p-2 bg-white rounded-lg text-[#FF5C1A]">
- <Building class="w-4 h-4" />
- </div>
- <span class="text-sm font-bold text-gray-700">Inside Campus</span>
- </div>
- <input type="checkbox" v-model="profile.isInsideCampus" class="w-5 h-5 rounded-lg border-gray-200 text-[#FF5C1A] focus:ring-[#FF5C1A]" />
- </div>
- </div>
- </div>
- </section>
- </div>
+              <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+                <div class="w-full sm:w-32 h-32 sm:h-24 rounded-2xl bg-gray-50 overflow-hidden border border-gray-100 flex items-center justify-center shrink-0 group/banner relative shadow-inner">
+                  <video v-if="profile.banner && profile.banner.match(/\.(mp4|webm|ogg|mov)$/i)" :src="profile.banner" class="w-full h-full object-cover" autoplay loop muted playsinline></video>
+                  <img v-else-if="profile.banner" :src="profile.banner" class="w-full h-full object-cover" />
+                  <ImageIcon v-else class="w-8 h-8 text-gray-300" />
+                  <div class="absolute inset-0 bg-black/40 opacity-0 group-hover/banner:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm cursor-pointer">
+                    <Upload class="w-6 h-6 text-white" />
+                  </div>
+                  <input type="file" ref="bannerInput" accept="image/*,video/*" class="absolute inset-0 opacity-0 cursor-pointer" @change="handleBannerUpload" />
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-gray-900 mb-1">Store Cover</h4>
+                  <p class="text-xs text-gray-500 font-medium leading-relaxed">Landscape<br/>Max 10MB</p>
+                  <p v-if="bannerUploading" class="text-xs text-[#FF5C1A] font-bold mt-2 animate-pulse">UPLOADING...</p>
+                </div>
+              </div>
+            </div>
 
- <div v-show="activeTab === 'operations'" class="space-y-8">
- <!-- Store Availability / Live Status -->
- <section class="bg-gray-900 rounded-2xl p-8 text-white relative overflow-hidden group">
- <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-md blur-3xl" />
- <div class="flex items-center justify-between mb-8">
- <h3 class="text-lg font-bold">Live Status</h3>
- <button 
- @click="toggleOnline" 
- :disabled="togglingOnline"
- class="relative w-14 h-8 rounded-md transition-all duration-500"
- :class="isOnline ? 'bg-emerald-500' : 'bg-white/10'"
- >
- <span 
- class="absolute top-1 w-6 h-6 bg-white rounded-md transition-all duration-500"
- :class="isOnline ? 'left-7' : 'left-1'" 
- />
- </button>
- </div>
- 
- <div class="space-y-4 relative z-10">
- <div v-if="isOnline" class="flex items-center gap-3 text-emerald-400">
- <div class="w-2 h-2 rounded-md bg-emerald-500 animate-pulse (16,185,129,0.5)]" />
- <span class="text-sm font-medium">Active & Visible</span>
- </div>
- <div v-else class="flex items-center gap-3 text-white/40">
- <div class="w-2 h-2 rounded-md bg-white/20" />
- <span class="text-sm font-medium">Hidden / Offline</span>
- </div>
- <p class="text-sm text-white/50 font-medium leading-relaxed">
- When toggled ON, students can browse your menu and place new orders. Toggle OFF during breaks.
- </p>
- </div>
- </section>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <AnimatedInput v-model="profile.storeName" label="Business Name" :description="isServiceProvider ? 'e.g. Glam by Sarah' : 'e.g. Gourmet Burger Central'" required />
+              <SelectInput v-model="profile.category" :label="isServiceProvider ? 'Business Category' : 'Category'" :options="filteredCategoryOptions" :allowCustom="true" required />
+            </div>
+            
+            <AnimatedInput v-model="profile.description" type="textarea" :label="isServiceProvider ? 'Business Bio' : 'Store Bio'" :description="isServiceProvider ? 'Tell students about your services and expertise...' : 'Describe what makes your products special...'" />
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="relative">
+                <label class="block text-xs font-bold text-gray-400 mb-1.5 pl-2 uppercase tracking-wider">Street Address</label>
+                <UiMapboxAutocomplete 
+                  v-model="profile.address" 
+                  @select="handleAddressSelect" 
+                  placeholder="Specific location for pickups..." 
+                />
+              </div>
+              <div class="flex items-center justify-between p-4 sm:p-5 bg-gray-50 rounded-xl border border-gray-100 h-full mt-2 md:mt-0">
+                <div class="flex items-center gap-3">
+                  <div class="p-2 bg-white rounded-lg text-[#FF5C1A] shadow-sm">
+                    <Building class="w-4 h-4" />
+                  </div>
+                  <span class="text-sm font-bold text-gray-800">Inside Campus</span>
+                </div>
+                <input type="checkbox" v-model="profile.isInsideCampus" class="w-5 h-5 rounded-lg border-gray-300 text-[#FF5C1A] focus:ring-[#FF5C1A]" />
+              </div>
+            </div>
+          </div>
+        </section>
 
- <!-- Service Window -->
- <section class="bg-white rounded-2xl border border-gray-100 overflow-hidden group">
- <div class="p-8 border-b border-gray-50 flex items-center justify-between">
- <div class="flex items-center gap-4">
- <div class="p-3 bg-amber-50 text-amber-600 rounded-md group-hover:scale-110 transition-transform">
- <Clock class="w-5 h-5" />
- </div>
- <h3 class="text-lg font-bold text-gray-900">Service Window</h3>
- </div>
- <button 
- @click="saveHours" 
- :disabled="savingHours" 
- class="px-6 py-2 bg-white border border-gray-100 text-gray-500 rounded-md font-bold text-sm hover:bg-gray-50 transition-all disabled:opacity-50 flex items-center gap-2"
- >
- <Loader2 v-if="savingHours" class="animate-spin w-3 h-3" />
- {{ savingHours ? 'Syncing...' : 'Update Schedule' }}
- </button>
- </div>
- 
- <div class="p-8 space-y-8">
- <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
- <AnimatedInput v-model="profile.operatingHours.open" label="Opens At" description="e.g. 08:00 AM" />
- <AnimatedInput v-model="profile.operatingHours.close" label="Closes At" description="e.g. 09:00 PM" />
- </div>
- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
- <AnimatedInput v-model.number="profile.preparationTime" type="number" :label="isServiceProvider ? 'Buffer Time (min)' : 'Prep Window (min)'" :description="isServiceProvider ? 'Time between appointments' : 'Avg. time to cook'" />
- <AnimatedInput v-if="!isServiceProvider" v-model.number="profile.baseDeliveryFee" type="number" label="Base Delivery Fee (₦)" description="Starting fee on user app" />
- <AnimatedInput v-if="!isServiceProvider" v-model.number="profile.minimumOrder" type="number" label="Min. Order (₦)" description="Optional threshold" />
- <AnimatedInput v-if="!isServiceProvider" v-model.number="profile.deliveryFee" type="number" label="Surcharge (₦)" description="In-store fee" />
- </div>
+        <!-- SECTION: OPERATIONS -->
+        <section v-if="activeTab === 'operations'" id="operations" class="animate-fade-in space-y-8 relative">
+          
+          <div class="space-y-1 px-4 lg:px-0 pt-8 lg:pt-0">
+            <h3 class="text-xl font-bold text-gray-900 flex items-center gap-3">
+              {{ isServiceProvider ? 'Scheduling & Status' : 'Operations & Status' }}
+            </h3>
+            <p class="text-sm text-gray-500">Configure your availability and service windows.</p>
+          </div>
 
- <!-- Packaging Packs -->
- <div v-if="!isServiceProvider" class="space-y-4 pt-4 border-t border-gray-50">
- <div class="flex items-center justify-between mb-2">
- <div>
- <h4 class="text-sm font-bold text-gray-900">Packaging Options</h4>
- <p class="text-sm text-gray-400 font-medium">Create different packs for different food types</p>
- </div>
- <button 
- @click="addPack" 
- class="p-2 bg-blue-50 text-[#FF5C1A] rounded-lg hover:bg-blue-100 transition-all"
- >
- <Plus class="w-4 h-4" />
- </button>
- </div>
+          <!-- Live Status -->
+          <div class="bg-gray-900 lg:rounded-3xl p-6 lg:p-8 text-white relative overflow-hidden group lg:shadow-xl shadow-gray-900/10 rounded-none">
+            <div class="absolute -right-20 -top-20 w-64 h-64 bg-emerald-500/20 rounded-full blur-3xl opacity-0 transition-opacity duration-1000" :class="{ 'opacity-100': isOnline }" />
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 relative z-10">
+              <div>
+                <h3 class="text-xl font-bold mb-2">Live Status</h3>
+                <div v-if="isOnline" class="flex items-center gap-2 text-emerald-400">
+                  <div class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse" />
+                  <span class="text-sm font-bold tracking-wide">ONLINE & ACCEPTING ORDERS</span>
+                </div>
+                <div v-else class="flex items-center gap-2 text-gray-400">
+                  <div class="w-2 h-2 rounded-full bg-gray-500" />
+                  <span class="text-sm font-bold tracking-wide">OFFLINE</span>
+                </div>
+              </div>
+              <button 
+                @click="toggleOnline" 
+                :disabled="togglingOnline"
+                class="relative w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-500 ease-in-out"
+                :class="isOnline ? 'bg-emerald-500' : 'bg-gray-800'"
+              >
+                <div 
+                  class="w-6 h-6 bg-white rounded-full transition-transform duration-500 ease-in-out shadow-sm transform"
+                  :class="isOnline ? 'translate-x-6' : 'translate-x-0'" 
+                />
+              </button>
+            </div>
+            <p class="text-sm text-gray-400 font-medium leading-relaxed mt-6 relative z-10 max-w-lg">
+              When toggled ON, students can browse your menu and place new orders. Always remember to toggle OFF when you close or take a break to avoid unfulfilled orders.
+            </p>
+          </div>
+          
+          <div class="bg-white lg:rounded-3xl lg:border lg:border-gray-100/50 lg:shadow-sm overflow-hidden px-4 py-8 lg:p-8 space-y-8 sm:space-y-10 border-b lg:border-b-0 border-gray-100">
+            <div class="flex items-center justify-between">
+              <h4 class="text-base font-bold text-gray-900">Service Configuration</h4>
+              <button 
+                @click="saveHours" 
+                :disabled="savingHours" 
+                class="text-sm font-bold text-[#FF5C1A] hover:text-orange-700 transition-colors flex items-center gap-2"
+              >
+                <Loader2 v-if="savingHours" class="animate-spin w-4 h-4" />
+                {{ savingHours ? 'Syncing...' : 'Quick Sync' }}
+              </button>
+            </div>
 
- <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
- <div v-for="(pack, index) in profile.packs" :key="index" 
- class="p-4 rounded-md border border-gray-100 bg-white space-y-3 relative group/pack hover:border-blue-200 transition-all">
- <button 
- v-if="profile.packs.length > 1"
- @click="removePack(index)" 
- class="absolute top-2 right-2 p-1.5 text-gray-300 hover:text-rose-500 opacity-0 group-hover/pack:opacity-100 transition-all"
- >
- <Trash2 class="w-3.5 h-3.5" />
- </button>
- 
- <div class="space-y-3">
- <AnimatedInput v-model="pack.name" label="Pack Name" placeholder="e.g. Standard Plastic Pack" />
- <div class="flex items-center gap-4">
- <div class="flex-1">
- <AnimatedInput v-model.number="pack.price" type="number" label="Price (₦)" />
- </div>
- <div class="flex items-center gap-2 pt-5">
- <span class="text-sm font-bold text-gray-400">Active</span>
- <input type="checkbox" v-model="pack.isActive" class="w-4 h-4 rounded border-gray-200 text-[#FF5C1A]" />
- </div>
- </div>
- </div>
- </div>
- </div>
- </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <AnimatedInput v-model="profile.operatingHours.open" type="time" label="Opens At" description="e.g. 08:00 AM" />
+              <AnimatedInput v-model="profile.operatingHours.close" type="time" label="Closes At" description="e.g. 09:00 PM" />
+            </div>
 
- <!-- Business Hours (Day-by-Day) -->
- <div class="space-y-4 pt-4">
- <div class="flex items-center justify-between mb-2">
- <h4 class="text-sm font-bold text-gray-900">Weekly Schedule</h4>
- <p class="text-sm text-gray-400 font-medium">Configure opening hours for each day</p>
- </div>
- 
- <div class="grid grid-cols-1 gap-3">
- <div v-for="bh in profile.businessHours" :key="bh.day" 
- class="p-4 rounded-md border border-gray-100 flex flex-wrap items-center justify-between gap-4 transition-all hover:border-gray-200"
- :class="bh.isClosed ? 'bg-gray-50/50 opacity-60' : 'bg-white'">
- <div class="flex items-center gap-4 min-w-[120px]">
- <div class="w-10 h-10 rounded-md flex items-center justify-center font-bold text-sm"
- :class="bh.isClosed ? 'bg-gray-200 text-gray-400' : 'bg-blue-50 text-[#FF5C1A]'">
- {{ bh.day.slice(0, 3) }}
- </div>
- <span class="text-sm font-bold text-gray-900 capitalize">{{ bh.day }}</span>
- </div>
- 
- <div class="flex items-center gap-4 flex-1 justify-end sm:justify-center">
- <div class="flex items-center gap-2" v-if="!bh.isClosed">
- <input type="time" v-model="bh.open" class="text-sm font-bold p-2 rounded-lg border-gray-100 focus:ring-[#FF5C1A]" />
- <span class="text-gray-300">→</span>
- <input type="time" v-model="bh.close" class="text-sm font-bold p-2 rounded-lg border-gray-100 focus:ring-[#FF5C1A]" />
- </div>
- <div v-else class="text-sm font-medium text-rose-400">Store Closed</div>
- </div>
+            <!-- Only show Prep Time & Min Order if Food or Service Provider -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" v-if="isFoodVendor || isServiceProvider">
+              <AnimatedInput v-model.number="profile.preparationTime" type="number" :label="isServiceProvider ? 'Buffer Time (min)' : 'Prep Window (min)'" :description="isServiceProvider ? 'Time between appointments' : 'Avg. time to cook'" />
+              <AnimatedInput v-if="!isServiceProvider" v-model.number="profile.minimumOrder" type="number" label="Min. Order (₦)" description="Optional threshold" />
+            </div>
 
- <div class="flex items-center gap-2 ml-4">
- <span class="text-sm font-bold text-gray-400">{{ bh.isClosed ? 'Offline' : 'Online' }}</span>
- <input type="checkbox" :checked="!bh.isClosed" @change="bh.isClosed = !($event.target as HTMLInputElement).checked" class="w-5 h-5 rounded-lg border-gray-200 text-[#FF5C1A]" />
- </div>
- </div>
- </div>
- </div>
+            <!-- Packaging -->
+            <div v-if="!isServiceProvider" class="space-y-6 pt-6 border-t border-gray-50">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="text-sm font-bold text-gray-900">Packaging Options</h4>
+                  <p class="text-xs text-gray-500 mt-0.5">{{ isFoodVendor ? 'Manage container and pack pricing for food.' : 'Set your flat packaging or wrapping fee.' }}</p>
+                </div>
+                <button 
+                  v-if="isFoodVendor"
+                  @click="addPack" 
+                  class="p-2 bg-gray-50 text-gray-600 rounded-full hover:bg-gray-100 transition-all border border-gray-200"
+                >
+                  <Plus class="w-4 h-4" />
+                </button>
+              </div>
 
- <!-- Break Periods -->
- <div class="p-6 bg-amber-50/30 rounded-md border border-amber-100/50 space-y-6">
- <div class="flex items-center justify-between">
- <div class="flex items-center gap-3">
- <div class="p-2 bg-white rounded-md text-amber-600">
- <Power class="w-4 h-4" />
- </div>
- <div>
- <h4 class="text-sm font-bold text-gray-900">Scheduled Breaks</h4>
- <p class="text-sm text-gray-400 font-medium">Auto-toggle offline during this window</p>
- </div>
- </div>
- <input type="checkbox" v-model="profile.breakPeriod.enabled" class="w-5 h-5 rounded-lg border-amber-200 text-amber-600 focus:ring-amber-500" />
- </div>
+              <!-- Fashion / Retail View (Single Flat Fee) -->
+              <div v-if="!isFoodVendor">
+                <AnimatedInput 
+                  v-if="profile.packs && profile.packs.length > 0" 
+                  v-model.number="profile.packs[0].price" 
+                  type="number" 
+                  label="Base Packaging Fee (₦)" 
+                  description="Applied once per order"
+                />
+              </div>
 
- <div v-if="profile.breakPeriod.enabled" class="grid grid-cols-2 gap-4 animate-fade-in">
- <div class="space-y-1.5">
- <label class="text-sm font-medium text-amber-600 px-1">Break Start</label>
- <input type="time" v-model="profile.breakPeriod.start" class="w-full p-4 bg-white rounded-md border-gray-100 font-bold text-sm focus:ring-amber-500" />
- </div>
- <div class="space-y-1.5">
- <label class="text-sm font-medium text-amber-600 px-1">Break End</label>
- <input type="time" v-model="profile.breakPeriod.end" class="w-full p-4 bg-white rounded-md border-gray-100 font-bold text-sm focus:ring-amber-500" />
- </div>
- </div>
- </div>
- </div>
- </section>
- </div>
+              <!-- Food Vendor View (Multiple Packs) -->
+              <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div v-for="(pack, index) in profile.packs" :key="index" class="p-4 sm:p-5 rounded-2xl border border-gray-100 bg-gray-50/50 space-y-4 relative group/pack hover:border-blue-200 transition-colors">
+                  <button 
+                    v-if="profile.packs.length > 1"
+                    @click="removePack(index)" 
+                    class="absolute top-3 right-3 p-1.5 text-gray-400 hover:text-rose-500 opacity-0 group-hover/pack:opacity-100 transition-all"
+                  >
+                    <Trash2 class="w-4 h-4" />
+                  </button>
+                  <AnimatedInput v-model="pack.name" label="Pack Name" placeholder="e.g. Standard Plastic Pack" />
+                  <div class="flex items-center gap-4">
+                    <div class="flex-1">
+                      <AnimatedInput v-model.number="pack.price" type="number" label="Price (₦)" />
+                    </div>
+                    <div class="flex flex-col items-center gap-2 pt-2">
+                      <span class="text-xs font-bold text-gray-500">Active</span>
+                      <input type="checkbox" v-model="pack.isActive" class="w-5 h-5 rounded-lg border-gray-300 text-[#FF5C1A] focus:ring-[#FF5C1A]" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
- <div v-show="activeTab === 'financials'">
- <!-- Payment Hub -->
- <section class="bg-white rounded-2xl border border-gray-100 overflow-hidden group">
- <div class="p-8 border-b border-gray-50">
- <div class="flex items-center justify-between mb-2">
- <div class="flex items-center gap-3">
- <div class="p-3 bg-emerald-50 text-emerald-600 rounded-md group-hover:scale-110 transition-transform">
- <CreditCard class="w-5 h-5" />
- </div>
- <h3 class="text-lg font-bold text-gray-900">Payout Methods</h3>
- </div>
- <button @click="openAddAccount" class="p-2 hover:bg-gray-50 rounded-lg text-gray-400 hover:text-gray-900 transition-all">
- <Plus class="w-5 h-5" />
- </button>
- </div>
- <p class="text-sm text-gray-400 font-bold px-1">Active Payout Account</p>
- </div>
+            <!-- Weekly Schedule Redesign -->
+            <div class="space-y-6 pt-6 border-t border-gray-50">
+              <div>
+                <h4 class="text-sm font-bold text-gray-900">Weekly Schedule</h4>
+                <p class="text-xs text-gray-500 mt-0.5">Toggle days on/off and set specific hours.</p>
+              </div>
+              
+              <div class="space-y-2">
+                <div v-for="bh in profile.businessHours" :key="bh.day" class="p-4 rounded-2xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4" :class="bh.isClosed ? 'border-transparent bg-gray-50' : 'border-gray-200 bg-white shadow-sm'">
+                  <div class="flex items-center gap-4">
+                    <input type="checkbox" :checked="!bh.isClosed" @change="bh.isClosed = !($event.target as HTMLInputElement).checked" class="w-5 h-5 rounded border-gray-300 text-[#FF5C1A] focus:ring-[#FF5C1A]" />
+                    <span class="text-sm font-bold text-gray-900 capitalize w-20">{{ bh.day }}</span>
+                  </div>
+                  
+                  <div class="flex items-center gap-3 transition-opacity duration-300" :class="bh.isClosed ? 'opacity-30 pointer-events-none' : 'opacity-100'">
+                    <input type="time" v-model="bh.open" :disabled="bh.isClosed" class="text-sm font-bold px-4 py-2.5 bg-gray-50 rounded-xl border-transparent focus:bg-white focus:border-gray-200 focus:ring-0 outline-none w-32" />
+                    <span class="text-gray-400 font-bold text-sm">to</span>
+                    <input type="time" v-model="bh.close" :disabled="bh.isClosed" class="text-sm font-bold px-4 py-2.5 bg-gray-50 rounded-xl border-transparent focus:bg-white focus:border-gray-200 focus:ring-0 outline-none w-32" />
+                  </div>
+                </div>
+              </div>
+            </div>
 
- <div class="p-8 space-y-4">
- <!-- Account List -->
- <div v-if="payoutAccounts.length === 0" class="py-6 text-center space-y-3">
- <div class="w-12 h-12 bg-gray-50 rounded-md flex items-center justify-center mx-auto border border-gray-100 font-serif text-gray-300">₦</div>
- <p class="text-sm text-gray-400 font-bold">No bank accounts linked</p>
- <button @click="openAddAccount" class="text-sm font-medium text-[#FF5C1A] hover:underline">Link Account</button>
- </div>
+            <!-- Scheduled Breaks -->
+            <div class="p-6 bg-orange-50/50 rounded-2xl border border-orange-100 space-y-6">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                  <div class="p-2.5 bg-white rounded-xl text-orange-500 shadow-sm">
+                    <Power class="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-bold text-gray-900">Automated Breaks</h4>
+                    <p class="text-xs text-gray-500 mt-0.5">Go offline automatically during this time.</p>
+                  </div>
+                </div>
+                <input type="checkbox" v-model="profile.breakPeriod.enabled" class="w-5 h-5 rounded-lg border-orange-200 text-orange-500 focus:ring-orange-500" />
+              </div>
 
- <div v-else class="space-y-3">
- <div 
- v-for="acc in payoutAccounts" 
- :key="acc.accountNumber"
- class="p-4 rounded-md border transition-all cursor-pointer relative group/acc"
- :class="acc.isActive ? 'border-[#FF5C1A] bg-blue-50/30' : 'border-gray-50 bg-white hover:border-gray-200'"
- @click="setActiveAccount(acc)"
- >
- <div class="flex items-center justify-between">
- <div class="space-y-0.5">
- <p class="text-sm font-medium text-gray-900">{{ acc.bankName }}</p>
- <p class="text-sm text-gray-500 font-bold">{{ maskAccountNumber(acc.accountNumber) }}</p>
- <p class="text-sm text-gray-400 font-medium mt-1">{{ acc.accountName }}</p>
- </div>
- <div v-if="acc.isActive" class="w-6 h-6 bg-[#FF5C1A] rounded-lg flex items-center justify-center text-white">
- <CheckCircle class="w-3.5 h-3.5" />
- </div>
- <button 
- v-else 
- @click.stop="deletePayoutAccount(acc)"
- class="opacity-0 group-hover/acc:opacity-100 p-2 text-gray-300 hover:text-red-500 transition-all"
- >
- <Trash2 class="w-3.5 h-3.5" />
- </button>
- </div>
- </div>
- </div>
+              <div v-if="profile.breakPeriod.enabled" class="grid grid-cols-2 gap-4 pt-2">
+                <div class="space-y-2">
+                  <label class="text-xs font-bold text-orange-600 uppercase tracking-wider pl-1">Start Break</label>
+                  <input type="time" v-model="profile.breakPeriod.start" class="w-full px-4 py-3 bg-white rounded-xl border-transparent shadow-sm focus:ring-2 focus:ring-orange-500/20 font-bold text-sm outline-none" />
+                </div>
+                <div class="space-y-2">
+                  <label class="text-xs font-bold text-orange-600 uppercase tracking-wider pl-1">End Break</label>
+                  <input type="time" v-model="profile.breakPeriod.end" class="w-full px-4 py-3 bg-white rounded-xl border-transparent shadow-sm focus:ring-2 focus:ring-orange-500/20 font-bold text-sm outline-none" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
- <div class="pt-4 mt-6 border-t border-gray-50 space-y-4">
- <div>
- <p class="text-sm text-gray-400 font-bold px-1 mb-3">Withdrawal Cycle</p>
- <div class="grid grid-cols-3 gap-2">
- <button 
- v-for="pref in ['instant', 'weekly', 'monthly']" 
- :key="pref"
- @click="updatePayoutPref(pref)"
- class="py-2 rounded-md text-sm font-medium transition-all border"
- :class="payoutPreference === pref ? 'bg-gray-900 text-white border-gray-900 ' : 'bg-white text-gray-400 border-gray-50 hover:border-gray-200'"
- >
- {{ pref }}
- </button>
- </div>
- </div>
- </div>
- </div>
- </section>
- </div>
- </div>
- </div>
+        <!-- SECTION: PAYOUTS -->
+        <section v-if="activeTab === 'financials'" id="payouts" class="animate-fade-in space-y-8 relative">
+          
+          <div class="space-y-1 px-4 lg:px-0 pt-8 lg:pt-0 flex items-center justify-between">
+            <div>
+              <h3 class="text-xl font-bold text-gray-900 flex items-center gap-3">
+                Payout Methods
+              </h3>
+              <p class="text-sm text-gray-500">Manage your connected bank accounts and withdrawal preferences.</p>
+            </div>
+          </div>
 
- <!-- Add Account Drawer -->
- <SideDrawer 
- :isOpen="isAccountDrawerOpen" 
- title="Link Bank Account"
- subtitle="Enter your NUBAN details to secure your payouts."
- @close="isAccountDrawerOpen = false"
- >
- <div class="space-y-8 py-4">
- <SelectInput 
- v-model="newAccount.bankCode" 
- label="Financial Institution" 
- :options="bankOptions" 
- :disabled="banksLoading"
- info="Choose your primary bank."
- @update:model-value="onBankSelect"
- />
- 
- <div class="relative">
- <AnimatedInput 
- v-model="newAccount.accountNumber" 
- label="Account Number" 
- info="Enter your 10-digit NUBAN."
- description="e.g. 0123456789"
- @update:model-value="onAccountChange"
- />
- <div v-if="resolvingAccount" class="absolute right-4 top-1/2 -translate-y-1/2">
- <Loader2 class="animate-spin w-4 h-4 text-[#FF5C1A]" />
- </div>
- </div>
+          <div class="bg-white lg:rounded-3xl lg:border lg:border-gray-100/50 lg:shadow-sm px-4 py-8 lg:p-8 space-y-8">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <h4 class="text-base font-bold text-gray-900">Linked Accounts</h4>
+              <button @click="openAddAccount" class="px-5 py-2.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded-xl font-bold text-sm transition-colors flex items-center gap-2">
+                <Plus class="w-4 h-4" /> Link New Bank
+              </button>
+            </div>
 
- <SelectInput 
- v-model="newAccount.purpose" 
- label="Account Purpose (Optional)" 
- :options="[{label: 'Default / General', value: 'default'}, {label: 'Customization / Pre-orders', value: 'customization'}, {label: 'Perfumes', value: 'perfumes'}, {label: 'Jewelries', value: 'jewelries'}]" 
- info="Categorize this account to split your funds correctly."
- />
+            <!-- Account List -->
+            <div v-if="payoutAccounts.length === 0" class="py-12 text-center bg-gray-50/50 rounded-2xl border border-dashed border-gray-200">
+              <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto border border-gray-100 shadow-sm text-gray-400 mb-4">
+                <CreditCard class="w-6 h-6" />
+              </div>
+              <p class="text-base font-bold text-gray-900">No bank accounts linked</p>
+              <p class="text-sm text-gray-500 mt-1 mb-4">You need a linked account to receive payouts.</p>
+              <button @click="openAddAccount" class="text-sm font-bold text-[#FF5C1A] hover:text-orange-700 underline">Add one now</button>
+            </div>
 
- <div v-if="newAccount.accountName" class="p-5 bg-emerald-50 rounded-md border border-emerald-100 flex items-center gap-4 animate-fade-in">
- <div class="p-3 bg-white rounded-md text-emerald-600">
- <CheckCircle class="w-5 h-5" />
- </div>
- <div>
- <p class="text-sm text-emerald-600 font-medium mb-0.5">Verified Identity</p>
- <p class="text-sm font-bold text-gray-900">{{ newAccount.accountName }}</p>
- </div>
- </div>
+            <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div 
+                v-for="acc in payoutAccounts" 
+                :key="acc.accountNumber"
+                class="p-5 rounded-2xl border-2 transition-all cursor-pointer relative group/acc flex flex-col"
+                :class="acc.isActive ? 'border-emerald-500 bg-emerald-50/20 shadow-sm' : 'border-gray-100 bg-white hover:border-gray-200'"
+                @click="setActiveAccount(acc)"
+              >
+                <div class="flex items-start justify-between mb-4">
+                  <div class="p-2.5 rounded-xl" :class="acc.isActive ? 'bg-emerald-100 text-emerald-600' : 'bg-gray-50 text-gray-400'">
+                    <Building class="w-5 h-5" />
+                  </div>
+                  <div v-if="acc.isActive" class="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-500 text-white rounded-full text-xs font-bold">
+                    <CheckCircle class="w-3 h-3" /> Active
+                  </div>
+                  <button 
+                    v-else 
+                    @click.stop="deletePayoutAccount(acc)"
+                    class="opacity-0 group-hover/acc:opacity-100 p-2 bg-white rounded-full shadow-sm text-gray-400 hover:text-rose-500 hover:bg-rose-50 transition-all absolute top-4 right-4"
+                  >
+                    <Trash2 class="w-4 h-4" />
+                  </button>
+                </div>
+                
+                <div class="mt-auto">
+                  <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">{{ acc.bankName }}</p>
+                  <p class="text-lg font-bold text-gray-900 font-mono tracking-tight">{{ maskAccountNumber(acc.accountNumber) }}</p>
+                  <p class="text-sm text-gray-600 font-medium mt-1 truncate">{{ acc.accountName }}</p>
+                </div>
+              </div>
+            </div>
 
- <div v-if="resolveError" class="p-4 bg-red-50 rounded-md border border-red-100/50 flex items-center gap-3">
- <AlertCircle class="w-4 h-4 text-red-500 shrink-0" />
- <p class="text-sm font-medium text-red-600">{{ resolveError }}</p>
- </div>
- </div>
+            <div class="pt-8 border-t border-gray-50">
+              <h4 class="text-base font-bold text-gray-900 mb-4">Withdrawal Cycle</h4>
+              <div class="flex flex-wrap gap-3">
+                <button 
+                  v-for="pref in ['instant', 'weekly', 'monthly']" 
+                  :key="pref"
+                  @click="updatePayoutPref(pref)"
+                  class="px-6 py-3 rounded-xl text-sm font-bold transition-all border-2 capitalize"
+                  :class="payoutPreference === pref ? 'bg-gray-900 text-white border-gray-900 shadow-md' : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'"
+                >
+                  {{ pref }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
 
- <template #footer>
- <div class="flex items-center gap-4 w-full">
- <button @click="isAccountDrawerOpen = false" class="flex-1 py-2 bg-white border border-gray-100 text-gray-400 text-sm font-medium rounded-md">Cancel</button>
- <button 
- @click="saveNewAccount" 
- :disabled="!isAccountVerified || savingBank" 
- class="flex-[2] py-2 bg-gray-900 text-white rounded-md font-medium text-sm hover:bg-black transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
- >
- <Loader2 v-if="savingBank" class="animate-spin w-3 h-3" />
- Link Account
- </button>
- </div>
- </template>
- </SideDrawer>
- </div>
+      </div>
+    </div>
+
+    <!-- Add Account Drawer -->
+    <SideDrawer 
+      :isOpen="isAccountDrawerOpen" 
+      title="Link Bank Account"
+      subtitle="Enter your NUBAN details to secure your payouts."
+      @close="isAccountDrawerOpen = false"
+    >
+      <div class="space-y-8 py-4">
+        <SelectInput 
+          v-model="newAccount.bankCode" 
+          label="Financial Institution" 
+          :options="bankOptions" 
+          :disabled="banksLoading"
+          info="Choose your primary bank."
+          @update:model-value="onBankSelect"
+        />
+        
+        <div class="relative">
+          <AnimatedInput 
+            v-model="newAccount.accountNumber" 
+            label="Account Number" 
+            info="Enter your 10-digit NUBAN."
+            description="e.g. 0123456789"
+            @update:model-value="onAccountChange"
+          />
+          <div v-if="resolvingAccount" class="absolute right-4 top-1/2 -translate-y-1/2">
+            <Loader2 class="animate-spin w-4 h-4 text-[#FF5C1A]" />
+          </div>
+        </div>
+
+        <SelectInput 
+          v-model="newAccount.purpose" 
+          label="Account Purpose (Optional)" 
+          :options="[{label: 'Default / General', value: 'default'}, {label: 'Customization / Pre-orders', value: 'customization'}, {label: 'Perfumes', value: 'perfumes'}, {label: 'Jewelries', value: 'jewelries'}]" 
+          info="Categorize this account to split your funds correctly."
+        />
+
+        <div v-if="newAccount.accountName" class="p-5 bg-emerald-50 rounded-xl border border-emerald-100 flex items-center gap-4 animate-fade-in">
+          <div class="p-3 bg-white rounded-xl text-emerald-600 shadow-sm">
+            <CheckCircle class="w-5 h-5" />
+          </div>
+          <div>
+            <p class="text-xs text-emerald-700 font-bold uppercase tracking-wider mb-0.5">Verified Identity</p>
+            <p class="text-sm font-bold text-gray-900">{{ newAccount.accountName }}</p>
+          </div>
+        </div>
+
+        <div v-if="resolveError" class="p-5 bg-rose-50 rounded-xl border border-rose-100 flex items-center gap-4 animate-fade-in">
+          <div class="p-3 bg-white rounded-xl text-rose-500 shadow-sm">
+            <AlertCircle class="w-5 h-5" />
+          </div>
+          <div>
+            <p class="text-xs text-rose-700 font-bold uppercase tracking-wider mb-0.5">Verification Failed</p>
+            <p class="text-sm font-bold text-gray-900">{{ resolveError }}</p>
+          </div>
+        </div>
+      </div>
+
+      <template #footer>
+        <div class="flex items-center gap-4 w-full">
+          <button @click="isAccountDrawerOpen = false" class="flex-1 py-3 bg-gray-50 hover:bg-gray-100 border border-transparent text-gray-600 font-bold rounded-xl transition-colors">Cancel</button>
+          <button 
+            @click="saveNewAccount" 
+            :disabled="!isAccountVerified || savingBank" 
+            class="flex-[2] py-3 bg-gray-900 text-white rounded-xl font-bold hover:bg-black transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2 shadow-md shadow-gray-900/20"
+          >
+            <Loader2 v-if="savingBank" class="animate-spin w-4 h-4" />
+            Link Account
+          </button>
+        </div>
+      </template>
+    </SideDrawer>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -457,6 +493,11 @@ const loading = ref(true);
 const vendorId = ref('');
 const isOnline = ref(false);
 const isServiceProvider = computed(() => profile.businessType === 'service_provider');
+const isFoodVendor = computed(() => {
+  const cat = profile.category?.toLowerCase() || '';
+  const foodCats = ['restaurant', 'eatery', 'snacks', 'drinks', 'bakery', 'chinese', 'indian', 'pizza', 'sushi', 'food'];
+  return foodCats.includes(cat);
+});
 const togglingOnline = ref(false);
 const savingProfile = ref(false);
 const savingHours = ref(false);
@@ -472,6 +513,7 @@ const profile = reactive({
  description: '',
  category: '',
  address: '',
+ location: { type: 'Point', coordinates: [0, 0] } as { type: string, coordinates: number[] },
  logo: '',
  banner: '',
  isInsideCampus: false,
@@ -559,6 +601,7 @@ const loadInitialData = async () => {
  profile.description = data.description || '';
  profile.category = data.category || '';
  profile.address = data.address || '';
+ profile.location = data.location || { type: 'Point', coordinates: [0, 0] };
  profile.logo = data.logo || '';
  profile.banner = data.banner || '';
  profile.isInsideCampus = !!data.isInsideCampus;
@@ -580,8 +623,8 @@ const loadInitialData = async () => {
  }
  isOnline.value = !!data.isOnline;
 
- const wData = walletRes?.data?.data || walletRes?.data || {};
- payoutPreference.value = wData.payoutPreference || 'weekly';
+  const wData = wallet.value || walletRes || {};
+  payoutPreference.value = wData.payoutPreference || 'weekly';
  
  // Support multi-account from bankAccounts or metadata or fallback to single one
  if (wData.bankAccounts && wData.bankAccounts.length > 0) {
@@ -719,6 +762,7 @@ const saveHours = async () => {
  preparationTime: profile.preparationTime,
  baseDeliveryFee: profile.baseDeliveryFee,
  packs: profile.packs,
+ packagingFee: profile.packs && profile.packs.length > 0 ? profile.packs[0].price : 300,
  minimumOrder: profile.minimumOrder,
  deliveryFee: profile.deliveryFee,
  });

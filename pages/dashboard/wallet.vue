@@ -1,5 +1,5 @@
 <template>
- <div class="max-w-[1400px] mx-auto space-y-10 pb-32 px-4 sm:px-8 animate-fade-in">
+ <div class="w-full space-y-10 pb-32 px-4 sm:px-8 animate-fade-in">
  <!-- Header Section -->
  <header class="flex flex-col md:flex-row md:items-end justify-between gap-8 pt-6">
  <div class="space-y-1">
@@ -19,15 +19,15 @@
  </div>
  </header>
 
- <div v-if="loadingWallet" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+ <div v-if="loadingWallet" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
  <div v-for="i in 3" :key="i" class="bg-gray-50 rounded-2xl p-10 h-64 animate-pulse border border-gray-100" />
  </div>
 
  <div v-else class="space-y-12">
  <!-- Balance Overview -->
- <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+ <div class="grid grid-cols-1 xl:grid-cols-12 gap-10">
  <!-- Main Wallet Card -->
- <div class="lg:col-span-8 bg-white p-10 rounded-2xl border border-gray-100 relative overflow-hidden group">
+ <div class="xl:col-span-8 bg-white p-10 rounded-2xl border border-gray-100 relative overflow-hidden group">
  <div class="absolute -right-20 -top-20 w-80 h-80 bg-blue-50/50 rounded-md blur-3xl group-hover:scale-110 transition-transform duration-1000"></div>
  
  <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-10">
@@ -64,7 +64,7 @@
  </div>
 
  <!-- Quick Stats / Active Account -->
- <div class="lg:col-span-4 bg-gray-900 p-10 rounded-2xl text-white relative overflow-hidden flex flex-col justify-between">
+ <div class="xl:col-span-4 bg-gray-900 p-10 rounded-2xl text-white relative overflow-hidden flex flex-col justify-between">
  <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-white/5 rounded-md blur-2xl"></div>
  
  <div class="space-y-6 relative z-10">
@@ -74,7 +74,7 @@
  </div>
  
  <div v-if="wallet?.bankDetails?.accountNumber" class="space-y-2">
- <p class="text-sm font-bold text-white">{{ wallet.bankDetails.bankName }}</p>
+ <p class="text-sm font-bold text-white truncate" :title="wallet.bankDetails.bankName">{{ wallet.bankDetails.bankName }}</p>
  <p class="text-xl font-mono text-white/60">{{ maskAccountNumber(wallet.bankDetails.accountNumber) }}</p>
  <p class="text-sm font-bold text-emerald-400 pt-2 flex items-center gap-2">
  <ShieldCheck class="w-3 h-3" />

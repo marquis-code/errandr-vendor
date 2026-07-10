@@ -30,16 +30,16 @@
       </button>
     </div>
 
-    <div v-else class="mt-8 bg-white rounded-md border border-gray-100 overflow-hidden">
-      <div class="overflow-x-auto min-h-[300px]">
+    <div v-else class="mt-8 bg-white rounded-xl border border-gray-100 overflow-hidden w-full min-w-0 shadow-sm">
+      <div class="overflow-x-auto min-h-[300px] w-full hide-scrollbar">
         <table class="w-full text-left border-collapse">
-          <thead>
-            <tr class="bg-gray-50/50 border-b border-gray-100/80">
-              <th class="px-6 py-4 text-sm font-medium text-gray-400 uppercase">Banner</th>
-              <th class="px-6 py-4 text-sm font-medium text-gray-400 uppercase">Promotion info</th>
-              <th class="px-6 py-4 text-sm font-medium text-gray-400 uppercase">Target Link</th>
-              <th class="px-6 py-4 text-sm font-medium text-gray-400 uppercase">Status</th>
-              <th class="px-6 py-4 text-sm font-medium text-gray-400 uppercase text-right">Actions</th>
+          <thead class="bg-gray-50/50">
+            <tr class="border-b border-gray-100">
+              <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap">Banner</th>
+              <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap">Promotion info</th>
+              <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap">Target Link</th>
+              <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap">Status</th>
+              <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap text-right">Actions</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-50">

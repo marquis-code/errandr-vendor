@@ -10,8 +10,8 @@ export default defineNuxtConfig({
   },
 
   devServer: {
-    port: 3004,
-    host: 'localhost'
+    port: Number(process.env.NUXT_PORT || process.env.PORT || 3001),
+    host: process.env.NUXT_HOST || 'localhost'
   },
 
   runtimeConfig: {
@@ -22,6 +22,7 @@ export default defineNuxtConfig({
       firebaseMessagingSenderId: process.env.NUXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
       firebaseAppId: process.env.NUXT_PUBLIC_FIREBASE_APP_ID,
       firebaseVapidKey: process.env.NUXT_PUBLIC_FIREBASE_VAPID_KEY,
+      mapboxToken: process.env.NUXT_PUBLIC_MAPBOX_TOKEN,
     }
   },
 

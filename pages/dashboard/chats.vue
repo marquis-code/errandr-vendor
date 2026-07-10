@@ -112,6 +112,7 @@
         :receiver-id="activeChat.receiverId"
         :receiver-name="activeChat.receiverName"
         :receiver-avatar="activeChat.avatar"
+        :initial-message="(route.query.autoMessage as string)"
         @close="activeChat = null"
       />
     </div>
@@ -159,8 +160,11 @@ const fetchOrders = async () => {
     
     // Check if route has an orderId to auto-select
     if (route.query.orderId) {
-      // By default open the customer chat if coming from generic link
-      const targetChat = chatList.value.find(c => c.order._id === route.query.orderId && c.receiverType === 'Customer')
+      const targetReceiverId = route.query.receiverId;
+      const targetChat = chatList.value.find(c => 
+        c.order._id === route.query.orderId && 
+        (!targetReceiverId ? c.receiverType === 'Customer' : c.receiverId === targetReceiverId)
+      )
       if (targetChat) {
         activeChat.value = targetChat
       }

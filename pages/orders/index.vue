@@ -1,5 +1,5 @@
 <template>
- <div class="space-y-4 animate-fade-in max-w-7xl mx-auto pb-10">
+ <div class="space-y-4 animate-fade-in w-full pb-10">
  <!-- Header with Search Bar -->
  <div class="flex items-center justify-between gap-4 mb-4 mt-2">
  <div class="flex-1 relative max-w-2xl">
@@ -65,17 +65,17 @@
  />
  </div>
 
- <div v-else class="bg-white">
- <div class="overflow-x-auto pb-20">
+ <div v-else class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden w-full min-w-0">
+ <div class="overflow-x-auto w-full hide-scrollbar">
  <table class="w-full text-left border-collapse">
- <thead>
+ <thead class="bg-gray-50/50">
  <tr class="border-b border-gray-100">
- <th class="py-4 px-2 font-medium text-gray-400 text-[11px] whitespace-nowrap">Order ID</th>
- <th class="py-4 px-2 font-medium text-gray-400 text-[11px] whitespace-nowrap">Customer</th>
- <th class="py-4 px-2 font-medium text-gray-400 text-[11px] whitespace-nowrap">Amount</th>
- <th class="py-4 px-2 font-medium text-gray-400 text-[11px] whitespace-nowrap">Status</th>
- <th class="py-4 px-2 font-medium text-gray-400 text-[11px] whitespace-nowrap text-right">Time Ago</th>
- <th class="py-4 px-2 font-medium text-gray-400 text-[11px] whitespace-nowrap"></th>
+ <th class="py-4 px-4 font-bold text-gray-400 text-[11px] uppercase tracking-wider whitespace-nowrap">Order ID</th>
+ <th class="py-4 px-4 font-bold text-gray-400 text-[11px] uppercase tracking-wider whitespace-nowrap">Customer</th>
+ <th class="py-4 px-4 font-bold text-gray-400 text-[11px] uppercase tracking-wider whitespace-nowrap">Amount</th>
+ <th class="py-4 px-4 font-bold text-gray-400 text-[11px] uppercase tracking-wider whitespace-nowrap">Status</th>
+ <th class="py-4 px-4 font-bold text-gray-400 text-[11px] uppercase tracking-wider whitespace-nowrap text-right">Time Ago</th>
+ <th class="py-4 px-4 font-bold text-gray-400 text-[11px] uppercase tracking-wider whitespace-nowrap"></th>
  </tr>
  </thead>
  <tbody class="divide-y divide-gray-50/50">

@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-8 pb-20 animate-fade-in max-w-[1400px] px-4 mx-auto sm:px-8">
+  <div class="space-y-8 pb-20 animate-fade-in w-full px-4 sm:px-8">
     <!-- Header Section -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pt-6">
       <div>
@@ -39,9 +39,9 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
       <!-- Recent Orders Table -->
-      <div class="lg:col-span-2 space-y-6">
+      <div class="xl:col-span-2 space-y-6">
         <div class="bg-white rounded-md border border-gray-100 overflow-hidden flex flex-col min-h-[500px]">
           <div class="px-8 py-6 border-b border-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
