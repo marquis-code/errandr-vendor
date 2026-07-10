@@ -1,18 +1,29 @@
 import { ref, reactive } from 'vue';
 import { products_api } from "@/api_factory/modules/products";
+import { menu_items_api } from "@/api_factory/modules/menu-items";
 import { useCustomToast } from "@/composables/core/useCustomToast";
 import { useLoader } from "@/composables/core/useLoader";
+import { useUser } from "@/composables/modules/auth/user";
 
 export const useVendorProducts = () => {
   const { showToast } = useCustomToast();
   const { startLoading, stopLoading } = useLoader();
+  const { user } = useUser();
   const products = ref<any[]>([]);
   const loading = ref(false);
+
+  const isFoodVendor = computed(() => {
+    const type = (user.value?.businessType || user.value?.storeType || '').toLowerCase();
+    const category = (user.value?.category || '').toLowerCase();
+    const foodCategories = ['restaurant', 'eatery', 'snacks', 'drinks', 'bakery', 'food'];
+    return foodCategories.includes(category) || type === 'food' || type === 'restaurant';
+  });
 
   const fetchProducts = async () => {
     loading.value = true;
     try {
-      const res = await products_api.getProducts();
+      const api = isFoodVendor.value ? menu_items_api : products_api;
+      const res = await api.getProducts();
       products.value = res.data;
     } catch (e) { /* Error handled by axios */ }
     finally {
@@ -23,7 +34,8 @@ export const useVendorProducts = () => {
   const createProduct = async (payload: any) => {
     startLoading('Adding your meal to the menu... 🥘');
     try {
-      const res = await products_api.createProduct(payload);
+      const api = isFoodVendor.value ? menu_items_api : products_api;
+      const res = await api.createProduct(payload);
       if (res.data) {
         showToast({
           title: "Product Added! 🎉",
@@ -39,9 +51,10 @@ export const useVendorProducts = () => {
   };
 
   const updateProduct = async (id: string, payload: any) => {
-    startLoading('Saving changes... ✍️');
+    startLoading('Updating your menu item... 🔄');
     try {
-      await products_api.updateProduct(id, payload);
+      const api = isFoodVendor.value ? menu_items_api : products_api;
+      const res = await api.updateProduct(id, payload);
       showToast({
         title: "Product Updated",
         message: "Your menu changes have been saved successfully.",
@@ -55,9 +68,10 @@ export const useVendorProducts = () => {
   };
 
   const deleteProduct = async (id: string) => {
-    startLoading('Removing item... 🗑️');
+    startLoading('Removing item from menu... 🗑️');
     try {
-      await products_api.deleteProduct(id);
+      const api = isFoodVendor.value ? menu_items_api : products_api;
+      const res = await api.deleteProduct(id);
       showToast({
         title: "Product Deleted",
         message: "The item has been removed from your store.",
@@ -72,7 +86,8 @@ export const useVendorProducts = () => {
 
   const toggleAvailability = async (id: string) => {
     try {
-      await products_api.toggleAvailability(id);
+      const api = isFoodVendor.value ? menu_items_api : products_api;
+      await api.toggleAvailability(id);
       await fetchProducts();
       return true;
     } catch (e) {
@@ -86,13 +101,22 @@ export const useVendorProducts = () => {
 export const useVendorCategories = () => {
   const { showToast } = useCustomToast();
   const { startLoading, stopLoading } = useLoader();
+  const { user } = useUser();
   const categories = ref<any[]>([]);
   const loading = ref(false);
+
+  const isFoodVendor = computed(() => {
+    const type = (user.value?.businessType || user.value?.storeType || '').toLowerCase();
+    const category = (user.value?.category || '').toLowerCase();
+    const foodCategories = ['restaurant', 'eatery', 'snacks', 'drinks', 'bakery', 'food'];
+    return foodCategories.includes(category) || type === 'food' || type === 'restaurant';
+  });
 
   const fetchCategories = async () => {
     loading.value = true;
     try {
-      const res = await products_api.getCategories();
+      const api = isFoodVendor.value ? menu_items_api : products_api;
+      const res = await api.getCategories();
       categories.value = res.data;
     } catch (e) { /* Error handled by axios */ }
     finally {
@@ -100,10 +124,11 @@ export const useVendorCategories = () => {
     }
   };
 
-  const createCategory = async (payload: { name: string; description?: string; image?: string }) => {
-    startLoading('Creating category... 📁');
+  const createCategory = async (payload: any) => {
+    startLoading('Creating category...');
     try {
-      const res = await products_api.createCategory(payload);
+      const api = isFoodVendor.value ? menu_items_api : products_api;
+      const res = await api.createCategory(payload);
       showToast({
         title: "Category Created",
         message: `"${payload.name}" is now available to organize your menu.`,
@@ -117,9 +142,10 @@ export const useVendorCategories = () => {
   };
 
   const updateCategory = async (id: string, payload: any) => {
-    startLoading('Updating... 🔄');
+    startLoading('Saving category...');
     try {
-      await products_api.updateCategory(id, payload);
+      const api = isFoodVendor.value ? menu_items_api : products_api;
+      const res = await api.updateCategory(id, payload);
       await fetchCategories();
       return true;
     } finally {
@@ -128,9 +154,10 @@ export const useVendorCategories = () => {
   };
 
   const deleteCategory = async (id: string) => {
-    startLoading('Deleting... 🗑️');
+    startLoading('Deleting category...');
     try {
-      await products_api.deleteCategory(id);
+      const api = isFoodVendor.value ? menu_items_api : products_api;
+      await api.deleteCategory(id);
       await fetchCategories();
       return true;
     } finally {
