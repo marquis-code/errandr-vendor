@@ -1,11 +1,8 @@
 <template>
   <div class="min-h-screen bg-white font-sans text-gray-900 scroll-smooth">
-    <!-- Navbar -->
     <LandingNavbar />
 
-    <!-- Hero Section -->
     <section class="relative pt-40 pb-20 overflow-hidden bg-gradient-to-b from-slate-50/80 via-white to-white border-b border-slate-100">
-      <!-- Soft Minimalist Grid Dot Overlay -->
       <div class="absolute inset-0 bg-[radial-gradient(#e2e8f0_1.5px,transparent_1.5px)] [background-size:24px_24px] opacity-70 z-0 pointer-events-none"></div>
 
       <div class="max-w-7xl mx-auto px-6 sm:px-10 relative z-10 text-center">
@@ -22,7 +19,6 @@
       </div>
     </section>
 
-    <!-- FAQ Accordion -->
     <section class="py-24 bg-white">
       <div class="max-w-4xl mx-auto px-6 sm:px-10">
         <div class="space-y-4">

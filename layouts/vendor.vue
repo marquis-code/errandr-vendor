@@ -1,7 +1,6 @@
 <template>
   <FullScreenLoader />
   <div class="min-h-screen bg-white">
-    <!-- Desktop Sidebar -->
     <aside class="hidden lg:flex flex-col bg-white border-r border-gray-100 min-h-screen fixed left-0 top-0 transition-all duration-300 z-50" :class="isSidebarMinimized ? 'w-20' : 'w-64'">
       <!-- Logo -->
       <div class="p-4 border-b border-gray-50/50 flex items-center gap-3 relative h-[73px]">
@@ -86,7 +85,6 @@
       ></div>
     </Transition>
 
-    <!-- Mobile Sidebar -->
     <Transition name="slide">
       <aside
         v-if="showMobileMenu"
