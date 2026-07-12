@@ -273,37 +273,52 @@
                   <!-- Dropdown -->
                   <transition
                     enter-active-class="transition ease-out duration-200"
-                    enter-from-class="opacity-0 translate-y-1"
+                    enter-from-class="opacity-0 -translate-y-2"
                     enter-to-class="opacity-100 translate-y-0"
                     leave-active-class="transition ease-in duration-150"
                     leave-from-class="opacity-100 translate-y-0"
-                    leave-to-class="opacity-0 translate-y-1"
+                    leave-to-class="opacity-0 -translate-y-2"
                   >
-                    <div v-if="showCategoryDropdown" class="absolute z-50 w-full mt-2 bg-white rounded-md border border-gray-200 max-h-[220px] overflow-y-auto">
-                      <div v-if="filteredCategoryOptions.length === 0 && categorySearch.trim()" class="p-3">
-                        <button type="button" @click="addCustomCategory" class="w-full flex items-center gap-2 px-4 py-2 rounded-md bg-gray-50 hover:bg-[#FF5C1A]/5 transition-all text-left">
-                          <div class="w-7 h-7 rounded-lg bg-[#FF5C1A]/10 text-[#FF5C1A] flex items-center justify-center"><span class="text-sm font-medium">+</span></div>
-                          <span class="text-sm font-bold text-gray-700">Add "<span class="text-[#FF5C1A]">{{ categorySearch.trim() }}</span>"</span>
+                    <div v-if="showCategoryDropdown" class="absolute z-50 w-full mt-2 bg-white rounded-xl border border-gray-200 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.1)] max-h-[300px] overflow-y-auto scrollbar-hide">
+                      <div v-if="filteredCategoryOptions.length === 0 && categorySearch.trim()" class="p-2">
+                        <button type="button" @click="addCustomCategory" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-gray-50 hover:bg-[#FF5C1A]/5 transition-all text-left group">
+                          <div class="w-10 h-10 rounded-lg bg-[#FF5C1A]/10 text-[#FF5C1A] flex items-center justify-center group-hover:scale-105 transition-transform"><span class="text-lg font-bold">+</span></div>
+                          <div>
+                            <p class="text-sm font-bold text-gray-900">Add "<span class="text-[#FF5C1A]">{{ categorySearch.trim() }}</span>"</p>
+                            <p class="text-[11px] text-gray-500 font-medium">Create a custom category</p>
+                          </div>
                         </button>
                       </div>
-                      <div v-for="cat in filteredCategoryOptions" :key="cat.value" 
-                        @click="toggleCategory(cat.value); categorySearch = ''"
-                        class="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-gray-50 transition-all first:rounded-t-2xl last:rounded-b-2xl"
-                      >
-                        <div 
-                          class="w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all duration-200"
-                          :class="selectedCategories.includes(cat.value) ? 'bg-[#FF5C1A] border-[#FF5C1A] scale-105' : 'border-gray-300'"
+                      
+                      <div class="p-1.5 space-y-0.5">
+                        <div v-for="cat in filteredCategoryOptions" :key="cat.value" 
+                          @click="toggleCategory(cat.value); categorySearch = ''"
+                          class="flex items-start gap-3 p-2.5 cursor-pointer rounded-lg hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100"
+                          :class="{'bg-[#FF5C1A]/5 border-[#FF5C1A]/10': selectedCategories.includes(cat.value)}"
                         >
-                          <Check v-if="selectedCategories.includes(cat.value)" class="w-3 h-3 text-white" />
-                        </div>
-                        <div>
-                          <span class="text-sm font-bold text-gray-900">{{ cat.label }}</span>
+                          <div 
+                            class="w-5 h-5 mt-1 rounded-md border-2 flex items-center justify-center shrink-0 transition-all duration-200"
+                            :class="selectedCategories.includes(cat.value) ? 'bg-[#FF5C1A] border-[#FF5C1A] scale-105' : 'border-gray-300 bg-white'"
+                          >
+                            <Check v-if="selectedCategories.includes(cat.value)" class="w-3 h-3 text-white" />
+                          </div>
+                          <div class="flex-1 min-w-0 flex items-start gap-3">
+                            <span class="text-xl leading-none mt-0.5">{{ cat.icon }}</span>
+                            <div class="flex flex-col">
+                              <span class="text-sm font-bold text-gray-900">{{ cat.label }}</span>
+                              <span class="text-xs text-gray-500 leading-snug mt-0.5">{{ cat.desc }}</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      <div v-if="categorySearch.trim() && filteredCategoryOptions.length > 0" class="border-t border-gray-100 p-3">
-                        <button type="button" @click="addCustomCategory" class="w-full flex items-center gap-2 px-4 py-2.5 rounded-md hover:bg-[#FF5C1A]/5 transition-all text-left">
-                          <div class="w-6 h-6 rounded-md bg-gray-100 text-gray-400 flex items-center justify-center"><span class="text-xs font-medium">+</span></div>
-                          <span class="text-xs font-bold text-gray-500">Add "<span class="text-[#FF5C1A]">{{ categorySearch.trim() }}</span>" as custom</span>
+                      
+                      <div v-if="categorySearch.trim() && filteredCategoryOptions.length > 0" class="border-t border-gray-100 p-2">
+                        <button type="button" @click="addCustomCategory" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-50 transition-all text-left">
+                          <div class="w-8 h-8 rounded-lg bg-gray-100 text-gray-500 flex items-center justify-center"><span class="text-sm font-bold">+</span></div>
+                          <div>
+                            <span class="text-sm font-bold text-gray-700">Custom Category</span>
+                            <p class="text-xs text-gray-400">Add "<span class="text-[#FF5C1A] font-bold">{{ categorySearch.trim() }}</span>"</p>
+                          </div>
                         </button>
                       </div>
                     </div>
@@ -628,33 +643,28 @@
               </div>
 
               <!-- Logistics Information Notice -->
-              <div class="bg-blue-50/50 border border-blue-100 rounded-md p-3 flex gap-3 items-start">
+              <div v-if="!isMiniMart" class="bg-blue-50/50 border border-blue-100 rounded-md p-3 flex gap-3 items-start">
                 <div class="mt-0.5 w-5 h-5 rounded-md bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
                   <Info class="w-3 h-3" />
                 </div>
                 <div class="text-xs text-blue-800 leading-relaxed">
                   <p class="font-bold mb-1">How this works for your business type:</p>
                   <ul class="list-disc pl-4 space-y-0.5 text-blue-700/90 font-medium">
-                    <li><strong>Product Sellers:</strong> Set your average prep time, minimum order amount, and base delivery fee for campus dispatchers.</li>
-                    <li><strong>Service Providers:</strong> Set 'Prep Time' as your average service duration. You can leave 'Delivery Fee' at ₦0.</li>
+                    <li><strong>Product Sellers:</strong> Set your average prep time and minimum order amount. Delivery fees are automatically calculated based on distance.</li>
+                    <li><strong>Service Providers:</strong> Set 'Prep Time' as your average service duration.</li>
                   </ul>
                 </div>
               </div>
 
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <UiAnimatedInput v-model.number="vendor.preparationTime" type="number" label="Average Prep / Service Time (mins)">
+              <div v-if="!isMiniMart" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <UiAnimatedInput v-model.number="vendor.preparationTime" type="number" label="Prep/Service Time (min)">
                   <template #right>
                     <button type="button" @click.stop="activeInfoModal = 'prepTime'" class="text-gray-400 hover:text-[#FF5C1A] transition-colors p-1"><Info class="w-4 h-4" /></button>
                   </template>
                 </UiAnimatedInput>
-                <UiAnimatedInput v-model.number="vendor.minimumOrder" type="number" label="Lowest Acceptable Cart Value (₦)">
+                <UiAnimatedInput v-model.number="vendor.minimumOrder" type="number" label="Min. Order Value (₦)">
                   <template #right>
                     <button type="button" @click.stop="activeInfoModal = 'minOrder'" class="text-gray-400 hover:text-[#FF5C1A] transition-colors p-1"><Info class="w-4 h-4" /></button>
-                  </template>
-                </UiAnimatedInput>
-                <UiAnimatedInput v-model.number="vendor.deliveryFee" type="number" label="Campus Runner Charge (₦)">
-                  <template #right>
-                    <button type="button" @click.stop="activeInfoModal = 'deliveryFee'" class="text-gray-400 hover:text-[#FF5C1A] transition-colors p-1"><Info class="w-4 h-4" /></button>
                   </template>
                 </UiAnimatedInput>
               </div>
@@ -1007,7 +1017,7 @@ const vendor = reactive({
   softwareUsed: '',
   isInsideCampus: false, isStudentBusiness: false, preOrderOnly: false, matricNumber: '', university: '',
   location: { type: 'Point', coordinates: [0, 0] } as { type: string, coordinates: number[] },
-  operatingHours: { open: '08:00 AM', close: '08:00 PM' },
+  operatingHours: { open: '12:00 AM', close: '12:00 AM' },
   preparationTime: 15, minimumOrder: 0, deliveryFee: 0,
   bankDetails: { bankCode: '', bankName: '', accountNumber: '', accountName: '' },
 })
@@ -1058,13 +1068,21 @@ const showCategoryDropdown = ref(false)
 const categoryDropdownRef = ref<HTMLElement | null>(null)
 
 const categoryOptions = [
-  { label: 'Restaurant', value: 'restaurant' }, { label: 'Eatery / Buka', value: 'eatery' },
-  { label: 'Snacks & Small Chops', value: 'snacks' }, { label: 'Drinks & Smoothies', value: 'drinks' },
-  { label: 'Groceries', value: 'groceries' }, { label: 'Bakery & Pastries', value: 'bakery' },
-  { label: 'Pharmacy', value: 'pharmacy' }, { label: 'Laundry & Cleaning', value: 'laundry' },
-  { label: 'Hair & Beauty', value: 'hair-beauty' }, { label: 'Printing & Stationery', value: 'printing' },
-  { label: 'Electronics & Gadgets', value: 'electronics' }, { label: 'Fashion & Clothing', value: 'fashion' },
-  { label: 'Tutoring & Academic', value: 'tutoring' }, { label: 'Other', value: 'other' },
+  { label: 'Restaurant', value: 'restaurant', icon: '🍽️', desc: 'Full meals, dining options, fast food' },
+  { label: 'Eatery / Buka', value: 'eatery', icon: '🍲', desc: 'Local dishes, canteens, homemade food' },
+  { label: 'Snacks & Small Chops', value: 'snacks', icon: '🥟', desc: 'Light bites, pastries, finger foods' },
+  { label: 'Drinks & Smoothies', value: 'drinks', icon: '🥤', desc: 'Beverages, juices, shakes, water' },
+  { label: 'Groceries', value: 'groceries', icon: '🛒', desc: 'Raw food items, cooking ingredients' },
+  { label: 'Mini-Mart / Provisions', value: 'mini-mart', icon: '🏪', desc: 'Packaged goods, toiletries, everyday essentials' },
+  { label: 'Bakery & Pastries', value: 'bakery', icon: '🥐', desc: 'Bread, cakes, baked confectioneries' },
+  { label: 'Pharmacy', value: 'pharmacy', icon: '💊', desc: 'Medicines, health supplements, first aid' },
+  { label: 'Laundry & Cleaning', value: 'laundry', icon: '🧺', desc: 'Washing, dry cleaning, ironing services' },
+  { label: 'Hair & Beauty', value: 'hair-beauty', icon: '💇🏽‍♀️', desc: 'Salons, barbers, cosmetics, skincare' },
+  { label: 'Printing & Stationery', value: 'printing', icon: '🖨️', desc: 'Photocopies, books, writing materials' },
+  { label: 'Electronics & Gadgets', value: 'electronics', icon: '📱', desc: 'Phones, laptops, accessories, repairs' },
+  { label: 'Fashion & Clothing', value: 'fashion', icon: '👗', desc: 'Apparel, shoes, bags, tailoring' },
+  { label: 'Tutoring & Academic', value: 'tutoring', icon: '📚', desc: 'Private lessons, project assistance, typing' },
+  { label: 'Other', value: 'other', icon: '✨', desc: 'Any other business category not listed here' },
 ]
 
 const filteredCategoryOptions = computed(() => {
@@ -1362,8 +1380,19 @@ const triggerConfetti = () => {
   frame();
 };
 
+const isMiniMart = computed(() => {
+  return (vendor.businessType === 'physical_product' || vendor.businessType === 'hybrid') && 
+         (selectedCategories.value.includes('mini-mart') || 
+          selectedCategories.value.includes('groceries') || 
+          selectedCategories.value.includes('provisions'))
+})
+
 const proceedToDashboard = () => {
-  navigateTo('/dashboard')
+  if (isMiniMart.value) {
+    navigateTo('/products/bulk-add?onboarding=true')
+  } else {
+    navigateTo('/dashboard')
+  }
 }
 
 const showResumeModal = ref(false)

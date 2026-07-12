@@ -1,5 +1,5 @@
 <template>
- <div class="space-y-4 animate-fade-in w-full pb-10">
+ <div class="space-y-4 animate-fade-in w-full pb-10 px-4 sm:px-8 pt-6">
  <!-- Header with Search Bar -->
  <div class="flex items-center justify-between gap-4 mb-4 mt-2">
  <div class="flex-1 relative max-w-2xl">
@@ -22,14 +22,19 @@
 
  <div class="mb-6">
  <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
- <div>
- <h1 class="text-xl font-bold text-gray-900 tracking-tight font-display mb-1">Product Catalog</h1>
- <p class="text-gray-500 text-sm font-medium">Manage your store's menu, inventory availability, and pricing.</p>
- </div>
- <button @click="openAddDrawer" class="px-6 py-2.5 bg-parentPrimary text-white rounded-md font-bold text-sm hover:brightness-110 active:scale-[0.98] transition-all flex items-center gap-2">
- <span class="text-lg leading-none">+</span> New Product
- </button>
- </div>
+  <div>
+  <h1 class="text-xl font-bold text-gray-900 tracking-tight font-display mb-1">Product Catalog</h1>
+  <p class="text-gray-500 text-sm font-medium">Manage your store's menu, inventory availability, and pricing.</p>
+  </div>
+  <div class="flex items-center gap-2">
+    <NuxtLink to="/products/bulk-add" class="px-4 py-2.5 bg-gray-50 text-gray-700 border border-gray-200 rounded-md font-bold text-sm hover:bg-gray-100 active:scale-[0.98] transition-all flex items-center gap-2">
+      <Search class="w-4 h-4" /> Add from Catalog
+    </NuxtLink>
+    <button @click="openAddDrawer" class="px-6 py-2.5 bg-parentPrimary text-white rounded-md font-bold text-sm hover:brightness-110 active:scale-[0.98] transition-all flex items-center gap-2">
+    <span class="text-lg leading-none">+</span> New Product
+    </button>
+  </div>
+  </div>
 
  <div class="flex items-center gap-4">
  <button class="flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-md text-sm font-medium text-gray-700 transition-colors border border-gray-200">
@@ -244,6 +249,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, computed } from 'vue';
+import { useRoute } from 'vue-router';
 import { useVendorProducts } from '@/composables/modules/products';
 import { Search, ListFilter, ChevronRight, ToggleLeft, ToggleRight, Trash2 } from 'lucide-vue-next';
 import SideDrawer from '@/components/ui/SideDrawer.vue';
@@ -254,6 +260,7 @@ definePageMeta({
  layout: 'vendor'
 })
 
+const route = useRoute();
 const { products, loading, fetchProducts, createProduct, updateProduct, deleteProduct } = useVendorProducts();
 const showAddDrawer = ref(false);
 const selectedProduct = ref<any>(null);
@@ -327,7 +334,12 @@ const handleDelete = async (id: string) => {
  }
 };
 
-onMounted(fetchProducts);
+onMounted(() => {
+  fetchProducts();
+  if (route.query.action === 'add') {
+    showAddDrawer.value = true;
+  }
+});
 useHead({ title: 'Menu Management - Errander Vendor' });
 </script>
 

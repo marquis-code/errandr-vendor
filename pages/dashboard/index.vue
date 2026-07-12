@@ -104,9 +104,14 @@
                 <p class="text-sm text-gray-500 font-medium mt-1">Complete these steps to start receiving requests</p>
               </div>
             </div>
-            <NuxtLink to="/dashboard/settings" class="px-6 py-3 bg-white text-gray-900 rounded-md text-sm font-medium hover: transition-all border border-gray-100 whitespace-nowrap text-center">
-              Setup Store Profile
-            </NuxtLink>
+            <div class="flex items-center gap-3 flex-wrap justify-end">
+              <NuxtLink v-if="isMiniMart" to="/products/bulk-add" class="px-6 py-3 bg-[#FF5C1A] text-white rounded-md text-sm font-bold hover:bg-[#E54D12] transition-all whitespace-nowrap text-center">
+                Add Products from Catalog
+              </NuxtLink>
+              <NuxtLink to="/dashboard/settings" class="px-6 py-3 bg-white text-gray-900 rounded-md text-sm font-medium hover: transition-all border border-gray-100 whitespace-nowrap text-center">
+                Setup Store Profile
+              </NuxtLink>
+            </div>
           </div>
         </div>
 
@@ -120,9 +125,14 @@
               </div>
               <h3 class="text-xl font-bold text-gray-900 mb-2">{{ isServiceProvider ? 'Upcoming Bookings' : 'Inventory Health' }}</h3>
               <p class="text-gray-500 text-sm mb-8 font-bold">{{ isServiceProvider ? 'Check your appointment schedule' : 'Some items running low' }}</p>
-              <NuxtLink :to="isServiceProvider ? '/dashboard/appointments' : '/dashboard/inventory'" class="inline-flex px-6 py-3 bg-gray-900 text-white rounded-md text-sm font-bold hover:bg-black transition-all">
-                {{ isServiceProvider ? 'View Schedule' : 'Manage Stock' }}
-              </NuxtLink>
+              <div class="flex flex-col sm:flex-row gap-3">
+                <NuxtLink :to="isServiceProvider ? '/dashboard/appointments' : '/dashboard/inventory'" class="inline-flex px-6 py-3 bg-gray-900 text-white rounded-md text-sm font-bold hover:bg-black transition-all justify-center">
+                  {{ isServiceProvider ? 'View Schedule' : 'Manage Stock' }}
+                </NuxtLink>
+                <NuxtLink v-if="isMiniMart" to="/products/bulk-add" class="inline-flex px-6 py-3 bg-[#FF5C1A]/10 text-[#FF5C1A] border border-[#FF5C1A]/20 rounded-md text-sm font-bold hover:bg-[#FF5C1A]/20 transition-all justify-center whitespace-nowrap">
+                  Add from Catalog
+                </NuxtLink>
+              </div>
             </div>
           </div>
           
@@ -217,6 +227,12 @@ const vendorProfile = ref<any>(null);
 const loadingStats = ref(true);
 
 const isServiceProvider = computed(() => vendorProfile.value?.businessType === 'service_provider');
+const isMiniMart = computed(() => {
+  if (!vendorProfile.value) return false;
+  const cats = vendorProfile.value.tags || [];
+  return (vendorProfile.value.businessType === 'physical_product' || vendorProfile.value.businessType === 'hybrid') && 
+         (cats.includes('mini-mart') || cats.includes('groceries') || cats.includes('provisions') || vendorProfile.value.category === 'mini-mart');
+});
 
 const orderColumns = [
   { key: 'customer', label: 'Customer' },

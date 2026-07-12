@@ -40,6 +40,14 @@
  <label class="block text-sm font-bold text-dark-500 mb-2">Banner URL (Optional)</label>
  <input v-model="form.banner" type="text" class="glass-input w-full p-4" placeholder="https://example.com/banner.png" />
  </div>
+ <div>
+ <label class="block text-sm font-bold text-dark-500 mb-2">Store Type</label>
+ <select v-model="form.vendorType" class="glass-input w-full p-4">
+    <option value="restaurant">Restaurant / Eatery</option>
+    <option value="mini-mart">Mini-Mart / Provisions</option>
+    <option value="single-category">Single Category</option>
+ </select>
+ </div>
  </div>
  </div>
 
@@ -135,7 +143,8 @@ const form = ref({
  preOrderLeadTime: 24,
  preOrderDaysString: '',
  preparationTime: 20,
- isStudentBusiness: true
+ isStudentBusiness: true,
+ vendorType: 'restaurant'
 });
 
  const nextStep = async () => {
@@ -150,7 +159,11 @@ const form = ref({
  delete payload.preOrderDaysString;
  
  await api.put('/vendors/profile', payload);
- router.push('/dashboard');
+ if (form.value.vendorType === 'mini-mart') {
+   router.push('/products/bulk-add?onboarding=true');
+ } else {
+   router.push('/dashboard');
+ }
  } catch (e) {
  console.error(e);
  }
