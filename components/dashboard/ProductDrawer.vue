@@ -146,6 +146,26 @@
  <AnimatedInput v-model.number="form.stockQuantity" type="number" label="Daily Stock" description="-1 for unlimited" />
  </div>
 
+ <!-- Menu Configuration (Chowdeck Style) -->
+ <div class="pt-4 border-t border-gray-100 mt-4 space-y-4">
+    <div>
+      <h3 class="text-sm font-bold text-gray-900 tracking-tight">Menu Configuration</h3>
+      <p class="text-xs font-medium text-gray-500">Add mandatory choices (like protein) or optional extras.</p>
+    </div>
+    
+    <div class="space-y-4">
+      <div class="p-3 bg-gray-50 rounded-lg border border-gray-100 space-y-3">
+        <h4 class="text-xs font-bold text-gray-700">Modifiers (Required Choices)</h4>
+        <DashboardMenuConfigurator v-model="form.modifiers" type="modifier" />
+      </div>
+
+      <div class="p-3 bg-gray-50 rounded-lg border border-gray-100 space-y-3">
+        <h4 class="text-xs font-bold text-gray-700">Add-ons (Optional Extras)</h4>
+        <DashboardMenuConfigurator v-model="form.addOns" type="addon" />
+      </div>
+    </div>
+  </div>
+
  <div class="space-y-3 pt-2">
  <div class="flex items-center justify-between p-4 bg-gray-50 rounded-md border border-gray-100/50">
  <div class="flex items-center gap-3">
@@ -217,7 +237,9 @@ const form = reactive({
   isFeatured: false,
   image: '',
   images: [] as string[],
-  videos: [] as string[]
+  videos: [] as string[],
+  modifiers: [] as any[],
+  addOns: [] as any[]
 });
 
 const allImages = ref<string[]>([]);
@@ -235,7 +257,7 @@ watch(() => props.isOpen, (isOpen) => {
         name: '', description: '', price: 0, discountPrice: 0, category: '',
         servingSize: '', portionInfo: '', preparationTime: 15, stockQuantity: -1,
         minOrderQty: 1, maxOrderQty: 10, isAvailable: true, isFeatured: false,
-        image: '', images: [], videos: []
+        image: '', images: [], videos: [], modifiers: [], addOns: []
       });
       allImages.value = [];
       allVideos.value = [];
