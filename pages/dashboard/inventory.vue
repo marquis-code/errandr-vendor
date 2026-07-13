@@ -76,10 +76,10 @@
  <div class="w-10 h-10 rounded-md bg-gray-50 overflow-hidden shrink-0">
  <img :src="(item as any).image || '/placeholder-food.jpg'" class="w-full h-full object-cover" />
  </div>
- <div class="truncate">
- <p class="font-bold text-gray-900 truncate">{{ (item as any).name }}</p>
- <p class="text-sm text-gray-400 font-bold">{{ (item as any).category }}</p>
- </div>
+  <div class="truncate">
+  <p class="font-bold text-gray-900 truncate">{{ (item as any).name }}</p>
+  <p class="text-sm text-gray-400 font-bold">{{ (item as any).category?.name || (item as any).category }}</p>
+  </div>
  </div>
  </template>
  
@@ -189,15 +189,21 @@ const productColumns = [
 const filteredProducts = computed(() => {
  let list = products.value;
  if (activeCategory.value !== 'all') {
- list = list.filter(p => p.category === activeCategory.value);
+ list = list.filter(p => {
+ const catName = p.category?.name || p.category;
+ return catName === activeCategory.value;
+ });
  }
  if (searchQuery.value) {
  const q = searchQuery.value.toLowerCase();
- list = list.filter(p => 
+ list = list.filter(p => {
+ const catName = p.category?.name || p.category;
+ return (
  p.name?.toLowerCase().includes(q) ||
  p.description?.toLowerCase().includes(q) ||
- p.category?.toLowerCase().includes(q)
+ catName?.toLowerCase().includes(q)
  );
+ });
  }
  return list;
 });

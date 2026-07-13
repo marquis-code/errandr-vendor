@@ -4,17 +4,18 @@ import { menu_items_api } from "@/api_factory/modules/menu-items";
 import { useCustomToast } from "@/composables/core/useCustomToast";
 import { useLoader } from "@/composables/core/useLoader";
 import { useUser } from "@/composables/modules/auth/user";
+import { useVendorProfile } from "@/composables/modules/vendors";
 
 export const useVendorProducts = () => {
   const { showToast } = useCustomToast();
   const { startLoading, stopLoading } = useLoader();
-  const { user } = useUser();
+  const { profile } = useVendorProfile();
   const products = ref<any[]>([]);
   const loading = ref(false);
 
   const isFoodVendor = computed(() => {
-    const type = (user.value?.businessType || user.value?.storeType || '').toLowerCase();
-    const category = (user.value?.category || '').toLowerCase();
+    const type = (profile.value?.businessType || profile.value?.storeType || '').toLowerCase();
+    const category = (profile.value?.category || '').toLowerCase();
     const foodCategories = ['restaurant', 'eatery', 'snacks', 'drinks', 'bakery', 'food'];
     return foodCategories.includes(category) || type === 'food' || type === 'restaurant';
   });
@@ -101,13 +102,13 @@ export const useVendorProducts = () => {
 export const useVendorCategories = () => {
   const { showToast } = useCustomToast();
   const { startLoading, stopLoading } = useLoader();
-  const { user } = useUser();
+  const { profile } = useVendorProfile();
   const categories = ref<any[]>([]);
   const loading = ref(false);
 
   const isFoodVendor = computed(() => {
-    const type = (user.value?.businessType || user.value?.storeType || '').toLowerCase();
-    const category = (user.value?.category || '').toLowerCase();
+    const type = (profile.value?.businessType || profile.value?.storeType || '').toLowerCase();
+    const category = (profile.value?.category || '').toLowerCase();
     const foodCategories = ['restaurant', 'eatery', 'snacks', 'drinks', 'bakery', 'food'];
     return foodCategories.includes(category) || type === 'food' || type === 'restaurant';
   });
