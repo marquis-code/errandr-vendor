@@ -1,62 +1,62 @@
 <template>
-  <div class="space-y-4">
+  <div class="space-y-3">
     <!-- List of Groups -->
-    <div v-for="(group, groupIndex) in modelValue" :key="groupIndex" class="border border-gray-200 rounded-lg p-4 space-y-4 bg-white relative group">
+    <div v-for="(group, groupIndex) in modelValue" :key="groupIndex" class="border border-gray-200 rounded-lg p-4 space-y-4 bg-white relative group/card">
       
       <!-- Group Header -->
       <div class="flex items-start justify-between">
         <div class="flex-1 space-y-3">
           <input 
             v-model="group.name" 
-            placeholder="e.g. Choose Protein" 
-            class="text-sm font-bold w-full bg-transparent border-b border-dashed border-gray-300 focus:border-parentPrimary outline-none py-1 placeholder:text-gray-400"
+            :placeholder="type === 'modifier' ? 'e.g. Choose Protein' : 'e.g. Extra Toppings'" 
+            class="text-sm font-bold w-full bg-transparent border-b border-gray-200 focus:border-gray-900 outline-none py-1.5 placeholder:text-gray-400 transition-colors"
           />
           <div class="flex gap-4 text-xs font-medium text-gray-500">
-            <label class="flex items-center gap-1">
-              Min Selection: 
-              <input type="number" v-model.number="group.minSelection" min="0" class="w-12 px-1 py-0.5 border rounded-sm outline-none" />
+            <label class="flex items-center gap-1.5">
+              Min: 
+              <input type="number" v-model.number="group.minSelection" min="0" class="w-14 px-2 py-1 border border-gray-200 rounded-md outline-none text-gray-900 focus:ring-1 focus:ring-gray-900 transition-all" />
             </label>
-            <label class="flex items-center gap-1">
-              Max Selection: 
-              <input type="number" v-model.number="group.maxSelection" min="1" class="w-12 px-1 py-0.5 border rounded-sm outline-none" />
+            <label class="flex items-center gap-1.5">
+              Max: 
+              <input type="number" v-model.number="group.maxSelection" min="1" class="w-14 px-2 py-1 border border-gray-200 rounded-md outline-none text-gray-900 focus:ring-1 focus:ring-gray-900 transition-all" />
             </label>
           </div>
         </div>
-        <button type="button" @click="removeGroup(groupIndex)" class="text-rose-500 p-1 hover:bg-rose-50 rounded-md transition-colors opacity-0 group-hover:opacity-100">
+        <button type="button" @click="removeGroup(groupIndex)" class="text-gray-300 hover:text-red-500 p-1 transition-colors opacity-0 group-hover/card:opacity-100">
           <Trash2 class="w-4 h-4" />
         </button>
       </div>
 
       <!-- Items in Group -->
-      <div class="pl-2 border-l-2 border-gray-100 space-y-2">
+      <div class="space-y-2">
         <div v-for="(item, itemIndex) in group.items" :key="itemIndex" class="flex gap-2 items-center">
           <input 
             v-model="item.name" 
-            placeholder="Item name (e.g. Chicken)" 
-            class="flex-1 px-3 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded outline-none focus:border-parentPrimary"
+            :placeholder="type === 'modifier' ? 'e.g. Chicken' : 'e.g. Extra Sauce'" 
+            class="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm outline-none focus:ring-1 focus:ring-gray-900 focus:border-gray-900 transition-all"
           />
           <div class="relative">
-            <span class="absolute left-2 top-1/2 -translate-y-1/2 text-xs font-bold text-gray-400">₦</span>
+            <span class="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs font-bold text-gray-400">₦</span>
             <input 
               v-model.number="item.price" 
               type="number" 
               placeholder="0" 
-              class="w-24 pl-6 pr-2 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded outline-none focus:border-parentPrimary"
+              class="w-24 pl-7 pr-2 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm outline-none focus:ring-1 focus:ring-gray-900 focus:border-gray-900 transition-all"
             />
           </div>
-          <button type="button" @click="removeItem(groupIndex, itemIndex)" class="text-gray-400 hover:text-rose-500 p-1">
+          <button type="button" @click="removeItem(groupIndex, itemIndex)" class="text-gray-300 hover:text-red-500 p-1 transition-colors">
             <X class="w-4 h-4" />
           </button>
         </div>
-        <button type="button" @click="addItem(groupIndex)" class="text-xs font-bold text-parentPrimary flex items-center gap-1 mt-1 hover:underline">
-          <Plus class="w-3 h-3" /> Add Option
+        <button type="button" @click="addItem(groupIndex)" class="text-xs font-semibold text-blue-600 flex items-center gap-1.5 mt-1 hover:text-blue-800 transition-colors">
+          <Plus class="w-3.5 h-3.5" /> Add option
         </button>
       </div>
     </div>
 
     <!-- Add Group Button -->
-    <button type="button" @click="addGroup" class="w-full py-2 border-2 border-dashed border-gray-200 rounded-lg text-xs font-bold text-gray-500 hover:text-gray-700 hover:border-gray-300 transition-colors flex items-center justify-center gap-2">
-      <Plus class="w-4 h-4" /> Add {{ type === 'modifier' ? 'Required Group (Modifiers)' : 'Optional Group (Add-ons)' }}
+    <button type="button" @click="addGroup" class="w-full py-2.5 border-2 border-dashed border-gray-200 rounded-lg text-sm font-semibold text-gray-500 hover:text-gray-700 hover:border-gray-300 transition-colors flex items-center justify-center gap-2">
+      <Plus class="w-4 h-4" /> Add {{ type === 'modifier' ? 'modifier group' : 'add-on group' }}
     </button>
   </div>
 </template>
