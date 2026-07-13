@@ -13,33 +13,33 @@
  Photos & Visuals
  </label>
  
- <div class="grid grid-cols-2 gap-4">
+ <div class="flex flex-wrap gap-3">
  <div 
  v-for="(img, idx) in allImages" :key="idx"
- class="aspect-square rounded-md bg-gray-50 border border-gray-100 flex flex-col items-center justify-center overflow-hidden group relative"
+ class="h-24 w-32 rounded-md bg-gray-50 border border-gray-100 flex flex-col items-center justify-center overflow-hidden group relative shrink-0"
  >
  <img v-if="img" :src="img" class="w-full h-full object-cover" />
- <button v-if="img" @click.stop="removeImage(idx)" class="absolute top-2 right-2 bg-white/90 backdrop-blur-md p-2 rounded-md text-red-500 opacity-0 group-hover:opacity-100 transition-all active:scale-90">
- <Trash2 class="w-4 h-4" />
+ <button v-if="img" @click.stop="removeImage(idx)" class="absolute top-1 right-1 bg-white/90 backdrop-blur-md p-1.5 rounded-md text-red-500 opacity-0 group-hover:opacity-100 transition-all active:scale-90">
+ <Trash2 class="w-3.5 h-3.5" />
  </button>
  </div>
 
  <button 
  type="button"
  @click="triggerImageUpload"
- class="aspect-square rounded-md bg-gray-50 border border-dashed border-gray-200 flex flex-col items-center justify-center transition-all hover:bg-[#FF5C1A]/5 hover:border-[#FF5C1A]/30 group"
+ class="h-24 w-32 rounded-md bg-gray-50 border border-dashed border-gray-200 flex flex-col items-center justify-center transition-all hover:bg-[#FF5C1A]/5 hover:border-[#FF5C1A]/30 group shrink-0"
  >
         <template v-if="uploadingImage">
-          <div class="w-10 h-10 bg-[#FF5C1A]/10 rounded-md text-[#FF5C1A] flex items-center justify-center mb-3 animate-pulse">
-            <div class="w-4 h-4 border-2 border-[#FF5C1A] border-t-transparent rounded-full animate-spin"></div>
+          <div class="w-8 h-8 bg-[#FF5C1A]/10 rounded-md text-[#FF5C1A] flex items-center justify-center mb-2 animate-pulse">
+            <div class="w-3 h-3 border-2 border-[#FF5C1A] border-t-transparent rounded-full animate-spin"></div>
           </div>
-          <p class="text-xs font-bold text-[#FF5C1A] animate-pulse">UPLOADING...</p>
+          <p class="text-[10px] font-bold text-[#FF5C1A] animate-pulse">UPLOADING...</p>
         </template>
         <template v-else>
-          <div class="w-10 h-10 bg-white rounded-md text-[#FF5C1A] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-            <Plus class="w-5 h-5" />
+          <div class="w-8 h-8 bg-white rounded-md text-[#FF5C1A] flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+            <Plus class="w-4 h-4" />
           </div>
-          <p class="text-sm font-medium text-gray-400">Add Photo</p>
+          <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Add Photo</p>
         </template>
  <input type="file" ref="imageRef" class="hidden" @change="handleFileUpload" accept="image/*" multiple />
  </button>
@@ -53,14 +53,14 @@
       Short Videos
     </label>
     
-    <div class="grid grid-cols-2 gap-4">
+    <div class="flex flex-wrap gap-3">
       <div 
         v-for="(vid, idx) in allVideos" :key="`vid-${idx}`"
-        class="aspect-square rounded-md bg-gray-50 border border-gray-100 flex flex-col items-center justify-center overflow-hidden group relative"
+        class="h-24 w-32 rounded-md bg-gray-50 border border-gray-100 flex flex-col items-center justify-center overflow-hidden group relative shrink-0"
       >
         <video v-if="vid" :src="vid" class="w-full h-full object-cover" autoplay muted loop playsinline></video>
-        <button v-if="vid" @click.stop="removeVideo(idx)" class="absolute top-2 right-2 bg-white/90 backdrop-blur-md p-2 rounded-md text-red-500 opacity-0 group-hover:opacity-100 transition-all active:scale-90">
-          <Trash2 class="w-4 h-4" />
+        <button v-if="vid" @click.stop="removeVideo(idx)" class="absolute top-1 right-1 bg-white/90 backdrop-blur-md p-1.5 rounded-md text-red-500 opacity-0 group-hover:opacity-100 transition-all active:scale-90">
+          <Trash2 class="w-3.5 h-3.5" />
         </button>
       </div>
 
@@ -68,19 +68,19 @@
         v-if="allVideos.length < 3"
         type="button"
         @click="triggerVideoUpload"
-        class="aspect-square rounded-md bg-gray-50 border border-dashed border-gray-200 flex flex-col items-center justify-center transition-all hover:bg-[#FF5C1A]/5 hover:border-[#FF5C1A]/30 group"
+        class="h-24 w-32 rounded-md bg-gray-50 border border-dashed border-gray-200 flex flex-col items-center justify-center transition-all hover:bg-[#FF5C1A]/5 hover:border-[#FF5C1A]/30 group shrink-0"
       >
         <template v-if="uploadingVideo">
-          <div class="w-10 h-10 bg-[#FF5C1A]/10 rounded-md text-[#FF5C1A] flex items-center justify-center mb-3 animate-pulse">
-            <div class="w-4 h-4 border-2 border-[#FF5C1A] border-t-transparent rounded-full animate-spin"></div>
+          <div class="w-8 h-8 bg-[#FF5C1A]/10 rounded-md text-[#FF5C1A] flex items-center justify-center mb-2 animate-pulse">
+            <div class="w-3 h-3 border-2 border-[#FF5C1A] border-t-transparent rounded-full animate-spin"></div>
           </div>
-          <p class="text-xs font-bold text-[#FF5C1A] animate-pulse">UPLOADING...</p>
+          <p class="text-[10px] font-bold text-[#FF5C1A] animate-pulse">UPLOADING...</p>
         </template>
         <template v-else>
-          <div class="w-10 h-10 bg-white rounded-md text-[#FF5C1A] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-            <Plus class="w-5 h-5" />
+          <div class="w-8 h-8 bg-white rounded-md text-[#FF5C1A] flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+            <Plus class="w-4 h-4" />
           </div>
-          <p class="text-sm font-medium text-gray-400">Add Video (Max 10MB)</p>
+          <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Add Video</p>
         </template>
         <input type="file" ref="videoRef" class="hidden" @change="handleVideoUpload" accept="video/mp4,video/quicktime" multiple />
       </button>
