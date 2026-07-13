@@ -318,8 +318,11 @@
 
  <template #footer>
   <div class="flex items-center gap-4 w-full">
-   <button @click="$emit('close')" class="flex-1 py-3 bg-white border border-gray-200 text-gray-600 text-sm font-medium rounded-lg hover:bg-gray-50 transition-all">Cancel</button>
-   <button @click="handleSubmit" :disabled="uploadingImage || uploadingVideo || uploading" class="flex-[2] py-3 bg-gray-900 text-white rounded-lg font-medium text-sm hover:bg-black transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2">
+   <button v-if="product" @click="$emit('delete', product)" type="button" class="flex-none py-3 px-4 bg-rose-50 text-rose-500 rounded-lg hover:bg-rose-100 transition-all flex items-center justify-center" title="Delete Product">
+    <Trash2 class="w-5 h-5" />
+   </button>
+   <button @click="$emit('close')" type="button" class="flex-1 py-3 bg-white border border-gray-200 text-gray-600 text-sm font-medium rounded-lg hover:bg-gray-50 transition-all">Cancel</button>
+   <button @click="handleSubmit" type="button" :disabled="uploadingImage || uploadingVideo || uploading" class="flex-[2] py-3 bg-gray-900 text-white rounded-lg font-medium text-sm hover:bg-black transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2">
     {{ product ? 'Update Item' : 'Publish Item' }}
    </button>
   </div>
@@ -342,7 +345,7 @@ const props = defineProps<{
  categories: any[];
 }>();
 
-const emit = defineEmits(['close', 'save']);
+const emit = defineEmits(['close', 'save', 'delete']);
 const { showToast } = useCustomToast();
 const uploading = ref(false);
 const uploadingImage = ref(false);
