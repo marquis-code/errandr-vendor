@@ -238,6 +238,26 @@
  </Transition>
  </div>
 
+ <!-- Menu Configuration (Chowdeck Style) -->
+ <div class="pt-6 border-t border-gray-100 mt-6 space-y-6">
+  <div>
+    <h3 class="text-lg font-bold text-gray-900 tracking-tight">Menu Configuration</h3>
+    <p class="text-sm font-medium text-gray-500">Add mandatory choices (like protein) or optional extras.</p>
+  </div>
+  
+  <div class="space-y-4">
+    <div class="p-4 bg-gray-50 rounded-lg border border-gray-100 space-y-4">
+      <h4 class="text-sm font-bold text-gray-700">Modifiers (Required Choices)</h4>
+      <DashboardMenuConfigurator v-model="newProduct.modifiers" type="modifier" />
+    </div>
+
+    <div class="p-4 bg-gray-50 rounded-lg border border-gray-100 space-y-4">
+      <h4 class="text-sm font-bold text-gray-700">Add-ons (Optional Extras)</h4>
+      <DashboardMenuConfigurator v-model="newProduct.addOns" type="addon" />
+    </div>
+  </div>
+ </div>
+
  <div class="pt-6 border-t border-gray-100 mt-6">
  <button type="submit" class="w-full py-2 bg-parentPrimary text-white rounded-md text-sm font-bold hover:brightness-110 active:scale-[0.98] transition-all">Publish Item</button>
  </div>
@@ -298,7 +318,9 @@ const newProduct = reactive({
  isPreOrder: false,
  preOrderDeadline: '',
  availableDate: '',
- preOrderNote: ''
+ preOrderNote: '',
+ modifiers: [],
+ addOns: []
 });
 
 const openAddDrawer = () => {
@@ -319,7 +341,9 @@ const handleAddProduct = async () => {
   isPreOrder: false,
   preOrderDeadline: '',
   availableDate: '',
-  preOrderNote: ''
+  preOrderNote: '',
+  modifiers: [],
+  addOns: []
  });
  }
 };
