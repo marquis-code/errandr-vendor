@@ -60,9 +60,19 @@ const instanceArray = [
 
 instanceArray.forEach((instance) => {
   instance.interceptors.request.use((config: any) => {
-    const cookie = useCookie('errandr_vendor_token');
-    if (cookie.value) {
-      config.headers.Authorization = `Bearer ${cookie.value}`;
+    let currentToken = null;
+    if (typeof window !== 'undefined') {
+      const match = document.cookie.match(new RegExp('(^| )errandr_vendor_token=([^;]+)'));
+      if (match) currentToken = match[2];
+    } else {
+      try {
+        const { useCookie } = require('#app');
+        currentToken = useCookie('errandr_vendor_token').value;
+      } catch (e) {}
+    }
+    
+    if (currentToken) {
+      config.headers.Authorization = `Bearer ${currentToken}`;
     }
     return config;
   });
