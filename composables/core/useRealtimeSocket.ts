@@ -36,7 +36,7 @@ export const useRealtimeSocket = () => {
 
     socket.value = io(`${baseUrl}/realtime`, {
       path: '/socket.io/',
-      transports: ['websocket'], // Force websocket to bypass Render sticky-session issues
+      transports: ['websocket', 'polling'], // Fallback to polling if websocket fails
       auth: authPayload,
     })
 
