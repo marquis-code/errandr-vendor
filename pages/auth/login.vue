@@ -1,16 +1,16 @@
 <template>
   <div class="min-h-screen w-full bg-white sm:bg-gray-50 flex items-center justify-center p-6 relative overflow-hidden">
-    <!-- Ambient Background -->
+
     <div class="absolute top-0 left-0 w-[600px] h-[600px] bg-parentPrimary/10 rounded-md blur-[120px] -translate-x-1/2 -translate-y-1/2"></div>
     <div class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-indigo-500/10 rounded-md blur-[120px] translate-x-1/2 translate-y-1/2"></div>
 
     <div class="w-full max-w-[420px] relative z-10">
-      <!-- Back to Home -->
+
       <NuxtLink to="/" class="absolute -top-16 left-0 flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-gray-900 transition-colors">
         <ArrowLeft class="w-4 h-4" /> Back to website
       </NuxtLink>
 
-      <!-- Main Content -->
+
       <div class="w-full">
         
         <!-- Header -->
