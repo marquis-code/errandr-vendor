@@ -1,10 +1,12 @@
 import { getToken, onMessage } from 'firebase/messaging';
 import { useNuxtApp, useRuntimeConfig } from '#app';
 import { vendors_api } from '@/api_factory/modules/vendors';
+import { useCustomToast } from '@/composables/core/useCustomToast';
 
 export const useVendorNotifications = () => {
   const { $messaging } = useNuxtApp();
   const config = useRuntimeConfig();
+  const { showToast } = useCustomToast();
 
   const requestPermissionAndRegister = async () => {
     if (!$messaging) return;
@@ -12,9 +14,7 @@ export const useVendorNotifications = () => {
     try {
       const permission = await Notification.requestPermission();
       if (permission === 'granted') {
-        // Register SW with query params for config
         const swUrl = `/firebase-messaging-sw.js?apiKey=${config.public.firebaseApiKey}&projectId=${config.public.firebaseProjectId}&messagingSenderId=${config.public.firebaseMessagingSenderId}&appId=${config.public.firebaseAppId}`;
-        
         const registration = await navigator.serviceWorker.register(swUrl);
         
         const currentToken = await getToken($messaging, { 
@@ -41,15 +41,18 @@ export const useVendorNotifications = () => {
       
       // Play sound
       try {
-        const audio = new Audio('/order-alert.mp3');
+        const audio = new Audio('/sounds/order-alert.mp3');
         audio.play().catch(e => console.log('Audio play prevented:', e));
       } catch (e) {}
 
-      // You could also trigger a Toast/Alert here using your UI library
-      if (payload.notification) {
-        // Example: showing a toast (depends on your UI setup)
-        // toast.success(payload.notification.title, { description: payload.notification.body })
-      }
+      const title = payload.notification?.title || payload.data?.title || 'New Notification';
+      const body = payload.notification?.body || payload.data?.body || 'You have a new message';
+
+      showToast({
+        title: title,
+        message: body,
+        toastType: 'info'
+      });
     });
   };
 

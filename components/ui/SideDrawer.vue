@@ -1,8 +1,8 @@
 <template>
  <Teleport to="body">
-  <div class="relative z-[100]">
+  <div class="relative z-[200]">
   <Transition name="fade">
-  <div v-if="isOpen" class="fixed inset-0 bg-gray-900/40 backdrop-blur-[2px] transition-opacity z-[100]" @click="$emit('close')" aria-hidden="true" />
+  <div v-if="isOpen" class="fixed inset-0 bg-gray-900/40 backdrop-blur-[2px] transition-opacity z-[200]" @click="$emit('close')" aria-hidden="true" />
   </Transition>
 
  <Transition
@@ -13,7 +13,7 @@
       leave-from-class="translate-y-0 md:translate-x-0"
       leave-to-class="translate-y-full md:translate-y-0 md:translate-x-full"
  >
- <div v-if="isOpen" class="fixed inset-x-0 bottom-0 md:top-4 md:bottom-4 md:right-4 md:left-auto z-[101] bg-white rounded-t-[2rem] md:rounded-md md:w-[600px] flex flex-col max-h-[90vh] md:max-h-[calc(100vh-2rem)] border border-gray-200 overflow-hidden h-full pointer-events-auto">
+ <div v-if="isOpen" class="fixed inset-x-0 bottom-0 md:top-4 md:bottom-4 md:right-4 md:left-auto z-[201] bg-white rounded-t-[2rem] md:rounded-md md:w-[600px] flex flex-col max-h-[90vh] md:max-h-[calc(100vh-2rem)] border border-gray-200 overflow-hidden h-full pointer-events-auto">
  
  <!-- Header -->
  <div class="px-8 py-6 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-20">

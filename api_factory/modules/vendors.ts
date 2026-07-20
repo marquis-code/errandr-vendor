@@ -12,13 +12,13 @@ export const vendors_api = {
   uploadImage: (file: File) => {
     const formData = new FormData();
     formData.append('file', file);
-    return GATEWAY_ENDPOINT_WITH_AUTH_FORM_DATA.post('/upload/image', formData);
+    return GATEWAY_ENDPOINT_WITH_AUTH_FORM_DATA.post('upload/image', formData);
   },
 
   uploadVideo: (file: File) => {
     const formData = new FormData();
     formData.append('file', file);
-    return GATEWAY_ENDPOINT_WITH_AUTH_FORM_DATA.post('/upload?resourceType=video', formData);
+    return GATEWAY_ENDPOINT_WITH_AUTH_FORM_DATA.post('upload?resourceType=video', formData);
   },
 
   getOnline: () => {

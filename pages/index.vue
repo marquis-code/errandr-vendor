@@ -19,13 +19,13 @@
         </div>
         
         <h1 class="text-4xl sm:text-5xl lg:text-[4.5rem] font-medium tracking-tight leading-[1.05] text-slate-900">
-          Feed the <span class="text-[#FF5C1A]">Campus.</span><br />
-          Style the Students.<br />
-          Grow Your Business.
+          Sell to <span class="text-[#FF5C1A]">Students</span><br />
+          On Campus,<br />
+          Sharp Sharp!
         </h1>
         
         <p class="text-base sm:text-lg text-slate-500 font-medium leading-relaxed max-w-xl">
-          Erranders puts your restaurant, salon, or service right in the pocket of thousands of students. Accept orders, manage service appointments, track payout streams, and deliver directly to lecture halls & hostels.
+          Put your shop or restaurant right inside every student's phone. Get non-stop orders, track your money, and let us handle all the deliveries to their hostels. No stress, just sales!
         </p>
         
         <div class="flex flex-row items-center gap-4 w-full sm:w-auto">

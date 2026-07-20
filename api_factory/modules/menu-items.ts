@@ -38,4 +38,33 @@ export const menu_items_api = {
   deleteCategory: (id: string) => {
     return GATEWAY_ENDPOINT_WITH_AUTH.delete(`/menu/categories/${id}`);
   },
+
+  // Add-ons
+  getAddOns: () => {
+    return GATEWAY_ENDPOINT_WITH_AUTH.get('/menu/add-ons/mine');
+  },
+  createAddOn: (payload: any) => {
+    return GATEWAY_ENDPOINT_WITH_AUTH.post('/menu/add-ons', payload);
+  },
+  updateAddOn: (id: string, payload: any) => {
+    return GATEWAY_ENDPOINT_WITH_AUTH.put(`/menu/add-ons/${id}`, payload);
+  },
+  deleteAddOn: (id: string) => {
+    return GATEWAY_ENDPOINT_WITH_AUTH.delete(`/menu/add-ons/${id}`);
+  },
+
+  // Packs
+  getPacks: () => {
+    return GATEWAY_ENDPOINT_WITH_AUTH.get('/menu/packs/mine');
+  },
+  createPack: (payload: any) => {
+    return GATEWAY_ENDPOINT_WITH_AUTH.post('/menu/packs', payload);
+  },
+  updatePack: (id: string, payload: any) => {
+    return GATEWAY_ENDPOINT_WITH_AUTH.put(`/menu/packs/${id}`, payload);
+  },
+  deletePack: (id: string) => {
+    return GATEWAY_ENDPOINT_WITH_AUTH.delete(`/menu/packs/${id}`);
+  },
+
 };

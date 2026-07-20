@@ -1,99 +1,103 @@
 <template>
- <SideDrawer 
- :isOpen="isOpen" 
- :title="category ? 'Edit Category' : 'New Category'" 
- :subtitle="category ? 'Update category details and visibility.' : 'Create a new category to organize your menu items.'"
- @close="$emit('close')"
- >
- <div class="space-y-10 py-4">
- <!-- Icon/Image Upload -->
- <div class="flex flex-col items-center gap-4 py-6 bg-gray-50 rounded-md border border-gray-100 relative overflow-hidden group/upload">
- <div class="absolute inset-0 bg-blue-50/20 opacity-0 group-hover/upload:opacity-100 transition-opacity"></div>
- 
- <div 
- @click="triggerImageUpload"
- class="w-24 h-24 rounded-md bg-white border border-gray-100 flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-all overflow-hidden relative z-10 box-content p-1"
- >
- <img v-if="previewImage" :src="previewImage" class="w-full h-full object-cover rounded-[1.8rem]" />
- <div v-else class="text-center">
- <Plus class="w-6 h-6 text-gray-300 mx-auto" stroke-width="3" />
- <p class="text-sm font-medium text-gray-400 mt-1">Icon</p>
- </div>
- <div class="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 flex items-center justify-center transition-opacity" v-if="previewImage">
- <Camera class="w-6 h-6 text-white" />
- </div>
- <input type="file" ref="imageRef" class="hidden" @change="handleFileUpload" accept="image/*" />
- </div>
- 
- <div class="text-center relative z-10">
- <p class="text-sm font-bold text-gray-900">Category Branding</p>
- <p class="text-sm text-gray-400 font-bold mt-1">PNG or JPG • Max 2MB</p>
- </div>
- </div>
+  <Transition name="modal">
+    <div v-if="isOpen" class="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6" role="dialog">
+      <div class="fixed inset-0 bg-black/40 transition-opacity" @click="$emit('close')"></div>
 
- <!-- Form Inputs -->
- <div class="space-y-6">
- <AnimatedInput 
- v-model="form.name" 
- label="Category Name" 
- description="e.g. Traditional Soups, Buka Specials" 
- required 
- info="This name will be visible to students on your store page."
- />
- <AnimatedInput 
- v-model="form.description" 
- type="textarea" 
- label="Brief Description" 
- description="A short note about this collection." 
- info="Optional. Helps students understand what's in this category."
- />
- </div>
+      <div class="relative bg-white rounded-xl w-full max-w-lg overflow-hidden flex flex-col transform transition-all shadow-xl">
+        <div class="p-6 sm:p-8 space-y-6">
+          <h2 class="text-2xl font-bold italic text-gray-800 tracking-tight mb-2 uppercase">{{ category ? 'EDIT CATEGORY' : 'CREATE CATEGORY' }}</h2>
 
- <!-- Status Toggle -->
- <div class="flex items-center justify-between p-5 bg-white rounded-md border border-gray-100">
- <div class="space-y-0.5">
- <p class="text-sm font-bold text-gray-900">Visibility Status</p>
- <p class="text-sm text-gray-400 font-medium">Toggle to hide this category from the store.</p>
- </div>
- <button 
- @click="form.isActive = !form.isActive"
- class="relative w-12 h-7 rounded-md transition-all duration-300"
- :class="form.isActive ? 'bg-emerald-500' : 'bg-gray-200'"
- >
- <span 
- class="absolute top-1 w-5 h-5 bg-white rounded-md transition-all duration-300"
- :class="form.isActive ? 'left-6' : 'left-1'" 
- />
- </button>
- </div>
+          <div class="space-y-5">
+            <!-- Image Upload -->
+            <div class="flex items-center gap-4">
+               <div 
+                  @click="triggerImageUpload"
+                  class="w-16 h-16 rounded-xl bg-gray-50 border border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100 hover:border-gray-400 transition-all overflow-hidden relative shrink-0"
+                  >
+                  <img v-if="previewImage" :src="previewImage" class="w-full h-full object-cover" />
+                  <div v-else class="text-center">
+                    <Camera class="w-5 h-5 text-gray-400 mx-auto" />
+                  </div>
+                  <input type="file" ref="imageRef" class="hidden" @change="handleFileUpload" accept="image/*" />
+               </div>
+               <div>
+                  <p class="text-sm font-semibold text-gray-800">Category Icon</p>
+                  <p class="text-xs text-gray-500 mt-0.5">Optional. PNG or JPG</p>
+                  <div v-if="uploading" class="text-xs text-blue-500 mt-1 flex items-center gap-1 font-medium">
+                     <Loader2 class="w-3 h-3 animate-spin" /> Uploading...
+                  </div>
+               </div>
+            </div>
 
- <div v-if="uploading" class="flex items-center gap-3 p-4 bg-blue-50 rounded-md border border-blue-100/50">
- <Loader2 class="w-4 h-4 text-[#FF5C1A] animate-spin" />
- <p class="text-sm font-medium text-[#FF5C1A]">Processing Image...</p>
- </div>
- </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 mb-1.5">Name</label>
+              <input 
+                v-model="form.name" 
+                type="text" 
+                placeholder="e.g. Main Dishes, Soups" 
+                class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all"
+              />
+            </div>
 
- <template #footer>
- <div class="flex items-center gap-4 w-full">
- <button @click="$emit('close')" class="flex-1 py-2 bg-white border border-gray-100 text-gray-400 text-sm font-medium rounded-md">Cancel</button>
- <button 
- @click="handleSubmit" 
- :disabled="loading || uploading || !form.name" 
- class="flex-[2] py-2 bg-gray-900 text-white rounded-md font-medium text-sm hover:bg-black transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
- >
- <Loader2 v-if="loading" class="w-3.5 h-3.5 animate-spin" />
- {{ category ? 'Update Category' : 'Save Category' }}
- </button>
- </div>
- </template>
- </SideDrawer>
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 mb-1.5">Description <span class="text-xs text-gray-500 font-normal ml-1">(Optional)</span></label>
+              <input 
+                v-model="form.description" 
+                type="text" 
+                placeholder="Enter a description" 
+                class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all"
+              />
+            </div>
+
+            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-100">
+               <div>
+                 <p class="text-sm font-bold text-gray-900">Visibility Status</p>
+                 <p class="text-xs text-gray-500 mt-0.5">Toggle to hide this category from the store.</p>
+               </div>
+               <button 
+                @click="form.isActive = !form.isActive"
+                class="relative w-12 h-7 rounded-full transition-all duration-300"
+                :class="form.isActive ? 'bg-emerald-500' : 'bg-gray-300'"
+                >
+                <span 
+                class="absolute top-1 w-5 h-5 bg-white rounded-full transition-all duration-300"
+                :class="form.isActive ? 'left-6' : 'left-1'" 
+                />
+               </button>
+            </div>
+          </div>
+          
+          <div class="border-t border-gray-100 pt-6 mt-2">
+            <div class="flex items-center justify-between">
+              <button 
+                type="button" 
+                @click="$emit('close')"
+                class="px-6 py-2.5 bg-[#E3E4E8] text-gray-800 text-sm font-bold rounded-lg hover:bg-gray-300 transition-all"
+              >
+                Cancel
+              </button>
+              
+              <button 
+                type="button" 
+                @click="handleSubmit"
+                :disabled="loading || uploading || !form.name"
+                class="px-6 py-2.5 bg-[#AEC5BB] text-white text-sm font-bold rounded-lg hover:bg-[#9db5ab] transition-all disabled:opacity-60 flex items-center gap-2"
+              >
+                <Loader2 v-if="loading" class="w-4 h-4 animate-spin" />
+                {{ category ? 'Update category' : 'Create category' }}
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </Transition>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, watch } from 'vue';
 import { Plus, Camera, Loader2 } from 'lucide-vue-next';
-import SideDrawer from '@/components/ui/SideDrawer.vue';
-import AnimatedInput from '@/components/ui/AnimatedInput.vue';
 import { vendors_api } from '@/api_factory/modules/vendors';
 
 const props = defineProps<{
@@ -149,3 +153,26 @@ const handleSubmit = () => {
  emit('save', { ...form });
 };
 </script>
+
+<style scoped>
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-active .transform,
+.modal-leave-active .transform {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.modal-enter-from .transform,
+.modal-leave-to .transform {
+  transform: translateY(20px) scale(0.95);
+  opacity: 0;
+}
+</style>

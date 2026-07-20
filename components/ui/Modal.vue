@@ -1,4 +1,4 @@
-<template>
+                                                                                                                        <template>
  <Transition name="modal">
  <div v-if="isOpen" class="fixed inset-0 z-[150] flex items-end sm:items-center justify-center p-0 sm:p-6 drop-" role="dialog" aria-modal="true">
  <!-- Backdrop -->
@@ -9,8 +9,11 @@
 
  <!-- Modal panel -->
  <div 
- class="relative bg-white w-full h-full sm:h-auto sm:max-h-[90vh] sm:rounded-md overflow-hidden flex flex-col transform transition-all duration-300 ease-out"
- :class="[ size === 'sm' ? 'sm:max-w-md' : size === 'md' ? 'sm:max-w-2xl' : size === 'lg' ? 'sm:max-w-4xl' : 'sm:max-w-full' ]"
+ class="relative bg-white w-full h-full overflow-hidden flex flex-col transform transition-all duration-300 ease-out"
+ :class="[ 
+   size === 'full' ? 'sm:w-screen sm:h-screen sm:rounded-none' : 'sm:h-auto sm:max-h-[90vh] sm:rounded-md',
+   size === 'sm' ? 'sm:max-w-md' : size === 'md' ? 'sm:max-w-2xl' : size === 'lg' ? 'sm:max-w-4xl' : ''
+ ]"
  >
  <!-- Header -->
  <div class="px-6 py-5 border-b border-gray-100 flex items-center justify-between shrink-0 bg-white/80 backdrop-blur-sm sticky top-0 z-10">

@@ -168,3 +168,106 @@ export const useVendorCategories = () => {
 
   return { categories, loading, fetchCategories, createCategory, updateCategory, deleteCategory };
 };
+
+export const useVendorAddOnGroups = () => {
+  const { showToast } = useCustomToast();
+  const { startLoading, stopLoading } = useLoader();
+  const addOnGroups = ref<any[]>([]);
+  const loading = ref(false);
+
+  const fetchAddOnGroups = async () => {
+    loading.value = true;
+    try {
+      const res = await menu_items_api.getAddOns();
+      addOnGroups.value = res.data;
+    } catch (e) { /* Error handled by axios */ }
+    finally {
+      loading.value = false;
+    }
+  };
+
+  const createAddOnGroup = async (payload: any) => {
+    startLoading('Adding your add-on group... ➕');
+    try {
+      const res = await menu_items_api.createAddOn(payload);
+      if (res.data) {
+        showToast({ title: "Add-On Group Added!", message: "Your add-on group is now live.", toastType: "success" });
+        await fetchAddOnGroups();
+        return res.data;
+      }
+    } finally { stopLoading(); }
+  };
+
+  const updateAddOnGroup = async (id: string, payload: any) => {
+    startLoading('Updating add-on group... 🔄');
+    try {
+      await menu_items_api.updateAddOn(id, payload);
+      showToast({ title: "Add-On Group Updated", message: "Changes saved.", toastType: "success" });
+      await fetchAddOnGroups();
+      return true;
+    } finally { stopLoading(); }
+  };
+
+  const deleteAddOnGroup = async (id: string) => {
+    startLoading('Removing add-on group... 🗑️');
+    try {
+      await menu_items_api.deleteAddOn(id);
+      showToast({ title: "Add-On Group Deleted", message: "The group has been removed.", toastType: "success" });
+      await fetchAddOnGroups();
+      return true;
+    } finally { stopLoading(); }
+  };
+
+  return { addOnGroups, loading, fetchAddOnGroups, createAddOnGroup, updateAddOnGroup, deleteAddOnGroup };
+};
+
+export const useVendorPacks = () => {
+  const { showToast } = useCustomToast();
+  const { startLoading, stopLoading } = useLoader();
+  const packs = ref<any[]>([]);
+  const loading = ref(false);
+
+  const fetchPacks = async () => {
+    loading.value = true;
+    try {
+      const res = await menu_items_api.getPacks();
+      packs.value = res.data;
+    } catch (e) { /* Error handled by axios */ }
+    finally { loading.value = false; }
+  };
+
+  const createPack = async (payload: any) => {
+    startLoading('Creating combo pack... 🎁');
+    try {
+      const res = await menu_items_api.createPack(payload);
+      if (res.data) {
+        showToast({ title: "Combo Pack Created!", message: "Your combo pack is ready.", toastType: "success" });
+        await fetchPacks();
+        return res.data;
+      }
+    } finally { stopLoading(); }
+  };
+
+  const updatePack = async (id: string, payload: any) => {
+    startLoading('Updating combo pack... 🔄');
+    try {
+      await menu_items_api.updatePack(id, payload);
+      showToast({ title: "Combo Pack Updated", message: "Changes saved.", toastType: "success" });
+      await fetchPacks();
+      return true;
+    } finally { stopLoading(); }
+  };
+
+  const deletePack = async (id: string) => {
+    startLoading('Removing combo pack... 🗑️');
+    try {
+      await menu_items_api.deletePack(id);
+      showToast({ title: "Combo Pack Deleted", message: "The pack has been removed.", toastType: "success" });
+      await fetchPacks();
+      return true;
+    } finally { stopLoading(); }
+  };
+
+  return { packs, loading, fetchPacks, createPack, updatePack, deletePack };
+};
+

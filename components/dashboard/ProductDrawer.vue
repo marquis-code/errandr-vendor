@@ -1,8 +1,10 @@
 <template>
- <SideDrawer 
+  <div>
+ <Modal 
  :isOpen="isOpen" 
  :title="product ? 'Edit Item' : 'Create Item'" 
- :subtitle="product ? 'Update item details' : ''"
+ :description="product ? 'Update item details' : ''"
+ size="lg"
  @close="$emit('close')"
  >
  <div class="space-y-8 py-2">
@@ -14,7 +16,8 @@
    <AnimatedInput 
     v-model="form.name" 
     label="Item name" 
-    description="e.g. Sausages"
+    description=""
+    placeholder="Food type name like:Beans"
     required 
    />
 
@@ -22,23 +25,36 @@
     v-model="form.description" 
     type="textarea" 
     label="Description" 
-    description="e.g. Sausages"
+    description=""
+    placeholder="Ewa agonyi, sells from 200 per portion"
    />
 
-   <SelectInput 
-    v-model="form.category" 
-    label="Category" 
-    :options="categories" 
-    description="Select a food category"
-    required 
-   />
+   <div class="space-y-2">
+    <div class="flex items-start justify-between gap-4">
+     <div>
+      <label class="text-sm font-semibold text-gray-800 block">Category</label>
+      <p class="text-[13px] text-gray-500 mt-0.5">e.g. Main Dishes, Soups, Drinks, Extras</p>
+     </div>
+     <button type="button" @click="$emit('createCategory')" class="shrink-0 px-3 py-2 bg-blue-50 text-blue-600 text-sm font-bold rounded-lg hover:bg-blue-100 transition-all flex items-center gap-1.5">
+       <Plus class="w-4 h-4" /> Create category
+     </button>
+    </div>
+    <SelectInput 
+     v-model="form.category" 
+     :options="categories" 
+     required 
+    />
+   </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════ -->
   <!-- 2. PHOTOS & VIDEOS (Compact Horizontal) -->
   <!-- ═══════════════════════════════════════════════ -->
   <section class="space-y-3">
-   <h3 class="text-sm font-semibold text-gray-800">Photos & Videos</h3>
+   <div>
+    <h3 class="text-sm font-semibold text-gray-800">Photos & Videos</h3>
+    <p class="text-[13px] text-gray-500 mt-0.5">Upload the picture of the item</p>
+   </div>
    <div class="flex flex-wrap gap-2">
     <div 
      v-for="(img, idx) in allImages" :key="idx"
@@ -92,14 +108,14 @@
      <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
     </label>
    </div>
-   <Transition name="slide-fade">
-    <div v-if="form.trackStock" class="space-y-4">
-     <div>
-      <label class="text-sm font-semibold text-gray-800 block mb-1.5">In stock</label>
-      <input type="number" v-model.number="form.stockQuantity" placeholder="1,000" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
+    <Transition name="slide-fade">
+     <div v-if="form.trackStock" class="space-y-4">
+      <div>
+       <label class="text-sm font-semibold text-gray-800 block mb-1.5">In stock (Portions)</label>
+       <input type="number" v-model.number="form.stockQuantity" placeholder="e.g. 50" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
+      </div>
      </div>
-    </div>
-   </Transition>
+    </Transition>
   </section>
 
   <!-- ═══════════════════════════════════════════════ -->
@@ -109,187 +125,146 @@
    <h3 class="text-lg font-bold text-gray-900">Pricing</h3>
    <div class="grid grid-cols-2 gap-4">
     <div>
-     <label class="text-sm font-semibold text-gray-800 block mb-1.5">Cost Price</label>
-     <input type="number" v-model.number="form.costPrice" placeholder="1,000" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
+     <label class="text-sm font-semibold text-gray-800 block mb-1.5">Price Per Portion (₦)</label>
+     <input type="number" v-model.number="form.pricePerPortion" placeholder="e.g. 2500" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" required />
     </div>
     <div>
-     <label class="text-sm font-semibold text-gray-800 block mb-1.5">Price</label>
-     <input type="number" v-model.number="form.price" placeholder="1,000" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" required />
+     <label class="text-sm font-semibold text-gray-800 block mb-1.5">Portion Unit</label>
+     <select v-model="form.portionUnit" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all">
+      <option value="plate">Plate</option>
+      <option value="wrap">Wrap</option>
+      <option value="piece">Piece</option>
+      <option value="bottle">Bottle</option>
+      <option value="portion">Portion</option>
+     </select>
     </div>
    </div>
-   <div>
-    <label class="text-sm font-semibold text-gray-800 block mb-1.5">SKU (optional)</label>
-    <input type="text" v-model="form.sku" placeholder="SKU-12333-HJI" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
-   </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- 5. VARIATIONS -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <section class="space-y-4">
-   <div>
-    <h3 class="text-lg font-bold text-gray-900">Variations (optional)</h3>
-    <p class="text-sm text-gray-500 mt-1">Use variations when you have multiple options or an item e.g. A glass of whiskey and a bottle of the same whiskey.</p>
-   </div>
-
-   <!-- Variation rows -->
-   <div v-if="form.variations.length > 0" class="space-y-3">
-    <!-- Header row -->
-    <div class="grid grid-cols-[1fr_0.8fr_0.8fr_0.8fr_0.8fr_auto] gap-2 text-xs font-bold text-gray-700">
-     <span>Name</span>
-     <span>Cost Price</span>
-     <span>Price</span>
-     <span>SKU (optional)</span>
-     <span>Stock</span>
-     <span class="w-7"></span>
-    </div>
-    <div v-for="(v, idx) in form.variations" :key="idx" class="grid grid-cols-[1fr_0.8fr_0.8fr_0.8fr_0.8fr_auto] gap-2 items-center">
-     <input v-model="v.name" placeholder="e.g Glass" class="px-3 py-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all" />
-     <input type="number" v-model.number="v.costPrice" placeholder="1000" class="px-3 py-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all" />
-     <input type="number" v-model.number="v.price" placeholder="1000" class="px-3 py-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all" />
-     <input v-model="v.sku" placeholder="e.g Glass" class="px-3 py-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all" />
-     <input type="number" v-model.number="v.stock" placeholder="e.g 100" class="px-3 py-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all" />
-     <button type="button" @click="removeVariation(idx)" class="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors">
-      <X class="w-4 h-4" />
-     </button>
-    </div>
-   </div>
-
-   <button type="button" @click="addVariation" class="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-black transition-all active:scale-95">
-    <Plus class="w-4 h-4" />
-    {{ form.variations.length > 0 ? 'Add another variation' : 'Create variation' }}
-   </button>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- 6. MODIFIERS -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <section class="space-y-4">
-   <div>
-    <h3 class="text-lg font-bold text-gray-900">Modifiers</h3>
-    <p class="text-sm text-gray-500 mt-1">Modifiers are customizable mandatory options that can be applied to an item when ordering. E.g. Sausages, Eggs</p>
-   </div>
-   <DashboardMenuConfigurator v-model="form.modifiers" type="modifier" />
-  </section>
-
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- 7. ADD-ONS -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <section class="space-y-4">
-   <div>
-    <h3 class="text-lg font-bold text-gray-900">Add-ons</h3>
-    <p class="text-sm text-gray-500 mt-1">Add-ons are customizable options your customers can add to their items when ordering. E.g. Syrups, Sugar, Milk</p>
-   </div>
-   <DashboardMenuConfigurator v-model="form.addOns" type="addon" />
-  </section>
-
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- 8. TAGS -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <section class="space-y-4">
-   <div>
-    <h3 class="text-lg font-bold text-gray-900">Tags</h3>
-    <p class="text-sm text-gray-500 mt-1">Tags help customers find your food items. Choose at least five that describe your dishes, like cuisine type, ingredients, or dietary options.</p>
-   </div>
-   <div class="relative" ref="tagsDropdownRef">
-    <button type="button" @click="tagsOpen = !tagsOpen" class="w-full flex items-center justify-between px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm text-gray-500 hover:border-gray-300 transition-all">
-     <span>{{ form.tags.length > 0 ? form.tags.join(', ') : 'Select option' }}</span>
-     <ChevronDown class="w-4 h-4 text-gray-400 transition-transform" :class="{ 'rotate-180': tagsOpen }" />
-    </button>
-    <Transition name="slide-fade">
-     <div v-if="tagsOpen" class="absolute top-full left-0 right-0 z-20 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto">
-      <button 
-       v-for="tag in availableTags" :key="tag" type="button"
-       @click="toggleTag(tag)"
-       class="w-full text-left px-4 py-2.5 text-sm transition-all"
-       :class="form.tags.includes(tag) ? 'bg-green-400 text-white font-medium' : 'text-gray-700 hover:bg-gray-50'"
-      >
-       {{ tag }}
-      </button>
-     </div>
-    </Transition>
-   </div>
-   <!-- Selected tags chips -->
-   <div v-if="form.tags.length > 0" class="flex flex-wrap gap-2">
-    <span v-for="tag in form.tags" :key="tag" class="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">
-     {{ tag }}
-     <button type="button" @click="toggleTag(tag)" class="text-gray-400 hover:text-red-500">
-      <X class="w-3 h-3" />
-     </button>
-    </span>
-   </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- 9. PACKS -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <section class="space-y-4">
-   <div>
-    <h3 class="text-lg font-bold text-gray-900">Packs</h3>
-    <p class="text-sm text-gray-500 mt-1">Packs let you define how a meal is packaged for delivery, such as the type, size, or number of plates used.</p>
-   </div>
-   <div class="relative" ref="packsDropdownRef">
-    <button type="button" @click="packsOpen = !packsOpen" class="w-full flex items-center justify-between px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm text-gray-500 hover:border-gray-300 transition-all">
-     <span>{{ form.packs.length > 0 ? form.packs.join(', ') : 'Select option' }}</span>
-     <ChevronDown class="w-4 h-4 text-gray-400 transition-transform" :class="{ 'rotate-180': packsOpen }" />
-    </button>
-    <Transition name="slide-fade">
-     <div v-if="packsOpen" class="absolute top-full left-0 right-0 z-20 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto">
-      <button 
-       v-for="pack in availablePacks" :key="pack" type="button"
-       @click="togglePack(pack)"
-       class="w-full text-left px-4 py-2.5 text-sm transition-all"
-       :class="form.packs.includes(pack) ? 'bg-green-400 text-white font-medium' : 'text-gray-700 hover:bg-gray-50'"
-      >
-       {{ pack }}
-      </button>
-     </div>
-    </Transition>
-   </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- 10. ADVANCED CONSTRAINTS -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <section class="space-y-4">
    <div class="grid grid-cols-2 gap-4">
     <div>
-     <label class="text-sm font-semibold text-gray-800 block mb-1.5">Maximum Quantity (optional)</label>
-     <input type="number" v-model.number="form.maxQuantity" placeholder="" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
+     <label class="text-sm font-semibold text-gray-800 block mb-1.5">Max Portions per Order</label>
+     <input type="number" v-model.number="form.maxPortionsPerOrder" placeholder="0 for unlimited" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
     </div>
     <div>
-     <label class="text-sm font-semibold text-gray-800 block mb-1.5">Maximum Quantity as Side (optional)</label>
-     <input type="number" v-model.number="form.maxQuantityAsSide" placeholder="" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
-    </div>
-   </div>
-   <div>
-    <label class="text-sm font-semibold text-gray-800 block mb-1.5">Volume per Portion (optional)</label>
-    <div class="relative">
-     <input type="text" v-model="form.volumePerPortion" placeholder="" class="w-full px-4 py-3 pr-12 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
-     <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-400">kg</span>
+     <label class="text-sm font-semibold text-gray-800 block mb-1.5">Prep Time (mins)</label>
+     <input type="number" v-model.number="form.prepTimeMinutes" placeholder="e.g. 20" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
     </div>
    </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════ -->
-  <!-- 11. SERVING & PREP (Kitchen specific) -->
+  <!-- 5. TAKEAWAY PACK SIZES (Auto-mapped to Modifiers) -->
   <!-- ═══════════════════════════════════════════════ -->
   <section class="space-y-4">
-   <h3 class="text-lg font-bold text-gray-900">Preparation</h3>
-   <div class="grid grid-cols-2 gap-4">
-    <div>
-     <label class="text-sm font-semibold text-gray-800 block mb-1.5">Serving Size</label>
-     <input type="text" v-model="form.servingSize" placeholder="e.g. 1 plate" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
+    <div class="flex items-center justify-between">
+      <div>
+        <h3 class="text-lg font-bold text-gray-900">Takeaway Pack Sizes</h3>
+        <p class="text-xs text-gray-500">Configure required takeaway container fees</p>
+      </div>
     </div>
-    <div>
-     <label class="text-sm font-semibold text-gray-800 block mb-1.5">Prep Time (min)</label>
-     <input type="number" v-model.number="form.preparationTime" placeholder="15" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
+    
+    <div class="p-4 bg-gray-50 border border-gray-200 rounded-xl space-y-4">
+      <div class="flex items-center gap-3">
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" v-model="form.hasPackFee" class="sr-only peer" />
+          <div class="w-10 h-5 bg-gray-200 rounded-full peer peer-checked:bg-green-500 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
+        </label>
+        <span class="text-sm font-semibold text-gray-700">Requires Takeaway Pack</span>
+      </div>
+
+      <div v-if="form.hasPackFee" class="pt-3 border-t border-gray-200 space-y-3">
+        <div v-for="(opt, oIdx) in form.packOptions" :key="oIdx" class="flex items-center gap-2">
+          <input type="text" v-model="opt.name" placeholder="Pack Name (e.g. Small Pack)" class="flex-1 px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-900" />
+          <input type="number" v-model.number="opt.price" placeholder="Price (+₦)" class="w-24 px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-900" />
+          <button type="button" @click="removePackOption(oIdx)" class="p-2 text-gray-400 hover:text-red-500 rounded-lg"><Trash2 class="w-4 h-4" /></button>
+        </div>
+        <button type="button" @click="addPackOption" class="text-sm font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1">
+          <Plus class="w-4 h-4" /> Add Pack Size
+        </button>
+      </div>
     </div>
-   </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════ -->
-  <!-- 12. TOGGLES -->
+  <!-- 5. MODIFIERS (Required Options like Pack Size) -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section class="space-y-4">
+    <div class="flex items-center justify-between">
+      <div>
+        <h3 class="text-lg font-bold text-gray-900">Required Options (Modifiers)</h3>
+        <p class="text-xs text-gray-500">e.g. Pack Size, Spice Level</p>
+      </div>
+      <button type="button" @click="addModifier" class="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-bold rounded-lg hover:bg-gray-200 transition-all flex items-center gap-1">
+        <Plus class="w-3 h-3" /> Add Option
+      </button>
+    </div>
+    
+    <div v-for="(mod, mIdx) in form.modifiers" :key="mIdx" class="p-4 bg-gray-50 border border-gray-200 rounded-xl space-y-3">
+      <div class="flex items-center gap-2">
+        <input type="text" v-model="mod.name" placeholder="Option Name (e.g. Pack Size)" class="flex-1 px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-900" />
+        <label class="flex items-center gap-1.5 text-xs font-semibold text-gray-700 whitespace-nowrap">
+          <input type="checkbox" v-model="mod.isRequired" class="rounded text-gray-900 focus:ring-gray-900" /> Required
+        </label>
+        <button type="button" @click="removeModifier(mIdx)" class="p-2 text-red-500 hover:bg-red-50 rounded-lg"><Trash2 class="w-4 h-4" /></button>
+      </div>
+      
+      <div class="pl-4 border-l-2 border-gray-200 space-y-2">
+        <div v-for="(opt, oIdx) in mod.options" :key="oIdx" class="flex items-center gap-2">
+          <input type="text" v-model="opt.name" placeholder="Choice (e.g. Big Pack)" class="flex-1 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs focus:outline-none focus:border-gray-900" />
+          <input type="number" v-model.number="opt.priceDelta" placeholder="Price (+₦)" class="w-24 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs focus:outline-none focus:border-gray-900" />
+          <button type="button" @click="removeModifierOption(mIdx, oIdx)" class="p-1.5 text-gray-400 hover:text-red-500"><X class="w-3 h-3" /></button>
+        </div>
+        <button type="button" @click="addModifierOption(mIdx)" class="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1 mt-1">
+          <Plus class="w-3 h-3" /> Add Choice
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- 6. ADD-ONS (Optional Extras) -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section class="space-y-4">
+    <div class="flex items-center justify-between">
+      <div>
+        <h3 class="text-lg font-bold text-gray-900">Optional Extras (Add-ons)</h3>
+        <p class="text-xs text-gray-500">Link reusable add-on groups</p>
+      </div>
+      <button type="button" @click="$emit('createAddOnGroup')" class="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-bold rounded-lg hover:bg-gray-200 transition-all flex items-center gap-1">
+        <Plus class="w-3 h-3" /> Create Group
+      </button>
+    </div>
+    <div class="space-y-3">
+      <label v-for="group in addOnGroups" :key="group._id" class="block p-4 bg-white border border-gray-200 rounded-xl cursor-pointer hover:border-gray-300 transition-all">
+        <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-3">
+          <div class="flex items-center gap-3">
+            <input type="checkbox" :value="group._id" v-model="form.addOnGroupIds" class="rounded text-gray-900 focus:ring-gray-900 w-4 h-4" />
+            <span class="text-sm font-bold text-gray-900">{{ group.name }}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wide mr-1">{{ group.selectionType === 'single' ? 'Select 1' : 'Multi Select' }}</span>
+            <button type="button" @click.prevent.stop="$emit('editAddOnGroup', group)" class="p-1.5 hover:bg-gray-100 rounded-lg text-gray-400 hover:text-blue-600 transition-colors">
+              <Edit2 class="w-3.5 h-3.5" />
+            </button>
+            <button type="button" @click.prevent.stop="confirmDeleteAddOn(group)" class="p-1.5 hover:bg-red-50 rounded-lg text-gray-400 hover:text-red-500 transition-colors">
+              <Trash2 class="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+        
+        <div v-if="group.options && group.options.length" class="space-y-2 pl-7">
+          <div v-for="(opt, idx) in group.options" :key="idx" class="flex items-center justify-between text-xs">
+            <span class="font-medium text-gray-700">{{ opt.name }}</span>
+            <span v-if="(opt.price || opt.priceDelta) > 0" class="text-gray-500 font-bold">+₦{{ (opt.price || opt.priceDelta).toLocaleString() }}</span>
+            <span v-else class="text-gray-400 font-medium">Free</span>
+          </div>
+        </div>
+      </label>
+      <p v-if="!addOnGroups || addOnGroups.length === 0" class="text-xs text-gray-500">No add-on groups found. Create them in your inventory.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- 8. TOGGLES -->
   <!-- ═══════════════════════════════════════════════ -->
   <section class="space-y-3">
    <div class="flex items-center justify-between py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
@@ -327,13 +302,21 @@
    </button>
   </div>
  </template>
- </SideDrawer>
-</template>
+ </Modal>
+
+  <CreatePackModal
+    :isOpen="isCreatePackOpen"
+    @close="isCreatePackOpen = false"
+    @save="handleCreatePack"
+  />
+
+  </div>
+ </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch, onMounted, onBeforeUnmount } from 'vue';
-import { ImageIcon, Trash2, Plus, Star, CheckCircle, Video as VideoIcon, X, ChevronDown } from 'lucide-vue-next';
-import SideDrawer from '@/components/ui/SideDrawer.vue';
+import { ref, reactive, watch, onMounted, onBeforeUnmount, computed } from 'vue';
+import { Plus, X, UploadCloud, Info, Trash2, Settings2, Edit2, Star, ImageIcon, Video as VideoIcon, CheckCircle } from 'lucide-vue-next';
+import Modal from '@/components/ui/Modal.vue';
 import AnimatedInput from '@/components/ui/AnimatedInput.vue';
 import SelectInput from '@/components/ui/SelectInput.vue';
 import { vendors_api } from '@/api_factory/modules/vendors';
@@ -343,89 +326,103 @@ const props = defineProps<{
  isOpen: boolean;
  product?: any;
  categories: any[];
+ addOnGroups?: any[];
 }>();
 
-const emit = defineEmits(['close', 'save', 'delete']);
+const emit = defineEmits(['close', 'save', 'delete', 'createCategory', 'createAddOnGroup', 'editAddOnGroup', 'deleteAddOnGroup']);
 const { showToast } = useCustomToast();
 const uploading = ref(false);
 const uploadingImage = ref(false);
 const uploadingVideo = ref(false);
+const tagsOpen = ref(false);
 const imageRef = ref<HTMLInputElement | null>(null);
 const videoRef = ref<HTMLInputElement | null>(null);
 
-// Tags & Packs dropdowns
-const tagsOpen = ref(false);
-const packsOpen = ref(false);
+// Tags dropdowns
 const tagsDropdownRef = ref<HTMLElement | null>(null);
-const packsDropdownRef = ref<HTMLElement | null>(null);
 
 const availableTags = ['African', 'Breakfast', 'Snacks', 'Meat', 'Lunch', 'Fries', 'Vegetables', 'Rice', 'Soup', 'Pasta', 'Drinks', 'Desserts', 'Grills', 'Seafood', 'Vegan', 'Spicy'];
-const availablePacks = ['Single plate', 'Double plate', 'Take-away box', 'Bowl', 'Cup', 'Family pack', 'Party tray'];
 
 const form = reactive({
  name: '',
  description: '',
- price: 0,
- costPrice: 0,
- discountPrice: 0,
+ pricePerPortion: 0,
+ portionUnit: 'plate',
  category: '',
- servingSize: '',
- portionInfo: '',
- preparationTime: 15,
+ prepTimeMinutes: 15,
  trackStock: false,
- stockQuantity: 0,
- sku: '',
- minOrderQty: 1,
- maxOrderQty: 10,
- maxQuantity: null as number | null,
- maxQuantityAsSide: null as number | null,
- volumePerPortion: '',
+ stockQuantity: null as number | null,
+ maxPortionsPerOrder: 0,
+ hasPackFee: false,
+ packOptions: [{ name: 'Standard Pack', price: 150 }],
+ variations: [] as any[],
+ modifiers: [] as any[],
+ addOnGroupIds: [] as string[],
+ tags: [] as string[],
  isAvailable: true,
  isFeatured: false,
  image: '',
  images: [] as string[],
- videos: [] as string[],
- modifiers: [] as any[],
- addOns: [] as any[],
- variations: [] as { name: string; costPrice: number; price: number; sku: string; stock: number }[],
- tags: [] as string[],
- packs: [] as string[],
+ videos: [] as string[]
 });
+
+const addPackOption = () => form.packOptions.push({ name: '', price: 0 });
+const removePackOption = (idx: number) => form.packOptions.splice(idx, 1);
+
+const addModifier = () => {
+ form.modifiers.push({ name: '', isRequired: true, options: [{ name: '', priceDelta: 0 }] });
+};
+const removeModifier = (idx: number) => {
+ form.modifiers.splice(idx, 1);
+};
+const addModifierOption = (mIdx: number) => {
+ form.modifiers[mIdx].options.push({ name: '', priceDelta: 0 });
+};
+const removeModifierOption = (mIdx: number, oIdx: number) => {
+ form.modifiers[mIdx].options.splice(oIdx, 1);
+};
 
 const allImages = ref<string[]>([]);
 const allVideos = ref<string[]>([]);
 
 const defaultForm = () => ({
- name: '', description: '', price: 0, costPrice: 0, discountPrice: 0, category: '',
- servingSize: '', portionInfo: '', preparationTime: 15, trackStock: false, stockQuantity: 0,
- sku: '', minOrderQty: 1, maxOrderQty: 10, maxQuantity: null, maxQuantityAsSide: null,
- volumePerPortion: '', isAvailable: true, isFeatured: false,
- image: '', images: [], videos: [], modifiers: [], addOns: [],
- variations: [], tags: [], packs: [],
-});
+  name: '', description: '', pricePerPortion: 0, portionUnit: 'plate', category: '',
+  prepTimeMinutes: 15, trackStock: false, stockQuantity: null, maxPortionsPerOrder: 0,
+  hasPackFee: false, packOptions: [{ name: 'Standard Pack', price: 150 }],
+  isAvailable: true, isFeatured: false,
+  image: '', images: [], videos: [], modifiers: [], addOnGroupIds: [],
+  tags: [],
+ });
 
 watch(() => props.isOpen, (isOpen) => {
  if (isOpen) {
-  if (props.product) {
-   const p = props.product;
-   Object.assign(form, { ...defaultForm(), ...p });
-   allImages.value = p.images?.length ? [...p.images] : (p.image ? [p.image] : []);
-   allVideos.value = p.videos?.length ? [...p.videos] : [];
-  } else {
-   Object.assign(form, defaultForm());
-   allImages.value = [];
-   allVideos.value = [];
-  }
+   if (props.product) {
+    const p = JSON.parse(JSON.stringify(props.product));
+    
+    // Extract pack configuration from modifiers
+    let hasPackFee = false;
+    let packOptions = [{ name: 'Standard Pack', price: 150 }];
+    const packModIdx = p.modifiers?.findIndex((m: any) => m.name.toLowerCase().includes('pack'));
+    
+    if (packModIdx !== -1 && packModIdx !== undefined) {
+      hasPackFee = true;
+      packOptions = p.modifiers[packModIdx].options.map((o: any) => ({ name: o.name, price: o.priceDelta || 0 }));
+      // Remove pack from regular modifiers to avoid duplicate UI
+      p.modifiers.splice(packModIdx, 1);
+    }
+    
+    Object.assign(form, { ...defaultForm(), ...p, hasPackFee, packOptions });
+    allImages.value = p.images?.length ? [...p.images] : (p.image ? [p.image] : []);
+    allVideos.value = p.videos?.length ? [...p.videos] : [];
+   } else {
+    Object.assign(form, defaultForm());
+    allImages.value = [];
+    allVideos.value = [];
+   }
  }
 });
 
-// ── Variations ──
-const addVariation = () => {
- form.variations.push({ name: '', costPrice: 0, price: 0, sku: '', stock: 0 });
-};
-const removeVariation = (idx: number) => {
- form.variations.splice(idx, 1);
-};
+
 
 // ── Tags ──
 const toggleTag = (tag: string) => {
@@ -434,17 +431,9 @@ const toggleTag = (tag: string) => {
  else form.tags.push(tag);
 };
 
-// ── Packs ──
-const togglePack = (pack: string) => {
- const idx = form.packs.indexOf(pack);
- if (idx >= 0) form.packs.splice(idx, 1);
- else form.packs.push(pack);
-};
-
 // ── Click outside to close dropdowns ──
 const handleClickOutside = (e: MouseEvent) => {
  if (tagsDropdownRef.value && !tagsDropdownRef.value.contains(e.target as Node)) tagsOpen.value = false;
- if (packsDropdownRef.value && !packsDropdownRef.value.contains(e.target as Node)) packsOpen.value = false;
 };
 onMounted(() => document.addEventListener('click', handleClickOutside));
 onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside));
@@ -495,13 +484,48 @@ const handleVideoUpload = async (e: Event) => {
 };
 const removeVideo = (idx: number) => allVideos.value.splice(idx, 1);
 
-// ── Submit ──
-const handleSubmit = async () => {
- form.image = allImages.value[0] || '';
- form.images = [...allImages.value];
- form.videos = [...allVideos.value];
- emit('save', { ...form });
+const confirmDeleteAddOn = (group: any) => {
+  if (confirm(`Are you sure you want to delete the add-on group "${group.name}"? This will remove it from all items.`)) {
+    emit('deleteAddOnGroup', group._id);
+  }
 };
+
+// ── Submit ──
+ const handleSubmit = async () => {
+  form.image = allImages.value[0] || '';
+  form.images = [...allImages.value];
+  form.videos = [...allVideos.value];
+  
+  const payload = JSON.parse(JSON.stringify(form));
+  
+  // Re-inject Pack Config into modifiers
+  if (payload.hasPackFee && payload.packOptions?.length > 0) {
+    payload.modifiers.unshift({
+      name: 'Pack Size',
+      isRequired: true,
+      options: payload.packOptions.map((p: any) => ({ name: p.name, priceDelta: p.price }))
+    });
+  }
+  
+  delete payload.hasPackFee;
+  delete payload.packOptions;
+  
+  // Extract raw IDs from populated objects
+  if (payload.categoryId && typeof payload.categoryId === 'object') {
+    payload.categoryId = payload.categoryId._id;
+  }
+  if (payload.addOnGroupIds) {
+    payload.addOnGroupIds = payload.addOnGroupIds.map((g: any) => typeof g === 'object' ? g._id : g);
+  }
+  // Strip read-only fields
+  delete payload._id;
+  delete payload.__v;
+  delete payload.vendorId;
+  delete payload.createdAt;
+  delete payload.updatedAt;
+  
+  emit('save', payload);
+ };
 </script>
 
 <style scoped>

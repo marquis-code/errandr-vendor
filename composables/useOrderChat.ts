@@ -15,6 +15,13 @@ export interface Message {
     lastName: string;
     avatar?: string;
   };
+  replyTo?: {
+    _id: string;
+    message: string;
+    messageType?: string;
+    attachment?: string;
+    sender?: any;
+  };
   createdAt: string;
 }
 
@@ -46,7 +53,7 @@ export const useOrderChat = (
           const rId = String(m.receiverId || m.receiver?._id || m.receiver || '');
           const cIds = String(currentUserId).split(',').map(id => id.trim());
           const tIds = String(targetUserId).split(',').map(id => id.trim());
-          const isGeneric = !rId;
+          const isGeneric = !rId || rId === 'undefined' || rId === '[object Object]';
           return isGeneric || (cIds.includes(sId) && tIds.includes(rId)) || (tIds.includes(sId) && cIds.includes(rId));
         });
       } else {
@@ -69,7 +76,7 @@ export const useOrderChat = (
     return String(str).split(',')[0]?.trim() || '';
   };
 
-  const sendMessage = (text: string, receiverId: string, senderId: string, type: 'text' | 'image' | 'voice' = 'text', attachment?: string) => {
+  const sendMessage = (text: string, receiverId: string, senderId: string, type: 'text' | 'image' | 'voice' = 'text', attachment?: string, replyTo?: string) => {
     const orderId = toValue(orderIdArg);
     const cleanSenderId = extractObjectId(senderId);
     const cleanReceiverId = extractObjectId(receiverId);
@@ -83,6 +90,7 @@ export const useOrderChat = (
       content: text,
       messageType: type,
       attachment,
+      replyTo,
       createdAt: new Date().toISOString(),
       status: 'pending'
     };
@@ -94,7 +102,8 @@ export const useOrderChat = (
       receiverId: cleanReceiverId,
       message: text,
       messageType: type,
-      attachment
+      attachment,
+      replyTo
     });
   };
 
@@ -163,7 +172,7 @@ export const useOrderChat = (
           const rId = String(message.receiverId || message.receiver?._id || message.receiver || '');
           const cIds = String(currentUserId).split(',').map(id => id.trim());
           const tIds = String(targetUserId).split(',').map(id => id.trim());
-          const isGeneric = !rId || rId === 'undefined';
+          const isGeneric = !rId || rId === 'undefined' || rId === '[object Object]';
           const isRelevant = isGeneric || (cIds.includes(sId) && tIds.includes(rId)) || (tIds.includes(sId) && cIds.includes(rId));
           
           console.log(`[Vendor useOrderChat] Relevance check: sId=${sId}, rId=${rId}, cIds=${cIds.join(',')}, tIds=${tIds.join(',')}, isGeneric=${isGeneric}, isRelevant=${isRelevant}`);

@@ -1,13 +1,19 @@
 <template>
-  <div class="mb-2 relative">
-    <div class="relative input-container">
+  <div class="mb-4">
+    <div v-if="label || description" class="mb-2">
       <label 
+        v-if="label"
         :for="inputId"
-        :class="[ 'absolute transition-all duration-300 ease-in-out pointer-events-none z-10', isFocused || modelValue ? 'text-sm text-gray-500 left-3 top-2' : `text-base text-gray-500 left-3 ${type === 'textarea' ? 'top-4' : 'top-1/2 transform -translate-y-1/2'}` ]"
+        class="block text-sm font-semibold text-gray-800 mb-0.5"
       >
         {{ label }}
       </label>
-      
+      <p v-if="description" class="text-[13px] text-gray-500">
+        {{ description }}
+      </p>
+    </div>
+    
+    <div class="relative">
       <textarea
         v-if="type === 'textarea'"
         :id="inputId"
@@ -16,7 +22,7 @@
         :disabled="disabled"
         :readonly="readonly"
         :rows="rows"
-        :class="[ 'w-full py-3 text-sm pt-4 px-4 bg-[#1A1A1B09] border-[0.5px] border-transparent focus:outline-none focus:ring-1 focus:ring-[#033958] focus:border-[#033958] transition-all duration-300 resize-none', roundedClasses, disabled ? 'opacity-50 cursor-not-allowed' : '', (hasError || (errorMessage && showError)) ? 'border-[0.5px] ring-red-500 border-red-500' : '' ]"
+        :class="[ 'w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all resize-none', disabled ? 'opacity-50 cursor-not-allowed bg-gray-50' : '', (hasError || (errorMessage && showError)) ? 'border-red-500 focus:ring-red-500' : '' ]"
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"
@@ -32,7 +38,7 @@
         :disabled="disabled"
         :readonly="readonly || type === 'date' || type === 'time' || type === 'datetime-local'"
         :autocomplete="autocomplete"
-        :class="[ 'w-full py-4 text-sm pt-7 px-4 bg-[#1A1A1B09] border-[0.5px] border-gray-50 focus:outline-none focus:ring-[0.5px] focus:ring-[#033958] focus:border-[#033958] transition-all duration-300', roundedClasses, disabled ? 'opacity-50 cursor-not-allowed' : '', (type === 'date' || type === 'time' || type === 'datetime-local') ? 'cursor-pointer' : '', (hasError || (errorMessage && showError)) ? 'border-[0.5px] ring-red-500 border-red-500' : '' ]"
+        :class="[ 'w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all', disabled ? 'opacity-50 cursor-not-allowed bg-gray-50' : '', (type === 'date' || type === 'time' || type === 'datetime-local') ? 'cursor-pointer' : '', (hasError || (errorMessage && showError)) ? 'border-red-500 focus:ring-red-500' : '' ]"
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"
@@ -58,7 +64,7 @@
     </div>
     
     <Transition name="slide-fade">
-      <p v-if="errorMessage && showError" class="text-sm text-red-500 mt-1 ml-3">
+      <p v-if="errorMessage && showError" class="text-sm text-red-500 mt-1.5">
         {{ errorMessage }}
       </p>
     </Transition>
@@ -467,6 +473,7 @@ interface Props {
   position?: 'top' | 'middle' | 'bottom' | 'standalone'
   hasError?: boolean
   rows?: number
+  description?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -480,7 +487,8 @@ const props = withDefaults(defineProps<Props>(), {
   showError: true,
   position: 'standalone',
   hasError: false,
-  rows: 4
+  rows: 4,
+  description: ''
 })
 
 const emit = defineEmits<{

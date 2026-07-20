@@ -1,12 +1,12 @@
 <template>
   <Teleport to="body">
-    <div class="fixed top-6 left-1/2 transform -translate-x-1/2 z-[9999] flex flex-col gap-3 max-w-[420px] w-full items-center px-4">
+    <div class="fixed top-6 right-6 z-[9999] flex flex-col gap-3 max-w-[420px] w-full items-end px-4 pointer-events-none">
       <TransitionGroup name="toast">
         <div
           v-for="toast in toasts"
           :key="toast.id"
           :class="[ 'toast-base', { 'border-l-4 border-l-rose-500': toast.type === 'error', 'border-l-4 border-l-emerald-500': toast.type === 'success', 'border-l-4 border-l-amber-500': toast.type === 'warning', 'border-l-4 border-l-blue-500': toast.type === 'info' } ]"
-          class="w-full rounded-md border border-gray-100 bg-white/95 backdrop-blur-xl p-4 flex items-start gap-3.5 cursor-pointer hover: transition-all duration-300"
+          class="w-full rounded-md border border-gray-100 bg-white/95 backdrop-blur-xl p-4 flex items-start gap-3.5 cursor-pointer hover: transition-all duration-300 pointer-events-auto"
           @click="removeToast(toast.id)"
         >
           <!-- Status Icon container -->
@@ -105,12 +105,12 @@ defineExpose({
 }
 
 .toast-enter-from {
-  transform: translateY(-40px) scale(0.95);
+  transform: translateX(100%);
   opacity: 0;
 }
 
 .toast-leave-to {
-  transform: translateY(-20px) scale(0.95);
+  transform: translateX(100%);
   opacity: 0;
 }
 

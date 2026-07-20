@@ -211,11 +211,7 @@ const handleFileUpload = async (event: Event) => {
   try {
     const formData = new FormData()
     formData.append('file', file)
-    const res = await api.post('/upload?resourceType=image', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
+    const res = await api.post('upload?resourceType=image', formData)
     
     if (!res.data || !res.data.url) throw new Error('Upload failed')
     form.value.image = res.data.url

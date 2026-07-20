@@ -83,7 +83,7 @@
 
     <!-- Right Area (Chat View) -->
     <div 
-      :class="[ 'flex-1 flex-col bg-[#F0F2F5] border-l border-[#E1E1E1]', !activeChat ? 'hidden md:flex' : 'flex' ]"
+      :class="[ 'flex-1 flex-col bg-[#F0F2F5] border-l border-[#E1E1E1] h-full min-h-0 relative overflow-hidden', !activeChat ? 'hidden md:flex' : 'flex' ]"
     >
       <div v-if="!activeChat" class="flex-1 flex flex-col items-center justify-center text-center p-8 bg-[#F0F2F5]">
         <div class="w-80 h-80 mb-8 opacity-20 mx-auto">
@@ -108,7 +108,7 @@
         :key="activeChat.id"
         :is-open="true"
         :order-id="activeChat.order._id"
-        :current-user-id="user?.id || user?._id"
+        :current-user-id="(activeChat.order.vendor?._id || activeChat.order.vendor || '') + ',' + (user?.id || user?._id)"
         :receiver-id="activeChat.receiverId"
         :receiver-name="activeChat.receiverName"
         :receiver-avatar="activeChat.avatar"
@@ -223,11 +223,12 @@ const selectChat = (chat: any) => {
 }
 
 const getInitials = (name: string) => {
-  if (!name) return 'U'
-  const parts = name.split(' ')
-  const f = parts[0]?.[0] || ''
-  const l = parts.length > 1 ? parts[1]?.[0] : ''
-  return (f + l).toUpperCase()
+  if (!name || name === 'undefined') return 'U'
+  const cleanName = String(name).trim().replace(/\s+/g, ' ')
+  const parts = cleanName.split(' ')
+  const f = (parts[0] || '').charAt(0)
+  const l = parts.length > 1 ? (parts[1] || '').charAt(0) : ''
+  return (f + l).toUpperCase() || 'U'
 }
 
 const formatTime = (dateStr: string) => {
