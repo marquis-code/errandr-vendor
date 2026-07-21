@@ -430,6 +430,13 @@ watch(() => props.isOpen, (isOpen) => {
       p.modifiers.splice(packModIdx, 1);
     }
     
+    // Normalize category mapping for editing
+    if (p.categoryId && typeof p.categoryId === 'object') {
+      p.category = p.categoryId.name;
+    } else if (p.category && typeof p.category === 'object') {
+      p.category = p.category.name;
+    }
+    
     Object.assign(form, { ...defaultForm(), ...p, hasPackFee, packOptions });
     allImages.value = p.images?.length ? [...p.images] : (p.image ? [p.image] : []);
     allVideos.value = p.videos?.length ? [...p.videos] : [];

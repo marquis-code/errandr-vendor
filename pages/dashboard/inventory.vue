@@ -129,7 +129,7 @@
       </div>
       <div class="inv-tbl-product__info">
        <p class="inv-tbl-product__name">{{ (item as any).name }}</p>
-       <p class="inv-tbl-product__cat">{{ (item as any).category?.name || (item as any).category || 'Uncategorized' }}</p>
+       <p class="inv-tbl-product__cat">{{ (item as any).category?.name || (item as any).categoryId?.name || (item as any).category || 'Uncategorized' }}</p>
       </div>
      </div>
     </template>
@@ -339,14 +339,14 @@ const filteredProducts = computed(() => {
  let list = products.value;
  if (activeCategory.value !== 'all') {
   list = list.filter((p: any) => {
-   const catName = p.category?.name || p.category;
+   const catName = p.category?.name || p.categoryId?.name || p.category;
    return catName === activeCategory.value;
   });
  }
  if (searchQuery.value) {
   const q = searchQuery.value.toLowerCase();
   list = list.filter((p: any) => {
-   const catName = p.category?.name || p.category;
+   const catName = p.category?.name || p.categoryId?.name || p.category;
    return (
     p.name?.toLowerCase().includes(q) ||
     p.description?.toLowerCase().includes(q) ||
