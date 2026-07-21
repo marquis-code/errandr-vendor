@@ -86,7 +86,7 @@
               <input 
                 v-model.number="selectedItems[product._id].price"
                 type="number"
-                class="w-16 bg-transparent text-gray-900 text-sm outline-none text-right font-medium"
+                class="w-16 bg-transparent text-gray-900 text-base outline-none text-right font-medium"
                 placeholder="0"
               />
             </div>

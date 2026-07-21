@@ -326,9 +326,9 @@
                   </div>
                   
                   <div class="flex items-center gap-3 transition-opacity duration-300" :class="bh.isClosed ? 'opacity-30 pointer-events-none' : 'opacity-100'">
-                    <input type="time" v-model="bh.open" :disabled="bh.isClosed" class="text-sm font-bold px-4 py-2.5 bg-gray-50 rounded-xl border-transparent focus:bg-white focus:border-gray-200 focus:ring-0 outline-none w-32" />
+                    <input type="time" v-model="bh.open" :disabled="bh.isClosed" class="text-base font-bold px-4 py-2.5 bg-gray-50 rounded-xl border-transparent focus:bg-white focus:border-gray-200 focus:ring-0 outline-none w-32" />
                     <span class="text-gray-400 font-bold text-sm">to</span>
-                    <input type="time" v-model="bh.close" :disabled="bh.isClosed" class="text-sm font-bold px-4 py-2.5 bg-gray-50 rounded-xl border-transparent focus:bg-white focus:border-gray-200 focus:ring-0 outline-none w-32" />
+                    <input type="time" v-model="bh.close" :disabled="bh.isClosed" class="text-base font-bold px-4 py-2.5 bg-gray-50 rounded-xl border-transparent focus:bg-white focus:border-gray-200 focus:ring-0 outline-none w-32" />
                   </div>
                 </div>
               </div>
@@ -352,11 +352,11 @@
               <div v-if="profile.breakPeriod.enabled" class="grid grid-cols-2 gap-4 pt-2">
                 <div class="space-y-2">
                   <label class="text-xs font-bold text-orange-600 uppercase tracking-wider pl-1">Start Break</label>
-                  <input type="time" v-model="profile.breakPeriod.start" class="w-full px-4 py-3 bg-white rounded-xl border-transparent shadow-sm focus:ring-2 focus:ring-orange-500/20 font-bold text-sm outline-none" />
+                  <input type="time" v-model="profile.breakPeriod.start" class="w-full px-4 py-3 bg-white rounded-xl border-transparent shadow-sm focus:ring-2 focus:ring-orange-500/20 font-bold text-base outline-none" />
                 </div>
                 <div class="space-y-2">
                   <label class="text-xs font-bold text-orange-600 uppercase tracking-wider pl-1">End Break</label>
-                  <input type="time" v-model="profile.breakPeriod.end" class="w-full px-4 py-3 bg-white rounded-xl border-transparent shadow-sm focus:ring-2 focus:ring-orange-500/20 font-bold text-sm outline-none" />
+                  <input type="time" v-model="profile.breakPeriod.end" class="w-full px-4 py-3 bg-white rounded-xl border-transparent shadow-sm focus:ring-2 focus:ring-orange-500/20 font-bold text-base outline-none" />
                 </div>
               </div>
             </div>

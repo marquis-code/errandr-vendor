@@ -45,7 +45,7 @@
  ref="searchInputRef"
  v-model="searchQuery"
  type="text"
- class="w-full pl-10 pr-4 py-2.5 bg-gray-50/50 border-none rounded-md outline-none text-sm font-medium text-gray-900 placeholder-gray-300"
+ class="w-full pl-10 pr-4 py-2.5 bg-gray-50/50 border-none rounded-md outline-none text-base font-medium text-gray-900 placeholder-gray-300"
  placeholder="Search options..."
  @click.stop
  />

@@ -35,7 +35,7 @@
                 v-model="form.name" 
                 type="text" 
                 placeholder="e.g. Main Dishes, Soups" 
-                class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all"
+                class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all"
               />
             </div>
 
@@ -45,7 +45,7 @@
                 v-model="form.description" 
                 type="text" 
                 placeholder="Enter a description" 
-                class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all"
+                class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all"
               />
             </div>
 

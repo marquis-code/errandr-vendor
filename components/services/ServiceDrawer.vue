@@ -39,7 +39,7 @@
             <div class="grid gap-4">
               <div>
                 <label class="block text-xs font-bold text-gray-700 mb-1.5">Service Name</label>
-                <input v-model="form.name" type="text" placeholder="e.g. Classic European Massage" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-md focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all" />
+                <input v-model="form.name" type="text" placeholder="e.g. Classic European Massage" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-base rounded-md focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all" />
               </div>
               <div>
                 <SelectInput 
@@ -52,17 +52,17 @@
               </div>
               <div>
                 <label class="block text-xs font-bold text-gray-700 mb-1.5">Description</label>
-                <textarea v-model="form.description" rows="3" placeholder="Briefly describe what this service includes..." class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-md focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all"></textarea>
+                <textarea v-model="form.description" rows="3" placeholder="Briefly describe what this service includes..." class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-base rounded-md focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all"></textarea>
               </div>
               
               <div class="grid grid-cols-2 gap-4">
                 <div>
                   <label class="block text-xs font-bold text-gray-700 mb-1.5">Base Price (₦)</label>
-                  <input v-model.number="form.price" type="number" placeholder="30000" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-md focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all" />
+                  <input v-model.number="form.price" type="number" placeholder="30000" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-base rounded-md focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all" />
                 </div>
                 <div>
                   <label class="block text-xs font-bold text-gray-700 mb-1.5">Base Duration (Mins)</label>
-                  <input v-model.number="form.durationInMinutes" type="number" placeholder="60" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-md focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all" />
+                  <input v-model.number="form.durationInMinutes" type="number" placeholder="60" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-base rounded-md focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all" />
                 </div>
               </div>
             </div>
@@ -83,16 +83,16 @@
               
               <div>
                 <label class="block text-xs font-bold text-gray-700 mb-1">Variant Name</label>
-                <input v-model="v.name" type="text" placeholder="e.g. A little longer" class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg p-2 outline-none" />
+                <input v-model="v.name" type="text" placeholder="e.g. A little longer" class="w-full bg-white border border-gray-200 text-gray-900 text-base rounded-lg p-2 outline-none" />
               </div>
               <div class="grid grid-cols-2 gap-3">
                 <div>
                   <label class="block text-xs font-bold text-gray-700 mb-1">Price (₦)</label>
-                  <input v-model.number="v.price" type="number" class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg p-2 outline-none" />
+                  <input v-model.number="v.price" type="number" class="w-full bg-white border border-gray-200 text-gray-900 text-base rounded-lg p-2 outline-none" />
                 </div>
                 <div>
                   <label class="block text-xs font-bold text-gray-700 mb-1">Duration (Mins)</label>
-                  <input v-model.number="v.durationInMinutes" type="number" class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg p-2 outline-none" />
+                  <input v-model.number="v.durationInMinutes" type="number" class="w-full bg-white border border-gray-200 text-gray-900 text-base rounded-lg p-2 outline-none" />
                 </div>
               </div>
             </div>
@@ -113,16 +113,16 @@
               
               <div>
                 <label class="block text-xs font-bold text-gray-700 mb-1">Extra Name</label>
-                <input v-model="ext.name" type="text" placeholder="e.g. Pedicure" class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg p-2 outline-none" />
+                <input v-model="ext.name" type="text" placeholder="e.g. Pedicure" class="w-full bg-white border border-gray-200 text-gray-900 text-base rounded-lg p-2 outline-none" />
               </div>
               <div class="grid grid-cols-2 gap-3">
                 <div>
                   <label class="block text-xs font-bold text-gray-700 mb-1">Extra Price (₦)</label>
-                  <input v-model.number="ext.price" type="number" class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg p-2 outline-none" />
+                  <input v-model.number="ext.price" type="number" class="w-full bg-white border border-gray-200 text-gray-900 text-base rounded-lg p-2 outline-none" />
                 </div>
                 <div>
                   <label class="block text-xs font-bold text-gray-700 mb-1">Added Duration (Mins)</label>
-                  <input v-model.number="ext.durationInMinutes" type="number" class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg p-2 outline-none" />
+                  <input v-model.number="ext.durationInMinutes" type="number" class="w-full bg-white border border-gray-200 text-gray-900 text-base rounded-lg p-2 outline-none" />
                 </div>
               </div>
             </div>

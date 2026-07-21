@@ -19,7 +19,7 @@
  v-model="searchQuery"
  type="text" 
  placeholder="Find order or customer..." 
- class="w-full pl-11 pr-4 py-3 bg-white border border-gray-50 rounded-md text-sm font-medium placeholder:text-gray-300 focus:ring-4 focus:ring-[#FF5C1A]/5 focus:border-[#FF5C1A]/30 outline-none transition-all"
+ class="w-full pl-11 pr-4 py-3 bg-white border border-gray-50 rounded-md text-base font-medium placeholder:text-gray-300 focus:ring-4 focus:ring-[#FF5C1A]/5 focus:border-[#FF5C1A]/30 outline-none transition-all"
  />
  </div>
  </div>

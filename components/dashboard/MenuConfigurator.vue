@@ -9,7 +9,7 @@
           <input 
             v-model="group.name" 
             :placeholder="type === 'modifier' ? 'e.g. Choose Protein' : 'e.g. Extra Toppings'" 
-            class="text-sm font-bold w-full bg-transparent border-b border-gray-200 focus:border-gray-900 outline-none py-1.5 placeholder:text-gray-400 transition-colors"
+            class="text-base font-bold w-full bg-transparent border-b border-gray-200 focus:border-gray-900 outline-none py-1.5 placeholder:text-gray-400 transition-colors"
           />
           <div class="flex gap-4 text-xs font-medium text-gray-500">
             <label class="flex items-center gap-1.5">
@@ -33,7 +33,7 @@
           <input 
             v-model="item.name" 
             :placeholder="type === 'modifier' ? 'e.g. Chicken' : 'e.g. Extra Sauce'" 
-            class="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm outline-none focus:ring-1 focus:ring-gray-900 focus:border-gray-900 transition-all"
+            class="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-base outline-none focus:ring-1 focus:ring-gray-900 focus:border-gray-900 transition-all"
           />
           <div class="relative">
             <span class="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs font-bold text-gray-400">₦</span>
@@ -41,7 +41,7 @@
               v-model.number="item.price" 
               type="number" 
               placeholder="0" 
-              class="w-24 pl-7 pr-2 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm outline-none focus:ring-1 focus:ring-gray-900 focus:border-gray-900 transition-all"
+              class="w-24 pl-7 pr-2 py-2 bg-gray-50 border border-gray-200 rounded-lg text-base outline-none focus:ring-1 focus:ring-gray-900 focus:border-gray-900 transition-all"
             />
           </div>
           <button type="button" @click="removeItem(groupIndex, itemIndex)" class="text-gray-300 hover:text-red-500 p-1 transition-colors">

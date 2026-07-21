@@ -141,17 +141,17 @@
           <div class="space-y-6 pt-4">
             <div class="space-y-1.5">
               <label class="text-sm font-medium text-gray-400 ml-1">Batch Name</label>
-              <input v-model="newBatch.windowName" placeholder="e.g. Next Saturday Cake Batch" class="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-md text-sm font-medium focus:ring-4 focus:ring-parentPrimary/10 outline-none transition-all" />
+              <input v-model="newBatch.windowName" placeholder="e.g. Next Saturday Cake Batch" class="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-md text-base font-medium focus:ring-4 focus:ring-parentPrimary/10 outline-none transition-all" />
             </div>
 
             <div class="grid grid-cols-2 gap-6">
               <div class="space-y-1.5">
                 <label class="text-sm font-medium text-gray-400 ml-1">Deadline</label>
-                <input v-model="newBatch.deadline" type="datetime-local" class="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-md text-sm font-medium focus:ring-4 focus:ring-parentPrimary/10 outline-none transition-all" />
+                <input v-model="newBatch.deadline" type="datetime-local" class="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-md text-base font-medium focus:ring-4 focus:ring-parentPrimary/10 outline-none transition-all" />
               </div>
               <div class="space-y-1.5">
                 <label class="text-sm font-medium text-gray-400 ml-1">Delivery Date</label>
-                <input v-model="newBatch.deliveryDate" type="date" class="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-md text-sm font-medium focus:ring-4 focus:ring-parentPrimary/10 outline-none transition-all" />
+                <input v-model="newBatch.deliveryDate" type="date" class="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-md text-base font-medium focus:ring-4 focus:ring-parentPrimary/10 outline-none transition-all" />
               </div>
             </div>
 

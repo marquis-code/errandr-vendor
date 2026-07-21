@@ -147,7 +147,7 @@
                       :disabled="useStoreNameAsUrl"
                       type="text" 
                       placeholder="your-store-name"
-                      class="flex-1 px-3 py-3 text-sm font-bold text-gray-900 bg-transparent outline-none placeholder:text-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
+                      class="flex-1 px-3 py-3 text-base font-bold text-gray-900 bg-transparent outline-none placeholder:text-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
                       @input="valErrors.subdomain = ''; vendor.subdomain = vendor.subdomain.toLowerCase().replace(/[^a-z0-9-]/g, ''); debouncedCheckSubdomain()"
                     />
                     <div class="pr-4 py-3 bg-gray-50/80 border-l border-gray-100 shrink-0">
@@ -296,7 +296,7 @@
                       @keydown.enter.prevent="handleCategoryEnter"
                       type="text" 
                       :placeholder="selectedCategories.length === 0 ? 'Search or type a custom category...' : 'Add more...'"
-                      class="flex-1 min-w-[120px] text-sm font-medium text-gray-900 bg-transparent outline-none placeholder:text-gray-300"
+                      class="flex-1 min-w-[120px] text-base font-medium text-gray-900 bg-transparent outline-none placeholder:text-gray-300"
                       @click.stop
                     />
                     <div class="shrink-0 text-gray-300">
@@ -436,7 +436,7 @@
                     <label class="text-xs font-bold text-gray-700 tracking-wide uppercase">Select Institution <span class="text-[#FF5C1A]">*</span></label>
                     <select 
                       v-model="vendor.university" 
-                      class="w-full px-3 py-3 bg-gray-50 border border-gray-200 rounded-md text-sm outline-none focus:border-[#FF5C1A] focus:bg-white transition-all text-gray-900"
+                      class="w-full px-3 py-3 bg-gray-50 border border-gray-200 rounded-md text-base outline-none focus:border-[#FF5C1A] focus:bg-white transition-all text-gray-900"
                       required
                     >
                       <option value="" disabled selected>Select your institution</option>
@@ -449,7 +449,7 @@
                       v-model="vendor.matricNumber" 
                       type="text" 
                       placeholder="e.g. 1902040..."
-                      class="w-full px-3 py-3 bg-gray-50 border border-gray-200 rounded-md text-sm outline-none focus:border-[#FF5C1A] focus:bg-white transition-all text-gray-900"
+                      class="w-full px-3 py-3 bg-gray-50 border border-gray-200 rounded-md text-base outline-none focus:border-[#FF5C1A] focus:bg-white transition-all text-gray-900"
                     />
                   </div>
                 </div>

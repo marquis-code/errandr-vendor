@@ -112,7 +112,7 @@
      <div v-if="form.trackStock" class="space-y-4">
       <div>
        <label class="text-sm font-semibold text-gray-800 block mb-1.5">In stock ({{ requiresPrepTime || requiresTakeawayPack ? 'Portions' : 'Units' }})</label>
-       <input type="number" v-model.number="form.stockQuantity" placeholder="e.g. 50" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
+       <input type="number" v-model.number="form.stockQuantity" placeholder="e.g. 50" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
       </div>
      </div>
     </Transition>
@@ -126,11 +126,11 @@
    <div class="grid grid-cols-2 gap-4">
     <div>
      <label class="text-sm font-semibold text-gray-800 block mb-1.5">{{ requiresPrepTime || requiresTakeawayPack ? 'Price Per Portion (₦)' : 'Price (₦)' }}</label>
-     <input type="number" v-model.number="form.pricePerPortion" placeholder="e.g. 2500" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" required />
+     <input type="number" v-model.number="form.pricePerPortion" placeholder="e.g. 2500" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" required />
     </div>
     <div>
      <label class="text-sm font-semibold text-gray-800 block mb-1.5">{{ requiresPrepTime || requiresTakeawayPack ? 'Portion Unit' : 'Unit' }}</label>
-     <select v-model="form.portionUnit" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all">
+     <select v-model="form.portionUnit" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all">
       <option value="plate" v-if="requiresTakeawayPack || requiresPrepTime">Plate</option>
       <option value="wrap" v-if="requiresTakeawayPack || requiresPrepTime">Wrap</option>
       <option value="piece">Piece</option>
@@ -145,11 +145,11 @@
    <div class="grid grid-cols-2 gap-4">
     <div>
      <label class="text-sm font-semibold text-gray-800 block mb-1.5">{{ requiresPrepTime || requiresTakeawayPack ? 'Max Portions per Order' : 'Max Quantity per Order' }}</label>
-     <input type="number" v-model.number="form.maxPortionsPerOrder" placeholder="0 for unlimited" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
+     <input type="number" v-model.number="form.maxPortionsPerOrder" placeholder="0 for unlimited" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
     </div>
     <div v-if="requiresPrepTime">
      <label class="text-sm font-semibold text-gray-800 block mb-1.5">Prep Time (mins)</label>
-     <input type="number" v-model.number="form.prepTimeMinutes" placeholder="e.g. 20" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
+     <input type="number" v-model.number="form.prepTimeMinutes" placeholder="e.g. 20" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
     </div>
    </div>
   </section>
@@ -176,8 +176,8 @@
 
       <div v-if="form.hasPackFee" class="pt-3 border-t border-gray-200 space-y-3">
         <div v-for="(opt, oIdx) in form.packOptions" :key="oIdx" class="flex items-center gap-2">
-          <input type="text" v-model="opt.name" placeholder="Pack Name (e.g. Small Pack)" class="flex-1 px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-900" />
-          <input type="number" v-model.number="opt.price" placeholder="Price (+₦)" class="w-24 px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-900" />
+          <input type="text" v-model="opt.name" placeholder="Pack Name (e.g. Small Pack)" class="flex-1 px-3 py-2 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:border-gray-900" />
+          <input type="number" v-model.number="opt.price" placeholder="Price (+₦)" class="w-24 px-3 py-2 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:border-gray-900" />
           <button type="button" @click="removePackOption(oIdx)" class="p-2 text-gray-400 hover:text-red-500 rounded-lg"><Trash2 class="w-4 h-4" /></button>
         </div>
         <button type="button" @click="addPackOption" class="text-sm font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1">
@@ -203,7 +203,7 @@
     
     <div v-for="(mod, mIdx) in form.modifiers" :key="mIdx" class="p-4 bg-gray-50 border border-gray-200 rounded-xl space-y-3">
       <div class="flex items-center gap-2">
-        <input type="text" v-model="mod.name" :placeholder="requiresPrepTime || requiresTakeawayPack ? 'Option Name (e.g. Pack Size)' : 'Option Name (e.g. Storage Capacity)'" class="flex-1 px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-900" />
+        <input type="text" v-model="mod.name" :placeholder="requiresPrepTime || requiresTakeawayPack ? 'Option Name (e.g. Pack Size)' : 'Option Name (e.g. Storage Capacity)'" class="flex-1 px-3 py-2 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:border-gray-900" />
         <label class="flex items-center gap-1.5 text-xs font-semibold text-gray-700 whitespace-nowrap">
           <input type="checkbox" v-model="mod.isRequired" class="rounded text-gray-900 focus:ring-gray-900" /> Required
         </label>
@@ -212,8 +212,8 @@
       
       <div class="pl-4 border-l-2 border-gray-200 space-y-2">
         <div v-for="(opt, oIdx) in mod.options" :key="oIdx" class="flex items-center gap-2">
-          <input type="text" v-model="opt.name" :placeholder="requiresPrepTime || requiresTakeawayPack ? 'Choice (e.g. Big Pack)' : 'Choice (e.g. 512GB)'" class="flex-1 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs focus:outline-none focus:border-gray-900" />
-          <input type="number" v-model.number="opt.priceDelta" placeholder="Price (+₦)" class="w-24 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs focus:outline-none focus:border-gray-900" />
+          <input type="text" v-model="opt.name" :placeholder="requiresPrepTime || requiresTakeawayPack ? 'Choice (e.g. Big Pack)' : 'Choice (e.g. 512GB)'" class="flex-1 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:border-gray-900" />
+          <input type="number" v-model.number="opt.priceDelta" placeholder="Price (+₦)" class="w-24 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:border-gray-900" />
           <button type="button" @click="removeModifierOption(mIdx, oIdx)" class="p-1.5 text-gray-400 hover:text-red-500"><X class="w-3 h-3" /></button>
         </div>
         <button type="button" @click="addModifierOption(mIdx)" class="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1 mt-1">

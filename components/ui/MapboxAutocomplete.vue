@@ -12,7 +12,7 @@
         @focus="isOpen = true"
         :placeholder="placeholder"
         :required="required"
-        class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border-2 border-transparent focus:border-parentPrimary/20 rounded-2xl text-sm font-bold text-gray-900 outline-none transition-all placeholder:text-gray-300"
+        class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border-2 border-transparent focus:border-parentPrimary/20 rounded-2xl text-base font-bold text-gray-900 outline-none transition-all placeholder:text-gray-300"
       />
       <div v-if="loading" class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
         <Loader2 class="h-4 w-4 text-parentPrimary animate-spin" />

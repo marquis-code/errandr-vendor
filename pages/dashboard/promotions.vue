@@ -125,7 +125,7 @@
         <!-- Product Link -->
         <div>
           <label class="block text-sm font-bold text-gray-700 mb-2">Related Product (Optional)</label>
-          <select v-model="form.productId" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-md text-sm font-medium focus:outline-none focus:border-parentPrimary focus:ring-1 focus:ring-parentPrimary transition-colors appearance-none">
+          <select v-model="form.productId" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-md text-base font-medium focus:outline-none focus:border-parentPrimary focus:ring-1 focus:ring-parentPrimary transition-colors appearance-none">
             <option value="">No specific product (General Store Promo)</option>
             <option v-for="p in products" :key="p._id" :value="p._id">
               {{ p.name }} - ₦{{ p.price }}

@@ -198,7 +198,7 @@
   />
   <div class="mt-4">
     <label class="block text-sm font-medium text-gray-700 mb-1">Select Bank Account</label>
-    <select v-model="selectedBankAccount" class="w-full bg-gray-50 border border-gray-200 rounded-md py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+    <select v-model="selectedBankAccount" class="w-full bg-gray-50 border border-gray-200 rounded-md py-3 px-4 text-base focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
       <option value="" disabled>Select an account</option>
       <option v-for="(acc, idx) in availableBankAccounts" :key="idx" :value="acc">
         {{ acc.bankName }} - {{ maskAccountNumber(acc.accountNumber) }} ({{ acc.purpose || 'Default' }})

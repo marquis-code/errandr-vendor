@@ -4,7 +4,7 @@
       <section class="space-y-4">
         <div>
           <label class="text-sm font-semibold text-gray-800 block mb-1.5">Group Name</label>
-          <input type="text" v-model="form.name" placeholder="e.g. Extra Protein" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" required />
+          <input type="text" v-model="form.name" placeholder="e.g. Extra Protein" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" required />
         </div>
       </section>
 
@@ -42,11 +42,11 @@
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="text-sm font-semibold text-gray-800 block mb-1.5">Min Select</label>
-            <input type="number" v-model.number="form.minSelect" placeholder="0 = optional" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
+            <input type="number" v-model.number="form.minSelect" placeholder="0 = optional" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
           </div>
           <div>
             <label class="text-sm font-semibold text-gray-800 block mb-1.5">Max Select</label>
-            <input type="number" v-model.number="form.maxSelect" placeholder="No limit" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
+            <input type="number" v-model.number="form.maxSelect" placeholder="No limit" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
           </div>
         </div>
       </section>
@@ -65,10 +65,10 @@
         
         <div class="space-y-3">
           <div v-for="(opt, idx) in form.options" :key="idx" class="flex gap-2 items-center bg-gray-50 p-3 rounded-xl">
-            <input type="text" v-model="opt.name" placeholder="e.g. Extra Chicken" class="flex-1 px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900" />
+            <input type="text" v-model="opt.name" placeholder="e.g. Extra Chicken" class="flex-1 px-3 py-2 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900" />
             <div class="flex items-center gap-1 bg-white border border-gray-200 rounded-lg px-2">
               <span class="text-gray-500 text-sm">₦</span>
-              <input type="number" v-model.number="opt.price" placeholder="0" class="w-20 px-1 py-2 text-sm focus:outline-none" />
+              <input type="number" v-model.number="opt.price" placeholder="0" class="w-20 px-1 py-2 text-base focus:outline-none" />
             </div>
             <!-- Availability toggle -->
             <label class="relative inline-flex items-center cursor-pointer shrink-0" :title="opt.isAvailable ? 'Available' : 'Unavailable'">

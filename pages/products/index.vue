@@ -8,7 +8,7 @@
  v-model="searchQuery"
  type="text" 
  placeholder="Search items by name, category, or description" 
- class="w-full pl-11 pr-14 py-2.5 bg-gray-50/70 hover:bg-gray-100 transition-colors border-none rounded-md text-sm font-medium focus:outline-none focus:bg-white focus:ring-2 focus:ring-parentPrimary/20"
+ class="w-full pl-11 pr-14 py-2.5 bg-gray-50/70 hover:bg-gray-100 transition-colors border-none rounded-md text-base font-medium focus:outline-none focus:bg-white focus:ring-2 focus:ring-parentPrimary/20"
  />
  <div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
  <kbd class="px-1.5 py-0.5 text-sm font-bold bg-white text-gray-400 rounded-md border border-gray-200">⌘</kbd>

@@ -6,11 +6,11 @@
       <section class="space-y-5">
         <div>
           <label class="text-sm font-semibold text-gray-800 block mb-1.5">Pack Name</label>
-          <input type="text" v-model="form.name" placeholder="e.g. Student Special" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" required />
+          <input type="text" v-model="form.name" placeholder="e.g. Student Special" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" required />
         </div>
         <div>
           <label class="text-sm font-semibold text-gray-800 block mb-1.5">Description</label>
-          <textarea v-model="form.description" placeholder="e.g. 2 plates Fried Rice + Zobo — bundle discount" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all resize-none h-20"></textarea>
+          <textarea v-model="form.description" placeholder="e.g. 2 plates Fried Rice + Zobo — bundle discount" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all resize-none h-20"></textarea>
         </div>
 
         <!-- Category -->
@@ -24,7 +24,7 @@
               <Plus class="w-4 h-4" /> Create
             </button>
           </div>
-          <select v-model="form.categoryId" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all">
+          <select v-model="form.categoryId" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all">
             <option value="">Select a category</option>
             <option v-for="cat in categories" :key="cat._id" :value="cat._id">{{ cat.name }}</option>
           </select>
@@ -63,7 +63,7 @@
         <div>
           <label class="text-sm font-semibold text-gray-800 block mb-1.5">Fixed Bundle Price (₦)</label>
           <p class="text-xs text-gray-500 mb-2">This is the total price customers pay — NOT the sum of individual items.</p>
-          <input type="number" v-model.number="form.bundlePrice" placeholder="e.g. 5200" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
+          <input type="number" v-model.number="form.bundlePrice" placeholder="e.g. 5200" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
         </div>
         
         <div class="flex items-center justify-between py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
@@ -91,13 +91,13 @@
         
         <div class="space-y-3">
           <div v-for="(comp, idx) in form.components" :key="idx" class="flex gap-2 items-center bg-gray-50 p-3 rounded-xl">
-            <select v-model="comp.itemId" class="flex-1 px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900">
+            <select v-model="comp.itemId" class="flex-1 px-3 py-2 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900">
               <option disabled value="">Select an Item</option>
               <option v-for="prod in products" :key="prod._id" :value="prod._id">{{ prod.name }} (₦{{ prod.pricePerPortion || prod.price }})</option>
             </select>
             <div class="flex items-center gap-1 bg-white border border-gray-200 rounded-lg px-2">
               <span class="text-gray-500 text-xs">Portions</span>
-              <input type="number" v-model.number="comp.portions" min="1" placeholder="1" class="w-14 px-1 py-2 text-sm focus:outline-none" />
+              <input type="number" v-model.number="comp.portions" min="1" placeholder="1" class="w-14 px-1 py-2 text-base focus:outline-none" />
             </div>
             <button type="button" @click="removeComponent(idx)" class="p-2 text-gray-400 hover:text-red-500 transition-colors">
               <X class="w-4 h-4" />
