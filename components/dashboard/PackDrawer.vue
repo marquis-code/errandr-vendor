@@ -150,6 +150,7 @@ import { Plus, Trash2, X, ImageIcon } from 'lucide-vue-next';
 import Modal from '@/components/ui/Modal.vue';
 import { useVendorPacks } from '@/composables/modules/products';
 import { vendors_api } from '@/api_factory/modules/vendors';
+import { useCustomToast } from '@/composables/core/useCustomToast';
 
 const props = defineProps<{
   isOpen: boolean;
@@ -161,6 +162,7 @@ const props = defineProps<{
 
 const emit = defineEmits(['close', 'save', 'createCategory']);
 const { createPack, updatePack } = useVendorPacks();
+const { showToast } = useCustomToast();
 
 const uploadingImage = ref(false);
 const imageRef = ref<HTMLInputElement | null>(null);
@@ -244,7 +246,7 @@ const handleImageUpload = async (e: Event) => {
 
 const handleSubmit = async () => {
   if (!form.name || form.components.length === 0) {
-    alert("Please provide a pack name and at least one item.");
+    showToast({ title: 'Error', message: 'Please provide a pack name and at least one item.', toastType: 'error' });
     return;
   }
   

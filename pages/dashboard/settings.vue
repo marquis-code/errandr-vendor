@@ -199,8 +199,63 @@
               <AnimatedInput v-model="profile.operatingHours.close" type="time" label="Closes At" description="e.g. 09:00 PM" />
             </div>
 
-            <!-- Only show Prep Time & Min Order if Food or Service Provider -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" v-if="isFoodVendor || isServiceProvider">
+            <!-- Capability Flags (Chowdeck Model vs Retail) -->
+            <div class="space-y-3 pt-6 border-t border-gray-50">
+              <div 
+                class="rounded-md border transition-all duration-300"
+                :class="profile.requiresPrepTime ? 'bg-[#FF5C1A]/5 border-[#FF5C1A]/30' : 'bg-gray-50/80 border-gray-100 hover:border-gray-200'"
+              >
+                <div 
+                  @click="profile.requiresPrepTime = !profile.requiresPrepTime"
+                  class="flex items-center gap-3 p-4 cursor-pointer"
+                >
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-1.5">
+                      <p class="text-sm font-bold text-gray-800">Requires Prep Time per item</p>
+                    </div>
+                    <p class="text-[12px] text-gray-500 font-medium mt-0.5">Turn on if items take time to make/prepare to order</p>
+                  </div>
+                  <div 
+                    class="w-11 h-6 rounded-full p-0.5 transition-all duration-300 shrink-0"
+                    :class="profile.requiresPrepTime ? 'bg-[#FF5C1A]' : 'bg-gray-200'"
+                  >
+                    <div 
+                      class="w-5 h-5 bg-white rounded-full transition-all duration-300 shadow-sm"
+                      :class="profile.requiresPrepTime ? 'translate-x-5' : 'translate-x-0'"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+
+              <div 
+                class="rounded-md border transition-all duration-300"
+                :class="profile.requiresTakeawayPack ? 'bg-[#FF5C1A]/5 border-[#FF5C1A]/30' : 'bg-gray-50/80 border-gray-100 hover:border-gray-200'"
+              >
+                <div 
+                  @click="profile.requiresTakeawayPack = !profile.requiresTakeawayPack"
+                  class="flex items-center gap-3 p-4 cursor-pointer"
+                >
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-1.5">
+                      <p class="text-sm font-bold text-gray-800">Requires Takeaway Packs</p>
+                    </div>
+                    <p class="text-[12px] text-gray-500 font-medium mt-0.5">Turn on if you charge for extra packaging</p>
+                  </div>
+                  <div 
+                    class="w-11 h-6 rounded-full p-0.5 transition-all duration-300 shrink-0"
+                    :class="profile.requiresTakeawayPack ? 'bg-[#FF5C1A]' : 'bg-gray-200'"
+                  >
+                    <div 
+                      class="w-5 h-5 bg-white rounded-full transition-all duration-300 shadow-sm"
+                      :class="profile.requiresTakeawayPack ? 'translate-x-5' : 'translate-x-0'"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Only show Prep Time if it requires prep time (or Service Provider) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" v-if="profile.requiresPrepTime || isServiceProvider">
               <AnimatedInput v-model.number="profile.preparationTime" type="number" :label="isServiceProvider ? 'Buffer Time (min)' : 'Prep Window (min)'" :description="isServiceProvider ? 'Time between appointments' : 'Avg. time to cook'" />
               <AnimatedInput v-if="!isServiceProvider" v-model.number="profile.minimumOrder" type="number" label="Min. Order (₦)" description="Optional threshold" />
             </div>
@@ -210,10 +265,10 @@
               <div class="flex items-center justify-between">
                 <div>
                   <h4 class="text-sm font-bold text-gray-900">Packaging Options</h4>
-                  <p class="text-xs text-gray-500 mt-0.5">{{ isFoodVendor ? 'Manage container and pack pricing for food.' : 'Set your flat packaging or wrapping fee.' }}</p>
+                  <p class="text-xs text-gray-500 mt-0.5">{{ profile.requiresTakeawayPack ? 'Manage container and pack pricing for food.' : 'Set your flat packaging or wrapping fee.' }}</p>
                 </div>
                 <button 
-                  v-if="isFoodVendor"
+                  v-if="profile.requiresTakeawayPack"
                   @click="addPack" 
                   class="p-2 bg-gray-50 text-gray-600 rounded-full hover:bg-gray-100 transition-all border border-gray-200"
                 >
@@ -222,7 +277,7 @@
               </div>
 
               <!-- Fashion / Retail View (Single Flat Fee) -->
-              <div v-if="!isFoodVendor">
+              <div v-if="!profile.requiresTakeawayPack">
                 <AnimatedInput 
                   v-if="profile.packs && profile.packs.length > 0" 
                   v-model.number="profile.packs[0].price" 
@@ -517,6 +572,8 @@ const profile = reactive({
  logo: '',
  banner: '',
  isInsideCampus: false,
+ requiresPrepTime: false,
+ requiresTakeawayPack: false,
  operatingHours: { open: '08:00 AM', close: '08:00 PM' },
  preparationTime: 15,
  baseDeliveryFee: 600,

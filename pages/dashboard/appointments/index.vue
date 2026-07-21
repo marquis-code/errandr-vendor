@@ -95,7 +95,7 @@ const { appointmentsList, loading, fetchAppointments, updateStatus } = useVendor
 const currentDate = ref(new Date());
 const isWaitlistOpen = ref(false);
 const isAppointmentDrawerOpen = ref(false);
-const selectedAppointment = ref(null);
+const selectedAppointment = ref<any>(null);
 
 // Computeds
 const todaysAppointments = computed(() => {

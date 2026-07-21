@@ -108,7 +108,7 @@
         :key="activeChat.id"
         :is-open="true"
         :order-id="activeChat.order._id"
-        :current-user-id="(activeChat.order.vendor?._id || activeChat.order.vendor || '') + ',' + (user?.id || user?._id)"
+        :current-user-id="(activeChat.order.vendor?._id || activeChat.order.vendor || '') + ',' + ((user as any)?.id || (user as any)?._id)"
         :receiver-id="activeChat.receiverId"
         :receiver-name="activeChat.receiverName"
         :receiver-avatar="activeChat.avatar"

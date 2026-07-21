@@ -14,10 +14,14 @@ export const useVendorProducts = () => {
   const loading = ref(false);
 
   const isFoodVendor = computed(() => {
+    const vendorType = (profile.value?.vendorType || '').toLowerCase();
+    if (vendorType === 'restaurant' || vendorType === 'mini-mart') return true;
+    if (vendorType === 'single-category') return false;
+    // Fallback: check legacy fields
     const type = (profile.value?.businessType || profile.value?.storeType || '').toLowerCase();
     const category = (profile.value?.category || '').toLowerCase();
-    const foodCategories = ['restaurant', 'eatery', 'snacks', 'drinks', 'bakery', 'food'];
-    return foodCategories.includes(category) || type === 'food' || type === 'restaurant';
+    const foodCategories = ['restaurant', 'eatery', 'snacks', 'drinks', 'bakery', 'food', 'mini-mart'];
+    return foodCategories.includes(category) || type === 'food' || type === 'restaurant' || type === 'mini-mart';
   });
 
   const fetchProducts = async () => {
@@ -96,7 +100,7 @@ export const useVendorProducts = () => {
     }
   };
 
-  return { products, loading, fetchProducts, createProduct, updateProduct, deleteProduct, toggleAvailability };
+  return { products, loading, isFoodVendor, fetchProducts, createProduct, updateProduct, deleteProduct, toggleAvailability };
 };
 
 export const useVendorCategories = () => {
@@ -107,10 +111,14 @@ export const useVendorCategories = () => {
   const loading = ref(false);
 
   const isFoodVendor = computed(() => {
+    const vendorType = (profile.value?.vendorType || '').toLowerCase();
+    if (vendorType === 'restaurant' || vendorType === 'mini-mart') return true;
+    if (vendorType === 'single-category') return false;
+    // Fallback: check legacy fields
     const type = (profile.value?.businessType || profile.value?.storeType || '').toLowerCase();
     const category = (profile.value?.category || '').toLowerCase();
-    const foodCategories = ['restaurant', 'eatery', 'snacks', 'drinks', 'bakery', 'food'];
-    return foodCategories.includes(category) || type === 'food' || type === 'restaurant';
+    const foodCategories = ['restaurant', 'eatery', 'snacks', 'drinks', 'bakery', 'food', 'mini-mart'];
+    return foodCategories.includes(category) || type === 'food' || type === 'restaurant' || type === 'mini-mart';
   });
 
   const fetchCategories = async () => {

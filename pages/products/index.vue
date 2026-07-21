@@ -128,6 +128,9 @@
     :isOpen="showAddDrawer || !!selectedProduct"
     :product="selectedProduct"
     :categories="availableCategories"
+    :usesMenuApi="isFoodVendor"
+    :requiresPrepTime="isRestaurant"
+    :requiresTakeawayPack="isRestaurant"
     @close="closeProductDrawer"
     @save="handleSaveProduct"
     @delete="handleDelete"
@@ -139,9 +142,11 @@
 import { ref, reactive, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useVendorProducts } from '@/composables/modules/products';
+import { useVendorProfile } from '@/composables/modules/vendors';
 import { Search, ListFilter, ChevronRight, Trash2 } from 'lucide-vue-next';
 import ProductDrawer from '@/components/dashboard/ProductDrawer.vue';
 import EmptyState from '@/components/core/EmptyState.vue';
+import { useConfirmModal } from '@/composables/core/useConfirmModal';
 
 
 definePageMeta({
@@ -149,7 +154,16 @@ definePageMeta({
 })
 
 const route = useRoute();
-const { products, loading, fetchProducts, createProduct, updateProduct, deleteProduct } = useVendorProducts();
+const { products, loading, isFoodVendor, fetchProducts, createProduct, updateProduct, deleteProduct } = useVendorProducts();
+const { confirm } = useConfirmModal();
+
+// Only restaurants need prep time & takeaway pack UI sections
+// Mini-marts use the menu API but don't need those UI features
+const { profile } = useVendorProfile();
+const isRestaurant = computed(() => {
+  const vt = (profile.value?.vendorType || '').toLowerCase();
+  return vt === 'restaurant' || (!vt && isFoodVendor.value);
+});
 const showAddDrawer = ref(false);
 const selectedProduct = ref<any>(null);
 const searchQuery = ref('');
@@ -198,7 +212,8 @@ const handleSaveProduct = async (formData: any) => {
 
 const handleDelete = async (product: any) => {
  const id = typeof product === 'string' ? product : product._id;
- if (confirm('Permanently remove this item from your public catalog?')) {
+ const isConfirmed = await confirm({ title: 'Delete Product', message: 'Permanently remove this item from your public catalog?', variant: 'danger', confirmText: 'Remove' });
+ if (isConfirmed) {
  await deleteProduct(id);
  closeProductDrawer();
  }

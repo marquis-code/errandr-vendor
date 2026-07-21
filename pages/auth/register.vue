@@ -182,6 +182,40 @@
 
               <UiAnimatedInput v-model="vendor.description" type="textarea" label="Store Description" :rows="2" />
 
+              <div class="grid gap-3 mb-2">
+                <label class="block text-sm font-bold text-gray-900">Store Platform Type</label>
+                
+                <!-- Restaurant -->
+                <div @click="vendor.vendorType = 'restaurant'" class="flex items-start gap-4 p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.vendorType === 'restaurant' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-1 ring-[#FF5C1A]/10' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                  <div class="w-10 h-10 rounded-md bg-orange-50 text-orange-600 flex items-center justify-center shrink-0">🍽️</div>
+                  <div>
+                    <h3 class="text-sm font-bold text-gray-900 mb-1">Restaurant / Eatery</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed">Perfect for food vendors. Includes advanced menu features, takeaway packs, modifiers, and prep time management.</p>
+                  </div>
+                  <div class="ml-auto w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.vendorType === 'restaurant' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.vendorType === 'restaurant'" class="w-3 h-3 text-white" /></div>
+                </div>
+                
+                <!-- Mini-Mart -->
+                <div @click="vendor.vendorType = 'mini-mart'" class="flex items-start gap-4 p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.vendorType === 'mini-mart' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-1 ring-[#FF5C1A]/10' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                  <div class="w-10 h-10 rounded-md bg-green-50 text-green-600 flex items-center justify-center shrink-0">🛒</div>
+                  <div>
+                    <h3 class="text-sm font-bold text-gray-900 mb-1">Mini-Mart / Provisions</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed">Ideal for grocers and marts. Manage hundreds of items with a simplified interface optimized for fast bulk additions.</p>
+                  </div>
+                  <div class="ml-auto w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.vendorType === 'mini-mart' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.vendorType === 'mini-mart'" class="w-3 h-3 text-white" /></div>
+                </div>
+
+                <!-- Single Category -->
+                <div @click="vendor.vendorType = 'single-category'" class="flex items-start gap-4 p-4 border rounded-md cursor-pointer transition-all duration-300" :class="vendor.vendorType === 'single-category' ? 'bg-[#FF5C1A]/5 border-[#FF5C1A] ring-1 ring-[#FF5C1A]/10' : 'bg-white border-gray-200 hover:border-[#FF5C1A]/50'">
+                  <div class="w-10 h-10 rounded-md bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">🛍️</div>
+                  <div>
+                    <h3 class="text-sm font-bold text-gray-900 mb-1">Single Category Retail</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed">Best for boutiques, fashion, or electronics. Offers standard product variations (sizes, colors) and precise stock tracking.</p>
+                  </div>
+                  <div class="ml-auto w-5 h-5 rounded-md border-2 flex items-center justify-center" :class="vendor.vendorType === 'single-category' ? 'border-[#FF5C1A] bg-[#FF5C1A]' : 'border-gray-300'"><Check v-if="vendor.vendorType === 'single-category'" class="w-3 h-3 text-white" /></div>
+                </div>
+              </div>
+
               <div class="flex gap-3 pt-4 mt-auto">
                 <button type="button" @click="currentStep = 'otp'" class="w-14 h-14 shrink-0 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 rounded-md font-bold transition-all"><ArrowLeft class="w-5 h-5" /></button>
                 <button type="submit" class="flex-1 py-2 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-md font-medium text-sm transition-all flex items-center justify-center gap-2 active:scale-[0.98]">
@@ -641,6 +675,61 @@
                 <UiTimePicker v-model="vendor.operatingHours.open" label="Opens At" />
                 <UiTimePicker v-model="vendor.operatingHours.close" label="Closes At" />
               </div>
+              
+              <!-- Capability Flags (Chowdeck Model vs Retail) -->
+              <div class="space-y-3">
+                <div 
+                  class="rounded-md border transition-all duration-300"
+                  :class="vendor.requiresPrepTime ? 'bg-[#FF5C1A]/5 border-[#FF5C1A]/30' : 'bg-gray-50/80 border-gray-100 hover:border-gray-200'"
+                >
+                  <div 
+                    @click="vendor.requiresPrepTime = !vendor.requiresPrepTime"
+                    class="flex items-center gap-3 p-3.5 cursor-pointer"
+                  >
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-center gap-1.5">
+                        <p class="text-sm font-bold text-gray-800">Requires Prep Time per item</p>
+                      </div>
+                      <p class="text-[11px] text-gray-400 font-medium">Turn on if items take time to make/prepare to order</p>
+                    </div>
+                    <div 
+                      class="w-10 h-6 rounded-md p-0.5 transition-all duration-300 shrink-0"
+                      :class="vendor.requiresPrepTime ? 'bg-[#FF5C1A]' : 'bg-gray-200'"
+                    >
+                      <div 
+                        class="w-5 h-5 bg-white rounded-md transition-all duration-300"
+                        :class="vendor.requiresPrepTime ? 'translate-x-4' : 'translate-x-0'"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div 
+                  class="rounded-md border transition-all duration-300"
+                  :class="vendor.requiresTakeawayPack ? 'bg-[#FF5C1A]/5 border-[#FF5C1A]/30' : 'bg-gray-50/80 border-gray-100 hover:border-gray-200'"
+                >
+                  <div 
+                    @click="vendor.requiresTakeawayPack = !vendor.requiresTakeawayPack"
+                    class="flex items-center gap-3 p-3.5 cursor-pointer"
+                  >
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-center gap-1.5">
+                        <p class="text-sm font-bold text-gray-800">Requires Takeaway Packs</p>
+                      </div>
+                      <p class="text-[11px] text-gray-400 font-medium">Turn on if you charge for extra packaging</p>
+                    </div>
+                    <div 
+                      class="w-10 h-6 rounded-md p-0.5 transition-all duration-300 shrink-0"
+                      :class="vendor.requiresTakeawayPack ? 'bg-[#FF5C1A]' : 'bg-gray-200'"
+                    >
+                      <div 
+                        class="w-5 h-5 bg-white rounded-md transition-all duration-300"
+                        :class="vendor.requiresTakeawayPack ? 'translate-x-4' : 'translate-x-0'"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               <!-- Logistics Information Notice -->
               <div v-if="!isMiniMart" class="bg-blue-50/50 border border-blue-100 rounded-md p-3 flex gap-3 items-start">
@@ -656,8 +745,8 @@
                 </div>
               </div>
 
-              <div v-if="!isMiniMart" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <UiAnimatedInput v-model.number="vendor.preparationTime" type="number" label="Prep/Service Time (min)">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <UiAnimatedInput v-if="vendor.requiresPrepTime" v-model.number="vendor.preparationTime" type="number" label="Prep/Service Time (min)">
                   <template #right>
                     <button type="button" @click.stop="activeInfoModal = 'prepTime'" class="text-gray-400 hover:text-[#FF5C1A] transition-colors p-1"><Info class="w-4 h-4" /></button>
                   </template>
@@ -1012,13 +1101,19 @@ const resendOTP = async () => {
 const vendor = reactive({
   storeName: '', description: '', address: '', subdomain: '',
   businessType: 'physical_product' as 'physical_product' | 'service_provider' | 'hybrid',
-  teamSize: 'independent' as 'independent' | '2-5' | '6-10' | '11-20' | '20+',
-  serviceLocation: 'physical_location' as 'physical_location' | 'mobile_operator' | 'virtual_online',
+  vendorType: 'restaurant' as 'restaurant' | 'mini-mart' | 'single-category',
+  category: '',
+  teamSize: '1',
+  serviceLocation: 'physical_location' as 'physical_location' | 'delivery_only' | 'software',
   softwareUsed: '',
-  isInsideCampus: false, isStudentBusiness: false, preOrderOnly: false, matricNumber: '', university: '',
-  location: { type: 'Point', coordinates: [0, 0] } as { type: string, coordinates: number[] },
-  operatingHours: { open: '12:00 AM', close: '12:00 AM' },
   preparationTime: 15, minimumOrder: 0, deliveryFee: 0,
+  requiresPrepTime: false, requiresTakeawayPack: false,
+  isStudentBusiness: false, university: '', matricNumber: '',
+  operatingHours: { open: '08:00', close: '20:00' },
+  preOrderOnly: false,
+  brandColor: '',
+  isInsideCampus: false,
+  location: { type: 'Point', coordinates: [0, 0] } as { type: string, coordinates: number[] },
   bankDetails: { bankCode: '', bankName: '', accountNumber: '', accountName: '' },
 })
 
@@ -1279,6 +1374,26 @@ const handleStepCategories = () => {
     showToast({ title: 'Institution Required', message: 'Please select your institution since you are a student entrepreneur.', toastType: 'error' })
     return
   }
+  
+  // Set default capability flags based on selected categories
+  const hasFullChowdeck = selectedCategories.value.some(c => ['restaurant', 'eatery', 'snacks'].includes(c))
+  const hasDrinks = selectedCategories.value.includes('drinks')
+  const hasBakery = selectedCategories.value.includes('bakery')
+  
+  if (hasFullChowdeck) {
+    vendor.requiresPrepTime = true
+    vendor.requiresTakeawayPack = true
+  } else if (hasDrinks) {
+    vendor.requiresPrepTime = true
+    vendor.requiresTakeawayPack = false
+  } else if (hasBakery) {
+    vendor.requiresPrepTime = false
+    vendor.requiresTakeawayPack = true
+  } else {
+    vendor.requiresPrepTime = false
+    vendor.requiresTakeawayPack = false
+  }
+
   currentStep.value = 'teamSize'
 }
 
@@ -1304,14 +1419,22 @@ const handleFinalSubmit = async () => {
   try {
     const payload: any = {
       storeName: vendor.storeName, description: vendor.description, 
-      businessType: vendor.businessType, teamSize: vendor.teamSize, serviceLocation: vendor.serviceLocation, softwareUsed: vendor.softwareUsed,
+      businessType: vendor.businessType, vendorType: vendor.vendorType, teamSize: vendor.teamSize, serviceLocation: vendor.serviceLocation, softwareUsed: vendor.softwareUsed,
       category: selectedCategories.value.length > 0 ? selectedCategories.value[0] : 'other',
       tags: selectedCategories.value,
       address: vendor.address,
-      location: vendor.location,
       subdomain: vendor.subdomain,
-      isInsideCampus: vendor.isInsideCampus, isStudentBusiness: vendor.isStudentBusiness, preOrderOnly: vendor.preOrderOnly, operatingHours: vendor.operatingHours,
+      brandColor: vendor.brandColor,
+      requiresPrepTime: vendor.requiresPrepTime,
+      requiresTakeawayPack: vendor.requiresTakeawayPack,
       preparationTime: vendor.preparationTime, minimumOrder: vendor.minimumOrder, deliveryFee: vendor.deliveryFee,
+      isStudentBusiness: vendor.isStudentBusiness,
+      university: vendor.university,
+      matricNumber: vendor.matricNumber,
+      isInsideCampus: vendor.isInsideCampus,
+      preOrderOnly: vendor.preOrderOnly,
+      operatingHours: vendor.operatingHours,
+      location: vendor.location,
     }
     if (logoUrl.value) payload.logo = logoUrl.value
     if (vendor.isStudentBusiness) { payload.matricNumber = vendor.matricNumber; payload.university = vendor.university }
@@ -1323,13 +1446,13 @@ const handleFinalSubmit = async () => {
     }
 
     const res = await vendors_api.createVendor(payload)
-    if (res?.type === 'ERROR') throw res;
+    if ((res as any)?.type === 'ERROR') throw res;
 
     // After vendor is successfully created, save bank details to their new wallet
     if (payoutAccounts.value.length > 0) {
         try {
             const { wallets_api } = await import('@/api_factory/modules/wallets')
-            await wallets_api.updatePreferences({
+            await (wallets_api.updatePreferences as any)({
                 preference: 'weekly',
                 bankDetails: payload.bankDetails,
                 bankAccounts: payoutAccounts.value,
@@ -1381,10 +1504,7 @@ const triggerConfetti = () => {
 };
 
 const isMiniMart = computed(() => {
-  return (vendor.businessType === 'physical_product' || vendor.businessType === 'hybrid') && 
-         (selectedCategories.value.includes('mini-mart') || 
-          selectedCategories.value.includes('groceries') || 
-          selectedCategories.value.includes('provisions'))
+  return vendor.vendorType === 'mini-mart'
 })
 
 const proceedToDashboard = () => {

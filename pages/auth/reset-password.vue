@@ -157,7 +157,7 @@ const newPassword = ref('')
 const confirmPassword = ref('')
 
 const otpDigits = reactive(['', '', '', '', '', ''])
-const otpRefs = reactive<HTMLInputElement[][]>([])
+const otpRefs = ref<HTMLInputElement[]>([])
 
 const validationErrors = reactive({
   newPassword: '',
@@ -191,7 +191,7 @@ onMounted(() => {
   
   // Focus first OTP field automatically
   setTimeout(() => {
-    otpRefs[0]?.focus()
+    otpRefs.value[0]?.focus()
   }, 200)
 })
 
@@ -205,14 +205,14 @@ const handleOTPInput = (i: number) => {
   error.value = ''
   // Move focus to next field if input was filled
   if (otpDigits[i] && i < 5) {
-    otpRefs[i + 1]?.focus()
+    otpRefs.value[i + 1]?.focus()
   }
 }
 
 const handleOTPBackspace = (i: number, e: KeyboardEvent) => {
   // Move focus back on backspace if current field is empty
   if (!otpDigits[i] && i > 0) {
-    otpRefs[i - 1]?.focus()
+    otpRefs.value[i - 1]?.focus()
   }
 }
 
@@ -226,7 +226,7 @@ const handleOTPPaste = (e: ClipboardEvent) => {
   
   // Focus last inputted or empty slot
   const focusIndex = Math.min(numericPasted.length, 5)
-  otpRefs[focusIndex]?.focus()
+  otpRefs.value[focusIndex]?.focus()
 }
 
 // Back Button Navigation
@@ -235,7 +235,7 @@ const handleBack = () => {
     currentStep.value = 'otp'
     error.value = ''
     setTimeout(() => {
-      otpRefs[0]?.focus()
+      otpRefs.value[0]?.focus()
     }, 200)
   } else {
     router.push('/auth/login')
@@ -306,7 +306,7 @@ const handleResendCode = async () => {
     startCooldown()
     // Reset OTP boxes
     for (let i = 0; i < 6; i++) otpDigits[i] = ''
-    otpRefs[0]?.focus()
+    otpRefs.value[0]?.focus()
   } catch (e: any) {
     error.value = e.data?.message || e.response?.data?.message || 'Failed to resend code.'
   }

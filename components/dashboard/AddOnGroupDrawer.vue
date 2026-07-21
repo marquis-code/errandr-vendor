@@ -98,6 +98,7 @@
 import { ref, reactive, watch } from 'vue';
 import Modal from '@/components/ui/Modal.vue';
 import { useVendorAddOnGroups } from '@/composables/modules/products';
+import { useCustomToast } from '@/composables/core/useCustomToast';
 
 const props = defineProps<{
   isOpen: boolean;
@@ -106,6 +107,7 @@ const props = defineProps<{
 
 const emit = defineEmits(['close', 'save']);
 const { createAddOnGroup, updateAddOnGroup } = useVendorAddOnGroups();
+const { showToast } = useCustomToast();
 
 const form = reactive({
   name: '',
@@ -145,7 +147,7 @@ const removeOption = (idx: number) => {
 
 const handleSubmit = async () => {
   if (!form.name || form.options.length === 0) {
-    alert("Please provide a group name and at least one option.");
+    showToast({ title: 'Error', message: 'Please provide a group name and at least one option.', toastType: 'error' });
     return;
   }
   

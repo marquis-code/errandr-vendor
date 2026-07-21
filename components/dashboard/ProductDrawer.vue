@@ -17,7 +17,7 @@
     v-model="form.name" 
     label="Item name" 
     description=""
-    placeholder="Food type name like:Beans"
+    :placeholder="requiresPrepTime ? 'Food type name like:Beans' : 'e.g., Ergonomic Wireless Mouse'"
     required 
    />
 
@@ -26,14 +26,14 @@
     type="textarea" 
     label="Description" 
     description=""
-    placeholder="Ewa agonyi, sells from 200 per portion"
+    :placeholder="requiresPrepTime ? 'Ewa agonyi, sells from 200 per portion' : 'e.g., Premium ergonomic mouse with silent clicks'"
    />
 
    <div class="space-y-2">
     <div class="flex items-start justify-between gap-4">
      <div>
       <label class="text-sm font-semibold text-gray-800 block">Category</label>
-      <p class="text-[13px] text-gray-500 mt-0.5">e.g. Main Dishes, Soups, Drinks, Extras</p>
+      <p class="text-[13px] text-gray-500 mt-0.5">{{ requiresPrepTime ? 'e.g. Main Dishes, Soups, Drinks, Extras' : 'e.g. Electronics, Groceries, Accessories' }}</p>
      </div>
      <button type="button" @click="$emit('createCategory')" class="shrink-0 px-3 py-2 bg-blue-50 text-blue-600 text-sm font-bold rounded-lg hover:bg-blue-100 transition-all flex items-center gap-1.5">
        <Plus class="w-4 h-4" /> Create category
@@ -111,7 +111,7 @@
     <Transition name="slide-fade">
      <div v-if="form.trackStock" class="space-y-4">
       <div>
-       <label class="text-sm font-semibold text-gray-800 block mb-1.5">In stock (Portions)</label>
+       <label class="text-sm font-semibold text-gray-800 block mb-1.5">In stock ({{ requiresPrepTime || requiresTakeawayPack ? 'Portions' : 'Units' }})</label>
        <input type="number" v-model.number="form.stockQuantity" placeholder="e.g. 50" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
       </div>
      </div>
@@ -125,26 +125,29 @@
    <h3 class="text-lg font-bold text-gray-900">Pricing</h3>
    <div class="grid grid-cols-2 gap-4">
     <div>
-     <label class="text-sm font-semibold text-gray-800 block mb-1.5">Price Per Portion (₦)</label>
+     <label class="text-sm font-semibold text-gray-800 block mb-1.5">{{ requiresPrepTime || requiresTakeawayPack ? 'Price Per Portion (₦)' : 'Price (₦)' }}</label>
      <input type="number" v-model.number="form.pricePerPortion" placeholder="e.g. 2500" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" required />
     </div>
     <div>
-     <label class="text-sm font-semibold text-gray-800 block mb-1.5">Portion Unit</label>
+     <label class="text-sm font-semibold text-gray-800 block mb-1.5">{{ requiresPrepTime || requiresTakeawayPack ? 'Portion Unit' : 'Unit' }}</label>
      <select v-model="form.portionUnit" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all">
-      <option value="plate">Plate</option>
-      <option value="wrap">Wrap</option>
+      <option value="plate" v-if="requiresTakeawayPack || requiresPrepTime">Plate</option>
+      <option value="wrap" v-if="requiresTakeawayPack || requiresPrepTime">Wrap</option>
       <option value="piece">Piece</option>
       <option value="bottle">Bottle</option>
-      <option value="portion">Portion</option>
+      <option value="portion" v-if="requiresTakeawayPack || requiresPrepTime">Portion</option>
+      <option value="item" v-if="!requiresTakeawayPack && !requiresPrepTime">Item</option>
+      <option value="pair" v-if="!requiresTakeawayPack && !requiresPrepTime">Pair</option>
+      <option value="kg" v-if="!requiresTakeawayPack && !requiresPrepTime">Kg</option>
      </select>
     </div>
    </div>
    <div class="grid grid-cols-2 gap-4">
     <div>
-     <label class="text-sm font-semibold text-gray-800 block mb-1.5">Max Portions per Order</label>
+     <label class="text-sm font-semibold text-gray-800 block mb-1.5">{{ requiresPrepTime || requiresTakeawayPack ? 'Max Portions per Order' : 'Max Quantity per Order' }}</label>
      <input type="number" v-model.number="form.maxPortionsPerOrder" placeholder="0 for unlimited" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
     </div>
-    <div>
+    <div v-if="requiresPrepTime">
      <label class="text-sm font-semibold text-gray-800 block mb-1.5">Prep Time (mins)</label>
      <input type="number" v-model.number="form.prepTimeMinutes" placeholder="e.g. 20" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
     </div>
@@ -154,7 +157,7 @@
   <!-- ═══════════════════════════════════════════════ -->
   <!-- 5. TAKEAWAY PACK SIZES (Auto-mapped to Modifiers) -->
   <!-- ═══════════════════════════════════════════════ -->
-  <section class="space-y-4">
+  <section class="space-y-4" v-if="requiresTakeawayPack">
     <div class="flex items-center justify-between">
       <div>
         <h3 class="text-lg font-bold text-gray-900">Takeaway Pack Sizes</h3>
@@ -191,7 +194,7 @@
     <div class="flex items-center justify-between">
       <div>
         <h3 class="text-lg font-bold text-gray-900">Required Options (Modifiers)</h3>
-        <p class="text-xs text-gray-500">e.g. Pack Size, Spice Level</p>
+        <p class="text-xs text-gray-500">{{ requiresPrepTime || requiresTakeawayPack ? 'e.g. Pack Size, Spice Level' : 'e.g. Size, Color, Storage Capacity' }}</p>
       </div>
       <button type="button" @click="addModifier" class="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-bold rounded-lg hover:bg-gray-200 transition-all flex items-center gap-1">
         <Plus class="w-3 h-3" /> Add Option
@@ -200,7 +203,7 @@
     
     <div v-for="(mod, mIdx) in form.modifiers" :key="mIdx" class="p-4 bg-gray-50 border border-gray-200 rounded-xl space-y-3">
       <div class="flex items-center gap-2">
-        <input type="text" v-model="mod.name" placeholder="Option Name (e.g. Pack Size)" class="flex-1 px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-900" />
+        <input type="text" v-model="mod.name" :placeholder="requiresPrepTime || requiresTakeawayPack ? 'Option Name (e.g. Pack Size)' : 'Option Name (e.g. Storage Capacity)'" class="flex-1 px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-900" />
         <label class="flex items-center gap-1.5 text-xs font-semibold text-gray-700 whitespace-nowrap">
           <input type="checkbox" v-model="mod.isRequired" class="rounded text-gray-900 focus:ring-gray-900" /> Required
         </label>
@@ -209,7 +212,7 @@
       
       <div class="pl-4 border-l-2 border-gray-200 space-y-2">
         <div v-for="(opt, oIdx) in mod.options" :key="oIdx" class="flex items-center gap-2">
-          <input type="text" v-model="opt.name" placeholder="Choice (e.g. Big Pack)" class="flex-1 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs focus:outline-none focus:border-gray-900" />
+          <input type="text" v-model="opt.name" :placeholder="requiresPrepTime || requiresTakeawayPack ? 'Choice (e.g. Big Pack)' : 'Choice (e.g. 512GB)'" class="flex-1 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs focus:outline-none focus:border-gray-900" />
           <input type="number" v-model.number="opt.priceDelta" placeholder="Price (+₦)" class="w-24 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs focus:outline-none focus:border-gray-900" />
           <button type="button" @click="removeModifierOption(mIdx, oIdx)" class="p-1.5 text-gray-400 hover:text-red-500"><X class="w-3 h-3" /></button>
         </div>
@@ -223,7 +226,7 @@
   <!-- ═══════════════════════════════════════════════ -->
   <!-- 6. ADD-ONS (Optional Extras) -->
   <!-- ═══════════════════════════════════════════════ -->
-  <section class="space-y-4">
+  <section class="space-y-4" v-if="requiresPrepTime || requiresTakeawayPack">
     <div class="flex items-center justify-between">
       <div>
         <h3 class="text-lg font-bold text-gray-900">Optional Extras (Add-ons)</h3>
@@ -321,16 +324,30 @@ import AnimatedInput from '@/components/ui/AnimatedInput.vue';
 import SelectInput from '@/components/ui/SelectInput.vue';
 import { vendors_api } from '@/api_factory/modules/vendors';
 import { useCustomToast } from '@/composables/core/useCustomToast';
+import { useConfirmModal } from '@/composables/core/useConfirmModal';
 
 const props = defineProps<{
  isOpen: boolean;
  product?: any;
  categories: any[];
  addOnGroups?: any[];
+ requiresPrepTime?: boolean;
+ requiresTakeawayPack?: boolean;
+ usesMenuApi?: boolean;
 }>();
 
 const emit = defineEmits(['close', 'save', 'delete', 'createCategory', 'createAddOnGroup', 'editAddOnGroup', 'deleteAddOnGroup']);
 const { showToast } = useCustomToast();
+const { confirm } = useConfirmModal();
+
+const isCreatePackOpen = ref(false);
+const handleCreatePack = (pack: any) => {
+  if (!form.packOptions) {
+    form.packOptions = [];
+  }
+  form.packOptions.push(pack);
+  isCreatePackOpen.value = false;
+};
 const uploading = ref(false);
 const uploadingImage = ref(false);
 const uploadingVideo = ref(false);
@@ -386,7 +403,9 @@ const allImages = ref<string[]>([]);
 const allVideos = ref<string[]>([]);
 
 const defaultForm = () => ({
-  name: '', description: '', pricePerPortion: 0, portionUnit: 'plate', category: '',
+  name: '', description: '', pricePerPortion: 0, 
+  portionUnit: (!props.requiresPrepTime && !props.requiresTakeawayPack) ? 'item' : 'plate', 
+  category: '',
   prepTimeMinutes: 15, trackStock: false, stockQuantity: null, maxPortionsPerOrder: 0,
   hasPackFee: false, packOptions: [{ name: 'Standard Pack', price: 150 }],
   isAvailable: true, isFeatured: false,
@@ -484,8 +503,9 @@ const handleVideoUpload = async (e: Event) => {
 };
 const removeVideo = (idx: number) => allVideos.value.splice(idx, 1);
 
-const confirmDeleteAddOn = (group: any) => {
-  if (confirm(`Are you sure you want to delete the add-on group "${group.name}"? This will remove it from all items.`)) {
+const confirmDeleteAddOn = async (group: any) => {
+  const isConfirmed = await confirm({ title: 'Delete Add-on Group', message: `Are you sure you want to delete the add-on group "${group.name}"? This will remove it from all items.`, variant: 'danger', confirmText: 'Delete' });
+  if (isConfirmed) {
     emit('deleteAddOnGroup', group._id);
   }
 };
@@ -510,10 +530,47 @@ const confirmDeleteAddOn = (group: any) => {
   delete payload.hasPackFee;
   delete payload.packOptions;
   
+  if (!props.usesMenuApi) {
+    // For non-food vendors (products API)
+    if (payload.pricePerPortion !== undefined) {
+      payload.price = payload.pricePerPortion;
+    }
+    if (payload.portionUnit !== undefined) {
+      payload.unit = payload.portionUnit;
+    }
+    if (payload.maxPortionsPerOrder) {
+      payload.maxOrderQty = payload.maxPortionsPerOrder;
+    }
+    // Clean up menu-item specific fields
+    delete payload.pricePerPortion;
+    delete payload.portionUnit;
+    delete payload.maxPortionsPerOrder;
+    delete payload.prepTimeMinutes;
+    delete payload.modifiers;
+    delete payload.addOnGroupIds;
+  } else {
+    // For food vendors (menu-items API)
+    // Strip product-specific fields to avoid 400 Bad Request from strict DTO validation
+    delete payload.variations;
+    delete payload.isFeatured;
+    delete payload.price;
+    delete payload.unit;
+    delete payload.maxOrderQty;
+  }
+  
   // Extract raw IDs from populated objects
   if (payload.categoryId && typeof payload.categoryId === 'object') {
     payload.categoryId = payload.categoryId._id;
   }
+  
+  // For Menu API, map category string back to categoryId ObjectId
+  if (props.usesMenuApi && payload.category) {
+    const selectedCat = props.categories.find(c => c.name === payload.category);
+    if (selectedCat) {
+      payload.categoryId = selectedCat._id;
+    }
+  }
+
   if (payload.addOnGroupIds) {
     payload.addOnGroupIds = payload.addOnGroupIds.map((g: any) => typeof g === 'object' ? g._id : g);
   }

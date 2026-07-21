@@ -156,11 +156,13 @@ import { useUser } from '@/composables/modules/auth/user'
 import { useCustomToast } from '@/composables/core/useCustomToast'
 import UiAnimatedInput from '@/components/ui/AnimatedInput.vue'
 import Modal from '@/components/ui/Modal.vue'
+import { useConfirmModal } from '@/composables/core/useConfirmModal'
 
 definePageMeta({ layout: 'vendor' })
 useHead({ title: 'Promotions - Errander Vendor' })
 
 const { showToast } = useCustomToast()
+const { confirm } = useConfirmModal()
 const { user } = useUser()
 
 const vendorId = ref('')
@@ -243,8 +245,9 @@ const addBanner = () => {
   saveBanners(updatedBanners)
 }
 
-const removeBanner = (index: number) => {
-  if (!confirm('Are you sure you want to delete this promotional banner?')) return
+const removeBanner = async (index: number) => {
+  const isConfirmed = await confirm({ title: 'Delete Banner', message: 'Are you sure you want to delete this promotional banner?', variant: 'danger', confirmText: 'Delete' })
+  if (!isConfirmed) return
   const updatedBanners = [...banners.value]
   updatedBanners.splice(index, 1)
   saveBanners(updatedBanners)

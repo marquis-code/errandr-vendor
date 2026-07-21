@@ -2,6 +2,7 @@
   <div>
     <VitePwaManifest />
     <UiToast class="z-[9999999]" />
+    <UiGlobalConfirmModal class="z-[10000000]" />
     <NuxtLayout class="z-10">
       <NuxtPage class="z-10" />
     </NuxtLayout>

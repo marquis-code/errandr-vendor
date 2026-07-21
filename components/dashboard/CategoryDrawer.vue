@@ -81,7 +81,7 @@
                 type="button" 
                 @click="handleSubmit"
                 :disabled="loading || uploading || !form.name"
-                class="px-6 py-2.5 bg-[#AEC5BB] text-white text-sm font-bold rounded-lg hover:bg-[#9db5ab] transition-all disabled:opacity-60 flex items-center gap-2"
+                class="px-6 py-2.5 bg-gray-900 text-white text-sm font-bold rounded-lg hover:bg-black transition-all disabled:opacity-40 disabled:bg-gray-300 disabled:text-gray-500 flex items-center gap-2"
               >
                 <Loader2 v-if="loading" class="w-4 h-4 animate-spin" />
                 {{ category ? 'Update category' : 'Create category' }}
