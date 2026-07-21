@@ -247,6 +247,7 @@
     </Transition>
   </div>
 </Transition>
+    <CorePushNotificationPrompt />
   </div>
 </template>
 
@@ -292,7 +293,9 @@ onMounted(() => {
   }
   
   // Setup push notifications
-  requestPermissionAndRegister()
+  if ('Notification' in window && Notification.permission === 'granted') {
+    requestPermissionAndRegister()
+  }
   listenForOrders()
 })
 
