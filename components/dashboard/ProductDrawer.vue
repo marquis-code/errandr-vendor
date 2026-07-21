@@ -17,7 +17,7 @@
     v-model="form.name" 
     label="Item name" 
     description=""
-    :placeholder="requiresPrepTime ? 'Food type name like:Beans' : 'e.g., Ergonomic Wireless Mouse'"
+    :placeholder="(requiresPrepTime || usesMenuApi) ? 'Food type name like:Beans' : 'e.g., Ergonomic Wireless Mouse'"
     required 
    />
 
@@ -26,14 +26,14 @@
     type="textarea" 
     label="Description" 
     description=""
-    :placeholder="requiresPrepTime ? 'Ewa agonyi, sells from 200 per portion' : 'e.g., Premium ergonomic mouse with silent clicks'"
+    :placeholder="(requiresPrepTime || usesMenuApi) ? 'Ewa agonyi, sells from 200 per portion' : 'e.g., Premium ergonomic mouse with silent clicks'"
    />
 
    <div class="space-y-2">
     <div class="flex items-start justify-between gap-4">
      <div>
       <label class="text-sm font-semibold text-gray-800 block">Category</label>
-      <p class="text-[13px] text-gray-500 mt-0.5">{{ requiresPrepTime ? 'e.g. Main Dishes, Soups, Drinks, Extras' : 'e.g. Electronics, Groceries, Accessories' }}</p>
+      <p class="text-[13px] text-gray-500 mt-0.5">{{ (requiresPrepTime || usesMenuApi) ? 'e.g. Main Dishes, Soups, Drinks, Extras' : 'e.g. Electronics, Groceries, Accessories' }}</p>
      </div>
      <button type="button" @click="$emit('createCategory')" class="shrink-0 px-3 py-2 bg-blue-50 text-blue-600 text-sm font-bold rounded-lg hover:bg-blue-100 transition-all flex items-center gap-1.5">
        <Plus class="w-4 h-4" /> Create category
@@ -111,7 +111,7 @@
     <Transition name="slide-fade">
      <div v-if="form.trackStock" class="space-y-4">
       <div>
-       <label class="text-sm font-semibold text-gray-800 block mb-1.5">In stock ({{ requiresPrepTime || requiresTakeawayPack ? 'Portions' : 'Units' }})</label>
+       <label class="text-sm font-semibold text-gray-800 block mb-1.5">In stock ({{ requiresPrepTime || requiresTakeawayPack || usesMenuApi ? 'Portions' : 'Units' }})</label>
        <input type="number" v-model.number="form.stockQuantity" placeholder="e.g. 50" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
       </div>
      </div>
@@ -125,29 +125,29 @@
    <h3 class="text-lg font-bold text-gray-900">Pricing</h3>
    <div class="grid grid-cols-2 gap-4">
     <div>
-     <label class="text-sm font-semibold text-gray-800 block mb-1.5">{{ requiresPrepTime || requiresTakeawayPack ? 'Price Per Portion (₦)' : 'Price (₦)' }}</label>
+     <label class="text-sm font-semibold text-gray-800 block mb-1.5">{{ requiresPrepTime || requiresTakeawayPack || usesMenuApi ? 'Price Per Portion (₦)' : 'Price (₦)' }}</label>
      <input type="number" v-model.number="form.pricePerPortion" placeholder="e.g. 2500" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" required />
     </div>
     <div>
-     <label class="text-sm font-semibold text-gray-800 block mb-1.5">{{ requiresPrepTime || requiresTakeawayPack ? 'Portion Unit' : 'Unit' }}</label>
+     <label class="text-sm font-semibold text-gray-800 block mb-1.5">{{ requiresPrepTime || requiresTakeawayPack || usesMenuApi ? 'Portion Unit' : 'Unit' }}</label>
      <select v-model="form.portionUnit" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all">
-      <option value="plate" v-if="requiresTakeawayPack || requiresPrepTime">Plate</option>
-      <option value="wrap" v-if="requiresTakeawayPack || requiresPrepTime">Wrap</option>
+      <option value="plate" v-if="requiresTakeawayPack || requiresPrepTime || usesMenuApi">Plate</option>
+      <option value="wrap" v-if="requiresTakeawayPack || requiresPrepTime || usesMenuApi">Wrap</option>
       <option value="piece">Piece</option>
       <option value="bottle">Bottle</option>
-      <option value="portion" v-if="requiresTakeawayPack || requiresPrepTime">Portion</option>
-      <option value="item" v-if="!requiresTakeawayPack && !requiresPrepTime">Item</option>
-      <option value="pair" v-if="!requiresTakeawayPack && !requiresPrepTime">Pair</option>
-      <option value="kg" v-if="!requiresTakeawayPack && !requiresPrepTime">Kg</option>
+      <option value="portion" v-if="requiresTakeawayPack || requiresPrepTime || usesMenuApi">Portion</option>
+      <option value="item" v-if="!requiresTakeawayPack && !requiresPrepTime && !usesMenuApi">Item</option>
+      <option value="pair" v-if="!requiresTakeawayPack && !requiresPrepTime && !usesMenuApi">Pair</option>
+      <option value="kg" v-if="!requiresTakeawayPack && !requiresPrepTime && !usesMenuApi">Kg</option>
      </select>
     </div>
    </div>
    <div class="grid grid-cols-2 gap-4">
     <div>
-     <label class="text-sm font-semibold text-gray-800 block mb-1.5">{{ requiresPrepTime || requiresTakeawayPack ? 'Max Portions per Order' : 'Max Quantity per Order' }}</label>
+     <label class="text-sm font-semibold text-gray-800 block mb-1.5">{{ requiresPrepTime || requiresTakeawayPack || usesMenuApi ? 'Max Portions per Order' : 'Max Quantity per Order' }}</label>
      <input type="number" v-model.number="form.maxPortionsPerOrder" placeholder="0 for unlimited" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
     </div>
-    <div v-if="requiresPrepTime">
+    <div v-if="requiresPrepTime || usesMenuApi">
      <label class="text-sm font-semibold text-gray-800 block mb-1.5">Prep Time (mins)</label>
      <input type="number" v-model.number="form.prepTimeMinutes" placeholder="e.g. 20" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all" />
     </div>
@@ -194,7 +194,7 @@
     <div class="flex items-center justify-between">
       <div>
         <h3 class="text-lg font-bold text-gray-900">Required Options (Modifiers)</h3>
-        <p class="text-xs text-gray-500">{{ requiresPrepTime || requiresTakeawayPack ? 'e.g. Pack Size, Spice Level' : 'e.g. Size, Color, Storage Capacity' }}</p>
+        <p class="text-xs text-gray-500">{{ requiresPrepTime || requiresTakeawayPack || usesMenuApi ? 'e.g. Pack Size, Spice Level' : 'e.g. Size, Color, Storage Capacity' }}</p>
       </div>
       <button type="button" @click="addModifier" class="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-bold rounded-lg hover:bg-gray-200 transition-all flex items-center gap-1">
         <Plus class="w-3 h-3" /> Add Option
@@ -203,7 +203,7 @@
     
     <div v-for="(mod, mIdx) in form.modifiers" :key="mIdx" class="p-4 bg-gray-50 border border-gray-200 rounded-xl space-y-3">
       <div class="flex items-center gap-2">
-        <input type="text" v-model="mod.name" :placeholder="requiresPrepTime || requiresTakeawayPack ? 'Option Name (e.g. Pack Size)' : 'Option Name (e.g. Storage Capacity)'" class="flex-1 px-3 py-2 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:border-gray-900" />
+        <input type="text" v-model="mod.name" :placeholder="requiresPrepTime || requiresTakeawayPack || usesMenuApi ? 'Option Name (e.g. Pack Size)' : 'Option Name (e.g. Storage Capacity)'" class="flex-1 px-3 py-2 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:border-gray-900" />
         <label class="flex items-center gap-1.5 text-xs font-semibold text-gray-700 whitespace-nowrap">
           <input type="checkbox" v-model="mod.isRequired" class="rounded text-gray-900 focus:ring-gray-900" /> Required
         </label>
@@ -212,7 +212,7 @@
       
       <div class="pl-4 border-l-2 border-gray-200 space-y-2">
         <div v-for="(opt, oIdx) in mod.options" :key="oIdx" class="flex items-center gap-2">
-          <input type="text" v-model="opt.name" :placeholder="requiresPrepTime || requiresTakeawayPack ? 'Choice (e.g. Big Pack)' : 'Choice (e.g. 512GB)'" class="flex-1 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:border-gray-900" />
+          <input type="text" v-model="opt.name" :placeholder="requiresPrepTime || requiresTakeawayPack || usesMenuApi ? 'Choice (e.g. Big Pack)' : 'Choice (e.g. 512GB)'" class="flex-1 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:border-gray-900" />
           <input type="number" v-model.number="opt.priceDelta" placeholder="Price (+₦)" class="w-24 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-base focus:outline-none focus:border-gray-900" />
           <button type="button" @click="removeModifierOption(mIdx, oIdx)" class="p-1.5 text-gray-400 hover:text-red-500"><X class="w-3 h-3" /></button>
         </div>
@@ -226,7 +226,7 @@
   <!-- ═══════════════════════════════════════════════ -->
   <!-- 6. ADD-ONS (Optional Extras) -->
   <!-- ═══════════════════════════════════════════════ -->
-  <section class="space-y-4" v-if="requiresPrepTime || requiresTakeawayPack">
+  <section class="space-y-4" v-if="requiresPrepTime || requiresTakeawayPack || usesMenuApi">
     <div class="flex items-center justify-between">
       <div>
         <h3 class="text-lg font-bold text-gray-900">Optional Extras (Add-ons)</h3>
@@ -404,7 +404,7 @@ const allVideos = ref<string[]>([]);
 
 const defaultForm = () => ({
   name: '', description: '', pricePerPortion: 0, 
-  portionUnit: (!props.requiresPrepTime && !props.requiresTakeawayPack) ? 'item' : 'plate', 
+  portionUnit: (!props.requiresPrepTime && !props.requiresTakeawayPack && !props.usesMenuApi) ? 'item' : 'plate', 
   category: '',
   prepTimeMinutes: 15, trackStock: false, stockQuantity: null, maxPortionsPerOrder: 0,
   hasPackFee: false, packOptions: [{ name: 'Standard Pack', price: 150 }],
