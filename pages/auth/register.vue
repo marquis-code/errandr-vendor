@@ -938,11 +938,6 @@ const infoModalData = {
     title: 'Lowest Acceptable Cart Value',
     description: 'This is the absolute minimum amount a customer must spend in your store before they are allowed to place an order.',
     importance: 'It ensures you stay profitable and don\'t lose money packing or processing extremely small orders.'
-  },
-  deliveryFee: {
-    title: 'Campus Runner Charge',
-    description: 'This is the base fee charged to the customer to transport the goods to them on campus. If you offer a service where you don\'t physically deliver anything, you can comfortably leave this as ₦0.',
-    importance: 'It covers the logistics cost. Keeping it relatively low (or at ₦0 for services) increases your sales volume significantly!'
   }
 };
 const infoModalContent = computed(() => activeInfoModal.value ? infoModalData[activeInfoModal.value as keyof typeof infoModalData] : null);
@@ -1106,7 +1101,7 @@ const vendor = reactive({
   teamSize: '1',
   serviceLocation: 'physical_location' as 'physical_location' | 'delivery_only' | 'software',
   softwareUsed: '',
-  preparationTime: 15, minimumOrder: 0, deliveryFee: 0,
+  preparationTime: 15, minimumOrder: 0,
   requiresPrepTime: false, requiresTakeawayPack: false,
   isStudentBusiness: false, university: '', matricNumber: '',
   operatingHours: { open: '08:00', close: '20:00' },
@@ -1427,7 +1422,7 @@ const handleFinalSubmit = async () => {
       brandColor: vendor.brandColor,
       requiresPrepTime: vendor.requiresPrepTime,
       requiresTakeawayPack: vendor.requiresTakeawayPack,
-      preparationTime: vendor.preparationTime, minimumOrder: vendor.minimumOrder, deliveryFee: vendor.deliveryFee,
+      preparationTime: vendor.preparationTime, minimumOrder: vendor.minimumOrder,
       isStudentBusiness: vendor.isStudentBusiness,
       university: vendor.university,
       matricNumber: vendor.matricNumber,

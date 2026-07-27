@@ -576,9 +576,7 @@ const profile = reactive({
  requiresTakeawayPack: false,
  operatingHours: { open: '08:00 AM', close: '08:00 PM' },
  preparationTime: 15,
- baseDeliveryFee: 600,
  minimumOrder: 0,
- deliveryFee: 0,
  packs: [
  { name: 'Standard Pack', price: 300, isActive: true }
  ],
@@ -664,9 +662,7 @@ const loadInitialData = async () => {
  profile.isInsideCampus = !!data.isInsideCampus;
  profile.operatingHours = data.operatingHours || { open: '08:00 AM', close: '08:00 PM' };
  profile.preparationTime = data.preparationTime || 15;
- profile.baseDeliveryFee = data.baseDeliveryFee || 600;
  profile.minimumOrder = data.minimumOrder || 0;
- profile.deliveryFee = data.deliveryFee || 0;
  if (data.packs && data.packs.length > 0) {
  profile.packs = JSON.parse(JSON.stringify(data.packs));
  } else {
@@ -817,11 +813,9 @@ const saveHours = async () => {
  businessHours: profile.businessHours,
  breakPeriod: profile.breakPeriod,
  preparationTime: profile.preparationTime,
- baseDeliveryFee: profile.baseDeliveryFee,
  packs: profile.packs,
  packagingFee: profile.packs && profile.packs.length > 0 ? profile.packs[0].price : 300,
  minimumOrder: profile.minimumOrder,
- deliveryFee: profile.deliveryFee,
  });
  showToast({ title: 'Schedule Updated', message: 'Service window adjusted successfully.', toastType: 'success' });
  } finally { savingHours.value = false; }
