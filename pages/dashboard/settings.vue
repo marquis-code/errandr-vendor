@@ -663,6 +663,8 @@ const loadInitialData = async () => {
  profile.operatingHours = data.operatingHours || { open: '08:00 AM', close: '08:00 PM' };
  profile.preparationTime = data.preparationTime || 15;
  profile.minimumOrder = data.minimumOrder || 0;
+ profile.requiresTakeawayPack = !!data.requiresTakeawayPack;
+ profile.requiresPrepTime = !!data.requiresPrepTime;
  if (data.packs && data.packs.length > 0) {
  profile.packs = JSON.parse(JSON.stringify(data.packs));
  } else {
@@ -816,6 +818,8 @@ const saveHours = async () => {
  packs: profile.packs,
  packagingFee: profile.packs && profile.packs.length > 0 ? profile.packs[0].price : 300,
  minimumOrder: profile.minimumOrder,
+ requiresTakeawayPack: profile.requiresTakeawayPack,
+ requiresPrepTime: profile.requiresPrepTime,
  });
  showToast({ title: 'Schedule Updated', message: 'Service window adjusted successfully.', toastType: 'success' });
  } finally { savingHours.value = false; }

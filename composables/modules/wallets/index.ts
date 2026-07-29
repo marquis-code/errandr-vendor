@@ -30,10 +30,10 @@ export const useWallet = () => {
     finally { loading.value = false; }
   };
 
-  const withdrawFunds = async (amount: number, bankAccount?: any) => {
+  const withdrawFunds = async (amount: number, bankAccount?: any, isInstant?: boolean) => {
     startLoading('Processing withdrawal...');
     try {
-      const res = await wallets_api.withdraw(amount, bankAccount);
+      const res = await wallets_api.withdraw(amount, bankAccount, isInstant);
       if (res.data) {
         showToast({
           title: "Withdrawal Successful",

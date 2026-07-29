@@ -12,6 +12,7 @@ export const useAuth = () => {
   const login = async (payload: any) => {
     loading.value = true;
     try {
+      payload.role = 'vendor';
       const res = await auth_api.login(payload);
       if (res?.type === 'ERROR') throw res;
       
@@ -24,6 +25,13 @@ export const useAuth = () => {
         throw { data: { message: 'Login failed: unexpected response format' } };
       }
       
+      // Clear any cached profile to prevent the new user from seeing the old user's logo/data
+      const profile = useCookie<any>('errandr_vendor_profile');
+      profile.value = null;
+      if (typeof window !== 'undefined') {
+        document.cookie = 'errandr_vendor_profile=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; samesite=lax';
+      }
+
       setUser(userData);
       setToken(tokenValue);
       

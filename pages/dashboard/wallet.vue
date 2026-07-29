@@ -205,8 +205,23 @@
       </option>
     </select>
   </div>
+  
+  <div class="mt-4 flex items-center justify-between p-4 bg-gray-50 border border-gray-100 rounded-md">
+    <div>
+      <h3 class="text-sm font-medium text-gray-900">Instant Payout (1% Fee)</h3>
+      <p class="text-xs text-gray-500 mt-0.5">Get your money immediately.</p>
+    </div>
+    <label class="relative inline-flex items-center cursor-pointer">
+      <input type="checkbox" v-model="isInstantWithdrawal" class="sr-only peer">
+      <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gray-900"></div>
+    </label>
+  </div>
+  <div v-if="isInstantWithdrawal && withdrawAmount > 0" class="mt-2 text-xs font-medium text-emerald-600 flex justify-between px-1">
+    <span>You will receive:</span>
+    <span>₦{{ (withdrawAmount * 0.99).toLocaleString('en-US') }}</span>
+  </div>
  
- <div class="p-5 bg-amber-50 rounded-md border border-amber-100 flex items-start gap-4">
+ <div class="p-5 bg-amber-50 rounded-md border border-amber-100 flex items-start gap-4 mt-4">
  <AlertCircle class="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
  <p class="text-sm text-amber-700 font-semibold leading-relaxed">
  Notice: Ensure your bank details are correct to avoid delays in payout processing.
@@ -254,6 +269,7 @@ const loadingTransactions = ref(true);
 const showWithdrawModal = ref(false);
 const withdrawAmount = ref(0);
 const selectedBankAccount = ref<any>('');
+const isInstantWithdrawal = ref(false);
 
 const availableBankAccounts = computed(() => {
   if (wallet.value?.bankAccounts?.length > 0) return wallet.value.bankAccounts;
@@ -301,7 +317,7 @@ const handleWithdraw = async () => {
   }
   
   try {
-  await withdrawFunds(withdrawAmount.value, selectedBankAccount.value);
+  await withdrawFunds(withdrawAmount.value, selectedBankAccount.value, isInstantWithdrawal.value);
  showWithdrawModal.value = false;
  showToast({ title: 'Payout Requested', message: `₦${withdrawAmount.value} is being processed.`, toastType: 'success' });
  } catch (err) {

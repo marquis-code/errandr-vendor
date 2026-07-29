@@ -292,8 +292,8 @@ onMounted(() => {
     fetchProfile()
   }
   
-  // Setup push notifications
-  if ('Notification' in window && Notification.permission === 'granted') {
+  // Setup push notifications — always attempt (the function handles permission request internally)
+  if ('Notification' in window) {
     requestPermissionAndRegister()
   }
   listenForOrders()

@@ -13,7 +13,7 @@ export const wallets_api = {
     return GATEWAY_ENDPOINT_WITH_AUTH.put('/wallets/preferences', payload);
   },
 
-  withdraw: (amount: number, bankAccount?: any) => {
-    return GATEWAY_ENDPOINT_WITH_AUTH.post('/wallets/withdraw', { amount, bankAccount });
+  withdraw: (amount: number, bankAccount?: any, isInstant?: boolean) => {
+    return GATEWAY_ENDPOINT_WITH_AUTH.post('/wallets/withdraw', { amount, bankAccount, isInstant });
   },
 };

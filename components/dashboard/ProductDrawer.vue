@@ -300,8 +300,9 @@
     <Trash2 class="w-5 h-5" />
    </button>
    <button @click="$emit('close')" type="button" class="flex-1 py-3 bg-white border border-gray-200 text-gray-600 text-sm font-medium rounded-lg hover:bg-gray-50 transition-all">Cancel</button>
-   <button @click="handleSubmit" type="button" :disabled="uploadingImage || uploadingVideo || uploading" class="flex-[2] py-3 bg-gray-900 text-white rounded-lg font-medium text-sm hover:bg-black transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2">
-    {{ product ? 'Update Item' : 'Publish Item' }}
+   <button @click="handleSubmit" type="button" :disabled="uploadingImage || uploadingVideo || uploading || isSaving || localSaving" class="flex-[2] py-3 bg-gray-900 text-white rounded-lg font-medium text-sm hover:bg-black transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2">
+    <Loader2 v-if="uploadingImage || uploadingVideo || uploading || isSaving || localSaving" class="w-5 h-5 animate-spin" />
+    <span v-else>{{ product ? 'Update Product' : 'Save Product' }}</span>
    </button>
   </div>
  </template>
@@ -318,7 +319,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, watch, onMounted, onBeforeUnmount, computed } from 'vue';
-import { Plus, X, UploadCloud, Info, Trash2, Settings2, Edit2, Star, ImageIcon, Video as VideoIcon, CheckCircle } from 'lucide-vue-next';
+import { Plus, X, UploadCloud, Info, Trash2, Settings2, Edit2, Star, ImageIcon, Video as VideoIcon, CheckCircle, Loader2 } from 'lucide-vue-next';
 import Modal from '@/components/ui/Modal.vue';
 import AnimatedInput from '@/components/ui/AnimatedInput.vue';
 import SelectInput from '@/components/ui/SelectInput.vue';
@@ -333,6 +334,7 @@ const props = defineProps<{
  addOnGroups?: any[];
  requiresPrepTime?: boolean;
  requiresTakeawayPack?: boolean;
+ isSaving?: boolean;
  usesMenuApi?: boolean;
 }>();
 
@@ -518,7 +520,11 @@ const confirmDeleteAddOn = async (group: any) => {
 };
 
 // ── Submit ──
+ const localSaving = ref(false);
  const handleSubmit = async () => {
+  if (localSaving.value || props.isSaving) return;
+  localSaving.value = true;
+  setTimeout(() => { localSaving.value = false; }, 2000);
   form.image = allImages.value[0] || '';
   form.images = [...allImages.value];
   form.videos = [...allVideos.value];

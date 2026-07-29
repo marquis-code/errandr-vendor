@@ -252,6 +252,7 @@
  <!-- ─── Drawers & Modals ─── -->
  <ProductDrawer
   :isOpen="isProductDrawerOpen"
+  :isSaving="isSavingProduct"
   :usesMenuApi="isFoodVendor"
   :product="selectedProduct"
   :categories="categories"
@@ -399,13 +400,19 @@ const viewProductDetails = (product: any) => { selectedProduct.value = { ...prod
 const editProduct = (product: any) => { selectedProduct.value = { ...product }; isProductDrawerOpen.value = true; };
 const closeProductDrawer = () => { isProductDrawerOpen.value = false; selectedProduct.value = null; };
 
+const isSavingProduct = ref(false);
 const handleSaveProduct = async (formData: any) => {
- if (selectedProduct.value) {
-  await updateProduct((selectedProduct.value as any)._id, formData);
- } else {
-  await createProduct(formData);
+ isSavingProduct.value = true;
+ try {
+  if (selectedProduct.value) {
+   await updateProduct((selectedProduct.value as any)._id, formData);
+  } else {
+   await createProduct(formData);
+  }
+  closeProductDrawer();
+ } finally {
+  isSavingProduct.value = false;
  }
- closeProductDrawer();
 };
 
 const confirmDelete = (product: any) => { productToDelete.value = product; isDeleteModalOpen.value = true; };

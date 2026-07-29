@@ -125,6 +125,15 @@ export default defineNuxtConfig({
     "@vite-pwa/nuxt",
   ],
 
+  googleFonts: {
+    families: {
+      'Plus Jakarta Sans': [300, 400, 500, 600, 700, 800],
+    },
+    display: 'swap',
+    prefetch: true,
+    preconnect: true,
+  },
+
   pwa: {
     registerType: 'autoUpdate',
     manifest: {

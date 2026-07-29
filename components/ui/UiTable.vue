@@ -42,7 +42,8 @@
             v-else 
             v-for="(item, idx) in items" 
             :key="item._id || idx" 
-            class="hover:bg-gray-50/80 transition-colors group"
+            class="hover:bg-gray-50/80 transition-colors group cursor-pointer"
+            @click="$emit('row-click', item)"
           >
             <td 
               v-for="(col, cIdx) in columns" 
@@ -88,6 +89,8 @@ defineProps<{
  emptySubtitle?: string;
  emptyIcon?: any;
 }>();
+
+const emit = defineEmits(['row-click']);
 </script>
 
 <style scoped>

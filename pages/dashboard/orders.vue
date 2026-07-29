@@ -46,7 +46,8 @@
  :loading="loading"
  empty-title="No orders found"
  empty-subtitle="Orders will appear here once students place them."
-  :has-actions="true">
+ :has-actions="true"
+ @row-click="selectedOrder = $event">
  <template #orderId="{ item }">
  <div class="flex items-center gap-3">
  <div class="w-8 h-8 rounded-md bg-gray-50 flex items-center justify-center text-sm shrink-0">
@@ -64,7 +65,7 @@
  </template>
 
  <template #total="{ item }">
- <span class="font-bold text-gray-900">₦{{ (item as any).total?.toLocaleString() }}</span>
+ <span class="font-bold text-gray-900">₦{{ getVendorEarnings(item as any).toLocaleString() }}</span>
  </template>
 
  <template #status="{ item }">
@@ -105,27 +106,47 @@
  </span>
  </div>
 
- <!-- Items List -->
- <div class="space-y-4">
- <h4 class="text-sm font-medium text-gray-400 px-1">Order Items</h4>
- <div class="space-y-3">
- <div v-for="item in selectedOrder.items" :key="item._id" class="p-4 bg-white border border-gray-50 rounded-md flex items-center justify-between group hover: transition-all">
- <div class="flex items-center gap-4">
- <span class="w-8 h-8 bg-gray-50 rounded-lg flex items-center justify-center text-sm font-medium text-gray-900">{{ item.quantity }}x</span>
- <div>
- <p class="text-sm font-bold text-gray-900">{{ item.name }}</p>
- <p class="text-sm text-gray-400 font-medium">Unit Price: ₦{{ item.price?.toLocaleString() }}</p>
- <div v-if="item.customizations?.length" class="mt-1 space-y-0.5">
- <p v-for="(custom, idx) in item.customizations" :key="idx" class="text-xs text-gray-500 flex items-center gap-1">
- <span class="text-gray-300">+</span> {{ custom.name }} <span v-if="custom.price > 0">(₦{{ custom.price?.toLocaleString() }})</span>
- </p>
- </div>
- </div>
- </div>
- <span class="text-sm font-bold text-gray-900">₦{{ item.subtotal?.toLocaleString() }}</span>
- </div>
- </div>
- </div>
+  <!-- Items List -->
+  <div class="space-y-4">
+    <h4 class="text-xs font-bold uppercase tracking-wider text-gray-400 px-1">Order Items</h4>
+    <div class="space-y-3">
+      <div v-for="item in selectedOrder.items" :key="item._id" class="p-5 bg-white border border-gray-100 rounded-xl shadow-sm space-y-4">
+        <!-- Item Header -->
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-3">
+            <span class="w-9 h-9 bg-orange-100 text-[#FF5C1A] rounded-lg flex items-center justify-center font-bold text-sm shrink-0">
+              {{ item.quantity }}x
+            </span>
+            <div>
+              <p class="text-base font-bold text-gray-900">{{ item.name }}</p>
+              <p class="text-xs text-gray-500 font-medium mt-0.5">Base Price: ₦{{ getOriginalPrice(item.price, selectedOrder)?.toLocaleString() }}</p>
+            </div>
+          </div>
+          <span class="text-base font-extrabold text-gray-900">
+            ₦{{ getOriginalPrice(item.subtotal || (item.price * item.quantity), selectedOrder).toLocaleString() }}
+          </span>
+        </div>
+
+        <!-- Customizations / Extras Section -->
+        <div v-if="item.customizations?.length" class="p-3 bg-orange-50/50 rounded-lg border border-orange-100/50 space-y-2">
+          <p class="text-[10px] font-bold tracking-wider text-[#FF5C1A] uppercase flex items-center gap-1">
+            <Sparkles class="w-3.5 h-3.5 animate-pulse" /> REQUIRED ADD-ONS / CUSTOMIZATIONS
+          </p>
+          <div class="grid grid-cols-1 gap-1.5">
+            <div v-for="(c, cIdx) in getGroupedCustomizations(item.customizations)" :key="cIdx" class="flex items-center justify-between text-sm bg-white px-3 py-2 rounded-md border border-orange-100 shadow-2xs">
+              <span class="font-extrabold text-gray-800 flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#FF5C1A]"></span>
+                {{ c.quantity > 1 ? c.quantity + 'x ' : '' }}{{ getCustomizationLabel(c) }}
+              </span>
+              <span v-if="c.price > 0" class="text-xs font-bold text-[#FF5C1A]">
+                +₦{{ getOriginalPrice(c.price, selectedOrder).toLocaleString() }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
  <!-- Vendor Note -->
  <div v-if="selectedOrder.vendorNote" class="p-4 bg-amber-50/50 border border-amber-100 rounded-md">
@@ -144,11 +165,7 @@
  <div class="relative z-10 flex justify-between items-end">
  <div>
  <p class="text-sm font-bold text-white/40 mb-1">Total Payout</p>
- <h3 class="text-2xl font-bold tracking-tight">₦{{ selectedOrder.total?.toLocaleString() }}</h3>
- </div>
- <div class="text-right">
- <p class="text-sm font-bold text-white/40 mb-1">Earnings</p>
- <p class="text-lg font-bold">₦{{ (selectedOrder.total * 0.9).toLocaleString() }}</p>
+ <h3 class="text-2xl font-bold tracking-tight">₦{{ getVendorEarnings(selectedOrder).toLocaleString() }}</h3>
  </div>
  </div>
  </div>
@@ -221,7 +238,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { Search, ChevronRight, Clock, Package, Star, ArrowRight, MessageSquare, Loader2 } from 'lucide-vue-next';
+import { Search, ChevronRight, Clock, Package, Star, ArrowRight, MessageSquare, Loader2, Sparkles } from 'lucide-vue-next';
 import { GATEWAY_ENDPOINT_WITH_AUTH as api } from '@/api_factory/axios.config';
 import SideDrawer from '@/components/ui/SideDrawer.vue';
 import UiTable from '@/components/ui/UiTable.vue';
@@ -248,6 +265,46 @@ const chatReceiverId = ref('');
 const chatReceiverName = ref('');
 const chatReceiverAvatar = ref('');
 const updatingOrderId = ref<string | null>(null);
+
+const getOriginalPrice = (price: number, orderItem?: any) => {
+  const pct = orderItem?.foodMarkupPercentage ?? 5;
+  const factor = 1 + (pct / 100);
+  return Math.round((price || 0) / factor);
+};
+
+const getVendorEarnings = (orderItem: any) => {
+  if (!orderItem || orderItem.type === 'custom_errand') return 0;
+  // Use proper null check — vendorShare of 0 should NOT trigger fallback
+  if (orderItem.vendorShare != null && orderItem.vendorShare > 0) {
+    return orderItem.vendorShare;
+  }
+  const pct = orderItem.foodMarkupPercentage ?? 5;
+  const factor = 1 + (pct / 100);
+  const vendorSubtotal = Math.round((orderItem.subtotal || 0) / factor);
+  const vendorPackaging = orderItem.packagingFee || 0; // Packaging fee has no markup
+  return vendorSubtotal + vendorPackaging;
+};
+
+const getGroupedCustomizations = (customizations: any[]) => {
+  if (!customizations) return [];
+  const grouped: Record<string, any> = {};
+  customizations.forEach(c => {
+    if (grouped[c.name]) {
+      grouped[c.name].quantity += 1;
+      grouped[c.name].price += c.price;
+    } else {
+      grouped[c.name] = { ...c, quantity: 1 };
+    }
+  });
+  return Object.values(grouped);
+};
+
+const getCustomizationLabel = (c: any) => {
+  if (c.selected && c.selected !== c.name && !['add-on', 'add-ons', 'extra', 'extras', 'customization', 'customizations'].includes(c.selected.toLowerCase())) {
+    return `${c.selected}: ${c.name}`;
+  }
+  return c.name;
+};
 
 const openChat = (receiverId: string | undefined, name: string, avatar?: string) => {
  if (!receiverId || !selectedOrder.value) return;
@@ -339,15 +396,32 @@ const loadOrders = async () => {
  finally { loading.value = false; }
 };
 
-const { connect, on } = useSocket('notifications');
+const { connect, on, emit } = useSocket('realtime');
 onMounted(async () => {
- await loadOrders();
- connect();
- on('notification', (payload: any) => {
- if (['NEW_ORDER', 'ORDER_STATUS_UPDATE'].includes(payload.type)) {
- loadOrders();
- }
- });
+  await loadOrders();
+  const sock = connect();
+  // Explicitly register user with the realtime gateway for targeted notifications
+  if (user.value?._id) {
+    emit('register', { userId: user.value._id });
+  }
+  on('notification:new', (payload: any) => {
+    if (['NEW_ORDER', 'ORDER_STATUS_UPDATE'].includes(payload.type)) {
+      loadOrders();
+      // Play alert sound for new orders
+      if (payload.type === 'NEW_ORDER') {
+        try {
+          const audio = new Audio('/sounds/order-alert.mp3');
+          audio.play().catch(() => {});
+        } catch (_) {}
+      }
+    }
+  });
+  on('notification:order-status-update', () => {
+    loadOrders();
+  });
+  on('notification:new-order', () => {
+    loadOrders();
+  });
 });
 </script>
 

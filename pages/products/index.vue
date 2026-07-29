@@ -131,6 +131,7 @@
     :usesMenuApi="isFoodVendor"
     :requiresPrepTime="isRestaurant"
     :requiresTakeawayPack="isRestaurant"
+    :isSaving="isSaving"
     @close="closeProductDrawer"
     @save="handleSaveProduct"
     @delete="handleDelete"
@@ -168,6 +169,7 @@ const showAddDrawer = ref(false);
 const selectedProduct = ref<any>(null);
 const searchQuery = ref('');
 const activeCategory = ref('all');
+const isSaving = ref(false);
 
 const categories = computed(() => {
  const cats = new Set(products.value.map(p => p.category));
@@ -202,12 +204,17 @@ const closeProductDrawer = () => {
 };
 
 const handleSaveProduct = async (formData: any) => {
- if (selectedProduct.value) {
- await updateProduct(selectedProduct.value._id, formData);
- } else {
- await createProduct(formData);
+ isSaving.value = true;
+ try {
+   if (selectedProduct.value) {
+   await updateProduct(selectedProduct.value._id, formData);
+   } else {
+   await createProduct(formData);
+   }
+   closeProductDrawer();
+ } finally {
+   isSaving.value = false;
  }
- closeProductDrawer();
 };
 
 const handleDelete = async (product: any) => {

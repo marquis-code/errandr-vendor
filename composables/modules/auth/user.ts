@@ -45,8 +45,21 @@ export const useUser = () => {
   const logOut = () => {
     user.value = null;
     token.value = null;
+    
+    // Clear profile cookie as well so new vendor doesn't see old vendor's logo/data
+    const profile = useCookie<any>('errandr_vendor_profile');
+    profile.value = null;
+
     if (typeof window !== 'undefined') {
       localStorage.removeItem('errandr_cart');
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      
+      // Explicitly remove cookies at the browser level to ensure they're gone
+      document.cookie = 'errandr_vendor_user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; samesite=lax';
+      document.cookie = 'errandr_vendor_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; samesite=lax';
+      document.cookie = 'errandr_vendor_profile=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; samesite=lax';
+
       if (window.location.pathname !== '/auth/login') {
         window.location.href = '/auth/login';
       }

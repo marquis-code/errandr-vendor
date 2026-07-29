@@ -46,19 +46,14 @@ export const useOrderChat = (
     const currentUserId = toValue(currentUserIdArg);
     const targetUserId = toValue(targetUserIdArg);
     try {
-      const res = await api.get(`/chat/order/${orderId}`);
+      let url = `/chat/order/${orderId}`;
       if (currentUserId && targetUserId) {
-        messages.value = (res.data || []).filter((m: any) => {
-          const sId = String(m.senderId || m.sender?._id || m.sender || '');
-          const rId = String(m.receiverId || m.receiver?._id || m.receiver || '');
-          const cIds = String(currentUserId).split(',').map(id => id.trim());
-          const tIds = String(targetUserId).split(',').map(id => id.trim());
-          const isGeneric = !rId || rId === 'undefined' || rId === '[object Object]';
-          return isGeneric || (cIds.includes(sId) && tIds.includes(rId)) || (tIds.includes(sId) && cIds.includes(rId));
-        });
-      } else {
-        messages.value = res.data || [];
+        const cleanCurrent = extractObjectId(currentUserId);
+        const cleanTarget = extractObjectId(targetUserId);
+        url += `?userA=${cleanCurrent}&userB=${cleanTarget}`;
       }
+      const res = await api.get(url);
+      messages.value = res.data || [];
     } catch (e) {
       console.error('Failed to fetch messages', e);
     } finally {
@@ -134,16 +129,26 @@ export const useOrderChat = (
     const sock = getSocket();
     const orderId = toValue(orderIdArg);
     const currentUserId = toValue(currentUserIdArg);
+    const targetUserId = toValue(targetUserIdArg);
 
-    // Join the order room
-    emit('joinOrder', { orderId });
+    // Compute a deterministic pairKey for this conversation
+    let pairKey: string | undefined;
+    if (currentUserId && targetUserId) {
+      const cleanCurrent = extractObjectId(currentUserId);
+      const cleanTarget = extractObjectId(targetUserId);
+      const ids = [cleanCurrent, cleanTarget].sort();
+      pairKey = `${ids[0]}_${ids[1]}`;
+    }
+
+    // Join the pair-specific order room
+    emit('joinOrder', { orderId, pairKey });
 
     // Also re-join on reconnect
     if (sock) {
       sock.off('connect.orderChat.' + orderId); // remove old if any
       const reconnectHandler = () => {
         console.log(`[useOrderChat] Reconnected, rejoining order:${orderId}`);
-        emit('joinOrder', { orderId: toValue(orderIdArg) });
+        emit('joinOrder', { orderId: toValue(orderIdArg), pairKey });
       };
       sock.on('connect', reconnectHandler);
     }
@@ -160,45 +165,27 @@ export const useOrderChat = (
     newMessageHandler = (message: any) => {
       const orderId = toValue(orderIdArg);
       const currentUserId = toValue(currentUserIdArg);
-      const targetUserId = toValue(targetUserIdArg);
 
-      console.log('[Vendor useOrderChat] Received newMessage:', message);
       const msgOrderId = String(message.orderId || message.order?._id || message.order || '');
       
-      console.log(`[Vendor useOrderChat] msgOrderId=${msgOrderId}, expected orderId=${orderId}`);
       if (msgOrderId === String(orderId)) {
-        if (currentUserId && targetUserId) {
+        if (currentUserId) {
           const sId = String(message.senderId || message.sender?._id || message.sender || '');
-          const rId = String(message.receiverId || message.receiver?._id || message.receiver || '');
           const cIds = String(currentUserId).split(',').map(id => id.trim());
-          const tIds = String(targetUserId).split(',').map(id => id.trim());
-          const isGeneric = !rId || rId === 'undefined' || rId === '[object Object]';
-          const isRelevant = isGeneric || (cIds.includes(sId) && tIds.includes(rId)) || (tIds.includes(sId) && cIds.includes(rId));
-          
-          console.log(`[Vendor useOrderChat] Relevance check: sId=${sId}, rId=${rId}, cIds=${cIds.join(',')}, tIds=${tIds.join(',')}, isGeneric=${isGeneric}, isRelevant=${isRelevant}`);
-          if (!isRelevant) {
-            console.log('[Vendor useOrderChat] Message dropped due to relevance check!');
-            return;
-          }
-          
+
           if (cIds.includes(sId)) {
             // It's our own message, check for pending optimistic update
             const pendingIdx = messages.value.findIndex(m => m.status === 'pending' && m.message === message.message && (m.messageType || 'text') === (message.messageType || 'text'));
             if (pendingIdx !== -1) {
               messages.value[pendingIdx] = message;
-              console.log('[Vendor useOrderChat] Replaced pending optimistic message!');
               return;
             }
           }
         }
 
-        console.log(`[Vendor useOrderChat] Message accepted! Existing messages count: ${messages.value.length}`);
         // Strict deduplication by _id
         if (!message._id || !messages.value.some(m => m._id === message._id)) {
           messages.value.push(message);
-          console.log('[Vendor useOrderChat] Message pushed to array successfully!');
-        } else {
-          console.log('[Vendor useOrderChat] Message dropped - duplicate _id found.');
         }
 
         // Mark as read
