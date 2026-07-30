@@ -1,22 +1,18 @@
 <template>
-  <div class="min-h-screen w-full bg-white flex items-center justify-center px-4 py-12 relative">
-    <!-- Ambient Background -->
-    <div class="absolute inset-0 overflow-hidden pointer-events-none">
-      <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-parentPrimary/10 rounded-md blur-[120px] translate-x-1/4 -translate-y-1/4"></div>
-      <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-500/10 rounded-md blur-[120px] -translate-x-1/4 translate-y-1/4"></div>
-    </div>
-
-    <div class="w-full max-w-[500px] relative z-10">
+  <div class="min-h-screen w-full flex flex-col items-center justify-center bg-white overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
+    <!-- Form Card -->
+    <div class="w-full max-w-xl flex flex-col justify-center px-4 sm:px-10 py-12 bg-white sm:rounded-[2rem] relative z-10 my-8 shadow-sm border border-gray-50">
       
       <!-- Header -->
       <transition name="fade" mode="out-in">
-        <div v-if="currentStep !== 'success'" class="text-center mb-8">
-          <!-- <img src="@/assets/img/logo-light.png" alt="" class="w-[200px] mx-auto" /> -->
-          <span class="text-xl font-medium text-black tracking-tight hidden sm:block transition-colors">
-            Erranders<span class="text-parentPrimary">.</span>
-          </span>
-          <h1 class="text-2xl font-medium text-gray-900 tracking-tight mb-2">Open Your Store</h1>
-          <p class="text-gray-500 font-medium text-sm">Join the campus delivery network</p>
+        <div v-if="currentStep !== 'success'" class="mb-10 text-center flex flex-col items-center">
+          <NuxtLink to="/" class="flex items-center gap-2 mb-8 inline-block group">
+            <div class="flex items-center justify-center group-hover:scale-110 transition-transform">
+              <Store class="w-12 h-12 text-[#FF5C1A]" />
+            </div>
+          </NuxtLink>
+          <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">Open Your Store</h1>
+          <p class="text-gray-500 text-base">Join the campus delivery network</p>
         </div>
       </transition>
 
@@ -49,24 +45,23 @@
               </div>
               
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <UiAnimatedInput v-model="form.firstName" type="text" label="First Name" :hasError="!!valErrors.firstName" :errorMessage="valErrors.firstName" @input="valErrors.firstName=''" />
-                <UiAnimatedInput v-model="form.lastName" type="text" label="Last Name" :hasError="!!valErrors.lastName" :errorMessage="valErrors.lastName" @input="valErrors.lastName=''" />
+                <UiAnimatedInput v-model="form.firstName" type="text" label="First Name" :hasError="!!valErrors.firstName" :errorMessage="valErrors.firstName" @input="valErrors.firstName=''" required />
+                <UiAnimatedInput v-model="form.lastName" type="text" label="Last Name" :hasError="!!valErrors.lastName" :errorMessage="valErrors.lastName" @input="valErrors.lastName=''" required />
               </div>
-              <UiAnimatedInput v-model="form.email" type="email" label="Email Address" :hasError="!!valErrors.email" :errorMessage="valErrors.email" @input="valErrors.email=''" />
-              <UiAnimatedInput v-model="form.phone" type="tel" label="Phone Number" :hasError="!!valErrors.phone" :errorMessage="valErrors.phone" @input="valErrors.phone=''" />
-              <UiAnimatedInput v-model="form.password" type="password" label="Password" :hasError="!!valErrors.password" :errorMessage="valErrors.password" @input="valErrors.password=''" />
+              <UiAnimatedInput v-model="form.email" type="email" label="Email Address" :hasError="!!valErrors.email" :errorMessage="valErrors.email" @input="valErrors.email=''" required />
+              <UiAnimatedInput v-model="form.phone" type="tel" label="Phone Number" :hasError="!!valErrors.phone" :errorMessage="valErrors.phone" @input="valErrors.phone=''" required />
+              <UiAnimatedInput v-model="form.password" type="password" label="Password" :hasError="!!valErrors.password" :errorMessage="valErrors.password" @input="valErrors.password=''" required />
               <UiAnimatedInput v-model="form.referredBy" type="text" label="Referral Code (Optional)" placeholder="" @input="formatReferralCode" />
 
-              <!-- <div v-if="error" class="p-3 bg-red-50 text-red-600 text-smfont-bold rounded-md flex items-center gap-2"><AlertCircle class="w-4 h-4 shrink-0" /> {{ error }}</div> -->
-
-              <div class="mt-auto pt-4">
-                <button type="submit" :disabled="loading || validatingReferral" class="w-full py-2 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-md font-medium text-sm transition-all disabled:opacity-50 flex items-center justify-center gap-2 active:scale-[0.98]">
-                  <Loader2 v-if="loading || validatingReferral" class="animate-spin w-5 h-5" />
-                  <span>Continue</span>
-                  <ArrowRight v-if="!loading && !validatingReferral" class="w-5 h-5" />
+              <div class="mt-auto pt-6">
+                <button type="submit" :disabled="loading || validatingReferral" 
+                  class="w-full py-3.5 bg-[#FF5C1A] hover:bg-[#E54D12] text-white rounded-xl font-bold text-base transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-md shadow-[#FF5C1A]/20">
+                  <Loader2 v-if="loading || validatingReferral" class="animate-spin w-6 h-6" />
+                  <span>{{ loading || validatingReferral ? 'Processing...' : 'Continue' }}</span>
+                  <ArrowRight v-if="!loading && !validatingReferral" class="w-5 h-5 ml-2" />
                 </button>
-                <p class="text-center text-gray-500 text-sm font-medium pt-4">
-                  Already have an account? <NuxtLink to="/auth/login" class="text-parentPrimary font-bold hover:underline">Sign in</NuxtLink>
+                <p class="text-center text-gray-600 font-medium mt-6">
+                  Already have an account? <NuxtLink to="/auth/login" class="text-[#FF5C1A] font-bold hover:underline">Sign in</NuxtLink>
                 </p>
               </div>
             </form>

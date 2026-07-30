@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen w-screen flex bg-[#F0F2F5] overflow-hidden fixed inset-0 z-50">
+  <div class="h-[100dvh] w-screen flex bg-[#F0F2F5] overflow-hidden fixed inset-0 z-50">
     <!-- Left Sidebar (WhatsApp Web style) -->
     <div 
       :class="[ 'w-full md:w-[35%] lg:w-[30%] max-w-[420px] min-w-[320px] flex-col bg-white border-r border-gray-200 flex-shrink-0 transition-all', activeChat ? 'hidden md:flex' : 'flex' ]"

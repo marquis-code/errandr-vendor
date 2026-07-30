@@ -8,7 +8,7 @@
       <NuxtPage class="z-10" />
     </NuxtLayout>
     
-    
+    <CoreCallOverlay />
     
     <!-- Background Audio - Bottom Left -->
     <!-- <ClientOnly>
@@ -27,9 +27,17 @@ body {
 
 <script setup lang="ts">
 // Global app configuration
+import { onMounted } from 'vue'
 import { useRealtimeNotifications } from '@/composables/core/useRealtimeNotifications'
+import { useWebRTC } from '@/composables/useWebRTC'
 
 useRealtimeNotifications()
+
+const { initSocketListeners } = useWebRTC()
+
+onMounted(() => {
+  initSocketListeners()
+})
 
 useHead({
   title: 'Errandr - Merchant Portal',

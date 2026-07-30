@@ -1,9 +1,9 @@
 <template>
  <div v-if="isOpen" class="w-full h-full flex flex-col font-sans relative overflow-hidden bg-[#E5DDD5] min-h-0">
  <!-- Chat Panel -->
- <div class="w-full h-full flex flex-col bg-[#E5DDD5] min-h-0">
- <!-- WhatsApp Green Header -->
- <div class="px-4 py-2.5 bg-[#008069] text-white flex items-center gap-4 sticky top-0 z-20">
+ <div class="w-full h-full flex flex-col bg-[#FDFBF7] min-h-0">
+ <!-- Branded Header -->
+ <div class="px-4 py-2.5 bg-[#FF5C1A] text-white flex items-center gap-4 sticky top-0 z-20 shadow-sm">
  <button @click="$emit('close')" class="lg:hidden p-2 hover:bg-white/10 rounded-md transition-colors">
  <ArrowLeft class="w-5 h-5 text-white" />
  </button>
@@ -18,17 +18,23 @@
  </p>
  </div>
  <div class="flex items-center gap-5 mr-2">
+ <button @click="startVideoCall" class="p-1 hover:bg-white/10 rounded-full transition-colors">
+  <Video class="w-5 h-5 text-white" />
+ </button>
+ <button @click="startAudioCall" class="p-1 hover:bg-white/10 rounded-full transition-colors">
+  <Phone class="w-5 h-5 text-white" />
+ </button>
  <Search class="w-5 h-5 text-white cursor-pointer hover:text-gray-200" />
  <MoreVertical class="w-5 h-5 text-white cursor-pointer hover:text-gray-200" />
  </div>
  </div>
 
- <!-- Messages Area with WhatsApp-like background -->
- <div ref="messageContainer" class="flex-1 overflow-y-auto px-4 py-6 space-y-2 scroll-smooth bg-[url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png')] bg-repeat">
+ <!-- Messages Area with subtle branded background -->
+ <div ref="messageContainer" class="flex-1 overflow-y-auto px-4 py-6 space-y-[2px] scroll-smooth bg-[#FDFBF7]">
  
  <!-- Date Marker -->
  <div class="flex justify-center mb-6 sticky top-2 z-10">
- <span class="px-3 py-1 bg-[#D1E9F6] text-[#54656F] text-[11px] font-bold rounded-lg">
+ <span class="px-3 py-1 bg-white border border-[#FF5C1A]/10 text-[#FF5C1A] text-[11px] font-bold rounded-full shadow-sm">
  Order #{{ orderId }}
  </span>
  </div>
@@ -50,15 +56,8 @@
  :class="isMe(msg) ? 'items-end' : 'items-start'">
  
  <div class="flex group items-center max-w-full" :class="isMe(msg) ? 'flex-row-reverse' : 'flex-row'">
- <div :class="[ 'relative max-w-[85%] px-3 py-1.5 rounded-lg text-[14.5px] mb-1 transition-all', isMe(msg) ? 'bg-[#DCF8C6] text-[#054740] rounded-tr-none ml-2' : 'bg-white text-[#111B21] rounded-tl-none mr-2' ]">
- <!-- Speech Bubble Tail -->
- <div v-if="shouldShowTail(msg, idx)" 
- :class="[ 'absolute top-0 w-3 h-4', isMe(msg) ? 'right-[-8px] text-[#DCF8C6]' : 'left-[-8px] text-white' ]">
- <svg viewBox="0 0 8 13" width="8" height="13" class="fill-current">
- <path v-if="isMe(msg)" d="M5.188 1H0v11.193l6.467-8.625C7.526 2.156 6.958 1 5.188 1z" />
- <path v-else d="M2.812 1H8v11.193L1.533 3.568C.474 2.156 1.042 1 2.812 1z" />
- </svg>
- </div>
+ <div :class="[ 'relative max-w-[85%] px-3.5 py-2 rounded-[18px] text-[14.5px] transition-all', isMe(msg) ? 'bg-[#FF5C1A] text-white ml-2' : 'bg-white border border-gray-100 text-[#111B21] mr-2 shadow-sm', shouldShowTail(msg, idx) ? (isMe(msg) ? 'rounded-br-sm' : 'rounded-bl-sm') : '' ]">
+ <!-- Speech Bubble Tail removed for cleaner modern look -->
 
  <!-- Sender name for groups/receivers -->
  <p v-if="!isMe(msg) && shouldShowSender(msg, idx)" class="text-[12px] font-bold text-[#34B7F1] mb-0.5">
@@ -89,13 +88,13 @@
  <div class="flex items-end gap-2 flex-wrap">
  <span v-if="msg.message" class="break-words flex-1 min-w-0 font-medium">{{ msg.message }}</span>
  <div class="flex items-center gap-1 shrink-0 mt-1 self-end">
- <span class="text-sm text-gray-400 font-medium">
+ <span :class="['text-[11px] font-medium', isMe(msg) ? 'text-white/80' : 'text-gray-400']">
  {{ formatTime(msg.createdAt) }}
  </span>
- <!-- WhatsApp Ticks -->
+ <!-- Ticks -->
  <div v-if="isMe(msg)" class="flex items-center">
- <Check v-if="!msg._id" class="w-3 h-3 text-gray-400" />
- <CheckCheck v-else class="w-3.5 h-3.5 text-[#34B7F1]" />
+ <Check v-if="!msg._id" class="w-3.5 h-3.5 text-white/50" />
+ <CheckCheck v-else class="w-4 h-4 text-white" />
  </div>
  </div>
  </div>
@@ -110,9 +109,13 @@
  </div>
  </div>
  
- <div v-if="isTyping" class="flex items-center ml-2 transition-all">
- <div class="bg-white px-3 py-2 rounded-lg text-[12px] text-[#075E54] font-bold animate-pulse">
- {{ receiverName || 'User' }} is typing...
+ <div v-if="isTyping" class="flex items-center ml-2 transition-all my-2">
+ <div class="bg-white px-4 py-2 rounded-full border border-gray-100 shadow-sm text-[12px] text-[#FF5C1A] font-bold animate-pulse flex items-center gap-2">
+ <div class="flex gap-1">
+   <div class="w-1.5 h-1.5 bg-[#FF5C1A]/60 rounded-full animate-bounce"></div>
+   <div class="w-1.5 h-1.5 bg-[#FF5C1A]/60 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+   <div class="w-1.5 h-1.5 bg-[#FF5C1A]/60 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+ </div>
  </div>
  </div>
 
@@ -198,6 +201,7 @@ import {
 } from 'lucide-vue-next';
 import { ref, onMounted, nextTick, watch } from 'vue';
 import { useOrderChat } from '@/composables/useOrderChat';
+import { useWebRTC } from '@/composables/useWebRTC';
 import { GATEWAY_ENDPOINT_WITH_AUTH } from '@/api_factory/axios.config';
 import EmojiPicker from 'vue3-emoji-picker';
 import 'vue3-emoji-picker/css';
@@ -244,6 +248,16 @@ const showEmojiPicker = ref(false);
 
 const onSelectEmoji = (emoji: any) => {
   newMsgText.value += emoji.i;
+};
+
+const { initiateCall } = useWebRTC();
+
+const startVideoCall = () => {
+  initiateCall(props.receiverId, props.receiverName || 'Store', props.receiverAvatar || '', true);
+};
+
+const startAudioCall = () => {
+  initiateCall(props.receiverId, props.receiverName || 'Store', props.receiverAvatar || '', false);
 };
 
 // Reply State

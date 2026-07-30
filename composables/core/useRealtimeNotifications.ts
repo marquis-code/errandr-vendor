@@ -76,6 +76,7 @@ export const useRealtimeNotifications = () => {
     listenersAttached.value = true
 
     socket.value.on('notification:new', handleNotification)
+    socket.value.on('notification:new-order', handleNotification)
     socket.value.on('audit:log', handleAudit)
     socket.value.on('notification:order-status-update', handleOrderStatusUpdate)
   })
@@ -84,6 +85,7 @@ export const useRealtimeNotifications = () => {
     if (!socket.value || !listenersAttached.value) return
 
     socket.value.off('notification:new', handleNotification)
+    socket.value.off('notification:new-order', handleNotification)
     socket.value.off('audit:log', handleAudit)
     socket.value.off('notification:order-status-update', handleOrderStatusUpdate)
     listenersAttached.value = false
