@@ -439,6 +439,25 @@
                 </button>
               </div>
             </div>
+
+            <div class="pt-8 border-t border-gray-50">
+              <h4 class="text-base font-bold text-gray-900 mb-4">Account Purposes</h4>
+              <p class="text-sm text-gray-500 mb-4">Manage categories for splitting your funds across bank accounts.</p>
+              <div class="flex flex-wrap gap-2">
+                <div v-for="(purpose, index) in profile.accountPurposes" :key="index" class="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg border border-gray-100">
+                  <span class="text-sm font-medium text-gray-700">{{ purpose }}</span>
+                  <button v-if="purpose !== 'Default / General'" @click="removeAccountPurpose(index)" class="text-gray-400 hover:text-rose-500 transition-colors">
+                    <X class="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+              <div class="mt-4 flex gap-2">
+                <div class="flex-1">
+                  <AnimatedInput v-model="newPurposeText" placeholder="Add new purpose..." />
+                </div>
+                <button @click="addAccountPurpose" type="button" class="px-5 py-3 h-14 bg-gray-900 text-white rounded-xl font-bold text-sm hover:bg-black transition-all">Add</button>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -478,7 +497,8 @@
         <SelectInput 
           v-model="newAccount.purpose" 
           label="Account Purpose (Optional)" 
-          :options="[{label: 'Default / General', value: 'default'}, {label: 'Customization / Pre-orders', value: 'customization'}, {label: 'Perfumes', value: 'perfumes'}, {label: 'Jewelries', value: 'jewelries'}]" 
+          :options="dynamicAccountPurposes" 
+          :allowCustom="true"
           info="Categorize this account to split your funds correctly."
         />
 
@@ -525,7 +545,7 @@ import { ref, reactive, watch, onMounted, computed } from 'vue';
 import { 
  Store as StoreIcon, ImageIcon, Upload, Clock, 
  CreditCard, Power, Loader2, CheckCircle, 
- AlertCircle, Building, Plus, Trash2 
+ AlertCircle, Building, Plus, Trash2, X 
 } from 'lucide-vue-next';
 import { vendors_api } from '@/api_factory/modules/vendors';
 import { payments_api } from '@/api_factory/modules/payments';
@@ -593,7 +613,8 @@ const profile = reactive({
  start: '14:00',
  end: '15:00',
  enabled: false
- }
+ },
+ accountPurposes: ['Default / General'] as string[]
 });
 
 const payoutPreference = ref('weekly');
@@ -614,6 +635,24 @@ const banksLoading = ref(false);
 const resolvingAccount = ref(false);
 const isAccountVerified = ref(false);
 const resolveError = ref('');
+
+const newPurposeText = ref('');
+const addAccountPurpose = () => {
+  const val = newPurposeText.value.trim();
+  if (val && !profile.accountPurposes.includes(val)) {
+    profile.accountPurposes.push(val);
+    newPurposeText.value = '';
+  }
+};
+const removeAccountPurpose = (index: number) => {
+  if (profile.accountPurposes[index] !== 'Default / General') {
+    profile.accountPurposes.splice(index, 1);
+  }
+};
+
+const dynamicAccountPurposes = computed(() => {
+  return profile.accountPurposes.map(p => ({ label: p, value: p }));
+});
 
  const categoryOptions = [
  { label: 'Restaurant', value: 'restaurant' },
@@ -675,6 +714,9 @@ const loadInitialData = async () => {
  }
  if (data.breakPeriod) {
  profile.breakPeriod = data.breakPeriod;
+ }
+ if (data.accountPurposes && data.accountPurposes.length > 0) {
+ profile.accountPurposes = data.accountPurposes;
  }
  isOnline.value = !!data.isOnline;
 
