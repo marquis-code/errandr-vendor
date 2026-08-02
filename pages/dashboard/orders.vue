@@ -233,7 +233,19 @@
  </div>
  </template>
  </SideDrawer>
- </div>
+  <!-- Order Chat Side Drawer -->
+  <OrderChat
+    v-if="selectedOrder"
+    :is-open="chatState.isOpen"
+    :order-id="selectedOrder._id"
+    :current-user-id="(selectedOrder.vendor?._id || selectedOrder.vendor || '') + ',' + ((user as any)?.id || (user as any)?._id)"
+    :receiver-id="chatState.receiverId"
+    :receiver-name="chatState.receiverName"
+    :receiver-avatar="chatState.receiverAvatar"
+    :initial-message="chatState.initialMessage"
+    @close="chatState.isOpen = false"
+  />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -306,16 +318,23 @@ const getCustomizationLabel = (c: any) => {
   return c.name;
 };
 
+const chatState = ref({
+  isOpen: false,
+  receiverId: '',
+  receiverName: '',
+  receiverAvatar: '',
+  initialMessage: ''
+});
+
 const openChat = (receiverId: string | undefined, name: string, avatar?: string) => {
  if (!receiverId || !selectedOrder.value) return;
- router.push({
-   path: '/dashboard/chats',
-   query: {
-     orderId: selectedOrder.value._id,
-     receiverId: receiverId,
-     autoMessage: `Hello ${name.split(' ')[0]}! Thanks for your order #${selectedOrder.value.orderNumber}. We're currently processing it. Let us know if you need any adjustments!`
-   }
- });
+ chatState.value = {
+   isOpen: true,
+   receiverId,
+   receiverName: name,
+   receiverAvatar: avatar || '',
+   initialMessage: `Hello ${name.split(' ')[0]}! Thanks for your order #${selectedOrder.value.orderNumber}. We're currently processing it. Let us know if you need any adjustments!`
+ };
 };
 
 const orderColumns = [

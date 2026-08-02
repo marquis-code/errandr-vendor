@@ -23,12 +23,18 @@
 
       <!-- Quick Action Buttons -->
       <div class="flex gap-2 mb-8">
-        <button class="flex-1 py-2.5 bg-gray-50 border border-gray-200 rounded-md text-sm font-semibold text-gray-700 hover:bg-gray-100 transition-colors flex justify-center items-center gap-2">
+        <button 
+          @click="showChatModal = true"
+          class="flex-1 py-2.5 bg-gray-50 border border-gray-200 rounded-md text-sm font-semibold text-gray-700 hover:bg-gray-100 transition-colors flex justify-center items-center gap-2"
+        >
           <MessageCircle class="w-4 h-4" /> Message
         </button>
-        <button class="flex-1 py-2.5 bg-gray-50 border border-gray-200 rounded-md text-sm font-semibold text-gray-700 hover:bg-gray-100 transition-colors flex justify-center items-center gap-2">
-          <User class="w-4 h-4" /> Profile
-        </button>
+        <a 
+          :href="appointment.user?.phoneNumber ? `tel:${appointment.user.phoneNumber}` : '#'"
+          class="flex-1 py-2.5 bg-gray-50 border border-gray-200 rounded-md text-sm font-semibold text-gray-700 hover:bg-gray-100 transition-colors flex justify-center items-center gap-2"
+        >
+          <Phone class="w-4 h-4" /> Call
+        </a>
       </div>
 
       <!-- Service Details -->
@@ -92,14 +98,29 @@
 
       <!-- Bottom Actions -->
       <div class="pt-6 mt-6 border-t border-gray-100 space-y-3">
-        <div class="flex justify-between items-center mb-4">
-          <span class="text-sm font-bold text-gray-500">Total to pay</span>
-          <span class="text-xl font-black text-gray-900">₦{{ appointment.price?.toLocaleString() || 0 }}</span>
+        <div class="flex justify-between items-center mb-1">
+          <span class="text-sm text-gray-500">Total Price</span>
+          <span class="text-sm font-bold text-gray-900">₦{{ appointment.price?.toLocaleString() || 0 }}</span>
+        </div>
+        <div class="flex justify-between items-center mb-1">
+          <span class="text-sm text-gray-500">Commitment Fee (Paid)</span>
+          <span class="text-sm font-bold text-green-600">₦{{ appointment.commitmentFee?.toLocaleString() || 0 }}</span>
+        </div>
+        <div class="flex justify-between items-center mb-4 pt-2 border-t border-gray-100">
+          <span class="text-sm font-bold text-gray-900">Balance to Collect</span>
+          <span class="text-xl font-black text-gray-900">₦{{ appointment.pendingBalance?.toLocaleString() || 0 }}</span>
+        </div>
+
+        <div v-if="appointment.status === 'confirmed' || appointment.status === 'pending'" class="bg-blue-50 border border-blue-100 p-3 rounded-md mb-4 flex items-start gap-2">
+          <Info class="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
+          <p class="text-xs text-blue-800">
+            Please collect the pending balance of <strong>₦{{ appointment.pendingBalance?.toLocaleString() || 0 }}</strong> in cash or transfer before completing this booking.
+          </p>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <button 
-            v-if="appointment.status !== 'cancelled'"
+            v-if="appointment.status !== 'cancelled' && appointment.status !== 'completed'"
             @click="handleUpdateStatus('cancelled')"
             :disabled="loading"
             class="w-full py-2.5 bg-red-50 text-red-600 border border-red-100 rounded-md text-sm font-bold hover:bg-red-100 transition-colors disabled:opacity-50"
@@ -129,12 +150,26 @@
 
     </div>
   </UiSideDrawer>
+
+  <!-- Chat Modal -->
+  <AppointmentChatModal 
+    v-if="appointment"
+    :is-open="showChatModal"
+    :appointment-id="appointment._id"
+    :student-id="appointment.user?._id"
+    :student-name="`${appointment.user?.firstName || ''} ${appointment.user?.lastName || ''}`.trim()"
+    :student-avatar="appointment.user?.avatar"
+    @close="showChatModal = false"
+  />
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { Calendar, MessageCircle, User, Info } from 'lucide-vue-next';
+import { computed, ref } from 'vue';
+import { Calendar, MessageCircle, User, Info, Phone } from 'lucide-vue-next';
 import UiSideDrawer from '@/components/ui/SideDrawer.vue';
+import AppointmentChatModal from '@/components/core/AppointmentChatModal.vue';
+
+const showChatModal = ref(false);
 
 const props = defineProps<{
   isOpen: boolean;

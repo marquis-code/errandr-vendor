@@ -114,6 +114,29 @@
               <SelectInput v-model="profile.category" :label="isServiceProvider ? 'Business Category' : 'Category'" :options="filteredCategoryOptions" :allowCustom="true" required />
             </div>
             
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-gray-100">
+              <SelectInput 
+                v-model="profile.businessType" 
+                label="Business Model" 
+                :options="[
+                  { value: 'physical_product', label: 'Physical Products (Goods)' },
+                  { value: 'service_provider', label: 'Service Provider (Appointments)' },
+                  { value: 'hybrid', label: 'Hybrid (Goods & Services)' }
+                ]" 
+                required 
+              />
+              <SelectInput 
+                v-model="profile.vendorType" 
+                label="Store Format" 
+                :options="[
+                  { value: 'single-category', label: 'Single Category / Specialty' },
+                  { value: 'restaurant', label: 'Restaurant / Eatery' },
+                  { value: 'mini-mart', label: 'Mini-Mart / Grocery' }
+                ]" 
+                required 
+              />
+            </div>
+            
             <AnimatedInput v-model="profile.description" type="textarea" :label="isServiceProvider ? 'Business Bio' : 'Store Bio'" :description="isServiceProvider ? 'Tell students about your services and expertise...' : 'Describe what makes your products special...'" />
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -584,6 +607,7 @@ const bannerInput = ref<HTMLInputElement | null>(null);
 
 const profile = reactive({
  businessType: '',
+ vendorType: '',
  storeName: '',
  description: '',
  category: '',
@@ -691,6 +715,7 @@ const loadInitialData = async () => {
  const data = profRes?.data?.data || profRes?.data || {};
  vendorId.value = data._id || data.id || '';
  profile.businessType = data.businessType || '';
+ profile.vendorType = data.vendorType || '';
  profile.storeName = data.storeName || '';
  profile.description = data.description || '';
  profile.category = data.category || '';

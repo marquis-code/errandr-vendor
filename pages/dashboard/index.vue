@@ -52,9 +52,9 @@
           </div>
           
           <UiTable  
-            :columns="orderColumns" 
-            :items="orders.slice(0, 5)" 
-            :loading="loadingOrders"
+            :columns="isServiceProvider ? appointmentColumns : orderColumns" 
+            :items="isServiceProvider ? appointmentsList.slice(0, 5) : orders.slice(0, 5)" 
+            :loading="isServiceProvider ? loadingAppointments : loadingOrders"
             empty-title="Welcome to your dashboard!"
             empty-subtitle="You haven't received any requests yet. If you're new, make sure to complete your profile setup."
            :has-actions="true">
@@ -70,16 +70,26 @@
               </div>
             </template>
             <template #store="{ item }">
-              <div class="flex items-center gap-2">
+              <div v-if="!isServiceProvider" class="flex items-center gap-2">
                 <div class="w-5 h-5 rounded-md bg-gray-100 overflow-hidden flex items-center justify-center border border-gray-100 shrink-0">
                   <img v-if="item.vendor?.logo" :src="item.vendor.logo" class="w-full h-full object-cover" />
                   <Building v-else class="w-2.5 h-2.5 text-gray-300" />
                 </div>
                 <span class="text-sm font-bold text-gray-600 truncate max-w-[120px]">{{ item.vendor?.storeName || 'N/A' }}</span>
               </div>
+              <div v-else class="flex flex-col">
+                <span class="text-sm font-bold text-gray-900 truncate max-w-[150px]">{{ item.items?.[0]?.service?.name || 'Service' }}</span>
+                <span class="text-xs text-gray-500 font-medium">{{ item.items?.[0]?.variantName || '' }}</span>
+              </div>
+            </template>
+            <template #date="{ item }">
+              <div class="flex flex-col">
+                <span class="text-sm font-bold text-gray-900 whitespace-nowrap">{{ new Date(item.scheduledDate).toLocaleDateString() }}</span>
+                <span class="text-xs text-gray-500 font-medium whitespace-nowrap">{{ item.startTime }} - {{ item.endTime }}</span>
+              </div>
             </template>
             <template #total="{ item }">
-              <span class="font-bold text-gray-900 whitespace-nowrap">₦{{ item.total?.toLocaleString() }}</span>
+              <span class="font-bold text-gray-900 whitespace-nowrap">₦{{ (item.total || item.price || 0).toLocaleString() }}</span>
             </template>
             <template #status="{ item }">
               <span :class="getStatusBadge(item.status)" class="text-sm font-bold px-2 py-1 rounded-lg border whitespace-nowrap">
@@ -87,14 +97,14 @@
               </span>
             </template>
             <template #actions>
-              <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-300 hover:text-gray-900" @click="$router.push('/dashboard/orders')">
+              <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-300 hover:text-gray-900" @click="$router.push(isServiceProvider ? '/dashboard/appointments' : '/dashboard/orders')">
                 <ArrowRight class="w-4 h-4" />
               </button>
             </template>
           </UiTable>
           
-          <!-- Onboarding Guide if no orders -->
-          <div v-if="orders.length === 0 && !loadingOrders" class="p-8 bg-blue-50/30 border-t border-blue-50/50 flex flex-col md:flex-row items-center justify-between gap-6 mt-auto">
+          <!-- Onboarding Guide if no orders/appointments -->
+          <div v-if="(isServiceProvider ? appointmentsList.length === 0 : orders.length === 0) && !(isServiceProvider ? loadingAppointments : loadingOrders)" class="p-8 bg-blue-50/30 border-t border-blue-50/50 flex flex-col md:flex-row items-center justify-between gap-6 mt-auto">
             <div class="flex items-start gap-4">
               <div class="w-10 h-10 rounded-md bg-[#FF5C1A] text-white flex items-center justify-center shrink-0">
                 <ShieldCheck class="w-5 h-5" />
@@ -215,12 +225,14 @@ import {
 
 import { vendors_api } from '@/api_factory/modules/vendors';
 import { useVendorOrders } from '@/composables/modules/vendor/useVendorOrders';
+import { useVendorAppointments } from '@/composables/modules/appointments';
 import UiTable from '@/components/ui/UiTable.vue';
 
 definePageMeta({ layout: 'vendor' });
 useHead({ title: 'Dashboard - Errander Vendor' });
 
 const { orders, loading: loadingOrders, loadMyVendorOrders } = useVendorOrders();
+const { appointmentsList, loading: loadingAppointments, fetchAppointments } = useVendorAppointments();
 const { showToast } = useCustomToast();
 const currentStats = ref<any>({});
 const vendorProfile = ref<any>(null);
@@ -241,6 +253,13 @@ const orderColumns = [
   { key: 'status', label: 'Status' }
 ];
 
+const appointmentColumns = [
+  { key: 'customer', label: 'Client' },
+  { key: 'store', label: 'Service' },
+  { key: 'date', label: 'Date & Time' },
+  { key: 'status', label: 'Status' }
+];
+
 const computedStats = computed(() => [
   { label: isServiceProvider.value ? 'Today Appointments' : 'Today Orders', value: currentStats.value?.todayOrders?.toString() || '0', icon: isServiceProvider.value ? Calendar : ShoppingBag, bgClass: 'bg-emerald-50 text-emerald-600', trend: 0 },
   { label: isServiceProvider.value ? 'Active Appointments' : 'Active Orders', value: currentStats.value?.activeOrders?.toString() || '0', icon: Clock, bgClass: 'bg-amber-50 text-amber-600', trend: 0 },
@@ -253,12 +272,19 @@ const fetchDashboardData = async () => {
   try {
     const [statsRes, profileRes] = await Promise.all([
       vendors_api.getMyVendorStats(),
-      vendors_api.getProfile(),
-      loadMyVendorOrders()
+      vendors_api.getProfile()
     ]);
     
     currentStats.value = statsRes?.data || {};
     vendorProfile.value = (profileRes as any)?.data || null;
+
+    if (vendorProfile.value?.businessType === 'service_provider' || vendorProfile.value?.businessType === 'hybrid') {
+      await fetchAppointments();
+    }
+    if (vendorProfile.value?.businessType !== 'service_provider') {
+      await loadMyVendorOrders();
+    }
+
   } catch (e) {
     console.error('Dashboard sync failed:', e);
   } finally {

@@ -53,7 +53,7 @@ export const useOrderChat = (
         url += `?userA=${cleanCurrent}&userB=${cleanTarget}`;
       }
       const res = await api.get(url);
-      messages.value = res.data || [];
+      messages.value = Array.isArray(res.data) ? res.data : [];
     } catch (e) {
       console.error('Failed to fetch messages', e);
     } finally {

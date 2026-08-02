@@ -58,11 +58,48 @@
               <div class="grid grid-cols-2 gap-4">
                 <div>
                   <label class="block text-xs font-bold text-gray-700 mb-1.5">Base Price (₦)</label>
-                  <input v-model.number="form.price" type="number" placeholder="30000" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-base rounded-md focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all" />
+                  <input :value="formatPrice(form.price)" @input="form.price = parsePrice($event.target.value)" type="text" placeholder="30,000" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-base rounded-md focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all" />
                 </div>
                 <div>
                   <label class="block text-xs font-bold text-gray-700 mb-1.5">Base Duration (Mins)</label>
                   <input v-model.number="form.durationInMinutes" type="number" placeholder="60" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-base rounded-md focus:ring-parentPrimary focus:border-parentPrimary block p-3 outline-none transition-all" />
+                </div>
+              </div>
+              
+              <div class="pt-2">
+                <label class="block text-xs font-bold text-gray-700 mb-2">Service Media (Optional)</label>
+                <div class="flex items-center gap-3">
+                  <button type="button" @click="triggerImageUpload(-1)" class="h-20 w-20 rounded-lg bg-gray-50 border border-dashed border-gray-300 flex flex-col items-center justify-center transition-all hover:bg-blue-50 hover:border-blue-300 shrink-0 relative overflow-hidden group">
+                    <template v-if="uploadingImageIdx === -1">
+                      <Loader2 class="w-5 h-5 animate-spin text-gray-400" />
+                    </template>
+                    <template v-else-if="form.image">
+                      <img :src="form.image" class="w-full h-full object-cover" />
+                      <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Edit2 class="w-5 h-5 text-white" />
+                      </div>
+                    </template>
+                    <template v-else>
+                      <ImageIcon class="w-5 h-5 text-gray-400 mb-1" />
+                      <span class="text-[10px] font-medium text-gray-500 uppercase tracking-wider">Image</span>
+                    </template>
+                  </button>
+                  
+                  <button type="button" @click="triggerVideoUpload(-1)" class="h-20 w-20 rounded-lg bg-gray-50 border border-dashed border-gray-300 flex flex-col items-center justify-center transition-all hover:bg-blue-50 hover:border-blue-300 shrink-0 relative overflow-hidden group">
+                    <template v-if="uploadingVideoIdx === -1">
+                      <Loader2 class="w-5 h-5 animate-spin text-gray-400" />
+                    </template>
+                    <template v-else-if="form.video">
+                      <video :src="form.video" class="w-full h-full object-cover"></video>
+                      <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Edit2 class="w-5 h-5 text-white" />
+                      </div>
+                    </template>
+                    <template v-else>
+                      <VideoIcon class="w-5 h-5 text-gray-400 mb-1" />
+                      <span class="text-[10px] font-medium text-gray-500 uppercase tracking-wider">Video</span>
+                    </template>
+                  </button>
                 </div>
               </div>
             </div>
@@ -88,11 +125,47 @@
               <div class="grid grid-cols-2 gap-3">
                 <div>
                   <label class="block text-xs font-bold text-gray-700 mb-1">Price (₦)</label>
-                  <input v-model.number="v.price" type="number" class="w-full bg-white border border-gray-200 text-gray-900 text-base rounded-lg p-2 outline-none" />
+                  <input :value="formatPrice(v.price)" @input="v.price = parsePrice($event.target.value)" type="text" class="w-full bg-white border border-gray-200 text-gray-900 text-base rounded-lg p-2 outline-none" />
                 </div>
                 <div>
                   <label class="block text-xs font-bold text-gray-700 mb-1">Duration (Mins)</label>
                   <input v-model.number="v.durationInMinutes" type="number" class="w-full bg-white border border-gray-200 text-gray-900 text-base rounded-lg p-2 outline-none" />
+                </div>
+              </div>
+              <div class="mt-3">
+                <label class="block text-xs font-bold text-gray-700 mb-2">Variant Media (Optional)</label>
+                <div class="flex items-center gap-3">
+                  <button type="button" @click="triggerImageUpload(idx)" class="h-16 w-16 rounded-lg bg-white border border-dashed border-gray-300 flex flex-col items-center justify-center transition-all hover:bg-blue-50 hover:border-blue-300 shrink-0 relative overflow-hidden group">
+                    <template v-if="uploadingImageIdx === idx">
+                      <Loader2 class="w-4 h-4 animate-spin text-gray-400" />
+                    </template>
+                    <template v-else-if="v.image">
+                      <img :src="v.image" class="w-full h-full object-cover" />
+                      <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Edit2 class="w-4 h-4 text-white" />
+                      </div>
+                    </template>
+                    <template v-else>
+                      <ImageIcon class="w-4 h-4 text-gray-400 mb-1" />
+                      <span class="text-[9px] font-medium text-gray-500 uppercase tracking-wider">Image</span>
+                    </template>
+                  </button>
+                  
+                  <button type="button" @click="triggerVideoUpload(idx)" class="h-16 w-16 rounded-lg bg-white border border-dashed border-gray-300 flex flex-col items-center justify-center transition-all hover:bg-blue-50 hover:border-blue-300 shrink-0 relative overflow-hidden group">
+                    <template v-if="uploadingVideoIdx === idx">
+                      <Loader2 class="w-4 h-4 animate-spin text-gray-400" />
+                    </template>
+                    <template v-else-if="v.video">
+                      <video :src="v.video" class="w-full h-full object-cover"></video>
+                      <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Edit2 class="w-4 h-4 text-white" />
+                      </div>
+                    </template>
+                    <template v-else>
+                      <VideoIcon class="w-4 h-4 text-gray-400 mb-1" />
+                      <span class="text-[9px] font-medium text-gray-500 uppercase tracking-wider">Video</span>
+                    </template>
+                  </button>
                 </div>
               </div>
             </div>
@@ -118,7 +191,7 @@
               <div class="grid grid-cols-2 gap-3">
                 <div>
                   <label class="block text-xs font-bold text-gray-700 mb-1">Extra Price (₦)</label>
-                  <input v-model.number="ext.price" type="number" class="w-full bg-white border border-gray-200 text-gray-900 text-base rounded-lg p-2 outline-none" />
+                  <input :value="formatPrice(ext.price)" @input="ext.price = parsePrice($event.target.value)" type="text" class="w-full bg-white border border-gray-200 text-gray-900 text-base rounded-lg p-2 outline-none" />
                 </div>
                 <div>
                   <label class="block text-xs font-bold text-gray-700 mb-1">Added Duration (Mins)</label>
@@ -143,13 +216,17 @@
         </div>
       </div>
     </Transition>
+    <input type="file" ref="fileInputRef" class="hidden" @change="handleImageUpload" accept="image/*" />
+    <input type="file" ref="videoInputRef" class="hidden" @change="handleVideoUpload" accept="video/mp4,video/quicktime" />
   </Teleport>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { X, Info, Layers, Sparkles, Trash2, Loader2 } from 'lucide-vue-next';
+import { X, Info, Layers, Sparkles, Trash2, Loader2, Image as ImageIcon, Video as VideoIcon, Edit2 } from 'lucide-vue-next';
 import SelectInput from '@/components/ui/SelectInput.vue';
+import { vendors_api } from '@/api_factory/modules/vendors';
+import { useCustomToast } from '@/composables/core/useCustomToast';
 
 const props = defineProps<{
   isOpen: boolean;
@@ -161,6 +238,22 @@ const emit = defineEmits(['close', 'save']);
 
 const loading = ref(false);
 const isEditing = ref(false);
+const { showToast } = useCustomToast();
+
+const uploadingImageIdx = ref<number | null>(null);
+const uploadingVideoIdx = ref<number | null>(null);
+const fileInputRef = ref<HTMLInputElement | null>(null);
+const videoInputRef = ref<HTMLInputElement | null>(null);
+
+const formatPrice = (val: number | string) => {
+  if (!val) return '';
+  return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+const parsePrice = (val: string) => {
+  const num = parseInt(val.replace(/,/g, ''), 10);
+  return isNaN(num) ? 0 : num;
+};
 
 const form = ref({
   name: '',
@@ -168,6 +261,8 @@ const form = ref({
   description: '',
   price: 0,
   durationInMinutes: 30,
+  image: '',
+  video: '',
   variants: [] as any[],
   extras: [] as any[]
 });
@@ -189,6 +284,8 @@ watch(() => props.isOpen, (isOpen) => {
         description: '',
         price: 0,
         durationInMinutes: 30,
+        image: '',
+        video: '',
         variants: [],
         extras: []
       };
@@ -196,8 +293,67 @@ watch(() => props.isOpen, (isOpen) => {
   }
 });
 
-const addVariant = () => form.value.variants.push({ name: '', price: 0, durationInMinutes: 30 });
+const addVariant = () => form.value.variants.push({ name: '', price: 0, durationInMinutes: 30, image: '', video: '' });
 const removeVariant = (idx: number) => form.value.variants.splice(idx, 1);
+
+const triggerImageUpload = (idx: number) => {
+  uploadingImageIdx.value = idx;
+  fileInputRef.value?.click();
+};
+
+const triggerVideoUpload = (idx: number) => {
+  uploadingVideoIdx.value = idx;
+  videoInputRef.value?.click();
+};
+
+const handleImageUpload = async (e: Event) => {
+  if (uploadingImageIdx.value === null) return;
+  const idx = uploadingImageIdx.value;
+  const file = (e.target as HTMLInputElement).files?.[0];
+  if (!file) return;
+
+  try {
+    const res = await vendors_api.uploadImage(file);
+    const url = res.data?.url || res.data?.data?.url || res.data;
+    if (idx === -1) {
+      form.value.image = url;
+    } else if (form.value.variants[idx]) {
+      form.value.variants[idx].image = url;
+    }
+  } catch (err) {
+    showToast({ title: 'Error', message: 'Failed to upload image.', toastType: 'error' });
+  } finally {
+    uploadingImageIdx.value = null;
+    if (fileInputRef.value) fileInputRef.value.value = '';
+  }
+};
+
+const handleVideoUpload = async (e: Event) => {
+  if (uploadingVideoIdx.value === null) return;
+  const idx = uploadingVideoIdx.value;
+  const file = (e.target as HTMLInputElement).files?.[0];
+  if (!file) return;
+
+  if (file.size > 20 * 1024 * 1024) {
+    showToast({ title: 'Too large', message: 'Video must be less than 20MB', toastType: 'error' });
+    return;
+  }
+
+  try {
+    const res = await vendors_api.uploadVideo(file);
+    const url = res.data?.url || res.data?.data?.url || res.data;
+    if (idx === -1) {
+      form.value.video = url;
+    } else if (form.value.variants[idx]) {
+      form.value.variants[idx].video = url;
+    }
+  } catch (err) {
+    showToast({ title: 'Error', message: 'Failed to upload video.', toastType: 'error' });
+  } finally {
+    uploadingVideoIdx.value = null;
+    if (videoInputRef.value) videoInputRef.value.value = '';
+  }
+};
 
 const addExtra = () => form.value.extras.push({ name: '', price: 0, durationInMinutes: 0 });
 const removeExtra = (idx: number) => form.value.extras.splice(idx, 1);

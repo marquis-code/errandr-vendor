@@ -91,9 +91,9 @@ const props = defineProps<{
 
 defineEmits(['select']);
 
-// 8 AM to 8 PM by default
-const START_HOUR = props.startHour || 8;
-const END_HOUR = props.endHour || 20;
+// Show full 24 hours to prevent any appointments from being hidden
+const START_HOUR = props.startHour !== undefined ? props.startHour : 0;
+const END_HOUR = props.endHour !== undefined ? props.endHour : 23;
 const HOUR_HEIGHT = 80;
 
 const hours = Array.from({ length: END_HOUR - START_HOUR + 1 }, (_, i) => START_HOUR + i);
@@ -145,9 +145,11 @@ const getEventColor = (status: string) => {
 };
 
 onMounted(() => {
-  // Scroll to roughly 9am if possible
+  // Scroll to roughly current time (minus 1 hour for padding)
   if (scrollContainer.value) {
-    scrollContainer.value.scrollTop = HOUR_HEIGHT * 1;
+    const currentHour = new Date().getHours();
+    const targetHour = Math.max(START_HOUR, currentHour - 1);
+    scrollContainer.value.scrollTop = (targetHour - START_HOUR) * HOUR_HEIGHT;
   }
 });
 </script>

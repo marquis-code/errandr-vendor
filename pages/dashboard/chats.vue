@@ -21,6 +21,27 @@
         </div>
       </div>
 
+      <!-- Tabs -->
+      <div class="flex border-b border-gray-200 bg-white">
+        <button 
+          @click="chatTab = 'orders'" 
+          class="flex-1 py-3 text-sm font-semibold text-center transition-colors"
+          :class="chatTab === 'orders' ? 'text-[#008069] border-b-2 border-[#008069]' : 'text-gray-500'"
+        >
+          Orders
+        </button>
+        <button 
+          @click="chatTab = 'direct'" 
+          class="flex-1 py-3 text-sm font-semibold text-center transition-colors relative"
+          :class="chatTab === 'direct' ? 'text-[#008069] border-b-2 border-[#008069]' : 'text-gray-500'"
+        >
+          Messages
+          <span v-if="totalDirectUnread > 0" class="absolute top-2 right-6 w-5 h-5 rounded-full bg-[#25D366] text-white flex items-center justify-center text-[10px] font-bold">
+            {{ totalDirectUnread }}
+          </span>
+        </button>
+      </div>
+
       <!-- Search -->
       <div class="p-2 bg-white border-b border-gray-200">
         <div class="bg-[#F0F2F5] rounded-lg flex items-center px-4 py-1.5 transition-all border border-transparent focus-within:bg-white focus-within:border-[#00A884]">
@@ -28,20 +49,20 @@
           <input 
             v-model="searchQuery" 
             type="text" 
-            placeholder="Search chats" 
+            :placeholder="chatTab === 'orders' ? 'Search order chats' : 'Search messages'" 
             class="bg-transparent border-none outline-none text-[15px] w-full placeholder:text-[#54656F] text-[#111B21] py-1"
           />
         </div>
       </div>
 
-      <!-- Chat List -->
-      <div class="flex-1 overflow-y-auto bg-white">
+      <!-- Chat List: Orders -->
+      <div v-if="chatTab === 'orders'" class="flex-1 overflow-y-auto bg-white">
         <div v-if="loading" class="p-4 space-y-3">
           <div v-for="i in 5" :key="i" class="h-16 bg-gray-100 animate-pulse rounded-lg" />
         </div>
         <div v-else-if="filteredChats.length === 0" class="flex flex-col items-center justify-center h-full text-[#54656F] space-y-2 p-6 text-center">
           <MessageSquare class="w-12 h-12 opacity-20" />
-          <p class="text-[14px]">No active chats found.</p>
+          <p class="text-[14px]">No active order chats found.</p>
         </div>
         <div v-else class="flex flex-col">
           <button
@@ -51,20 +72,13 @@
             class="w-full text-left flex items-center px-3 py-2 hover:bg-[#F5F6F6] transition-colors group"
             :class="{ 'bg-[#F0F2F5]': activeChat?.id === chat.id }"
           >
-            <!-- Avatar -->
             <div class="w-12 h-12 rounded-md bg-[#E8F8F5] flex items-center justify-center text-[#008069] font-bold text-lg flex-shrink-0 mr-3">
               {{ getInitials(chat.receiverName) }}
             </div>
-            
-            <!-- Info -->
             <div class="flex-1 min-w-0 border-b border-gray-100 pb-3 pt-1 group-last:border-none">
               <div class="flex items-center justify-between mb-0.5">
-                <h3 class="font-normal text-[#111B21] text-[16px] truncate">
-                  {{ chat.receiverName }}
-                </h3>
-                <span class="text-[12px] whitespace-nowrap ml-2" :class="activeChat?.id === chat.id ? 'text-[#111B21]' : 'text-[#54656F]'">
-                  {{ formatTime(chat.order.createdAt) }}
-                </span>
+                <h3 class="font-normal text-[#111B21] text-[16px] truncate">{{ chat.receiverName }}</h3>
+                <span class="text-[12px] whitespace-nowrap ml-2 text-[#54656F]">{{ formatTime(chat.order.createdAt) }}</span>
               </div>
               <div class="flex items-center justify-between">
                 <p class="text-[14px] text-[#54656F] truncate flex items-center gap-1">
@@ -73,6 +87,50 @@
                 </p>
                 <div v-if="unreadCounts[chat.order._id] > 0" class="w-5 h-5 rounded-md bg-[#25D366] text-white flex items-center justify-center text-[11px] font-bold">
                   {{ unreadCounts[chat.order._id] }}
+                </div>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Chat List: Direct Messages -->
+      <div v-else class="flex-1 overflow-y-auto bg-white">
+        <div v-if="loadingDirect" class="p-4 space-y-3">
+          <div v-for="i in 5" :key="i" class="h-16 bg-gray-100 animate-pulse rounded-lg" />
+        </div>
+        <div v-else-if="filteredDirectChats.length === 0" class="flex flex-col items-center justify-center h-full text-[#54656F] space-y-2 p-6 text-center">
+          <MessageSquare class="w-12 h-12 opacity-20" />
+          <p class="text-[14px]">No direct messages yet.</p>
+          <p class="text-[12px] text-gray-400">Students can message you from your store page.</p>
+        </div>
+        <div v-else class="flex flex-col">
+          <button
+            v-for="conv in filteredDirectChats"
+            :key="conv.user._id"
+            @click="selectDirectChat(conv)"
+            class="w-full text-left flex items-center px-3 py-2 hover:bg-[#F5F6F6] transition-colors group"
+            :class="{ 'bg-[#F0F2F5]': activeChat?.id === `direct_${conv.user._id}` }"
+          >
+            <div class="w-12 h-12 rounded-md bg-[#FFF0E8] flex items-center justify-center text-[#FF5C1A] font-bold text-lg flex-shrink-0 mr-3 overflow-hidden">
+              <img v-if="conv.user.avatar" :src="conv.user.avatar" class="w-full h-full object-cover" />
+              <span v-else>{{ getInitials(`${conv.user.firstName || ''} ${conv.user.lastName || ''}`) }}</span>
+            </div>
+            <div class="flex-1 min-w-0 border-b border-gray-100 pb-3 pt-1 group-last:border-none">
+              <div class="flex items-center justify-between mb-0.5">
+                <h3 class="font-normal text-[#111B21] text-[16px] truncate">
+                  {{ conv.user.firstName || 'Student' }} {{ conv.user.lastName || '' }}
+                </h3>
+                <span class="text-[12px] whitespace-nowrap ml-2 text-[#54656F]">
+                  {{ conv.lastMessage ? formatTime(conv.lastMessage.createdAt) : '' }}
+                </span>
+              </div>
+              <div class="flex items-center justify-between">
+                <p class="text-[14px] text-[#54656F] truncate">
+                  {{ conv.lastMessage?.message || conv.lastMessage?.content || 'Start conversation' }}
+                </p>
+                <div v-if="conv.unreadCount > 0" class="w-5 h-5 rounded-md bg-[#25D366] text-white flex items-center justify-center text-[11px] font-bold">
+                  {{ conv.unreadCount }}
                 </div>
               </div>
             </div>
@@ -103,8 +161,9 @@
         </div>
       </div>
 
+      <!-- Order-based Chat -->
       <EmbeddedOrderChat 
-        v-else
+        v-else-if="activeChat.chatType === 'order'"
         :key="activeChat.id"
         :is-open="true"
         :order-id="activeChat.order._id"
@@ -115,6 +174,17 @@
         :initial-message="(route.query.autoMessage as string)"
         @close="activeChat = null"
       />
+
+      <!-- Direct Message Chat -->
+      <EmbeddedDirectChat
+        v-else-if="activeChat.chatType === 'direct'"
+        :key="activeChat.id"
+        :is-open="true"
+        :receiver-id="activeChat.receiverId"
+        :receiver-name="activeChat.receiverName"
+        :receiver-avatar="activeChat.avatar"
+        @close="activeChat = null"
+      />
     </div>
   </div>
 </template>
@@ -123,6 +193,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { Search, ArrowLeft, MessageSquare, MoreVertical, CheckCheck, Lock } from 'lucide-vue-next'
 import EmbeddedOrderChat from '@/components/core/EmbeddedOrderChat.vue'
+import EmbeddedDirectChat from '@/components/core/EmbeddedDirectChat.vue'
 import { GATEWAY_ENDPOINT_WITH_AUTH as api } from '@/api_factory/axios.config'
 import { useUser } from '@/composables/modules/auth/user'
 import { useRoute } from 'vue-router'
@@ -135,10 +206,13 @@ const { user } = useUser()
 const route = useRoute()
 
 const orders = ref<any[]>([])
+const directConversations = ref<any[]>([])
 const loading = ref(true)
+const loadingDirect = ref(true)
 const searchQuery = ref('')
 const activeChat = ref<any>(null)
 const unreadCounts = ref<Record<string, number>>({})
+const chatTab = ref<'orders' | 'direct'>('direct')
 
 import { useSocket } from '@/composables/useSocket'
 const { on, connect } = useSocket('chat')
@@ -160,6 +234,7 @@ const fetchOrders = async () => {
     
     // Check if route has an orderId to auto-select
     if (route.query.orderId) {
+      chatTab.value = 'orders'
       const targetReceiverId = route.query.receiverId;
       const targetChat = chatList.value.find(c => 
         c.order._id === route.query.orderId && 
@@ -176,13 +251,29 @@ const fetchOrders = async () => {
   }
 }
 
+const fetchDirectConversations = async () => {
+  loadingDirect.value = true
+  try {
+    const res = await api.get('/chat/direct/conversations')
+    directConversations.value = Array.isArray(res.data) ? res.data : []
+  } catch (e) {
+    console.error('Failed to fetch direct conversations', e)
+  } finally {
+    loadingDirect.value = false
+  }
+}
+
+const totalDirectUnread = computed(() => {
+  return directConversations.value.reduce((sum, c) => sum + (c.unreadCount || 0), 0)
+})
+
 const chatList = computed(() => {
   const list: any[] = []
   for (const order of orders.value) {
-    // Map Student (Customer) chat
     if (order.customer) {
       list.push({
         id: `customer_${order._id}`,
+        chatType: 'order',
         order: order,
         receiverId: order.customer._id || order.customer,
         receiverName: `${order.customer.firstName || 'Student'} ${order.customer.lastName || ''}`.trim(),
@@ -190,10 +281,10 @@ const chatList = computed(() => {
         avatar: order.customer.avatar
       })
     }
-    // Map Errander chat
     if (order.errander) {
       list.push({
         id: `errander_${order._id}`,
+        chatType: 'order',
         order: order,
         receiverId: order.errander._id || order.errander,
         receiverName: `${order.errander.firstName || 'Rider'} ${order.errander.lastName || ''}`.trim(),
@@ -215,11 +306,31 @@ const filteredChats = computed(() => {
   })
 })
 
+const filteredDirectChats = computed(() => {
+  if (!searchQuery.value) return directConversations.value
+  const q = searchQuery.value.toLowerCase()
+  return directConversations.value.filter((c: any) => {
+    const name = `${c.user?.firstName || ''} ${c.user?.lastName || ''}`.toLowerCase()
+    return name.includes(q)
+  })
+})
+
 const selectChat = (chat: any) => {
   activeChat.value = chat
   if (chat.order && chat.order._id) {
     unreadCounts.value[chat.order._id] = 0
   }
+}
+
+const selectDirectChat = (conv: any) => {
+  activeChat.value = {
+    id: `direct_${conv.user._id}`,
+    chatType: 'direct',
+    receiverId: conv.user._id,
+    receiverName: `${conv.user.firstName || 'Student'} ${conv.user.lastName || ''}`.trim(),
+    avatar: conv.user.avatar || ''
+  }
+  conv.unreadCount = 0
 }
 
 const getInitials = (name: string) => {
@@ -239,15 +350,30 @@ const formatTime = (dateStr: string) => {
 
 onMounted(() => {
   fetchOrders()
+  fetchDirectConversations()
   connect()
+  
   on('newMessageNotification', (msg: any) => {
     const orderId = msg.order?._id || msg.order || msg.orderId;
+    
+    // Handle direct message notification
+    if (msg.roomType === 'direct' && !msg.appointment && !msg.appointmentId) {
+      const senderId = String(msg.senderId || msg.sender?._id || msg.sender || '');
+      // If we don't have the direct chat open for this sender, increment unread
+      if (!activeChat.value || activeChat.value.receiverId !== senderId) {
+        // Refresh direct conversations to pick up the new message
+        fetchDirectConversations();
+      }
+      return;
+    }
+
+    // Handle order notification
     if (orderId) {
-      // If the chat is not currently open, increment its unread count
-      if (!activeChat.value || activeChat.value.order._id !== orderId) {
+      if (!activeChat.value || activeChat.value.order?._id !== orderId) {
         unreadCounts.value[orderId] = (unreadCounts.value[orderId] || 0) + 1;
       }
     }
   })
 })
 </script>
+

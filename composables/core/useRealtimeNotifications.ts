@@ -2,6 +2,7 @@ import { onMounted, onBeforeUnmount } from 'vue'
 import { useCustomToast } from '@/composables/core/useCustomToast'
 import { useRealtimeSocket } from '@/composables/core/useRealtimeSocket'
 import { useNotifications } from '@/composables/modules/notifications/useNotifications'
+import { refreshNuxtData } from '#app'
 
 const LISTENERS_KEY = 'realtime_notification_listeners'
 
@@ -31,10 +32,13 @@ export const useRealtimeNotifications = () => {
 
     showToast({
       title: payload.title || 'Notification',
-      message: payload.message || payload.type || 'You have a new update',
+      message: payload.message || payload.body || payload.type || 'You have a new update',
       toastType: payload.priority === 'high' ? 'warning' : 'info',
       duration: 5000,
     })
+    
+    // Silent internal page refresh to update data
+    refreshNuxtData()
   }
 
   const handleAudit = (payload: any) => {
