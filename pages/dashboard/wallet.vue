@@ -3,8 +3,8 @@
  <!-- Header Section -->
  <header class="flex flex-col md:flex-row md:items-end justify-between gap-8 pt-6">
  <div class="space-y-1">
- <h1 class="text-xl font-bold text-gray-900 sm:text-2xl">Financial Hub</h1>
- <p class="text-sm text-gray-400 font-medium">Monitor your revenue, analyze payouts, and manage settlement accounts.</p>
+ <h1 class="text-xl font-bold text-gray-900 sm:text-2xl">Your Wallet</h1>
+ <p class="text-sm text-gray-400 font-medium">Monitor your revenue, check your earnings, and manage bank accounts.</p>
  </div>
  
  <div class="flex items-center gap-4">
@@ -14,7 +14,7 @@
  class="px-8 py-4 bg-gray-900 text-white rounded-md font-medium text-sm hover:bg-black active:scale-95 transition-all flex items-center gap-2"
  >
  <CreditCard class="w-3.5 h-3.5" />
- Request Payout
+ Withdraw Money
  </button>
  </div>
  </header>
@@ -41,7 +41,7 @@
  <h2 class="text-7xl font-medium text-gray-900">{{ balance?.toLocaleString() || '0' }}</h2>
  </div>
  <p class="text-sm text-gray-400 font-medium max-w-sm leading-relaxed">
- This is your current balance after commission deductions. Payouts are typically processed within 24-48 hours.
+ This is your current balance after commission deductions. Withdrawals are typically processed within 24-48 hours.
  </p>
  </div>
  
@@ -69,7 +69,7 @@
  
  <div class="space-y-6 relative z-10">
  <div class="flex items-center justify-between">
- <p class="text-sm font-medium text-white/40">Active Settlement</p>
+ <p class="text-sm font-medium text-white/40">Your Bank Account</p>
  <SettingsIcon class="w-4 h-4 text-white/20 hover:text-white cursor-pointer transition-colors" @click="$router.push('/dashboard/settings')" />
  </div>
  
@@ -100,14 +100,14 @@
  <section class="space-y-8">
  <div class="flex items-center justify-between px-2">
  <div class="space-y-1">
- <h3 class="text-xl font-medium text-gray-900">Financial Timeline</h3>
- <p class="text-sm font-bold text-gray-400">Deep dive into your recent credits and debits.</p>
+ <h3 class="text-xl font-medium text-gray-900">Transaction History</h3>
+ <p class="text-sm font-bold text-gray-400">View your recent earnings and withdrawals.</p>
  </div>
  <div class="flex items-center gap-4">
  <div class="flex bg-gray-50 rounded-md p-1">
  <button class="px-4 py-1.5 rounded-lg text-sm font-medium bg-white text-gray-900">All</button>
- <button class="px-4 py-1.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-600 transition-colors">Credits</button>
- <button class="px-4 py-1.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-600 transition-colors">Payouts</button>
+ <button class="px-4 py-1.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-600 transition-colors">Earnings</button>
+ <button class="px-4 py-1.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-600 transition-colors">Withdrawals</button>
  </div>
  </div>
  </div>

@@ -226,6 +226,8 @@ import {
 import { vendors_api } from '@/api_factory/modules/vendors';
 import { useVendorOrders } from '@/composables/modules/vendor/useVendorOrders';
 import { useVendorAppointments } from '@/composables/modules/appointments';
+import { useSocket } from '@/composables/useSocket';
+import { useUser } from '@/composables/modules/auth/user';
 import UiTable from '@/components/ui/UiTable.vue';
 
 definePageMeta({ layout: 'vendor' });
@@ -234,6 +236,8 @@ useHead({ title: 'Dashboard - Errander Vendor' });
 const { orders, loading: loadingOrders, loadMyVendorOrders } = useVendorOrders();
 const { appointmentsList, loading: loadingAppointments, fetchAppointments } = useVendorAppointments();
 const { showToast } = useCustomToast();
+const { user } = useUser();
+const { connect, on, emit } = useSocket('realtime');
 const currentStats = ref<any>({});
 const vendorProfile = ref<any>(null);
 const loadingStats = ref(true);
@@ -276,21 +280,39 @@ const fetchDashboardData = async () => {
  ]);
  
  currentStats.value = statsRes?.data || {};
- vendorProfile.value = (profileRes as any)?.data || null;
-
- if (vendorProfile.value?.businessType === 'service_provider' || vendorProfile.value?.businessType === 'hybrid') {
- await fetchAppointments();
- }
- if (vendorProfile.value?.businessType !== 'service_provider') {
- await loadMyVendorOrders();
- }
-
- } catch (e) {
- console.error('Dashboard sync failed:', e);
+ const res = await vendors_api.getMyVendorStats();
+ currentStats.value = res.data;
+ vendorProfile.value = (res as any)?.data?.profile || null;
+ } catch (error) {
+ console.error('Failed to load dashboard stats:', error);
  } finally {
  loadingStats.value = false;
  }
 };
+
+onMounted(() => {
+ loadDashboardData();
+ loadMyVendorOrders();
+ fetchAppointments();
+ 
+ const sock = connect();
+ if (user.value?._id) {
+   emit('register', { userId: user.value._id });
+ }
+ 
+ const refreshAll = () => {
+   loadDashboardData();
+   loadMyVendorOrders();
+ };
+
+ on('notification:new', (payload: any) => {
+   if (['NEW_ORDER', 'ORDER_STATUS_UPDATE'].includes(payload.type)) {
+     refreshAll();
+   }
+ });
+ on('notification:order-status-update', refreshAll);
+ on('notification:new-order', refreshAll);
+});
 
 const getStatusBadge = (s: string) => {
  if (['delivered', 'confirmed'].includes(s)) return 'bg-emerald-50 text-emerald-600 border-emerald-100/50';

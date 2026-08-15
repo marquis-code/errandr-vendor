@@ -183,9 +183,14 @@
     empty-subtitle="Create combo packs to bundle products together."
     :has-actions="true">
     <template #name="{ item }">
-     <div>
-      <p class="inv-tbl-product__name">{{ (item as any).name }}</p>
-      <p class="inv-tbl-product__cat">{{ (item as any).description || '—' }}</p>
+     <div class="inv-tbl-product">
+      <div class="inv-tbl-product__img">
+       <img :src="(item as any).imageUrl || profile?.logo || profile?.bannerUrl || '/placeholder-food.jpg'" :alt="(item as any).name" />
+      </div>
+      <div class="inv-tbl-product__info">
+       <p class="inv-tbl-product__name">{{ (item as any).name }}</p>
+       <p class="inv-tbl-product__cat">{{ (item as any).description || '—' }}</p>
+      </div>
      </div>
     </template>
     <template #price="{ item }">

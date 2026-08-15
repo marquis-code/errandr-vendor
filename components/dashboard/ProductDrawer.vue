@@ -149,6 +149,8 @@
       <option value="wrap" v-if="requiresTakeawayPack || requiresPrepTime || usesMenuApi">Wrap</option>
       <option value="piece">Piece</option>
       <option value="bottle">Bottle</option>
+      <option value="jar">Jar</option>
+      <option value="pouch">Pouch</option>
       <option value="portion" v-if="requiresTakeawayPack || requiresPrepTime || usesMenuApi">Portion</option>
       <option value="item" v-if="!requiresTakeawayPack && !requiresPrepTime && !usesMenuApi">Item</option>
       <option value="pair" v-if="!requiresTakeawayPack && !requiresPrepTime && !usesMenuApi">Pair</option>
