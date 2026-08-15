@@ -114,7 +114,7 @@ export default defineNuxtConfig({
     transpile: ["lucide-vue-next"],
   },
 
-  css: ["/assets/css/main.css", "/assets/font/stylesheet.css"],
+  css: ["/assets/css/main.css", "/assets/font/stylesheet.css", "/assets/css/dashboard-ui.css"],
 
   modules: [
     "@nuxtjs/tailwindcss",

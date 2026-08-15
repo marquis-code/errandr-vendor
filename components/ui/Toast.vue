@@ -5,13 +5,13 @@
         <div
           v-for="toast in toasts"
           :key="toast.id"
-          :class="[ 'toast-base', { 'border-l-4 border-l-rose-500': toast.type === 'error', 'border-l-4 border-l-emerald-500': toast.type === 'success', 'border-l-4 border-l-amber-500': toast.type === 'warning', 'border-l-4 border-l-blue-500': toast.type === 'info' } ]"
-          class="w-full rounded-md border border-gray-100 bg-white/95 backdrop-blur-xl p-4 flex items-start gap-3.5 cursor-pointer hover: transition-all duration-300 pointer-events-auto"
+          :class="[ 'toast-base', { 'bg-rose-500 border-rose-600': toast.type === 'error', 'bg-emerald-500 border-emerald-600': toast.type === 'success', 'bg-amber-500 border-amber-600': toast.type === 'warning', 'bg-blue-500 border-blue-600': toast.type === 'info' } ]"
+          class="w-full rounded-md border p-4 flex items-start gap-3.5 cursor-pointer transition-all duration-300 pointer-events-auto text-white shadow-lg"
           @click="removeToast(toast.id)"
         >
           <!-- Status Icon container -->
           <div class="flex-shrink-0 mt-0.5">
-            <div :class="[ 'w-9 h-9 rounded-md flex items-center justify-center', { 'bg-rose-50 text-rose-600': toast.type === 'error', 'bg-emerald-50 text-emerald-600': toast.type === 'success', 'bg-amber-50 text-amber-600': toast.type === 'warning', 'bg-blue-50 text-blue-600': toast.type === 'info' } ]">
+            <div class="w-9 h-9 rounded-md flex items-center justify-center bg-white/20 text-white">
               <CheckCircle v-if="toast.type === 'success'" :size="20" class="stroke-[2.5]" />
               <AlertCircle v-else-if="toast.type === 'error'" :size="20" class="stroke-[2.5]" />
               <AlertTriangle v-else-if="toast.type === 'warning'" :size="20" class="stroke-[2.5]" />
@@ -22,17 +22,17 @@
           <!-- Content Container -->
           <div class="flex-1 min-w-0">
             <!-- Toast Title (if exists, or fall back to capitalized type) -->
-            <h4 class="font-medium text-sm text-gray-900 leading-snug tracking-tight">
+            <h4 class="font-medium text-sm text-white leading-snug tracking-tight">
               {{ toast.title || (toast.type.charAt(0).toUpperCase() + toast.type.slice(1)) }}
             </h4>
             <!-- Toast Message -->
-            <p class="text-xs font-bold text-gray-500 leading-relaxed mt-0.5">
+            <p class="text-xs font-bold text-white/90 leading-relaxed mt-0.5">
               {{ toast.message }}
             </p>
           </div>
           
           <!-- Close button hint -->
-          <div class="flex-shrink-0 self-center text-gray-300 hover:text-gray-500 transition-colors pl-2">
+          <div class="flex-shrink-0 self-center text-white/70 hover:text-white transition-colors pl-2">
             <X :size="16" />
           </div>
         </div>

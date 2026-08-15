@@ -1,15 +1,15 @@
 <template>
-  <div class="w-full pb-20 animate-fade-in px-0 lg:px-8">
-    <header class="pt-6 pb-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sticky top-0 bg-white/95 backdrop-blur-xl z-40 px-4 lg:px-0">
-      <div>
-        <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Merchant Settings</h1>
-        <p class="text-sm text-gray-500 font-medium mt-1">Fine-tune your store profile, operations, and financial preferences.</p>
+  <div class="inv-page">
+    <header class="inv-header">
+      <div class="inv-header__left">
+        <h1 class="inv-header__title">Merchant Settings</h1>
+        <p class="inv-header__sub">Fine-tune your store profile, operations, and financial preferences.</p>
       </div>
-      <div class="flex items-center gap-4 w-full sm:w-auto">
+      <div class="inv-header__actions">
         <button 
           @click="saveProfile" 
           :disabled="savingProfile" 
-          class="w-full sm:w-auto px-6 py-3 sm:py-2.5 bg-gray-900 text-white rounded-xl sm:rounded-full font-bold text-sm hover:bg-black transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-lg shadow-gray-900/20"
+          class="inv-btn inv-btn--primary"
         >
           <Loader2 v-if="savingProfile" class="animate-spin w-4 h-4" />
           {{ savingProfile ? 'Saving...' : 'Save All Changes' }}
@@ -18,33 +18,31 @@
     </header>
 
     <!-- Horizontal Navigation Tabs -->
-    <div class="sticky top-[76px] bg-white/95 backdrop-blur-xl z-30 py-4 border-b border-gray-100 px-4 lg:px-0 overflow-x-auto hide-scrollbar mb-8">
-      <div class="flex gap-2 p-1.5 bg-gray-50/80 rounded-2xl w-max border border-gray-100">
-        <button 
-          @click="activeTab = 'profile'" 
-          :class="activeTab === 'profile' ? 'bg-white text-gray-900 shadow-sm border border-gray-200/50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100/50 border border-transparent'" 
-          class="px-6 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center gap-2"
-        >
-          <StoreIcon class="w-4 h-4" :class="activeTab === 'profile' ? 'text-[#FF5C1A]' : 'text-gray-400'" />
-          Store Identity
-        </button>
-        <button 
-          @click="activeTab = 'operations'" 
-          :class="activeTab === 'operations' ? 'bg-white text-gray-900 shadow-sm border border-gray-200/50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100/50 border border-transparent'" 
-          class="px-6 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center gap-2"
-        >
-          <Clock class="w-4 h-4" :class="activeTab === 'operations' ? 'text-amber-500' : 'text-gray-400'" />
-          {{ isServiceProvider ? 'Scheduling & Status' : 'Operations & Status' }}
-        </button>
-        <button 
-          @click="activeTab = 'financials'" 
-          :class="activeTab === 'financials' ? 'bg-white text-gray-900 shadow-sm border border-gray-200/50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100/50 border border-transparent'" 
-          class="px-6 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center gap-2"
-        >
-          <CreditCard class="w-4 h-4" :class="activeTab === 'financials' ? 'text-emerald-500' : 'text-gray-400'" />
-          Payout Methods
-        </button>
-      </div>
+    <div class="inv-master-tabs sticky top-0 z-30 mb-8 overflow-x-auto hide-scrollbar">
+      <button 
+        @click="activeTab = 'profile'" 
+        class="inv-master-tab"
+        :class="{ 'inv-master-tab--active': activeTab === 'profile' }"
+      >
+        <StoreIcon class="w-4 h-4" :class="activeTab === 'profile' ? 'text-[#FF5C1A]' : 'text-gray-400'" />
+        Store Identity
+      </button>
+      <button 
+        @click="activeTab = 'operations'" 
+        class="inv-master-tab"
+        :class="{ 'inv-master-tab--active': activeTab === 'operations' }"
+      >
+        <Clock class="w-4 h-4" :class="activeTab === 'operations' ? 'text-amber-500' : 'text-gray-400'" />
+        {{ isServiceProvider ? 'Scheduling & Status' : 'Operations & Status' }}
+      </button>
+      <button 
+        @click="activeTab = 'financials'" 
+        class="inv-master-tab"
+        :class="{ 'inv-master-tab--active': activeTab === 'financials' }"
+      >
+        <CreditCard class="w-4 h-4" :class="activeTab === 'financials' ? 'text-emerald-500' : 'text-gray-400'" />
+        Payout Methods
+      </button>
     </div>
 
     <div v-if="loading" class="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -71,7 +69,7 @@
             <p class="text-sm text-gray-500">Manage how your brand appears on the student app.</p>
           </div>
           
-          <div class="bg-white lg:rounded-3xl lg:border lg:border-gray-100/50 lg:shadow-sm relative px-4 py-8 lg:p-8 space-y-8 sm:space-y-10 border-b lg:border-b-0 border-gray-100">
+          <div class="bg-white rounded-[14px] border border-[#f0f0f0] relative px-4 py-8 lg:p-8 space-y-8 sm:space-y-10 hover:border-[#e0e0e0] transition-colors">
             <!-- Branding -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
@@ -204,7 +202,7 @@
             </p>
           </div>
           
-          <div class="bg-white lg:rounded-3xl lg:border lg:border-gray-100/50 lg:shadow-sm overflow-hidden px-4 py-8 lg:p-8 space-y-8 sm:space-y-10 border-b lg:border-b-0 border-gray-100">
+          <div class="bg-white rounded-[14px] border border-[#f0f0f0] overflow-hidden px-4 py-8 lg:p-8 space-y-8 sm:space-y-10 hover:border-[#e0e0e0] transition-colors">
             <div class="flex items-center justify-between">
               <h4 class="text-base font-bold text-gray-900">Service Configuration</h4>
               <button 
@@ -398,7 +396,7 @@
             </div>
           </div>
 
-          <div class="bg-white lg:rounded-3xl lg:border lg:border-gray-100/50 lg:shadow-sm px-4 py-8 lg:p-8 space-y-8">
+          <div class="bg-white rounded-[14px] border border-[#f0f0f0] px-4 py-8 lg:p-8 space-y-8 hover:border-[#e0e0e0] transition-colors">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <h4 class="text-base font-bold text-gray-900">Linked Accounts</h4>
               <button @click="openAddAccount" class="px-5 py-2.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded-xl font-bold text-sm transition-colors flex items-center gap-2">

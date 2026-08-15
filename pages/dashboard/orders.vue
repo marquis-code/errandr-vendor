@@ -1,42 +1,45 @@
 <template>
- <div class="space-y-6 animate-fade-in w-full px-4 pb-20 sm:px-8">
- <!-- Header with Search & Stats -->
- <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pt-6">
- <div class="space-y-1">
- <h1 class="text-xl font-bold text-gray-900 tracking-tight sm:text-2xl">Live Pipeline</h1>
- <p class="text-sm text-gray-400 font-medium flex items-center gap-2">
- Monitor and fulfill your active campus orders. 
- <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-sm font-bold bg-amber-50 text-amber-600">
- {{ orders.length }} Pending
- </span>
- </p>
- </div>
+  <div class="inv-page">
+    <!-- Header -->
+    <header class="inv-header">
+      <div class="inv-header__left">
+        <h1 class="inv-header__title">Active Orders</h1>
+        <p class="inv-header__sub flex items-center gap-2">
+          Monitor and fulfill your active campus orders. 
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-lg text-sm font-bold bg-amber-50 text-amber-600 whitespace-nowrap shrink-0">
+            {{ orders.length }} Pending
+          </span>
+        </p>
+      </div>
+    </header>
  
- <div class="flex items-center gap-3">
- <div class="relative w-full sm:w-80">
- <Search class="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-300" />
- <input 
- v-model="searchQuery"
- type="text" 
- placeholder="Find order or customer..." 
- class="w-full pl-11 pr-4 py-3 bg-white border border-gray-50 rounded-md text-base font-medium placeholder:text-gray-300 focus:ring-4 focus:ring-[#FF5C1A]/5 focus:border-[#FF5C1A]/30 outline-none transition-all"
- />
- </div>
- </div>
- </div>
+    <!-- Toolbar -->
+    <div class="inv-toolbar">
+      <div class="inv-search w-full sm:w-80">
+        <Search class="inv-search__icon" />
+        <input 
+          v-model="searchQuery"
+          type="text" 
+          placeholder="Find order or customer..." 
+          class="inv-search__input"
+        />
+        <button v-if="searchQuery" @click="searchQuery = ''" class="inv-search__clear">
+          <X class="w-3.5 h-3.5" />
+        </button>
+      </div>
 
- <!-- Filters Row -->
- <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
- <button
- v-for="filter in statusFilters"
- :key="filter.key"
- @click="activeFilter = filter.key"
- class="shrink-0 px-4 py-2 rounded-md text-sm font-bold transition-all border"
- :class="activeFilter === filter.key ? 'bg-gray-900 text-white ' : 'bg-white text-gray-400 hover:text-gray-600 '"
- >
- {{ filter.label }}
- </button>
- </div>
+      <div class="inv-category-pills">
+        <button
+          v-for="filter in statusFilters"
+          :key="filter.key"
+          @click="activeFilter = filter.key"
+          class="inv-pill"
+          :class="{ 'inv-pill--active': activeFilter === filter.key }"
+        >
+          {{ filter.label }}
+        </button>
+      </div>
+    </div>
 
  <!-- Orders Table -->
  <div class="bg-white rounded-md overflow-hidden min-h-[500px]">
@@ -94,14 +97,14 @@
  @close="selectedOrder = null"
  >
  <template v-if="selectedOrder">
- <div class="space-y-10 py-2">
+ <div class="space-y-6 py-2">
  <!-- Status Overview -->
- <div class="flex flex-col items-center py-8 bg-white rounded-md border border-gray-50/50">
- <div class="w-16 h-16 bg-white rounded-md flex items-center justify-center text-2xl mb-4">
+ <div class="flex flex-col items-center py-6 bg-gray-50 rounded-2xl border border-transparent">
+ <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-2xl mb-4 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)]">
  {{ statusEmoji(selectedOrder.status) }}
  </div>
- <p class="text-sm text-gray-400 font-bold mb-1">Current Status</p>
- <span :class="getStatusBadge(selectedOrder.status)" class="text-sm font-bold px-4 py-1.5 rounded-md border bg-white">
+ <p class="text-sm text-gray-500 font-medium mb-1">Current Status</p>
+ <span :class="getStatusBadge(selectedOrder.status)" class="text-sm font-bold px-4 py-1.5 rounded-xl bg-white shadow-sm">
  {{ formatStatus(selectedOrder.status) }}
  </span>
  </div>
@@ -110,7 +113,7 @@
   <div class="space-y-4">
     <h4 class="text-xs font-bold uppercase tracking-wider text-gray-400 px-1">Order Items</h4>
     <div class="space-y-3">
-      <div v-for="item in selectedOrder.items" :key="item._id" class="p-5 bg-white border border-gray-100 rounded-xl shadow-sm space-y-4">
+      <div v-for="item in selectedOrder.items" :key="item._id" class="p-4 bg-white border border-gray-100 rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] space-y-3">
         <!-- Item Header -->
         <div class="flex items-start justify-between">
           <div class="flex items-center gap-3">
@@ -160,8 +163,8 @@
  </div>
 
  <!-- Total Summary -->
- <div class="p-6 bg-gray-900 rounded-md text-white relative overflow-hidden group">
- <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-[#FF5C1A]/20 rounded-md blur-3xl" />
+ <div class="p-5 bg-gray-900 rounded-2xl text-white relative overflow-hidden group shadow-lg">
+ <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-[#FF5C1A]/20 rounded-2xl blur-3xl" />
  <div class="relative z-10 flex justify-between items-end">
  <div>
  <p class="text-sm font-bold text-white/40 mb-1">Total Payout</p>
@@ -170,9 +173,9 @@
  </div>
  </div>
 
- <div class="p-6 bg-white rounded-md border border-gray-50/50 flex flex-col gap-4">
+ <div class="p-5 bg-gray-50 rounded-2xl border border-transparent flex flex-col gap-4">
  <div class="flex items-center gap-4">
- <div class="w-12 h-12 rounded-md bg-white flex items-center justify-center font-bold text-[#FF5C1A]">
+ <div class="w-12 h-12 rounded-xl bg-white flex items-center justify-center font-bold text-[#FF5C1A] shadow-sm">
  {{ selectedOrder.customer?.firstName?.[0] }}{{ selectedOrder.customer?.lastName?.[0] }}
  </div>
  <div class="flex-1">
@@ -181,7 +184,7 @@
  </div>
  <button 
  @click="openChat(selectedOrder.customer?._id, selectedOrder.customer?.firstName + ' ' + selectedOrder.customer?.lastName, selectedOrder.customer?.avatar)"
- class="p-3 bg-[#FF5C1A]/5 text-[#FF5C1A] rounded-md hover:bg-[#FF5C1A] hover:text-white transition-all border border-[#FF5C1A]/10"
+ class="p-3 bg-[#FF5C1A]/10 text-[#FF5C1A] rounded-xl hover:bg-[#FF5C1A] hover:text-white transition-all border border-[#FF5C1A]/20 shadow-sm"
  >
  <MessageSquare class="w-4 h-4" />
  </button>
@@ -235,10 +238,9 @@
  </SideDrawer>
   <!-- Order Chat Side Drawer -->
   <OrderChat
-    v-if="selectedOrder"
     :is-open="chatState.isOpen"
-    :order-id="selectedOrder._id"
-    :current-user-id="(selectedOrder.vendor?._id || selectedOrder.vendor || '') + ',' + ((user as any)?.id || (user as any)?._id)"
+    :order-id="chatState.orderId"
+    :current-user-id="chatState.currentUserId"
     :receiver-id="chatState.receiverId"
     :receiver-name="chatState.receiverName"
     :receiver-avatar="chatState.receiverAvatar"
@@ -250,7 +252,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { Search, ChevronRight, Clock, Package, Star, ArrowRight, MessageSquare, Loader2, Sparkles } from 'lucide-vue-next';
+import { Search, ChevronRight, Clock, Package, Star, ArrowRight, MessageSquare, Loader2, Sparkles, X } from 'lucide-vue-next';
 import { GATEWAY_ENDPOINT_WITH_AUTH as api } from '@/api_factory/axios.config';
 import SideDrawer from '@/components/ui/SideDrawer.vue';
 import UiTable from '@/components/ui/UiTable.vue';
@@ -323,18 +325,23 @@ const chatState = ref({
   receiverId: '',
   receiverName: '',
   receiverAvatar: '',
+  orderId: '',
+  currentUserId: '',
   initialMessage: ''
 });
 
 const openChat = (receiverId: string | undefined, name: string, avatar?: string) => {
- if (!receiverId || !selectedOrder.value) return;
- chatState.value = {
-   isOpen: true,
-   receiverId,
-   receiverName: name,
-   receiverAvatar: avatar || '',
-   initialMessage: `Hello ${name.split(' ')[0]}! Thanks for your order #${selectedOrder.value.orderNumber}. We're currently processing it. Let us know if you need any adjustments!`
- };
+  if (!receiverId || !selectedOrder.value) return;
+  chatState.value = {
+    isOpen: true,
+    receiverId,
+    receiverName: name,
+    receiverAvatar: avatar || '',
+    orderId: selectedOrder.value._id,
+    currentUserId: (selectedOrder.value.vendor?._id || selectedOrder.value.vendor || '') + ',' + ((user as any)?.id || (user as any)?._id),
+    initialMessage: `Hello ${name.split(' ')[0]}! Thanks for your order #${selectedOrder.value.orderNumber}. We're currently processing it. Let us know if you need any adjustments!`
+  };
+  selectedOrder.value = null; // Close Order Details Drawer
 };
 
 const orderColumns = [
@@ -346,7 +353,7 @@ const orderColumns = [
 ];
 
 const statusFilters = [
- { key: 'all', label: 'Pipeline' },
+ { key: 'all', label: 'All Orders' },
  { key: 'pending', label: 'Incoming' },
  { key: 'preparing', label: 'In Kitchen' },
  { key: 'ready_for_pickup', label: 'Ready' },

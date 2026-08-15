@@ -457,7 +457,7 @@ watch(() => profile.value, (newVal) => {
 <style scoped>
 /* ─── Page ─── */
 .inv-page {
- padding: 24px 28px 80px;
+ padding: 20px 20px 40px;
  max-width: 1280px;
  margin: 0 auto;
  animation: invFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -902,10 +902,11 @@ watch(() => profile.value, (newVal) => {
 /* ─── Table Layout ─── */
 .inv-table-section {
  background: #fff;
- border: 1px solid #f0f0f0;
- border-radius: 14px;
+ border: 1px solid transparent;
+ border-radius: 16px;
+ box-shadow: 0 2px 10px -4px rgba(0,0,0,0.05);
  overflow: hidden;
- margin-top: 20px;
+ margin-top: 16px;
 }
 .inv-tbl-product {
  display: flex;
@@ -1018,7 +1019,7 @@ watch(() => profile.value, (newVal) => {
 
 /* ─── Responsive ─── */
 @media (max-width: 640px) {
- .inv-page { padding: 16px 16px 80px; }
+ .inv-page { padding: 12px 12px 40px; }
  .inv-header { flex-direction: column; align-items: flex-start; }
  .inv-header__title { font-size: 22px; }
  .inv-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }

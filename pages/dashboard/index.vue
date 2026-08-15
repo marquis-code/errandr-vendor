@@ -1,54 +1,54 @@
 <template>
-  <div class="space-y-8 pb-20 animate-fade-in w-full px-4 sm:px-8">
+  <div class="inv-page">
     <!-- Header Section -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pt-6">
-      <div>
-        <h1 class="text-xl font-bold text-gray-900 sm:text-2xl">Dashboard</h1>
-        <p class="text-sm text-gray-400 mt-1 font-medium">Welcome back to your store overview</p>
+    <header class="inv-header">
+      <div class="inv-header__left">
+        <h1 class="inv-header__title">Dashboard</h1>
+        <p class="inv-header__sub">Welcome back to your store overview</p>
       </div>
-      <div class="flex items-center gap-3">
-        <button @click="shareStore" class="flex items-center gap-2 bg-blue-50/50 px-4 py-2 rounded-md border border-blue-100 hover:bg-blue-100 transition-colors">
-          <Share2 class="w-4 h-4 text-blue-600" />
-          <span class="text-blue-600 text-sm font-bold">Share Store</span>
+      <div class="inv-header__actions">
+        <button @click="shareStore" class="inv-btn inv-btn--outline">
+          <Share2 class="inv-btn__icon" />
+          Share Store
         </button>
-        <div class="flex items-center gap-2 bg-emerald-50/50 px-4 py-2 rounded-md">
-          <span class="w-2 h-2 rounded-md bg-emerald-500 animate-pulse" />
+        <div class="flex items-center gap-2 bg-emerald-50/50 px-4 py-2 rounded-lg border border-emerald-100">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
           <span class="text-emerald-600 text-sm font-bold">Store Online</span>
         </div>
-        <NuxtLink to="/dashboard/settings" class="p-3 bg-white border border-gray-100 rounded-md transition-all active:scale-95 group">
-          <Settings class="w-5 h-5 text-gray-400 group-hover:text-[#FF5C1A] transition-colors" />
+        <NuxtLink to="/dashboard/settings" class="inv-icon-btn">
+          <Settings class="w-5 h-5" />
         </NuxtLink>
       </div>
-    </div>
+    </header>
 
     <!-- Stats Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div v-for="stat in computedStats" :key="stat.label" class="bg-white border border-gray-100 p-6 rounded-md transition-all group relative overflow-hidden">
-        <div class="flex items-center justify-between mb-4 relative z-10">
-          <div :class="stat.bgClass" class="w-12 h-12 rounded-md flex items-center justify-center border border-white/50">
-            <component :is="stat.icon" class="w-5 h-5" />
-          </div>
-          <span v-if="stat.trend" class="text-sm font-bold px-2 py-0.5 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-100">
-            Live
-          </span>
+    <div class="inv-stats">
+      <div v-for="stat in computedStats" :key="stat.label" class="inv-stat-card relative overflow-hidden group">
+        <div class="inv-stat-card__icon" :class="stat.iconColorClass">
+          <component :is="stat.icon" class="w-5 h-5" />
         </div>
         <div class="relative z-10">
-          <p class="text-sm font-bold text-gray-400 mb-1">{{ stat.label }}</p>
-          <h3 class="text-xl font-bold text-gray-900">{{ stat.value }}</h3>
+          <p class="inv-stat-card__value">{{ stat.value }}</p>
+          <p class="inv-stat-card__label">{{ stat.label }}</p>
         </div>
+        <span v-if="stat.trend" class="absolute top-4 right-4 text-xs font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-600 border border-emerald-100">
+          Live
+        </span>
       </div>
     </div>
 
-    <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
       <!-- Recent Orders Table -->
-      <div class="xl:col-span-2 space-y-6">
-        <div class="bg-white rounded-md border border-gray-100 overflow-hidden flex flex-col min-h-[500px]">
-          <div class="px-8 py-6 border-b border-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div class="xl:col-span-2">
+        <div class="flex flex-col min-h-[500px]">
+          <div class="px-2 py-2 mb-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h3 class="font-bold text-gray-900 text-lg">{{ isServiceProvider ? 'Recent Appointments' : 'Recent Orders' }}</h3>
-              <p class="text-sm font-bold text-gray-400 mt-0.5">Real-time incoming requests</p>
+              <h3 class="font-bold text-gray-900 text-lg tracking-tight">{{ isServiceProvider ? 'Recent Appointments' : 'Recent Orders' }}</h3>
+              <p class="text-sm font-medium text-gray-400 mt-1">Real-time incoming requests</p>
             </div>
-            <NuxtLink to="/dashboard/orders" class="text-sm font-bold text-[#FF5C1A] hover:bg-blue-50 px-4 py-2 bg-white rounded-lg border border-gray-100 transition-colors self-start sm:self-auto whitespace-nowrap">See All</NuxtLink>
+            <NuxtLink to="/dashboard/orders" class="inv-btn inv-btn--outline text-[#FF5C1A] self-start sm:self-auto bg-white">
+              See All
+            </NuxtLink>
           </div>
           
           <UiTable  
@@ -104,9 +104,9 @@
           </UiTable>
           
           <!-- Onboarding Guide if no orders/appointments -->
-          <div v-if="(isServiceProvider ? appointmentsList.length === 0 : orders.length === 0) && !(isServiceProvider ? loadingAppointments : loadingOrders)" class="p-8 bg-blue-50/30 border-t border-blue-50/50 flex flex-col md:flex-row items-center justify-between gap-6 mt-auto">
+          <div v-if="(isServiceProvider ? appointmentsList.length === 0 : orders.length === 0) && !(isServiceProvider ? loadingAppointments : loadingOrders)" class="p-6 bg-[#FF5C1A]/5 border-t border-[#FF5C1A]/10 flex flex-col md:flex-row items-center justify-between gap-4 mt-auto">
             <div class="flex items-start gap-4">
-              <div class="w-10 h-10 rounded-md bg-[#FF5C1A] text-white flex items-center justify-center shrink-0">
+              <div class="w-10 h-10 rounded-xl bg-[#FF5C1A] text-white flex items-center justify-center shrink-0 shadow-sm">
                 <ShieldCheck class="w-5 h-5" />
               </div>
               <div>
@@ -115,10 +115,10 @@
               </div>
             </div>
             <div class="flex items-center gap-3 flex-wrap justify-end">
-              <NuxtLink v-if="isMiniMart" to="/products/bulk-add" class="px-6 py-3 bg-[#FF5C1A] text-white rounded-md text-sm font-bold hover:bg-[#E54D12] transition-all whitespace-nowrap text-center">
+              <NuxtLink v-if="isMiniMart" to="/products/bulk-add" class="px-5 py-2.5 bg-[#FF5C1A] text-white rounded-xl text-sm font-bold hover:bg-[#E54D12] transition-all whitespace-nowrap text-center shadow-sm">
                 Add Products from Catalog
               </NuxtLink>
-              <NuxtLink to="/dashboard/settings" class="px-6 py-3 bg-white text-gray-900 rounded-md text-sm font-medium hover: transition-all border border-gray-100 whitespace-nowrap text-center">
+              <NuxtLink to="/dashboard/settings" class="px-5 py-2.5 bg-white text-gray-900 rounded-xl text-sm font-bold hover:bg-gray-50 transition-all border border-gray-200 shadow-sm whitespace-nowrap text-center">
                 Setup Store Profile
               </NuxtLink>
             </div>
@@ -126,35 +126,35 @@
         </div>
 
         <!-- Marketing / Insight Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="bg-white rounded-2xl border border-gray-100 p-8 relative overflow-hidden group">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-white rounded-[14px] border border-[#f0f0f0] p-6 relative overflow-hidden group hover:border-[#e0e0e0] transition-colors">
             <div class="relative z-10">
-              <div class="w-10 h-10 bg-orange-50 rounded-md flex items-center justify-center mb-6">
+              <div class="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center mb-5 border border-orange-100">
                 <Package v-if="!isServiceProvider" class="w-5 h-5 text-[#FF5C1A]" />
                 <Calendar v-else class="w-5 h-5 text-[#FF5C1A]" />
               </div>
-              <h3 class="text-xl font-bold text-gray-900 mb-2">{{ isServiceProvider ? 'Upcoming Bookings' : 'Inventory Health' }}</h3>
-              <p class="text-gray-500 text-sm mb-8 font-bold">{{ isServiceProvider ? 'Check your appointment schedule' : 'Some items running low' }}</p>
+              <h3 class="text-lg font-bold text-gray-900 mb-1 tracking-tight">{{ isServiceProvider ? 'Upcoming Bookings' : 'Stock Status' }}</h3>
+              <p class="text-gray-500 text-sm mb-6 font-medium">{{ isServiceProvider ? 'Check your appointment schedule' : 'Some items running low' }}</p>
               <div class="flex flex-col sm:flex-row gap-3">
-                <NuxtLink :to="isServiceProvider ? '/dashboard/appointments' : '/dashboard/inventory'" class="inline-flex px-6 py-3 bg-gray-900 text-white rounded-md text-sm font-bold hover:bg-black transition-all justify-center">
+                <NuxtLink :to="isServiceProvider ? '/dashboard/appointments' : '/dashboard/inventory'" class="inv-btn inv-btn--primary justify-center">
                   {{ isServiceProvider ? 'View Schedule' : 'Manage Stock' }}
                 </NuxtLink>
-                <NuxtLink v-if="isMiniMart" to="/products/bulk-add" class="inline-flex px-6 py-3 bg-[#FF5C1A]/10 text-[#FF5C1A] border border-[#FF5C1A]/20 rounded-md text-sm font-bold hover:bg-[#FF5C1A]/20 transition-all justify-center whitespace-nowrap">
+                <NuxtLink v-if="isMiniMart" to="/products/bulk-add" class="inv-btn inv-btn--outline text-[#FF5C1A] border-[#FF5C1A]/20 bg-[#FF5C1A]/5 hover:bg-[#FF5C1A]/10 justify-center">
                   Add from Catalog
                 </NuxtLink>
               </div>
             </div>
           </div>
           
-          <div class="bg-white rounded-2xl p-8 border border-gray-100 relative overflow-hidden group">
+          <div class="bg-white rounded-[14px] p-6 border border-[#f0f0f0] relative overflow-hidden group hover:border-[#e0e0e0] transition-colors">
             <div class="relative z-10">
-              <div class="flex items-center gap-0.5 mb-6">
+              <div class="flex items-center gap-0.5 mb-5">
                 <Star v-for="i in 5" :key="i" class="w-4 h-4 text-amber-400 fill-amber-400" />
               </div>
-              <p class="text-sm text-gray-500 font-bold mb-1">Store Rating</p>
-              <h3 class="text-4xl font-medium text-gray-900">{{ Number(currentStats.rating || 5).toFixed(1) }}</h3>
+              <p class="text-sm text-gray-500 font-semibold mb-1">Store Rating</p>
+              <h3 class="text-4xl font-bold text-gray-900 tracking-tight">{{ Number(currentStats.rating || 5).toFixed(1) }}</h3>
               <p class="text-sm text-gray-400 font-bold mt-4 flex items-center gap-2">
-                <CheckCircle class="w-3 h-3 text-emerald-500" /> {{ currentStats.reviewsCount || 0 }} CUSTOMER REVIEWS
+                <CheckCircle class="w-3.5 h-3.5 text-emerald-500" /> {{ currentStats.reviewsCount || 0 }} CUSTOMER REVIEWS
               </p>
             </div>
           </div>
@@ -162,27 +162,27 @@
       </div>
 
       <!-- Financial Sidebar -->
-      <div class="space-y-8">
-        <div class="bg-white rounded-2xl border border-gray-100 p-8 space-y-8 transition-all">
+      <div class="space-y-6">
+        <div class="bg-white rounded-[14px] border border-[#f0f0f0] p-6 space-y-6 transition-all hover:border-[#e0e0e0]">
           <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-md bg-[#FF5C1A]/5 text-[#FF5C1A] flex items-center justify-center border border-[#FF5C1A]/10 shrink-0">
+            <div class="w-10 h-10 rounded-xl bg-[#FF5C1A]/5 text-[#FF5C1A] flex items-center justify-center border border-[#FF5C1A]/10 shrink-0">
               <Banknote class="w-5 h-5" />
             </div>
             <div>
-              <h3 class="text-lg font-bold text-gray-900">Earnings</h3>
-              <p class="text-sm font-bold text-gray-400">Today's Settlement</p>
+              <h3 class="text-lg font-bold text-gray-900 tracking-tight">Earnings</h3>
+              <p class="text-sm font-medium text-gray-400">Today's Settlement</p>
             </div>
           </div>
           
           <div class="space-y-1">
-            <p class="text-sm font-bold text-gray-400 ml-1">Current Balance</p>
+            <p class="text-sm font-medium text-gray-400 ml-1">Current Balance</p>
             <div class="flex items-baseline gap-1">
               <span class="text-lg font-medium text-gray-400">₦</span>
               <h4 class="text-4xl font-bold text-gray-900">{{ currentStats.todaySales?.toLocaleString() || '0' }}</h4>
             </div>
           </div>
 
-          <div class="p-5 bg-gray-50/50 rounded-md border border-gray-50/50 space-y-3">
+          <div class="p-5 bg-gray-50/50 rounded-[10px] border border-[#f0f0f0] space-y-3">
             <div class="flex justify-between items-center text-sm font-bold">
               <span class="text-gray-400">Target</span>
               <span class="text-[#FF5C1A]">₦65,000</span>
@@ -190,25 +190,25 @@
             <div class="h-1.5 bg-gray-200 rounded-md overflow-hidden">
               <div class="h-full bg-[#FF5C1A] transition-all duration-1000" :style="{ width: Math.min(((currentStats.todaySales || 0) / 65000) * 100, 100) + '%' }"></div>
             </div>
-            <p class="text-sm text-gray-400 font-bold mt-2 text-center">
+            <p class="text-sm text-gray-400 font-medium mt-2 text-center">
               {{ Math.round(((currentStats.todaySales || 0) / 65000) * 100) }}% complete
             </p>
           </div>
 
-          <NuxtLink to="/dashboard/wallet" class="flex items-center justify-center w-full py-4 bg-gray-900 text-white rounded-md font-bold text-sm hover:bg-black transition-all active:scale-95 group">
-            Financial Hub <ArrowRight class="w-3.5 h-3.5 ml-2 group-hover:translate-x-1 transition-transform" />
+          <NuxtLink to="/dashboard/wallet" class="inv-btn inv-btn--primary w-full justify-center">
+            Financial Hub <ArrowRight class="w-3.5 h-3.5 ml-2" />
           </NuxtLink>
         </div>
 
-        <div class="bg-white border border-gray-100 rounded-2xl p-8 relative overflow-hidden group">
-          <h3 class="text-lg font-bold text-gray-900 flex items-center gap-3 relative z-10">
+        <div class="bg-white rounded-[14px] border border-[#f0f0f0] p-8 relative overflow-hidden group hover:border-[#e0e0e0] transition-colors">
+          <h3 class="text-lg font-bold text-gray-900 flex items-center gap-3 relative z-10 tracking-tight">
             <Megaphone class="w-5 h-5 text-[#FF5C1A]" /> Campus Insight
           </h3>
-          <p class="text-gray-600 text-sm font-bold leading-relaxed mt-6 relative z-10">
-            Students are searching for <span class="text-[#FF5C1A] underline decoration-[#FF5C1A]/30 decoration-2 underline-offset-4">{{ isServiceProvider ? 'Hair Styling' : 'Shawarma' }}</span> more than usual.
+          <p class="text-gray-600 text-sm font-medium leading-relaxed mt-6 relative z-10">
+            Students are searching for <span class="text-[#FF5C1A] font-bold underline decoration-[#FF5C1A]/30 decoration-2 underline-offset-4">{{ isServiceProvider ? 'Hair Styling' : 'Shawarma' }}</span> more than usual.
           </p>
           <div class="mt-8 relative z-10">
-            <button class="px-6 py-2.5 bg-gray-50 border border-gray-100 text-gray-900 rounded-md text-sm font-bold hover:bg-gray-100 transition-all">Quick Promo</button>
+            <button class="inv-btn inv-btn--outline">Quick Promo</button>
           </div>
         </div>
       </div>
@@ -261,10 +261,10 @@ const appointmentColumns = [
 ];
 
 const computedStats = computed(() => [
-  { label: isServiceProvider.value ? 'Today Appointments' : 'Today Orders', value: currentStats.value?.todayOrders?.toString() || '0', icon: isServiceProvider.value ? Calendar : ShoppingBag, bgClass: 'bg-emerald-50 text-emerald-600', trend: 0 },
-  { label: isServiceProvider.value ? 'Active Appointments' : 'Active Orders', value: currentStats.value?.activeOrders?.toString() || '0', icon: Clock, bgClass: 'bg-amber-50 text-amber-600', trend: 0 },
-  { label: 'Revenue', value: '₦' + (currentStats.value?.totalSales?.toLocaleString() || '0'), icon: Building, bgClass: 'bg-purple-50 text-purple-600', trend: 0 },
-  { label: 'Rating', value: Number(currentStats.value?.rating || 5).toFixed(1), icon: Star, bgClass: 'bg-blue-50 text-blue-600', trend: 0 },
+  { label: isServiceProvider.value ? 'Today Appointments' : 'Today Orders', value: currentStats.value?.todayOrders?.toString() || '0', icon: isServiceProvider.value ? Calendar : ShoppingBag, iconColorClass: 'inv-stat-card__icon--blue', trend: 0 },
+  { label: isServiceProvider.value ? 'Active Appointments' : 'Active Orders', value: currentStats.value?.activeOrders?.toString() || '0', icon: Clock, iconColorClass: 'inv-stat-card__icon--amber', trend: 0 },
+  { label: 'Revenue', value: '₦' + (currentStats.value?.totalSales?.toLocaleString() || '0'), icon: Building, iconColorClass: 'inv-stat-card__icon--purple', trend: 0 },
+  { label: 'Rating', value: Number(currentStats.value?.rating || 5).toFixed(1), icon: Star, iconColorClass: 'inv-stat-card__icon--green', trend: 0 },
 ]);
 
 const fetchDashboardData = async () => {

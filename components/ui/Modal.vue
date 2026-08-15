@@ -16,26 +16,26 @@
  ]"
  >
  <!-- Header -->
- <div class="px-6 py-5 border-b border-gray-100 flex items-center justify-between shrink-0 bg-white/80 backdrop-blur-sm sticky top-0 z-10">
+ <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between shrink-0 bg-white/80 backdrop-blur-sm sticky top-0 z-10">
  <div>
  <h3 class="text-xl font-medium text-gray-900 tracking-tight">{{ title }}</h3>
- <p v-if="description" class="text-sm font-bold text-gray-400 mt-1">{{ description }}</p>
+ <p v-if="description" class="text-sm font-medium text-gray-400 mt-1">{{ description }}</p>
  </div>
  <button 
  @click="$emit('close')"
- class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-50 text-gray-400 hover:text-gray-900 hover:bg-gray-100 transition-all active:scale-95"
+ class="w-8 h-8 flex items-center justify-center rounded-md bg-gray-50 text-gray-400 hover:text-gray-900 hover:bg-gray-100 transition-all active:scale-95"
  >
- <X class="w-5 h-5" />
+ <X class="w-4 h-4" />
  </button>
  </div>
 
  <!-- Content -->
- <div class="flex-1 overflow-y-auto p-6 sm:p-8 hide-scrollbar">
+ <div class="flex-1 overflow-y-auto p-4 sm:p-5 hide-scrollbar">
  <slot></slot>
  </div>
 
  <!-- Footer (Optional) -->
- <div v-if="$slots.footer" class="px-8 py-5 border-t border-gray-100 bg-gray-50/50 flex items-center justify-end gap-3 shrink-0">
+ <div v-if="$slots.footer" class="px-5 py-4 border-t border-gray-100 bg-gray-50/50 flex items-center justify-end gap-3 shrink-0">
  <slot name="footer"></slot>
  </div>
  </div>

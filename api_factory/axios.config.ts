@@ -91,10 +91,23 @@ instanceArray.forEach((instance) => {
           const { recordSlowNetwork } = useNetworkStatus();
           recordSlowNetwork();
         } catch (e) {}
-        
+
+        let errorMessage = "Network Error. Please check your connection.";
+        // In a browser, if it's a Network Error and we are online, it's highly likely a CORS error or server down
+        if (typeof window !== 'undefined' && window.navigator.onLine && err.message?.includes('Network Error')) {
+          errorMessage = "Network Error (or CORS error). The server might be unreachable or rejecting the request origin.";
+        }
+
+        useCustomToast().showToast({
+          title: "Connection Error",
+          message: errorMessage,
+          toastType: "error",
+          duration: 4000
+        });
+
         return {
           type: "ERROR",
-          ...(err.response || { status: 0, statusText: "Network Error" }),
+          ...(err.response || { status: 0, statusText: errorMessage }),
         };
       }
       if (err.response.status === 401) {

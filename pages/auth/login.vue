@@ -3,13 +3,13 @@
     <!-- Form Card -->
     <div class="w-full max-w-md flex flex-col justify-center px-0 sm:px-6 py-12 bg-white sm:rounded-[2rem] relative z-10 my-8">
       <div class="mb-10 text-center flex flex-col items-center">
-        <NuxtLink to="/" class="flex items-center gap-2 mb-8 inline-block group">
+        <NuxtLink to="/" class="flex items-center gap-2 mb-4 inline-block group">
           <div class="flex items-center justify-center group-hover:scale-110 transition-transform">
-            <Store class="w-12 h-12 text-[#FF5C1A]" />
+            <img src="@/assets/img/logo.png" class="h-12 w-auto" />
           </div>
         </NuxtLink>
-        <h1 class="text-4xl font-extrabold text-gray-900 mb-3 tracking-tight">Welcome Back</h1>
-        <p class="text-gray-500 text-lg">Sign in to your vendor dashboard</p>
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-3 tracking-tight">Welcome Back</h1>
+        <p class="text-gray-500 text-base">Sign in to your vendor dashboard</p>
       </div>
 
       <form @submit.prevent="handleLogin" class="space-y-6 max-w-md">

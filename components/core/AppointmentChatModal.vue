@@ -1,7 +1,7 @@
 <template>
   <ClientOnly>
     <Teleport to="body">
-      <div v-if="isOpen" class="fixed inset-0 z-[200] flex justify-end animate-fade-in font-sans pb-10 sm:pb-0">
+      <div v-if="isOpen" class="fixed inset-0 z-[999] flex justify-end animate-fade-in font-sans pb-10 sm:pb-0">
         <!-- Backdrop -->
         <div @click="close" class="absolute inset-0 bg-black/20 backdrop-blur-[2px] transition-opacity" />
         
