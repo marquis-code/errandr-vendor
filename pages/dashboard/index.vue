@@ -291,7 +291,7 @@ const fetchDashboardData = async () => {
 };
 
 onMounted(() => {
- loadDashboardData();
+ fetchDashboardData();
  loadMyVendorOrders();
  fetchAppointments();
  
@@ -301,7 +301,7 @@ onMounted(() => {
  }
  
  const refreshAll = () => {
-   loadDashboardData();
+   fetchDashboardData();
    loadMyVendorOrders();
  };
 

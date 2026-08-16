@@ -184,9 +184,10 @@
  </div>
  <button 
  @click="openChat(selectedOrder.customer?._id, selectedOrder.customer?.firstName + ' ' + selectedOrder.customer?.lastName, selectedOrder.customer?.avatar)"
- class="p-3 bg-[#FF5C1A]/10 text-[#FF5C1A] rounded-xl hover:bg-[#FF5C1A] hover:text-white transition-all border border-[#FF5C1A]/20 "
+ class="px-4 py-2 bg-[#FF5C1A]/10 text-[#FF5C1A] rounded-xl hover:bg-[#FF5C1A] hover:text-white transition-all border border-[#FF5C1A]/20 flex items-center gap-2 font-bold text-xs"
  >
  <MessageSquare class="w-4 h-4" />
+ <span>Chat Student</span>
  </button>
  </div>
 
@@ -200,9 +201,10 @@
  </div>
  <button 
  @click="openChat(selectedOrder.errander?._id, selectedOrder.errander?.firstName + ' (Rider)', selectedOrder.errander?.avatar)"
- class="p-2.5 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-600 hover:text-white transition-all border border-indigo-100"
+ class="px-3 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-600 hover:text-white transition-all border border-indigo-100 flex items-center gap-2 font-bold text-xs"
  >
  <MessageSquare class="w-3.5 h-3.5" />
+ <span>Chat Rider</span>
  </button>
  </div>
  </div>

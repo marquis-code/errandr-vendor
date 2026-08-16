@@ -450,7 +450,7 @@
  <h4 class="text-base font-bold text-gray-900 mb-4">Withdrawal Cycle</h4>
  <div class="flex flex-wrap gap-3">
  <button 
- v-for="pref in ['instant', 'weekly', 'monthly']" 
+ v-for="pref in ['daily', 'weekly', 'monthly']" 
  :key="pref"
  @click="updatePayoutPref(pref)"
  class="px-4 md:px-6 py-3 rounded-xl text-sm font-bold transition-all border-2 capitalize"
@@ -744,7 +744,9 @@ const loadInitialData = async () => {
  isOnline.value = !!data.isOnline;
 
  const wData = wallet.value || walletRes || {};
- payoutPreference.value = wData.payoutPreference || 'weekly';
+ let pref = wData.payoutPreference || 'weekly';
+ if (pref === 'instant') pref = 'daily';
+ payoutPreference.value = pref;
  
  // Support multi-account from bankAccounts or metadata or fallback to single one
  if (wData.bankAccounts && wData.bankAccounts.length > 0) {

@@ -437,23 +437,23 @@ const editAddOn = (addon: any) => { selectedAddOn.value = { ...addon }; isAddOnD
 const quickToggleAvailability = async (product: any) => { await toggleAvailability(product._id); };
 
 // ─── Data Loading ───
-const loadData = () => {
+const loadData = async () => {
+ // Agressively fetch fresh profile to ensure businessType/vendorType is up-to-date
+ await useVendorProfile().fetchProfile();
+ 
  fetchProducts();
  fetchCategories();
- if (isFoodVendor.value) {
-  fetchAddOnGroups();
-  fetchPacks();
- }
+ fetchAddOnGroups();
+ fetchPacks();
 };
 
 onMounted(() => {
- if (profile.value && (profile.value.category || profile.value.businessType)) {
-  loadData();
- }
+ loadData();
 });
 
 watch(() => profile.value, (newVal) => {
- if (newVal && (newVal.category || newVal.businessType)) {
+ // Just in case profile loads late and changes isFoodVendor
+ if (newVal) {
   loadData();
  }
 }, { deep: true });

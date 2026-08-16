@@ -41,7 +41,7 @@
  <h2 class="text-7xl font-medium text-gray-900">{{ balance?.toLocaleString() || '0' }}</h2>
  </div>
  <p class="text-sm text-gray-400 font-medium max-w-sm leading-relaxed">
- This is your current balance after commission deductions. Withdrawals are typically processed within 24-48 hours.
+ This is your current balance after commission deductions. Withdrawals are now processed instantly to your bank account.
  </p>
  </div>
  
@@ -61,6 +61,26 @@
  </div>
  </div>
  </div>
+ </div>
+
+ <!-- Instant Virtual Account -->
+ <div v-if="wallet?.virtualAccount" class="xl:col-span-8 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-100 rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+   <div class="flex items-start gap-4">
+     <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center shrink-0 border border-emerald-100/50">
+       <Building2 class="w-6 h-6 text-emerald-600" />
+     </div>
+     <div>
+       <div class="flex items-center gap-2 mb-1">
+         <h3 class="text-gray-900 font-semibold tracking-tight">{{ wallet.virtualAccount.bankName }}</h3>
+         <span class="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Instant Funding</span>
+       </div>
+       <p class="text-2xl font-bold tracking-tight text-gray-800 font-mono">{{ wallet.virtualAccount.accountNumber }}</p>
+       <p class="text-sm font-medium text-emerald-600/80 mt-0.5">{{ wallet.virtualAccount.accountName }}</p>
+     </div>
+   </div>
+   <div class="bg-white/60 p-4 rounded-xl border border-emerald-100/50">
+     <p class="text-sm font-medium text-emerald-800 leading-relaxed max-w-xs">Transfer to this dedicated account number to automatically fund your vendor wallet instantly.</p>
+   </div>
  </div>
 
  <!-- Quick Stats / Active Account -->
@@ -248,11 +268,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from 'vue';
-import { 
- CreditCard, TrendingUp, Settings as SettingsIcon, Store, 
- ShieldCheck, ArrowUpRight, ArrowDownLeft, Banknote, 
- AlertCircle, Loader2 
-} from 'lucide-vue-next';
+import { CreditCard, TrendingUp, ShieldCheck, ArrowUpRight, ArrowDownLeft, Settings as SettingsIcon, Banknote, HelpCircle, X, Building2, AlertCircle, Store, Loader2 } from 'lucide-vue-next';
 import { useWallet } from '@/composables/modules/wallets';
 import { useCustomToast } from '@/composables/core/useCustomToast';
 import UiTable from '@/components/ui/UiTable.vue';

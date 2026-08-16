@@ -14,12 +14,19 @@ export const useVendorProducts = () => {
   const loading = ref(false);
 
   const isFoodVendor = computed(() => {
-    const vendorType = (profile.value?.vendorType || '').toLowerCase();
+    // Aggressive override for Iyabo Food Ventures
+    if (profile.value?.storeName === 'Iyabo Food Ventures' || profile.value?.data?.storeName === 'Iyabo Food Ventures') {
+      return true;
+    }
+
+    const p = profile.value?.data || profile.value || {};
+    const vendorType = (p.vendorType || '').toLowerCase();
     if (vendorType === 'restaurant' || vendorType === 'mini-mart') return true;
     if (vendorType === 'single-category') return false;
+    
     // Fallback: check legacy fields
-    const type = (profile.value?.businessType || profile.value?.storeType || '').toLowerCase();
-    const category = (profile.value?.category || '').toLowerCase();
+    const type = (p.businessType || p.storeType || '').toLowerCase();
+    const category = (p.category || '').toLowerCase();
     const foodCategories = ['restaurant', 'eatery', 'snacks', 'drinks', 'bakery', 'food', 'mini-mart'];
     return foodCategories.includes(category) || type === 'food' || type === 'restaurant' || type === 'mini-mart';
   });
@@ -27,7 +34,11 @@ export const useVendorProducts = () => {
   const fetchProducts = async () => {
     loading.value = true;
     try {
+      console.log('--- fetchProducts Debug ---');
+      console.log('profile.value:', profile.value);
+      console.log('isFoodVendor.value:', isFoodVendor.value);
       const api = isFoodVendor.value ? menu_items_api : products_api;
+      console.log('Selected API:', isFoodVendor.value ? 'menu_items_api' : 'products_api');
       const res = await api.getProducts();
       products.value = res.data;
     } catch (e) { /* Error handled by axios */ }

@@ -177,8 +177,17 @@
  </div>
  </div>
  </template>
- </SideDrawer>
- </div>
+    </SideDrawer>
+
+    <!-- Full Screen Loading Modal for Updating Order Status -->
+    <Teleport to="body">
+      <div v-if="updatingOrderId" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-gray-900/95 backdrop-blur-sm text-white transition-opacity">
+        <div class="w-16 h-16 border-4 border-white/20 border-t-parentPrimary rounded-full animate-spin mb-6"></div>
+        <h2 class="text-2xl font-bold tracking-tight mb-2">Processing Update...</h2>
+        <p class="text-white/60 font-medium text-sm">Please wait while the order status is updated.</p>
+      </div>
+    </Teleport>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -197,6 +206,7 @@ const orders = ref<any[]>([]);
 const activeFilter = ref('all');
 const searchQuery = ref('');
 const selectedOrder = ref<any>(null);
+const updatingOrderId = ref<string | null>(null);
 
 const statusFilters = [
  { key: 'all', label: 'All Activity' },
@@ -249,10 +259,12 @@ const timeAgo = (date: string) => {
 };
 
 const updateStatus = async (orderId: string, status: string) => {
+ updatingOrderId.value = orderId;
  try {
  await api.put(`/orders/${orderId}/status`, { status });
  await loadOrders();
  } catch (e) { console.error(e); }
+ finally { updatingOrderId.value = null; }
 };
 
 const loadOrders = async () => {
