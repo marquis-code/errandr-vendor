@@ -33,8 +33,16 @@ export const useRealtimeNotifications = () => {
     showToast({
       title: payload.title || 'Notification',
       message: payload.message || payload.body || payload.type || 'You have a new update',
-      toastType: payload.priority === 'high' ? 'warning' : 'info',
+      toastType: payload.priority === 'high' || payload.type === 'NEW_CHAT_MESSAGE' ? 'warning' : 'info',
       duration: 5000,
+      action: payload.type === 'NEW_CHAT_MESSAGE' && payload.data?.orderId ? () => {
+        const router = useRouter()
+        if (router) {
+          router.push(`/orders/${payload.data.orderId}?openChat=${payload.data.senderId || 'true'}`)
+        } else {
+          window.location.href = `/orders/${payload.data.orderId}?openChat=${payload.data.senderId || 'true'}`
+        }
+      } : undefined
     })
     
     // Silent internal page refresh to update data

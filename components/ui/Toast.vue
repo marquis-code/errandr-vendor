@@ -7,7 +7,7 @@
           :key="toast.id"
           :class="[ 'toast-base', { 'bg-rose-500 border-rose-600': toast.type === 'error', 'bg-emerald-500 border-emerald-600': toast.type === 'success', 'bg-amber-500 border-amber-600': toast.type === 'warning', 'bg-blue-500 border-blue-600': toast.type === 'info' } ]"
           class="w-full rounded-md border p-4 flex items-start gap-3.5 cursor-pointer transition-all duration-300 pointer-events-auto text-white shadow-lg"
-          @click="removeToast(toast.id)"
+          @click="handleToastClick(toast)"
         >
           <!-- Status Icon container -->
           <div class="flex-shrink-0 mt-0.5">
@@ -52,15 +52,23 @@ interface Toast {
   type: 'success' | 'error' | 'warning' | 'info'
   duration: number
   timeoutId?: number
+  action?: () => void
 }
 
 const toasts = ref<Toast[]>([])
 let toastCounter = 0
 
+const handleToastClick = (toast: Toast) => {
+  if (toast.action) {
+    toast.action()
+  }
+  removeToast(toast.id)
+}
+
 // Create a new toast
-const showToast = (title: string, message: string, type: 'success' | 'error' | 'warning' | 'info' = 'info', duration: number = 5000) => {
+const showToast = (title: string, message: string, type: 'success' | 'error' | 'warning' | 'info' = 'info', duration: number = 5000, action?: () => void) => {
   const id = toastCounter++
-  const newToast: Toast = { id, title, message, type, duration }
+  const newToast: Toast = { id, title, message, type, duration, action }
   
   toasts.value.push(newToast)
   

@@ -12,6 +12,7 @@ interface ToastOptions {
   toastType?: ToastType
   type?: ToastType
   duration?: number
+  action?: () => void
 }
 
 // Create a singleton instance
@@ -38,13 +39,13 @@ export const useCustomToast = () => {
       return
     }
     
-    const { title, message, toastType, type, duration = 5000 } = options
+    const { title, message, toastType, type, duration = 5000, action } = options
     
     // Map toastType to the type expected by the component
     const actualType = (toastType || type || 'info') as ToastType
     
     // Call the exposed method
-    return toastInstance.showToast(title, message, actualType, duration)
+    return toastInstance.showToast(title, message, actualType, duration, action)
   }
   
   return {
