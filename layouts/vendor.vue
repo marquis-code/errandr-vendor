@@ -53,6 +53,24 @@
 
           <!-- Right side (Profile & Actions) -->
           <div class="flex items-center gap-4 ml-auto">
+            <!-- Store Status Toggle -->
+            <div class="flex items-center gap-2 border-r border-gray-200 pr-4">
+              <span class="text-sm font-medium" :class="profile?.isOnline ? 'text-green-600' : 'text-red-500'">
+                {{ profile?.isOnline ? 'Open' : 'Closed' }}
+              </span>
+              <button 
+                @click="handleToggleOnline"
+                :disabled="isToggling"
+                class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
+                :class="profile?.isOnline ? 'bg-green-500' : 'bg-gray-200'"
+              >
+                <span 
+                  class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+                  :class="profile?.isOnline ? 'translate-x-5' : 'translate-x-0'"
+                />
+              </button>
+            </div>
+
             <NuxtLink to="/dashboard/notifications" class="p-2 rounded-full text-gray-400 hover:text-parentPrimary hover:bg-parentPrimary/10 transition-colors">
               <Bell class="w-5 h-5" />
             </NuxtLink>
@@ -85,6 +103,20 @@
         </div>
 
         <div class="flex items-center gap-2">
+          <!-- Mobile Store Status Toggle -->
+          <button 
+            @click="handleToggleOnline"
+            :disabled="isToggling"
+            class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none mr-2"
+            :class="profile?.isOnline ? 'bg-green-500' : 'bg-gray-200'"
+            :title="profile?.isOnline ? 'Store Open' : 'Store Closed'"
+          >
+            <span 
+              class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+              :class="profile?.isOnline ? 'translate-x-5' : 'translate-x-0'"
+            />
+          </button>
+
           <NuxtLink to="/dashboard/notifications" class="p-2 rounded-lg text-gray-400 hover:bg-gray-50 hover:text-parentPrimary transition-colors">
             <Bell class="w-5 h-5" />
           </NuxtLink>
@@ -219,7 +251,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
 import { useUser } from '@/composables/modules/auth/user'
-import { useVendorProfile } from '@/composables/modules/vendors'
+import { useVendorProfile, useVendorStatus } from '@/composables/modules/vendors'
 import { useRouter, useRoute } from 'vue-router'
 import { 
   LayoutDashboard, 
@@ -248,9 +280,27 @@ const router = useRouter()
 const { user, logOut } = useUser()
 const { profile, fetchProfile } = useVendorProfile()
 const { requestPermissionAndRegister, listenForOrders } = useVendorNotifications()
+const { toggleOnline } = useVendorStatus()
+
 const showMobileMenu = ref(false)
 const logoutModalOpen = ref(false)
 const isSidebarMinimized = ref(false)
+const isToggling = ref(false)
+
+const handleToggleOnline = async () => {
+  const vendorId = profile.value?.data?._id || profile.value?._id;
+  if (isToggling.value || !vendorId) return;
+  
+  isToggling.value = true;
+  try {
+    await toggleOnline(vendorId);
+    await fetchProfile();
+  } catch (error) {
+    console.error('Failed to toggle online status', error);
+  } finally {
+    isToggling.value = false;
+  }
+}
 
 onMounted(() => {
   if (!profile.value) {
