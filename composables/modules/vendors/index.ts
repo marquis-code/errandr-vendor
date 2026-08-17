@@ -34,11 +34,18 @@ export const useVendorStatus = () => {
 };
 
 export const useVendorProfile = () => {
-  const profile = useCookie<any>('errandr_vendor_profile', {
+  const profileCookie = useCookie<any>('errandr_vendor_profile', {
     maxAge: 60 * 60 * 24 * 7,
     path: '/',
     sameSite: 'lax',
   });
+  
+  const profile = useState<any>('vendor_profile_state', () => profileCookie.value);
+
+  // Sync state to cookie
+  watch(profile, (newVal) => {
+    profileCookie.value = newVal;
+  }, { deep: true });
   
   const loading = ref(false);
 
@@ -62,5 +69,23 @@ export const useVendorProfile = () => {
     profile.value = null;
   };
 
-  return { profile, loading, fetchProfile, setProfile, clearProfile };
+  const isFoodVendor = computed(() => {
+    const p = profile.value?.data || profile.value || {};
+    const storeName = (p.storeName || '').toLowerCase();
+    
+    if (storeName.includes('iyabo') || storeName.includes('food') || storeName.includes('kitchen') || storeName.includes('restaurant')) {
+      return true;
+    }
+
+    const vendorType = (p.vendorType || '').toLowerCase();
+    if (vendorType === 'restaurant' || vendorType === 'mini-mart') return true;
+    if (vendorType === 'single-category') return false;
+    
+    const type = (p.businessType || p.storeType || '').toLowerCase();
+    const category = (p.category || '').toLowerCase();
+    const foodCategories = ['restaurant', 'eatery', 'snacks', 'drinks', 'bakery', 'food', 'mini-mart'];
+    return foodCategories.includes(category) || type === 'food' || type === 'restaurant' || type === 'mini-mart';
+  });
+
+  return { profile, loading, isFoodVendor, fetchProfile, setProfile, clearProfile };
 };

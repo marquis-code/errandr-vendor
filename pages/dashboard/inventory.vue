@@ -3,7 +3,7 @@
   <!-- ─── Header ─── -->
   <header class="inv-header">
    <div class="inv-header__left">
-    <h1 class="inv-header__title">Products</h1>
+    <h1 class="inv-header__title">{{ isFoodVendor ? 'Menu & Inventory' : 'Products' }}</h1>
     <p class="inv-header__sub">Manage your catalog, categories &amp; stock in one place.</p>
    </div>
    <div class="inv-header__actions">
@@ -451,12 +451,7 @@ onMounted(() => {
  loadData();
 });
 
-watch(() => profile.value, (newVal) => {
- // Just in case profile loads late and changes isFoodVendor
- if (newVal) {
-  loadData();
- }
-}, { deep: true });
+
 </script>
 
 <style scoped>

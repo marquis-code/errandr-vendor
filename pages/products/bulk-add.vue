@@ -215,8 +215,8 @@ const submitBulkAdd = async () => {
   
   isSubmitting.value = true;
   try {
-    const isFoodVendor = ['restaurant', 'mini-mart', 'food', 'eatery'].includes((vendorProfile.value?.category || '').toLowerCase()) || ['restaurant', 'food', 'mini-mart'].includes((vendorProfile.value?.vendorType || '').toLowerCase());
-    const endpoint = isFoodVendor ? '/menu/items/bulk-from-catalog' : '/products/bulk-from-catalog';
+    const { isFoodVendor } = useVendorProfile();
+    const endpoint = isFoodVendor.value ? '/menu/items/bulk-from-catalog' : '/products/bulk-from-catalog';
     
     await api.post(endpoint, { items });
     if (isOnboarding.value) {

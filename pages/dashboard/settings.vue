@@ -589,11 +589,7 @@ const loading = ref(true);
 const vendorId = ref('');
 const isOnline = ref(false);
 const isServiceProvider = computed(() => profile.businessType === 'service_provider');
-const isFoodVendor = computed(() => {
- const cat = profile.category?.toLowerCase() || '';
- const foodCats = ['restaurant', 'eatery', 'snacks', 'drinks', 'bakery', 'chinese', 'indian', 'pizza', 'sushi', 'food'];
- return foodCats.includes(cat);
-});
+const { isFoodVendor } = useVendorProfile();
 const togglingOnline = ref(false);
 const savingProfile = ref(false);
 const savingHours = ref(false);

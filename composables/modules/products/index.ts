@@ -9,27 +9,9 @@ import { useVendorProfile } from "@/composables/modules/vendors";
 export const useVendorProducts = () => {
   const { showToast } = useCustomToast();
   const { startLoading, stopLoading } = useLoader();
-  const { profile } = useVendorProfile();
+  const { profile, isFoodVendor } = useVendorProfile();
   const products = ref<any[]>([]);
   const loading = ref(false);
-
-  const isFoodVendor = computed(() => {
-    // Aggressive override for Iyabo Food Ventures
-    if (profile.value?.storeName === 'Iyabo Food Ventures' || profile.value?.data?.storeName === 'Iyabo Food Ventures') {
-      return true;
-    }
-
-    const p = profile.value?.data || profile.value || {};
-    const vendorType = (p.vendorType || '').toLowerCase();
-    if (vendorType === 'restaurant' || vendorType === 'mini-mart') return true;
-    if (vendorType === 'single-category') return false;
-    
-    // Fallback: check legacy fields
-    const type = (p.businessType || p.storeType || '').toLowerCase();
-    const category = (p.category || '').toLowerCase();
-    const foodCategories = ['restaurant', 'eatery', 'snacks', 'drinks', 'bakery', 'food', 'mini-mart'];
-    return foodCategories.includes(category) || type === 'food' || type === 'restaurant' || type === 'mini-mart';
-  });
 
   const fetchProducts = async () => {
     loading.value = true;
@@ -117,20 +99,9 @@ export const useVendorProducts = () => {
 export const useVendorCategories = () => {
   const { showToast } = useCustomToast();
   const { startLoading, stopLoading } = useLoader();
-  const { profile } = useVendorProfile();
+  const { profile, isFoodVendor } = useVendorProfile();
   const categories = ref<any[]>([]);
   const loading = ref(false);
-
-  const isFoodVendor = computed(() => {
-    const vendorType = (profile.value?.vendorType || '').toLowerCase();
-    if (vendorType === 'restaurant' || vendorType === 'mini-mart') return true;
-    if (vendorType === 'single-category') return false;
-    // Fallback: check legacy fields
-    const type = (profile.value?.businessType || profile.value?.storeType || '').toLowerCase();
-    const category = (profile.value?.category || '').toLowerCase();
-    const foodCategories = ['restaurant', 'eatery', 'snacks', 'drinks', 'bakery', 'food', 'mini-mart'];
-    return foodCategories.includes(category) || type === 'food' || type === 'restaurant' || type === 'mini-mart';
-  });
 
   const fetchCategories = async () => {
     loading.value = true;
