@@ -185,7 +185,7 @@
  <div class="flex flex-col gap-2">
  <a 
  v-if="selectedOrder.customer?.phone"
- :href="`https://wa.me/${selectedOrder.customer.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('Hi, I am the vendor for order #' + selectedOrder.orderNumber)}`"
+ :href="`https://wa.me/${selectedOrder.customer.phone.replace(/[^0-9]/g, '').replace(/^0/, '234')}?text=${encodeURIComponent('Hi, I am the vendor for order #' + selectedOrder.orderNumber)}`"
  target="_blank"
  class="px-3 py-1.5 bg-[#25D366]/10 text-[#25D366] rounded-xl hover:bg-[#25D366]/20 transition-all border border-[#25D366]/20 flex items-center justify-center gap-1.5 font-bold text-xs"
  >
@@ -212,7 +212,7 @@
  <div class="flex flex-col gap-2">
  <a 
  v-if="selectedOrder.errander?.phone"
- :href="`https://wa.me/${selectedOrder.errander.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('Hi, I am the vendor for order #' + selectedOrder.orderNumber)}`"
+ :href="`https://wa.me/${selectedOrder.errander.phone.replace(/[^0-9]/g, '').replace(/^0/, '234')}?text=${encodeURIComponent('Hi, I am the vendor for order #' + selectedOrder.orderNumber)}`"
  target="_blank"
  class="px-3 py-1.5 bg-[#25D366]/10 text-[#25D366] rounded-lg hover:bg-[#25D366]/20 transition-all border border-[#25D366]/20 flex items-center justify-center gap-1.5 font-bold text-xs"
  >
