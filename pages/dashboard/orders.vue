@@ -185,7 +185,7 @@
  <div class="flex flex-col gap-2">
  <a 
  v-if="selectedOrder.customer?.phone"
- :href="`https://wa.me/${selectedOrder.customer.phone.replace(/[^0-9]/g, '').replace(/^0/, '234')}?text=${encodeURIComponent('Hi, I am the vendor for order #' + selectedOrder.orderNumber)}`"
+ :href="getWhatsAppLink(selectedOrder.customer.phone, 'customer')"
  target="_blank"
  class="px-3 py-1.5 bg-[#25D366]/10 text-[#25D366] rounded-xl hover:bg-[#25D366]/20 transition-all border border-[#25D366]/20 flex items-center justify-center gap-1.5 font-bold text-xs"
  >
@@ -212,7 +212,7 @@
  <div class="flex flex-col gap-2">
  <a 
  v-if="selectedOrder.errander?.phone"
- :href="`https://wa.me/${selectedOrder.errander.phone.replace(/[^0-9]/g, '').replace(/^0/, '234')}?text=${encodeURIComponent('Hi, I am the vendor for order #' + selectedOrder.orderNumber)}`"
+ :href="getWhatsAppLink(selectedOrder.errander.phone, 'rider')"
  target="_blank"
  class="px-3 py-1.5 bg-[#25D366]/10 text-[#25D366] rounded-lg hover:bg-[#25D366]/20 transition-all border border-[#25D366]/20 flex items-center justify-center gap-1.5 font-bold text-xs"
  >
@@ -364,6 +364,39 @@ const openChat = (receiverId: string | undefined, name: string, avatar?: string)
  initialMessage: `Hello ${name.split(' ')[0]}! Thanks for your order #${selectedOrder.value.orderNumber}. We're currently processing it. Let us know if you need any adjustments!`
  };
  selectedOrder.value = null; // Close Order Details Drawer
+};
+
+const getWhatsAppLink = (phone: string, type: 'customer' | 'rider') => {
+  if (!phone || !selectedOrder.value) return '#';
+  const cleanPhone = phone.replace(/[^0-9]/g, '').replace(/^0/, '234');
+  const order = selectedOrder.value;
+  
+  let message = '';
+  const storeName = order.vendor?.storeName || 'the store';
+  
+  if (type === 'customer') {
+    const total = getVendorEarnings(order) + (order.packagingFee || 0);
+    const itemsList = order.items?.map((i: any) => `- ${i.quantity}x ${i.food?.name} (₦${i.price})`).join('\n') || '';
+    message = `Hello ${order.customer?.firstName}, I am the vendor (${storeName}) for your order #${order.orderNumber}.
+
+*Order Details:*
+${itemsList}
+
+*Total:* ₦${total}
+*Status:* ${formatStatus(order.status)}
+
+If you have any specific instructions or questions, please let me know here.`;
+  } else if (type === 'rider') {
+    message = `Hello ${order.errander?.firstName}, I am the vendor (${storeName}) for order #${order.orderNumber}.
+
+The order contains ${order.items?.length || 0} item(s) and is currently *${formatStatus(order.status)}*.
+
+*Pickup Address:* ${order.vendor?.address || 'Store Address'}
+
+Please let me know your estimated arrival time.`;
+  }
+  
+  return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
 };
 
 const orderColumns = [
