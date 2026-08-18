@@ -182,15 +182,25 @@
  <p class="text-sm font-bold text-gray-900">{{ selectedOrder.customer?.firstName }} {{ selectedOrder.customer?.lastName }}</p>
  <p class="text-sm text-gray-500 font-medium">Ordered {{ timeAgo(selectedOrder.createdAt) }}</p>
  </div>
+ <div class="flex flex-col gap-2">
+ <a 
+ v-if="selectedOrder.customer?.phone"
+ :href="`https://wa.me/${selectedOrder.customer.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('Hi, I am the vendor for order #' + selectedOrder.orderNumber)}`"
+ target="_blank"
+ class="px-3 py-1.5 bg-[#25D366]/10 text-[#25D366] rounded-xl hover:bg-[#25D366]/20 transition-all border border-[#25D366]/20 flex items-center justify-center gap-1.5 font-bold text-xs"
+ >
+ WhatsApp
+ </a>
  <button 
  @click="openChat(selectedOrder.customer?._id, selectedOrder.customer?.firstName + ' ' + selectedOrder.customer?.lastName, selectedOrder.customer?.avatar)"
- class="px-4 py-2 bg-[#FF5C1A]/10 text-[#FF5C1A] rounded-xl hover:bg-[#FF5C1A] hover:text-white transition-all border border-[#FF5C1A]/20 flex items-center gap-2 font-bold text-xs"
+ class="px-3 py-1.5 bg-[#FF5C1A]/10 text-[#FF5C1A] rounded-xl hover:bg-[#FF5C1A] hover:text-white transition-all border border-[#FF5C1A]/20 flex items-center justify-center gap-1.5 font-bold text-xs"
  >
- <MessageSquare class="w-4 h-4" />
- <span>Chat Student</span>
+ <MessageSquare class="w-3.5 h-3.5" />
+ <span>In-App Chat</span>
  </button>
  </div>
-
+ </div>
+ 
  <div v-if="selectedOrder.errander" class="pt-4 border-t border-gray-50 flex items-center gap-4">
  <div class="w-10 h-10 rounded-md bg-indigo-50 flex items-center justify-center text-sm font-bold text-indigo-600">
  {{ selectedOrder.errander?.firstName?.[0] }}
@@ -199,13 +209,23 @@
  <p class="text-sm font-bold text-gray-900">{{ selectedOrder.errander?.firstName }} (Rider)</p>
  <p class="text-sm text-gray-400 font-medium">Assigned Delivery Agent</p>
  </div>
+ <div class="flex flex-col gap-2">
+ <a 
+ v-if="selectedOrder.errander?.phone"
+ :href="`https://wa.me/${selectedOrder.errander.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('Hi, I am the vendor for order #' + selectedOrder.orderNumber)}`"
+ target="_blank"
+ class="px-3 py-1.5 bg-[#25D366]/10 text-[#25D366] rounded-lg hover:bg-[#25D366]/20 transition-all border border-[#25D366]/20 flex items-center justify-center gap-1.5 font-bold text-xs"
+ >
+ WhatsApp
+ </a>
  <button 
  @click="openChat(selectedOrder.errander?._id, selectedOrder.errander?.firstName + ' (Rider)', selectedOrder.errander?.avatar)"
- class="px-3 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-600 hover:text-white transition-all border border-indigo-100 flex items-center gap-2 font-bold text-xs"
+ class="px-3 py-1.5 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-600 hover:text-white transition-all border border-indigo-100 flex items-center justify-center gap-1.5 font-bold text-xs"
  >
  <MessageSquare class="w-3.5 h-3.5" />
- <span>Chat Rider</span>
+ <span>In-App Chat</span>
  </button>
+ </div>
  </div>
  </div>
  </div>
