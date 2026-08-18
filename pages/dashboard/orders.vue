@@ -356,7 +356,7 @@ const orderColumns = [
 
 const statusFilters = [
  { key: 'all', label: 'All Orders' },
- { key: 'pending', label: 'Incoming' },
+ { key: 'confirmed', label: 'Incoming' },
  { key: 'preparing', label: 'In Kitchen' },
  { key: 'ready_for_pickup', label: 'Ready' },
  { key: 'delivered', label: 'Delivered' },
