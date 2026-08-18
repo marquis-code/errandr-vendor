@@ -216,8 +216,14 @@
  </div>
 
  <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
- <AnimatedInput v-model="profile.operatingHours.open" type="time" label="Opens At" description="e.g. 08:00 AM" />
- <AnimatedInput v-model="profile.operatingHours.close" type="time" label="Closes At" description="e.g. 09:00 PM" />
+ <div class="flex flex-col gap-2">
+ <label class="text-sm font-bold text-gray-700">Opens At</label>
+ <input v-model="profile.operatingHours.open" type="time" @change="syncHoursToWeekly" class="px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#FF5C1A] outline-none transition-all w-full font-bold" />
+ </div>
+ <div class="flex flex-col gap-2">
+ <label class="text-sm font-bold text-gray-700">Closes At</label>
+ <input v-model="profile.operatingHours.close" type="time" @change="syncHoursToWeekly" class="px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#FF5C1A] outline-none transition-all w-full font-bold" />
+ </div>
  </div>
 
  <!-- Capability Flags (Chowdeck Model vs Retail) -->
@@ -612,7 +618,7 @@ const profile = reactive({
  isInsideCampus: false,
  requiresPrepTime: false,
  requiresTakeawayPack: false,
- operatingHours: { open: '08:00 AM', close: '08:00 PM' },
+ operatingHours: { open: '08:00', close: '20:00' },
  preparationTime: 15,
  minimumOrder: 0,
  packs: [
@@ -668,6 +674,15 @@ const removeAccountPurpose = (index: number) => {
  }
 };
 
+const syncHoursToWeekly = () => {
+ profile.businessHours.forEach(bh => {
+ if (!bh.isClosed) {
+ bh.open = profile.operatingHours.open;
+ bh.close = profile.operatingHours.close;
+ }
+ });
+};
+
 const dynamicAccountPurposes = computed(() => {
  return profile.accountPurposes.map(p => ({ label: p, value: p }));
 });
@@ -718,7 +733,13 @@ const loadInitialData = async () => {
  profile.logo = data.logo || '';
  profile.banner = data.banner || '';
  profile.isInsideCampus = !!data.isInsideCampus;
- profile.operatingHours = data.operatingHours || { open: '08:00 AM', close: '08:00 PM' };
+ if (data.operatingHours) {
+ profile.operatingHours = data.operatingHours;
+ } else if (data.openingTime && data.closingTime) {
+ profile.operatingHours = { open: data.openingTime, close: data.closingTime };
+ } else {
+ profile.operatingHours = { open: '08:00', close: '20:00' };
+ }
  profile.preparationTime = data.preparationTime || 15;
  profile.minimumOrder = data.minimumOrder || 0;
  profile.requiresTakeawayPack = !!data.requiresTakeawayPack;
@@ -875,6 +896,8 @@ const saveHours = async () => {
  try {
  const { GATEWAY_ENDPOINT_WITH_AUTH: api } = await import('@/api_factory/axios.config');
  await api.put(`/vendors/${vendorId.value}`, {
+ openingTime: profile.operatingHours.open,
+ closingTime: profile.operatingHours.close,
  businessHours: profile.businessHours,
  breakPeriod: profile.breakPeriod,
  preparationTime: profile.preparationTime,

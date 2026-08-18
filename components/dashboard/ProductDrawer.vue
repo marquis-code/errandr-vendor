@@ -168,6 +168,18 @@
      <input type="number" v-model.number="form.prepTimeMinutes" placeholder="e.g. 20" class="w-full px-3 py-2 bg-gray-50 border border-transparent hover:border-gray-200 focus:bg-white rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-[#FF5C1A]/20 focus:border-[#FF5C1A] transition-all" />
     </div>
    </div>
+   <div class="pt-2">
+    <div class="flex items-center gap-3">
+     <label class="relative inline-flex items-center cursor-pointer">
+      <input type="checkbox" v-model="form.isPackagingFeeIncluded" class="sr-only peer" />
+      <div class="w-10 h-5 bg-gray-200 rounded-full peer peer-checked:bg-green-500 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
+     </label>
+     <div>
+       <span class="text-sm font-semibold text-gray-700 block">Packaging Fee Included in Price</span>
+       <span class="text-[11px] text-gray-500 block">If toggled, users will not pay an extra pack fee for this item</span>
+     </div>
+    </div>
+   </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════ -->
@@ -398,7 +410,8 @@ const form = reactive({
  isFeatured: false,
  image: '',
  images: [] as string[],
- videos: [] as string[]
+ videos: [] as string[],
+ isPackagingFeeIncluded: false
 });
 
 const addPackOption = () => form.packOptions.push({ name: '', price: 0 });
@@ -428,7 +441,7 @@ const defaultForm = () => ({
   hasPackFee: false, packOptions: [{ name: 'Standard Pack', price: 150 }],
   isAvailable: true, isFeatured: false,
   image: '', images: [], videos: [], modifiers: [], addOnGroupIds: [],
-  tags: [],
+  tags: [], isPackagingFeeIncluded: false,
  });
 
 watch(() => props.isOpen, (isOpen) => {
