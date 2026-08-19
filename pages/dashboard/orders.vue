@@ -7,7 +7,7 @@
  <p class="inv-header__sub flex items-center gap-2">
  Monitor and fulfill your active campus orders. 
  <span class="inline-flex items-center px-2.5 py-0.5 rounded-lg text-sm font-bold bg-amber-50 text-amber-600 whitespace-nowrap shrink-0">
- {{ orders.length }} Pending
+ {{ pendingOrdersCount }} Pending
  </span>
  </p>
  </div>
@@ -298,6 +298,7 @@ const searchQuery = ref('');
 const selectedOrder = ref<any>(null);
 const isChatOpen = ref(false);
 const chatReceiverId = ref('');
+const pendingOrdersCount = computed(() => orders.value.filter(o => ['pending', 'confirmed', 'preparing'].includes(o.status)).length);
 const chatReceiverName = ref('');
 const chatReceiverAvatar = ref('');
 const updatingOrderId = ref<string | null>(null);
