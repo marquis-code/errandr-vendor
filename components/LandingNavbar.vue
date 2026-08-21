@@ -14,7 +14,7 @@
         <!-- Logo -->
         <NuxtLink to="/" class="flex items-center gap-3 group relative z-10">
           <div class="relative overflow-hidden rounded-md bg-white/10 p-1 backdrop-blur-sm">
-             <img src="@/assets/img/logo-light.png" alt="Erranders Logo" class="h-10 w-auto object-contain transition-transform duration-500 group-hover:scale-110" />
+             <img src="@/assets/img/erranders.png" alt="Erranders Logo" class="h-10 w-auto object-contain transition-transform duration-500 group-hover:scale-110" />
           </div>
 
           <!-- <span class="text-xl font-medium tracking-tight transition-colors" :class="[scrolled ? 'text-gray-900' : 'text-gray-900']">

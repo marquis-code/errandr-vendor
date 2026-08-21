@@ -245,6 +245,7 @@
       </div>
     </Transition>
     <CorePushNotificationPrompt />
+    <CoreWhatsAppWidget />
   </div>
 </template>
 

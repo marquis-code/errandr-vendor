@@ -75,6 +75,17 @@
             <div class="w-10 h-5 bg-gray-200 rounded-full peer peer-checked:bg-green-500 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
           </label>
         </div>
+
+        <div class="flex items-start gap-3 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100 mt-3">
+          <label class="relative inline-flex items-center cursor-pointer shrink-0 mt-1">
+            <input type="checkbox" v-model="form.isPackagingFeeIncluded" class="sr-only peer" />
+            <div class="w-10 h-5 bg-gray-200 rounded-full peer peer-checked:bg-green-500 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
+          </label>
+          <div>
+            <span class="text-sm font-semibold text-gray-700 block">Packaging Fee Included in Price</span>
+            <span class="text-[11px] text-gray-500 block">If toggled, users will not pay an extra pack fee for this combo pack</span>
+          </div>
+        </div>
       </section>
 
       <!-- 4. COMPONENTS (Items + Portions) -->
@@ -176,6 +187,7 @@ const form = reactive({
   addOnGroupIds: [] as string[],
   imageUrl: '',
   isAvailable: true,
+  isPackagingFeeIncluded: false,
 });
 
 // Calculate à la carte total for comparison
@@ -200,6 +212,7 @@ watch(() => props.isOpen, (newVal) => {
       form.bundlePrice = p.bundlePrice || 0;
       form.imageUrl = p.imageUrl || '';
       form.isAvailable = p.isAvailable !== false;
+      form.isPackagingFeeIncluded = !!p.isPackagingFeeIncluded;
       // Map components safely
       form.components = (p.components || []).map((c: any) => ({
         itemId: c.itemId?._id || c.itemId || '',
@@ -218,6 +231,7 @@ watch(() => props.isOpen, (newVal) => {
       form.addOnGroupIds = [];
       form.imageUrl = '';
       form.isAvailable = true;
+      form.isPackagingFeeIncluded = false;
     }
   }
 });
@@ -262,6 +276,7 @@ const handleSubmit = async () => {
     addOnGroupIds: form.addOnGroupIds.map((g: any) => typeof g === 'object' ? g._id : g),
     imageUrl: form.imageUrl || undefined,
     isAvailable: form.isAvailable,
+    isPackagingFeeIncluded: form.isPackagingFeeIncluded,
   };
 
   if (props.pack) {

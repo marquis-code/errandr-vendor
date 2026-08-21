@@ -34,7 +34,7 @@
         <div class="md:col-span-5 flex flex-col items-start">
           <NuxtLink to="/" class="flex items-center gap-4 mb-8 group cursor-pointer">
             <span class="text-xl font-medium tracking-tighter text-slate-950">
-              <img src="@/assets/img/logo-light.png" alt="Erranders Logo" class="h-10 w-auto object-contain transition-transform duration-500 group-hover:scale-110" />
+              <img src="@/assets/img/erranders.png" alt="Erranders Logo" class="h-10 w-auto object-contain transition-transform duration-500 group-hover:scale-110" />
             </span>
           </NuxtLink>
           <p class="text-slate-500 text-base font-medium leading-relaxed mb-10 max-w-sm">

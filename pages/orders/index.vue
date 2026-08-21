@@ -151,6 +151,30 @@
  </div>
 
  <div class="pt-4 border-t border-gray-100 flex flex-col gap-3">
+ <h4 class="text-sm font-bold text-gray-400 mb-2">Customer Contact</h4>
+ <div v-if="selectedOrder.customer?.phone" class="flex gap-2 mb-2">
+    <a :href="`tel:${selectedOrder.customer.phone}`" class="flex-1 px-3 py-1.5 bg-gray-50 text-gray-700 rounded-lg text-[11px] font-bold hover:bg-gray-100 transition-all border border-gray-200 flex items-center justify-center gap-1.5">
+      Call
+    </a>
+    <a :href="`https://wa.me/${selectedOrder.customer.phone.replace(/[^0-9]/g, '')}?text=Hi,%20this%20is%20${selectedOrder.vendor?.storeName || 'the vendor'}`" target="_blank" class="flex-1 px-3 py-1.5 bg-[#25D366]/10 text-[#25D366] rounded-lg text-[11px] font-bold hover:bg-[#25D366]/20 transition-all border border-[#25D366]/30 flex items-center justify-center gap-1.5">
+      WhatsApp
+    </a>
+ </div>
+ </div>
+ 
+ <div v-if="selectedOrder.errander?.phone" class="pt-4 border-t border-gray-100 flex flex-col gap-3">
+   <h4 class="text-sm font-bold text-gray-400 mb-2">Errander Contact</h4>
+   <div class="flex gap-2 mb-2">
+      <a :href="`tel:${selectedOrder.errander.phone}`" class="flex-1 px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-lg text-[11px] font-bold hover:bg-indigo-100 transition-all border border-indigo-200 flex items-center justify-center gap-1.5">
+        Call Errander
+      </a>
+      <a :href="`https://wa.me/${selectedOrder.errander.phone.replace(/[^0-9]/g, '')}?text=Hi,%20this%20is%20${selectedOrder.vendor?.storeName || 'the vendor'}`" target="_blank" class="flex-1 px-3 py-1.5 bg-[#25D366]/10 text-[#25D366] rounded-lg text-[11px] font-bold hover:bg-[#25D366]/20 transition-all border border-[#25D366]/30 flex items-center justify-center gap-1.5">
+        WhatsApp
+      </a>
+   </div>
+ </div>
+
+ <div class="pt-4 border-t border-gray-100 flex flex-col gap-3">
  <h4 class="text-sm font-bold text-gray-400 mb-2">Vendor Actions</h4>
  
  <button 
