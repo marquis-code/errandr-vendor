@@ -259,8 +259,8 @@ const handleImageUpload = async (e: Event) => {
 };
 
 const handleSubmit = async () => {
-  if (!form.name || form.components.length === 0) {
-    showToast({ title: 'Error', message: 'Please provide a pack name and at least one item.', toastType: 'error' });
+  if (!form.name) {
+    showToast({ title: 'Error', message: 'Please provide a pack name.', toastType: 'error' });
     return;
   }
   
