@@ -113,7 +113,9 @@
  <div class="space-y-4">
  <h4 class="text-xs font-bold uppercase tracking-wider text-gray-400 px-1">Order Items</h4>
  <div class="space-y-3">
- <div v-for="item in selectedOrder.items" :key="item._id" class="p-4 bg-white border border-gray-100 rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] space-y-3">
+ <div v-for="group in groupedOrderItems" :key="group.name" class="space-y-3">
+ <h5 v-if="group.name !== 'Other Items' || groupedOrderItems.length > 1" class="text-[11px] font-bold text-gray-400 uppercase tracking-widest pl-1 mt-4">{{ group.name }}</h5>
+ <div v-for="item in group.items" :key="item._id || item.name" class="p-4 bg-white border border-gray-100 rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] space-y-3">
  <!-- Item Header -->
  <div class="flex items-start justify-between">
  <div class="flex items-center gap-3">
@@ -144,6 +146,7 @@
  <span v-if="c.price > 0" class="text-xs font-bold text-[#FF5C1A]">
  +₦{{ getOriginalPrice(c.price, selectedOrder).toLocaleString() }}
  </span>
+ </div>
  </div>
  </div>
  </div>
@@ -292,6 +295,39 @@ const orders = ref<any[]>([]);
 const activeFilter = ref('all');
 const searchQuery = ref('');
 const selectedOrder = ref<any>(null);
+
+const groupedOrderItems = computed(() => {
+  if (!selectedOrder.value?.items) return [];
+  
+  const packMap = new Map<string, any[]>();
+  const categoryMap = new Map<string, any[]>();
+  
+  selectedOrder.value.items.forEach((item: any) => {
+    if (item.packId) {
+      if (!packMap.has(item.packId)) packMap.set(item.packId, []);
+      packMap.get(item.packId)!.push(item);
+    } else {
+      const cat = item.category || 'Meals';
+      if (!categoryMap.has(cat)) categoryMap.set(cat, []);
+      categoryMap.get(cat)!.push(item);
+    }
+  });
+  
+  const result = [];
+  let packCounter = 1;
+  
+  for (const [packId, items] of packMap.entries()) {
+    const name = packId.toLowerCase().includes('pack') ? packId : `Pack ${packCounter++}`;
+    result.push({ name, items, isPack: true });
+  }
+  
+  for (const [cat, items] of categoryMap.entries()) {
+    result.push({ name: cat, items, isPack: false });
+  }
+  
+  return result;
+});
+
 const isChatOpen = ref(false);
 const chatReceiverId = ref('');
 const pendingOrdersCount = computed(() => orders.value.filter(o => ['pending', 'confirmed', 'preparing'].includes(o.status)).length);
@@ -467,11 +503,12 @@ const updateStatus = async (orderId: string, status: string) => {
 };
 
 const loadOrders = async () => {
- try {
- const res = await api.get<any>('/orders/vendor/mine');
- orders.value = res.data.orders || [];
- } catch (e) { console.error('Order sync failed:', e); }
- finally { loading.value = false; }
+  try {
+    const res = await api.get<any>('/orders/vendor/mine');
+    // Double-check filter on frontend to ensure negotiating orders never show up
+    orders.value = (res.data.orders || []).filter((o: any) => o.status !== 'negotiating');
+  } catch (e) { console.error('Order sync failed:', e); }
+  finally { loading.value = false; }
 };
 
 const { connect, on, emit } = useSocket('realtime');
