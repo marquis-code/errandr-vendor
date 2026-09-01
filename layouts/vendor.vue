@@ -193,6 +193,17 @@
       <slot />
     </main>
 
+    <!-- Footer -->
+    <footer class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 mt-auto">
+      <p class="text-sm text-gray-500">© {{ new Date().getFullYear() }} Errandr Merchant</p>
+      <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+        <NuxtLink to="/terms" class="text-sm font-medium text-gray-500 hover:text-parentPrimary transition-colors">Terms</NuxtLink>
+        <NuxtLink to="/privacy" class="text-sm font-medium text-gray-500 hover:text-parentPrimary transition-colors">Privacy</NuxtLink>
+        <NuxtLink to="/refund" class="text-sm font-medium text-gray-500 hover:text-parentPrimary transition-colors">Refunds</NuxtLink>
+        <NuxtLink to="/contact" class="text-sm font-medium text-gray-500 hover:text-parentPrimary transition-colors">Contact</NuxtLink>
+      </div>
+    </footer>
+
     <!-- Logout Modal -->
     <Transition
       enter-active-class="transition ease-out duration-300"

@@ -54,7 +54,7 @@
             </div>
             <h3 class="text-xl font-medium text-gray-900 tracking-tight mb-3">Urgent Hotline</h3>
             <p class="text-[13px] text-gray-600 font-medium leading-relaxed mb-6">Real-time order dispute resolution.</p>
-            <a href="tel:+23412345678" class="text-sm font-medium text-indigo-600 hover:underline">+234 (0) 901 234 567</a>
+            <a href="tel:09040303103" class="text-sm font-medium text-indigo-600 hover:underline">+234 (0) 901 234 567</a>
           </div>
 
           <!-- Partnership Card -->
